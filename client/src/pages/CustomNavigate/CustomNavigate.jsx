@@ -1,10 +1,8 @@
 import {Link} from "react-router-dom";
 import './CustomNavigate.css';
 
-
 const CustomNavigate = ()=>{
     
-
     return(
         <div className="cont-nav" > 
             <nav>

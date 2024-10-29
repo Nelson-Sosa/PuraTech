@@ -5,8 +5,6 @@ import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
 import { jwtDecode } from "jwt-decode";
 
-
-
 const FormularioLogin = (props) => {
   const [correo, setCorreo] = useState("");
   const [contraseña, setContraseña] = useState("");

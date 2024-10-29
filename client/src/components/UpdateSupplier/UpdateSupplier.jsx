@@ -62,7 +62,6 @@ const UpdateSupplier = ()=>{
     };
 
 
-
     return(
         <>
         <div className="update-conte">

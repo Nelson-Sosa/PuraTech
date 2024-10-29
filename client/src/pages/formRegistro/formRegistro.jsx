@@ -16,7 +16,7 @@
         const handleSubmit = async (e) =>{
             e.preventDefault();
             const newError = {};
-
+            
             if(nombre.length < 3){
                 newError.nombre = "Username must be at least 3 characters long"
             }else if(!/^[a-zA-Z0-9]+$/.test(nombre)){
