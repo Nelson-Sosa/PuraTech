@@ -1,6 +1,6 @@
 const { request } = require('express'); 
 const Usuario = require('../models/models');
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
 const HASH_SALT = 10;
 const saltGenerado = bcrypt.genSaltSync(HASH_SALT);
 const jwt = require('jsonwebtoken');
