@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require("cors");
 const app = express();
-const port = 8000;
+const PORT = process.env.PORT || 8000;
 const RoutesUser = require('./routes/routes');
 
 
@@ -14,6 +14,6 @@ app.use('/uploads', express.static('uploads'));// Servir imágenes estáticas de
 
 RoutesUser(app);
 
-app.listen(port, () => {
-    console.log(`El servidor se está ejecutando en el puerto: ${port}`);
+app.listen(PORT, () => {
+    console.log(`El servidor se está ejecutando en el puerto: ${PORT}`);
 });
