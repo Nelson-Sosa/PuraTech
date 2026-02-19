@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     rol:{
         type: String,
-        enum: ['usuario', 'admi'], // Solo dos roles permitidos
+        enum: ['usuario', 'admin'], // Solo dos roles permitidos
         default: 'usuario' // Por defecto, el rol será "usuario"
     }
 

@@ -73,26 +73,25 @@ module.exports.agregarProducto = async (req, res) => {
   }
 
   module.exports.searchGlobal = async (req, res) =>{
-    try{
+  try{
+    const category = req.query.category.trim();
 
-      const category = req.query.category.trim(); //Limpia la entrada
-
-      if(!category){
-        return res.status(400).json({message: 'La categoria este requerido'})
-      }
-      // Verifica que se esté buscando por 'category' y no por '_id'
-      const product = await Product.find({ category: { $regex: category, $options: 'i' } });
-
-      if(product.length === 0){
-        return res.status(404).json({message: 'Producto no encontrado'})
-      }
-
-
-    res.json(product);
-    } catch (err){
-      res.status(500).json({error: err.message});
+    if(!category){
+      return res.status(400).json({message: 'La categoria es requerida'})
     }
+
+    const product = await Product.find({
+      category: { $regex: category, $options: 'i' }
+    });
+
+    // 🔥 SIEMPRE DEVOLVER ARRAY
+    res.json(product);
+
+  } catch (err){
+    res.status(500).json({error: err.message});
   }
+}
+
 
   module.exports.agregarPago  = async(req, res) => {
     const { cantidad } = req.body; // Monto en centavos

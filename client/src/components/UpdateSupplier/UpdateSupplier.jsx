@@ -63,58 +63,78 @@ const UpdateSupplier = ()=>{
 
 
     return(
-        <>
-        <div className="update-conte">
-            <h2>Update Suppler</h2>
-            <form onSubmit={UpdateSupplier}>
-                <p>
-                <label>Nombre:</label>
-                <input type="text"
-                        name="nombre"
-                        onChange={(e)=> setNombre(e.target.value)}
-                        value={nombre} />
-                </p>
-                <p>
-                    <label>Apellido:</label>
-                    <input type="text"
-                           name="apellido"
-                           onChange={(e)=> setApellido(e.target.value)}
-                           value={apellido} />
-                </p>
-                <p>
-                    <label>Ruc:</label>
-                    <input type="text"
-                           name="ruc"
-                           onChange={(e)=> setRuc(e.target.value)}
-                           value={ruc} />
-                </p>
-                <p>
-                    <label>Correo:</label>
-                    <input type="text"
-                          name="correo"
-                          onChange={(e) => setCorreo(e.target.value)}
-                          value={correo} />
-                </p>
-                <p>
-                    <label>Ciudad:</label>
-                    <input type="text"
-                            name="ciudad"
-                            onChange={(e) => setCiudad(e.target.value)}
-                            value={ciudad}
-                             />
-                </p>
-                <p>
-                    <label>Codigo Postal:</label>
-                    <input type="number"
-                           name="codigoPostal"
-                           onChange={(e) => setCodigoPostal(e.target.value)}
-                           value={codigoPostal} />
-                           
-                </p>
-                <button className="btn-edit1">Upadate</button>
-            </form>
-        </div>
-        </>
+       <div className="contenedor">
+  <h2 className="titulo-rgb">Update Supplier</h2>
+
+  <form onSubmit={UpdateSupplier}>
+
+    <div className="form-group">
+      <label>Nombre</label>
+      <input
+        type="text"
+        name="nombre"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Apellido</label>
+      <input
+        type="text"
+        name="apellido"
+        value={apellido}
+        onChange={(e) => setApellido(e.target.value)}
+      />
+    </div>
+
+    <div className="form-group">
+      <label>RUC</label>
+      <input
+        type="text"
+        name="ruc"
+        value={ruc}
+        onChange={(e) => setRuc(e.target.value)}
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Correo</label>
+      <input
+        type="text"
+        name="correo"
+        value={correo}
+        onChange={(e) => setCorreo(e.target.value)}
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Ciudad</label>
+      <input
+        type="text"
+        name="ciudad"
+        value={ciudad}
+        onChange={(e) => setCiudad(e.target.value)}
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Código Postal</label>
+      <input
+        type="number"
+        name="codigoPostal"
+        value={codigoPostal}
+        onChange={(e) => setCodigoPostal(e.target.value)}
+      />
+    </div>
+
+    <button type="submit" className="btn-rgb">
+      Update
+    </button>
+
+  </form>
+</div>
+
     )
 
 }

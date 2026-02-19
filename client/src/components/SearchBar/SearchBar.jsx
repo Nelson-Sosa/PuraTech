@@ -63,7 +63,7 @@ const productSearch = async (e) =>{
           </div>
         </form>
         <div className='btn-cont'>
-        {userRole === "admi" &&
+        {userRole === "admin" &&
            (
         <>
         <button className="btn">

@@ -1,108 +1,123 @@
-
-  .btnD{
-    padding: 8px 45px;
-    margin: 12px;
-    border: none;
-    background-color: #f72222;
-    color: #e9e9e9;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .btnD:hover{
-    background-color: #fe8b8b;
-    transform: translateY(-2px);
-  }
-  
-  .btnU{
-    padding: 8px 45px;
-    margin: 12px;
-    border: none;
-    color: #ffffff;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #0366bd;
-  }
-  .btnU:hover{
-    background-color: #1282e4;
-    transform: translateY(-2px);
-  }
-  .btnU a{
-    text-decoration: none;
-  }
-  
-  
-  .prod-cont{
-    display: flex;
-    background-color: #F0F8FF;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-  
-  }
-
-  .btn a{
-    text-decoration: none;
-  }
-
-  .sub{
-    width: 70%;
-    background-color: #4682B4;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    color: #FFFFFF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-  }
-  .sub h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-.sub ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.prod-img{
-  width: 350px;
-  height: auto;
-  border-radius: 15px;
-  display: block;
-  margin: 0 auto;
-  filter: grayscale(100%); /*aplicar filtros a una imagen*/
-  transition: filter 0.3s ease-in-out; 
-}
-.prod-img:hover{
-  filter: grayscale(0%);
-}
-
-.btn-pagar{
-  padding: 8px 45px;
-  margin: 12px;
+/* ===================== Botones ===================== */
+.btnD, .btnU, .btn-pagar {
+  padding: 10px 40px;
+  margin: 10px;
   border: none;
-  color: #ffffff;
   border-radius: 12px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: #05af7c;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
-.btn-pagar:hover{
-  background-color: rgba(18, 230, 230, 0.856);
+/* Botón eliminar */
+.btnD {
+  background: linear-gradient(145deg, #f72222, #ff4b4b);
+  color: #fff;
+}
+.btnD:hover {
+  background: linear-gradient(145deg, #fe8b8b, #ffcccc);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Botón actualizar */
+.btnU {
+  background: linear-gradient(145deg, #0366bd, #1282e4);
+  color: #fff;
+}
+.btnU:hover {
+  background: linear-gradient(145deg, #1282e4, #3da0f2);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Botón pagar */
+.btn-pagar {
+  background: linear-gradient(145deg, #05af7c, #2de1a0);
+  color: #fff;
+}
+.btn-pagar:hover {
+  background: linear-gradient(145deg, #18d6aa, #12e6e6);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+}
+
+/* ===================== Contenedores ===================== */
+.prod-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 15px;
+  background: linear-gradient(to bottom, #f0f8ff 0%, #d6f0ff 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.prod-cont:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Subcontenedor */
+.sub {
+  width: 70%;
+  padding: 25px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4682B4, #5a9bd6);
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+.sub h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+.sub ul {
+  list-style: none;
+  padding: 0;
+}
+.sub li {
+  margin: 10px 0;
+}
+
+/* ===================== Imágenes ===================== */
+.prod-img {
+  width: 350px;
+  height: auto;
+  border-radius: 15px;
+  display: block;
+  margin: 20px auto;
+  filter: grayscale(100%);
+  transition: all 0.4s ease-in-out;
+}
+.prod-img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ===================== Links en botones ===================== */
+.btn a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===================== Responsive ===================== */
+@media screen and (max-width: 768px) {
+  .prod-img {
+    width: 90%;
+  }
+  .sub {
+    width: 90%;
+    padding: 20px;
+  }
+  .btnD, .btnU, .btn-pagar {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
 }

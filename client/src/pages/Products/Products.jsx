@@ -83,7 +83,7 @@ export const Products = ({ RemoverFromDom }) => {
                     <div className="sub">
                         <h1>{category}</h1>
                         <ul>
-                            {product.map((producto, idx) => {
+                            {Array.isArray(product) && product.map((producto, idx) => {
                                 return (
                                     <li key={idx}>
                                         <strong></strong> {producto.marca} <br />
@@ -91,7 +91,7 @@ export const Products = ({ RemoverFromDom }) => {
                                         <strong>Descripción:</strong> {producto.descripcion} <br />
                                         <img className="prod-img" src={`http://localhost:8000${producto.imageUrl}`} alt={producto.nombre} />
                                         <div>
-                                            {userRole === "admi" && (
+                                            {userRole === "admin" && (
                                                 <div>
                                                     <button
                                                         className="btnD"

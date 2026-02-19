@@ -55,45 +55,53 @@ module.exports.login =(req, res) =>{
     }   
 }
 
-module.exports.agregarUsuario = async (req, res) =>{
-    try{
-        const {nombre, apellido, edad, correo, contraseña, rol} = req.body;
+module.exports.agregarUsuario = async (req, res) => {
+  try {
+    console.log("Body recibido:", req.body); // <<--- VER LO QUE LLEGA
+    const { nombre, apellido, edad, correo, contraseña, rol } = req.body;
 
-        const existingUser = await Usuario.findOne({correo});
-        if(existingUser){
-            return res
-            .status(400)
-            .json({error: "Usuario con ese correo ya existe"});
-        }
-        const newUser = await Usuario.create({
-            nombre,
-            apellido,
-            edad,
-            correo,
-            contraseña: bcrypt.hashSync(req.body.contraseña, saltGenerado),
-            rol: rol || 'usuario' 
-        });
-        console.log("Nuevo usuario: ", newUser);
-
-        const infoEnToken = {
-            nombre: newUser.nombre,
-            apellido: newUser.apellido,
-            correo: newUser.correo,
-            rol: newUser.rol
-        }
-
-        jwt.sign(infoEnToken,  SECRETO, {expiresIn: "15m"}, (error, token) =>{
-            if(error){
-                return res.status(400).json({mensaje: "Algo fallo al generar el token"})
-            }
-            return  res.status(201).json({token});
-        });        
-
-    }catch(err){
-        console.error("Error al crear usuario", err);
-        res.status(400).json(err);
+    const existingUser = await Usuario.findOne({ correo });
+    if (existingUser) {
+      return res.status(400).json({ error: "Usuario con ese correo ya existe" });
     }
+
+    const newUser = await Usuario.create({
+      nombre,
+      apellido,
+      edad,
+      correo,
+      contraseña: bcrypt.hashSync(contraseña, saltGenerado),
+      rol: rol || 'usuario'
+    });
+
+    console.log("Nuevo usuario creado:", newUser);
+
+    const infoEnToken = {
+      nombre: newUser.nombre,
+      apellido: newUser.apellido,
+      correo: newUser.correo,
+      rol: newUser.rol
+    };
+
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "15m" }, (error, token) => {
+      if (error) {
+        return res.status(400).json({ mensaje: "Algo falló al generar el token" });
+      }
+      return res.status(201).json({ token });
+    });
+
+    } catch (err) {
+    console.error("Error al crear usuario:", err.message);
+    console.error("Detalles del error:", err.errors); // <-- esto muestra qué campo falló
+    return res.status(400).json({
+        mensaje: "Error al crear usuario",
+        error: err.message,
+        detalles: err.errors
+    });
+}
+
 };
+
 
 module.exports.removerUsuario = (req, res) =>{
     return Usuario.deleteOne({correo: req.infoUsuario.correo})
