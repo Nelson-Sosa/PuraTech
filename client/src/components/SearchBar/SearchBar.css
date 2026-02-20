@@ -1,120 +1,111 @@
-/* SearchBar.css */
+/* ================= HEADER SEARCH BAR ================= */
 .searchBarContain {
-    display: flex;
-    align-items: center;
-   
-    padding: 20px;
-    background-size: cover; /* Opcional: Ajusta el tamaño de la imagen */
-    background-position: center; /* Opcional: Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    height: 100px;
-    width: 100%;
-  }
-  
-  form {
-    max-width: 640px; /* Ajusta el ancho máximo según tus necesidades */
-    width: 100%;
-    margin: auto;
-  }
-  
-  .lab{
-        font-size: 20px;
-        color: #fff;
-        background-color: #007bff;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        text-align: center;
-  }
-  
-  .relative {
-    position: relative;
-  }
-  
-  input[type="search"] {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-sizing: border-box;
-    transition: border-color 0.3s, background-color 0.3s;
-  }
-  
-
-  
-  button[type="submit"] {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  button[type="submit"]:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.4);
-  }
-  
-  @media (max-width: 768px) {
-    .searchBarContain {
-      padding: 10px;
-    }
-  
-    button[type="submit"] {
-      padding: 8px 16px;
-    }
-  }
-
-  .btn{
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade una animación al logo */
-    padding: 5px 40px;
-    margin: 10px;
-    border: 1px solid #6495ED;
-    background-color: #F0F8FF;
-    color: #6495ED;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    text-decoration: none;
-    margin-right: 30px;
-  }
-  .btn:hover{
-    background-color: #d7e2eb;
-    transform: translateY(-2px);
-  }
-
-
-  .searchBarContain img {
-    width: 120px; /* Aumenta ligeramente el tamaño del logo */
-    border-radius: 15px; /* Añade bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
-    border: 1px solid #007bff; /* Añade un borde fino con un color destacado */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade una animación al logo */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 98%;
+  max-width: 1400px;
+  padding: 15px 25px;
+  margin: auto auto;
+  background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  gap: 20px;
 }
 
-.searchBarContain img:hover {
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el cursor */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el cursor */
+/* Logo */
+.logo-container img {
+  width: 70px;
+  height: 70px;
+  border-radius: 15px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
 }
-.btn-cont{
+
+.logo-container img:hover {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* Formulario */
+.search-form {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
+  gap: 8px;
 }
 
+.lab {
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 500;
+}
+
+/* Input + botón */
+.search-input-container {
+  display: flex;
+  width: 100%;
+  background: #fff;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.search-input-container input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  font-size: 15px;
+  outline: none;
+}
+
+.search-input-container button {
+  padding: 0 25px;
+  border: none;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-input-container button:hover {
+  background: linear-gradient(135deg, #0072ff, #00c6ff);
+  box-shadow: 0 0 15px #00c6ff;
+}
+
+/* Botones admin */
+.btn-cont {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 50px;
+  border: none;
+  background: #ffffff15;
+  color: #fff;
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #00c6ff;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,198,255,0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .searchBarContain {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-cont {
+    justify-content: center;
+  }
+}

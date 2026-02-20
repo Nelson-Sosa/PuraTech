@@ -50,64 +50,100 @@ export const SupplierForm = ()=>{
             })
             }
         return(
-            <div className="cont-sup">
-                <button className="btn1">
-                    <Link to='/suppliers' >All providers</Link>
-                </button>
-                <h2>Add Supplier</h2>
-                <form onSubmit={fetchSupplier}>
-                    <p>
-                        <label>Nombre:</label>
-                        <input type="text"
-                                name="nombre" 
-                                onChange={(e)=>setNombre(e.target.value)}
-                                value={nombre}   />
-                    </p>
-                    <p>
-                        <label>Apellido:</label>
-                        <input type="text"
-                            name="apellido"
-                            onChange={(e)=>setApellido(e.target.value)}
-                            value={apellido} />
-                    </p>
-                    <p>
-                        <label>Ruc:</label>
-                        <input type="text"
-                        name="ruc"
-                        onChange={(e)=>setRuc(e.target.value)}
-                        value={ruc}/>
-                    </p>
-                    <p>
-                        <label>Telefono:</label>
-                        <input type="number"
-                        name="telefono"
-                        onChange={(e) =>setTelefono(e.target.value)} 
-                        value={telefono}/>
-                    </p>
-                    <p>
-                        <label>Correo:</label>
-                        <input type="text"
-                        name="correo"
-                        onChange={(e)=>setCorreo(e.target.value)}
-                        value={correo} />
-                    </p>
-                    <p>
-                        <label>Ciudad:</label>
-                        <input type="text"
-                        name="ciudad"
-                        onChange={(e)=>setCiudad(e.target.value)}
-                        value={ciudad} />
-                    </p>
-                    <p>
-                        <label>Codigo Postal:</label>
-                        <input type="number"
-                        name="codigoPostal"
-                        onChange={(e) =>setCodigoPostal(e.target.value)}
-                        value={codigoPostal} />
-                    </p>
-                    <button className="btn-conf">Add Suppliers</button>
-                </form>
-            </div>
+            <div className="contenedor">
+
+  <Link to="/suppliers" className="btn-rgb" style={{ marginBottom: "20px", textDecoration: "none", textAlign: "center" }}>
+    All Providers
+  </Link>
+
+  <h2 className="titulo-rgb">Add Supplier</h2>
+
+  <form onSubmit={fetchSupplier}>
+
+    <div className="form-group">
+      <label>Nombre:</label>
+      <input
+        type="text"
+        name="nombre"
+        onChange={(e) => setNombre(e.target.value)}
+        value={nombre}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Apellido:</label>
+      <input
+        type="text"
+        name="apellido"
+        onChange={(e) => setApellido(e.target.value)}
+        value={apellido}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>RUC:</label>
+      <input
+        type="text"
+        name="ruc"
+        onChange={(e) => setRuc(e.target.value)}
+        value={ruc}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Teléfono:</label>
+      <input
+        type="number"
+        name="telefono"
+        onChange={(e) => setTelefono(e.target.value)}
+        value={telefono}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Correo:</label>
+      <input
+        type="email"
+        name="correo"
+        onChange={(e) => setCorreo(e.target.value)}
+        value={correo}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Ciudad:</label>
+      <input
+        type="text"
+        name="ciudad"
+        onChange={(e) => setCiudad(e.target.value)}
+        value={ciudad}
+        required
+      />
+    </div>
+
+    <div className="form-group">
+      <label>Código Postal:</label>
+      <input
+        type="number"
+        name="codigoPostal"
+        onChange={(e) => setCodigoPostal(e.target.value)}
+        value={codigoPostal}
+        required
+      />
+    </div>
+
+    <button type="submit" className="btn-rgb">
+      Add Supplier
+    </button>
+
+  </form>
+</div>
+
         )
             
         }

@@ -1,43 +1,35 @@
 import { useEffect, useState } from "react";
 import axios from "axios"; 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CustomNavigate from "../CustomNavigate/CustomNavigate";
-import { useParams } from "react-router-dom";
 import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 
 export const Products = ({ RemoverFromDom }) => {
     const { category } = useParams();
     const [product, setProduct] = useState([]);
+    const [searchActive, setSearchActive] = useState(false); 
     const navegar = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [currentProductID, setCurrentProduct] = useState(null);
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
-        // Recuperar el rol del usuario desde el localStorage cuando el componente se monte
         const roleFromStorage = localStorage.getItem('rol');
         setUserRole(roleFromStorage);
-        console.log("Rol recuperado:", roleFromStorage); // Log para verificar el rol
     }, []);
 
     const deleteProduct = (productID) => {
-        axios.delete('http://localhost:8000/api/remover/product/' + productID, {
-            headers: {
-                token_usuario: localStorage.getItem("token")
-            }
+        axios.delete(`http://localhost:8000/api/remover/product/${productID}`, {
+            headers: { token_usuario: localStorage.getItem("token") }
         })
-        .then(res => {
-            if (RemoverFromDom) {
-                RemoverFromDom(productID);
-            }
+        .then(() => {
+            if (RemoverFromDom) RemoverFromDom(productID);
         })
         .catch(error => {
             console.error('Error al eliminar producto', error);
-            if (error.response && error.response.status === 401) {
-                navegar('/login');
-            }
+            if (error.response && error.response.status === 401) navegar('/login');
         });
     }
 
@@ -52,74 +44,71 @@ export const Products = ({ RemoverFromDom }) => {
         setCurrentProduct(null);
     }
 
+    // ⚡ Trae los productos de la categoría solo si no hay búsqueda activa
     useEffect(() => {
+        if (searchActive) return; 
         const fetchProducts = async () => {
             try {
                 const res = await axios.get(`http://localhost:8000/api/products?category=${category}`, {
-                    headers: {
-                        token_usuario: localStorage.getItem("token")
-                    }
+                    headers: { token_usuario: localStorage.getItem("token") }
                 });
-                if (res.status === 200) {
-                    setProduct(res.data);
-                    console.log("Productos recuperados:", res.data); // Log para verificar los productos
-                }
+                setProduct(res.data);
             } catch (err) {
-                console.error("Ocurrió un error:", err.message);
-                if (err.response && err.response.status === 401) {
-                    navegar('/login');
-                }
+                console.error(err);
+                if (err.response && err.response.status === 401) navegar('/login');
             }
         };
         fetchProducts();
-    }, [category]);
+    }, [category, searchActive]);
 
     return (
         <>
-            <div>
-                <SearchBar setSearchResultados={setProduct} />
-                <CustomNavigate />
-                <div className="prod-cont">
-                    <div className="sub">
-                        <h1>{category}</h1>
-                        <ul>
-                            {Array.isArray(product) && product.map((producto, idx) => {
-                                return (
-                                    <li key={idx}>
-                                        <strong></strong> {producto.marca} <br />
-                                        <strong>Precio:</strong> {producto.precio}<strong>Gs.</strong> <br />
-                                        <strong>Descripción:</strong> {producto.descripcion} <br />
-                                        <img className="prod-img" src={`http://localhost:8000${producto.imageUrl}`} alt={producto.nombre} />
-                                        <div>
-                                            {userRole === "admin" && (
-                                                <div>
-                                                    <button
-                                                        className="btnD"
-                                                        onClick={() => handleDeleteClick(producto._id)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                    <Link to={`/actualizar/product/${producto._id}`}>
-                                                        <button className="btnU">Update</button>
-                                                    </Link>
-                                                </div>
-                                            )}
-                                            <Link to='/create-payment-intent'>
-                                                <button className="btn-pagar">Solicitar</button>
-                                            </Link>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
+        <header className="header-container">
+            <SearchBar 
+                setSearchResultados={setProduct} 
+                setSearchActive={setSearchActive} 
+            />
+            <CustomNavigate />
+        </header>
+
+        <div className="products-wrapper">
+            <h1 className="category-title">{searchActive ? "Resultados de búsqueda" : category}</h1>
+            <div className="products-grid">
+            {Array.isArray(product) && product.map((producto) => (
+                <div className="product-card" key={producto._id}>
+                    <div className="image-container">
+                        <img src={`http://localhost:8000${producto.imageUrl}`} alt={producto.nombre} />
+                    </div>
+                    <div className="product-info">
+                        <h2>{producto.marca}</h2>
+                        <p className="price">{producto.precio} Gs.</p>
+                        <p className="description">{producto.descripcion}</p>
+                    </div>
+                    <div className="product-actions">
+                        {userRole === "admin" && (
+                            <>
+                            <button className="btn-delete" onClick={() => handleDeleteClick(producto._id)}>Delete</button>
+                            <Link to={`/actualizar/product/${producto._id}`}>
+                                <button className="btn-update">Update</button>
+                            </Link>
+                            </>
+                        )}
+                        <Link to="/create-payment-intent">
+                            <button className="btn-buy">Solicitar</button>
+                        </Link>
                     </div>
                 </div>
-                <Modal show={showModal}
-                    onClose={() => setShowModal(false)}
-                    onConfirm={handleConfirmDelete}>
-                    <p>¿Are you sure you want to remove this product?</p>
-                </Modal>
+            ))}
             </div>
+        </div>
+
+        <Modal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onConfirm={handleConfirmDelete}
+        >
+            <p>¿Are you sure you want to remove this product?</p>
+        </Modal>
         </>
     );
 };

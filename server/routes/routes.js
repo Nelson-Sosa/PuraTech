@@ -9,6 +9,8 @@ const router = express.Router();
 const upload = require('../configuration/multerConfig');
 
 module.exports = (app) => {
+    app.get('/api/search-products', validarToken, ProductController.searchGlobal);
+
     // ===== LOGIN Y USUARIOS =====
     app.post("/api/login", UserController.login);
     app.post("/api/agregar/usuario", UserController.agregarUsuario);
@@ -21,7 +23,8 @@ module.exports = (app) => {
     app.post("/api/agregar/producto", validarToken, verificarRol('admin'), upload.single('imageUrl'), ProductController.agregarProducto);
     app.put("/api/actulizar/product/:id", validarToken, verificarRol('admin'), ProductController.updateProduct);
     app.delete("/api/remover/product/:id", validarToken, verificarRol('admin'), ProductController.removerProducto);
-
+    
+    
     // Rutas públicas o para cualquier usuario logueado
     app.get('/api/product/:id', validarToken, ProductController.getProduct);
     app.get('/api/productos', validarToken, ProductController.todosLosProductos);

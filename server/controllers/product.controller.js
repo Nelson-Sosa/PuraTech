@@ -72,25 +72,31 @@ module.exports.agregarProducto = async (req, res) => {
     .catch(error =>res.json(error))
   }
 
-  module.exports.searchGlobal = async (req, res) =>{
-  try{
-    const category = req.query.category.trim();
+// controllers/product.controller.js
+module.exports.searchGlobal = async (req, res) => {
+    try {
+        const term = req.query.category?.trim(); // ⚡ Mejor llamarlo "term"
+        if (!term) return res.status(400).json({ message: 'El término de búsqueda es requerido' });
 
-    if(!category){
-      return res.status(400).json({message: 'La categoria es requerida'})
+        console.log("BUSCANDO:", term);
+
+        const product = await Product.find({
+            $or: [
+                { category: { $regex: term, $options: 'i' } },
+                { nombre: { $regex: term, $options: 'i' } },
+                { descripcion: { $regex: term, $options: 'i' } },
+                { marca: { $regex: term, $options: 'i' } }
+            ]
+        });
+
+        console.log("RESULTADOS:", product);
+        res.json(product);
+
+    } catch (err) {
+        console.log("ERROR SEARCH:", err);
+        res.status(500).json({ error: err.message });
     }
-
-    const product = await Product.find({
-      category: { $regex: category, $options: 'i' }
-    });
-
-    // 🔥 SIEMPRE DEVOLVER ARRAY
-    res.json(product);
-
-  } catch (err){
-    res.status(500).json({error: err.message});
-  }
-}
+};
 
 
   module.exports.agregarPago  = async(req, res) => {

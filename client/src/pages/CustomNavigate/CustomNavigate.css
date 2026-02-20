@@ -1,43 +1,31 @@
-.cont-nav{
-    display: flex;
-    justify-content: space-around;
-    background-color: darkgray;
-    height: 70px;
-    padding: 0 20px;
-    width: 100%;
-   
+.cont-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1400px;
+  margin-top: 10px;
 }
 
-.cont-nav nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(83, 199, 193, 0.897); /* Añade una sombra sutil */
-    border: 1px solid #edeeee; /* Añade un borde fino con un color destacado */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-}
-.cont-nav nav:hover{
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-
-.cont-nav a{
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease;
+.cont-nav a {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #4a4a4a;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s, background-color 0.3s;
 }
 
 .cont-nav a:hover {
-    
-    text-decoration: none;
-    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Suaviza la transición del color */
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño del enlace al hacer hover */
+  transform: scale(1.05);
+  background-color: #6c6c6c;
+}
+
+@media (max-width: 768px) {
+  .cont-nav a {
+    flex: 1 1 45%;
+    text-align: center;
+  }
 }

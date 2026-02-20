@@ -1,84 +1,59 @@
-import './SearchBar.css'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import backgroundImage from '../../assets/images/need-for-speed-hea.jpg';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import './SearchBar.css';
 
+const SearchBar = ({ setSearchResultados, setSearchActive }) => {
+  const [consulta, setConsulta] = useState("");
 
-const SearchBar = ({setSearchResultados}) =>{
-const [consulta, setConsulta] = useState('');
-const navigate = useNavigate();
-const [userRole, setUserRole] = useState(null);
+  const productSearch = async (e) => {
+    e.preventDefault();
+    if (!consulta.trim()) return;
 
-useEffect(()=>{
-  const roleFromStorage = localStorage.getItem('rol');
-  setUserRole(roleFromStorage);
-  console.log("Role recuperando: ",  roleFromStorage); // Log para verificar el rol
-}, []);
-
-const productSearch = async (e) =>{
-  e.preventDefault();
-  try{
-  
-    navigate(`/category/${consulta}`);
-
-    const res = await axios.get(`http://localhost:8000/api/product/search?category=${consulta}`,{
-      headers: {
-        token_usuario: localStorage.getItem("token")
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/search-products?category=${consulta}`,
+        { headers: { token_usuario: localStorage.getItem("token") } }
+      );
+      setSearchResultados(res.data);
+      setSearchActive(true); // ⚡ activa búsqueda
+    } catch (err) {
+      console.error(err);
     }
-    })
-    setSearchResultados(res.data)
-  }catch(err){
-    console.error("Ocurrió un error:", err.response?.data || err.message);
-  }
-}
+  };
 
+  // ⚡ Resetear búsqueda
+  const resetSearch = () => {
+    setConsulta("");
+    setSearchActive(false);
+  };
 
-    return(
-      <div className="searchBarContain" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <div>
-        <img src="/img/GameMastersLogo-.png" alt="" />
+  return (
+    <div className="searchBarContain">
+      <div className="logo-container">
+        <img src="/img/GameMastersLogo-.png" alt="Logo" />
       </div>
-        <form class="max-w-md mx-auto" onSubmit={productSearch}>
-          <label className='lab'
-            for="default-search"
-            
-          >
-            Search products
-          </label>
-          <div class="relative">
-            <input
-              type="search"
-              id="default-search"
-              placeholder="Search"
-              value={consulta}
-              onChange={(e) =>setConsulta(e.target.value)}
-            />
-            <button
-              type="submit"
-            >
-              Search
-            </button>
-          </div>
-        </form>
-        <div className='btn-cont'>
-        {userRole === "admin" &&
-           (
-        <>
-        <button className="btn">
-        <Link to='/agregar/product'>Add product</Link>
-        </button>
-        <button className='btn'>
-        <Link to='/add/suppliers'>Add Supplier</Link>
-        </button>
-        </>
-          )
-        }
-     </div>
+
+      <form className="search-form" onSubmit={productSearch}>
+        <label className="lab">Search products</label>
+        <div className="search-input-container">
+          <input
+            type="search"
+            placeholder="Scan the marketplace..."
+            value={consulta}
+            onChange={(e) => setConsulta(e.target.value)}
+          />
+          <button type="submit">🔍</button>
+          {consulta && <button type="button" onClick={resetSearch}>✖</button>}
+        </div>
+      </form>
+
+      <div className="btn-cont">
+        <Link to="/agregar/product" className="btn">Add Product</Link>
+        <Link to="/add/suppliers" className="btn">Add Supplier</Link>
       </div>
-   
-    )
-}
+    </div>
+  );
+};
 
 export default SearchBar;
