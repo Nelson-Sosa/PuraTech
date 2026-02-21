@@ -1,51 +1,91 @@
+/* Importa la fuente Orbitron */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 .cont {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
-    background: linear-gradient(135deg, #3a6073, #16222a);
-    color: #ffffff;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Fondo oscuro gamer */
+    color: #fff;
     text-align: center;
-    
-  }
-  
-  .cont h1 {
-    font-size: 3rem;
+    font-family: 'Orbitron', sans-serif;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Título principal */
+.cont h1 {
+    font-size: 4rem;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-  }
-  
-  .cont button {
-    background-color: #f39c12;
+    color: #0ff; /* Neón cyan */
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 40px #0ff;
+}
+
+/* Botones estilo gamer */
+.cont button {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
     border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
+    padding: 15px 40px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #fff;
     border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    margin: 10px;
-    margin-top: 30px;
-    max-width: 44%;
-  }
-  
-  .cont button:hover {
-    background-color: #e67e22;
-  }
+    transition: all 0.3s ease;
+    box-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #00ffff,
+        0 0 15px #ff00ff;
+    margin: 15px;
+    max-width: 250px;
+}
 
-  .cont img {
-    width: 20%;
+/* Hover efecto neón */
+.cont button:hover {
+    box-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff,
+        0 0 30px #ff00ff,
+        0 0 40px #00ffff;
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+}
+
+/* Imagen central */
+.cont img {
+    width: 25%;
+    max-width: 300px;
     height: auto;
-    display: block;
-    margin: 0 auto;
-    
-}
-  
-.imagenes{
-    display: flex;
-    
+    margin: 20px 0;
+    border-radius: 15px;
+    box-shadow:
+        0 0 10px #0ff,
+        0 0 20px #0ff;
+    transition: transform 0.3s ease;
 }
 
-  
+.cont img:hover {
+    transform: scale(1.05);
+}
+
+/* Contenedor de varias imágenes */
+.imagenes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Efecto de neón en textos secundarios */
+.cont p, .imagenes p {
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+    font-size: 1.1rem;
+}

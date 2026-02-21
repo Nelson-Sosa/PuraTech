@@ -52,7 +52,7 @@ const FormRegistro = () => {
     };
 
     return (
-        <div className="conte">
+        <div className="contRegistro">
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Nombre:</label>

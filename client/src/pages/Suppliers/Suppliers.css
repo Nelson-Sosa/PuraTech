@@ -1,53 +1,129 @@
-.cont-supplier{
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+/* ===================== CONTENEDOR PRINCIPAL ===================== */
+.cont-supplier {
     display: flex;
-    background-color: #cdd1d4;
-    width: 100%;
-    height: 550px;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    width: 100%;
+    min-height: 550px;
+    padding: 25px;
     margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+    border-radius: 15px;
+    background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+    overflow: hidden;
 }
 
-.cont-supplier table{
+/* Agregar efecto de “luz pulsante” al fondo */
+.cont-supplier::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,0,255,0.2) 0%, rgba(0,255,255,0.2) 70%, transparent 100%);
+    animation: pulseBackground 10s linear infinite;
+    z-index: 0;
+}
+@keyframes pulseBackground {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ===================== TABLA ===================== */
+.cont-supplier table {
     width: 90%;
     border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    z-index: 1; /* Para estar sobre el fondo animado */
 }
 
-.cont-supplier th,
+/* Encabezados */
+.cont-supplier th {
+    padding: 14px 16px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 15px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    color: #fff;
+    box-shadow: inset 0 -3px 0 rgba(255,255,255,0.2);
+}
+
+/* Celdas */
 .cont-supplier td {
-  text-align: left;
-  border: 1px solid #1b1616;
+    padding: 12px 16px;
+    color: #fff;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.3s;
 }
 
-.btn-delete{
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 15px;
-    padding: 5px 15px;
-    cursor: pointer;
+.cont-supplier tr:hover td {
+    background: rgba(255, 0, 255, 0.1);
+    color: #ff00ff;
+    transform: scale(1.02);
+}
+
+/* ===================== BOTONES ===================== */
+.btn-delete, .btn-edit {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    padding: 8px 20px;
     margin: 3px;
-}
-.btn-delete:hover{
-    background-color: #e64034ce;
-    opacity: 0.8;
-}
-.btn-edit{
-    background-color: #1a8fbd;
-    color: white;
+    border-radius: 5px;
     border: none;
-    border-radius: 3px;
-    font-size: 15px;
-    padding: 5px 15px;
     cursor: pointer;
-    margin: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-.btn-edit:hover{
-    background-color: #327fa3ce;
-    opacity: 0.8;
+
+/* Botón eliminar */
+.btn-delete {
+    background: linear-gradient(45deg, #ff0000, #ff4d4d);
+    color: #fff;
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff4d4d;
+}
+.btn-delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ff0000, 0 0 25px #ff4d4d, 0 0 35px #ff66aa;
+}
+
+/* Botón editar */
+.btn-edit {
+    background: linear-gradient(45deg, #00bfff, #1e90ff);
+    color: #fff;
+    text-shadow: 0 0 5px #00bfff, 0 0 10px #1e90ff;
+}
+.btn-edit:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #00bfff, 0 0 25px #1e90ff, 0 0 35px #66ffff;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media screen and (max-width: 768px) {
+    .cont-supplier {
+        padding: 15px;
+        min-height: auto;
+    }
+
+    .cont-supplier table {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .btn-delete, .btn-edit {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
 }
