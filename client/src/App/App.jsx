@@ -12,6 +12,8 @@ import Suppliers from '../pages/Suppliers/Suppliers';
 import UpdateSupplier from '../components/UpdateSupplier/UpdateSupplier';
 import Checkout from '../pages/Checkout/Checkout';
 import PrivateRoute from '../components/ProtectedRoute/ProtectedRoute';
+import CategoryForm from "../components/Categories/CategoryForm";
+import Categories from "../pages/Categories/Categories";
 
 const App = ()=> {
   const [login, setLogin] = useState(false);
@@ -31,6 +33,9 @@ const App = ()=> {
   <Route path="/suppliers" element={<Suppliers />} />
   <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
   <Route path="/create-payment-intent" element={<Checkout />} />
+  <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
+  <Route path="/categories" element={<PrivateRoute component={Categories} />} />
+  
     </Routes>
     </div>
   );

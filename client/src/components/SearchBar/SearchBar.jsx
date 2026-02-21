@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import './SearchBar.css';
 
 const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   const [consulta, setConsulta] = useState("");
+  const [userRole, setUserRole] = useState(null); // Estado para rol
+
+  useEffect(() => {
+    const rol = localStorage.getItem("rol"); // obtenemos rol del storage
+    setUserRole(rol);
+  }, []);
 
   const productSearch = async (e) => {
     e.preventDefault();
@@ -16,13 +22,12 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
         { headers: { token_usuario: localStorage.getItem("token") } }
       );
       setSearchResultados(res.data);
-      setSearchActive(true); // ⚡ activa búsqueda
+      setSearchActive(true);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // ⚡ Resetear búsqueda
   const resetSearch = () => {
     setConsulta("");
     setSearchActive(false);
@@ -48,10 +53,14 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
         </div>
       </form>
 
-      <div className="btn-cont">
-        <Link to="/agregar/product" className="btn">Add Product</Link>
-        <Link to="/add/suppliers" className="btn">Add Supplier</Link>
-      </div>
+      {/* ✅ Mostrar botones solo para admin */}
+      {userRole === "admin" && (
+        <div className="btn-cont">
+          <Link to="/agregar/product" className="btn">Add Product</Link>
+          <Link to="/add/suppliers" className="btn">Add Supplier</Link>
+          <Link to="/add/category" className="btn">Add Category</Link> {/* Nuevo botón */}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,72 @@
+/* Contenedor del formulario */
+.category-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+/* Inputs estilo gamer */
+.category-form input {
+  padding: 12px 18px;
+  border: 2px solid #00ff99;
+  border-radius: 10px;
+  font-size: 16px;
+  flex: 1;
+  background: #111;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px #00ff99;
+}
+
+/* Focus glow */
+.category-form input:focus {
+  outline: none;
+  border-color: #00ffc0;
+  box-shadow: 0 0 15px #00ffc0;
+}
+
+/* Botón estilo gamer */
+.category-form button {
+  padding: 12px 25px;
+  background: linear-gradient(45deg, #00ff99, #00ccff);
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #00ff99;
+  text-transform: uppercase;
+}
+
+/* Hover con glow y movimiento */
+.category-form button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ccff;
+}
+
+/* Mensaje de error */
+.category-form .error {
+  color: #ff1744;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  text-shadow: 0 0 5px #ff1744;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .category-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .category-form input,
+  .category-form button {
+    width: 100%;
+  }
+}

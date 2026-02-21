@@ -58,17 +58,10 @@ const FormProduct = () => {
           },
         }
       );
-
-      if (res.status === 201) {
-        alert("Producto agregado exitosamente");
-        setCategory("Pc Gamer");
-        setNombre("");
-        setMarca("");
-        setPrecio("");
-        setDescripcion("");
-        setImageUrl(null);
-        setErrors({});
-      }
+      
+      navigate(`/category/${encodeURIComponent(category)}`, {  
+      });   
+    
     } catch (err) {
       console.error("Error al cargar producto", err);
       if (err.response) {

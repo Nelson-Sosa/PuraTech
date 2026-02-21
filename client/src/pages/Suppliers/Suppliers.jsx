@@ -1,110 +1,101 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import '../Suppliers/Suppliers.css';
-import { Link } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 
-const Suppliers = ({RemoverFromDom})=>{
-    const [supplier, setSupplier] = useState([]);
-    const navegar = useNavigate();
-    const [showModal, setShowModal] = useState(false);
-    const [currentSupplierID, setCurrentSupplier] = useState(null);
+const Suppliers = () => {
+  const [suppliers, setSuppliers] = useState([]);
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [currentSupplierID, setCurrentSupplierID] = useState(null);
 
-
-    const deleteSupplier = (supplierID) =>{
-        axios.delete('http://localhost:8000/api/delete/supplier/' + supplierID,{
-            headers: {
-                token_usuario: localStorage.getItem("token")
-            }
-        })
-        .then(res =>{
-            if(RemoverFromDom){
-                RemoverFromDom(supplierID);
-            }
-        })
-        .catch(error =>{
-            console.error('Error al eliminar proveedor', error);
-            if(error.response && error.response.status === 401){
-                navegar('/login');
-            }
-        })
+  // 🔥 Elimina proveedor y actualiza el state automáticamente
+  const deleteSupplier = async (supplierID) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/delete/supplier/${supplierID}`, {
+        headers: { token_usuario: localStorage.getItem("token") }
+      });
+      // ⚡ Elimina del state para refrescar la lista automáticamente
+      setSuppliers(suppliers.filter(s => s._id !== supplierID));
+    } catch (error) {
+      console.error("Error al eliminar proveedor", error);
+      if (error.response && error.response.status === 401) navigate('/login');
     }
-    const handleDeleteClick = (supplierID) =>{
-        setCurrentSupplier(supplierID);
-        setShowModal(true);
-    }
+  };
 
-    const handleConfirmDelete = () =>{
-        deleteSupplier(currentSupplierID);
-        setShowModal(false);
-    }
-    
+  const handleDeleteClick = (supplierID) => {
+    setCurrentSupplierID(supplierID);
+    setShowModal(true);
+  };
 
+  const handleConfirmDelete = () => {
+    deleteSupplier(currentSupplierID);
+    setShowModal(false);
+  };
 
-    useEffect(()=>{
-        const fetchSupplier = async ()=>{
-            try{
-                const res = await axios.get('http://localhost:8000/api/suppliers',{
-                    headers: {
-                        token_usuario: localStorage.getItem("token")
-                    }
-                })
-                if(res.status === 200){
-                    setSupplier(res.data);
-                    console.log(supplier);
-                }
+  // 🔥 Trae los proveedores al montar
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/api/suppliers', {
+          headers: { token_usuario: localStorage.getItem("token") }
+        });
+        if (res.status === 200) setSuppliers(res.data);
+      } catch (err) {
+        console.error("Ocurrió un error:", err.message);
+        if (err.response && err.response.status === 401) navigate('/login');
+      }
+    };
+    fetchSuppliers();
+  }, [navigate]);
 
-            }catch(err){
-                console.error("Ocurrió un error:", err.message);
-                if(err.response && err.response.status === 401){
-                    navegar('/login');
-                }
+  return (
+    <div className="cont-supplier">
+      <Link to="/add/suppliers" className="btn">Add Supplier</Link>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>RUC</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Ciudad</th>
+            <th>Código Postal</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {suppliers.map((sup, idx) => (
+            <tr key={idx}>
+              <td>{sup.nombre}</td>
+              <td>{sup.apellido}</td>
+              <td>{sup.ruc}</td>
+              <td>{sup.telefono}</td>
+              <td>{sup.correo}</td>
+              <td>{sup.ciudad}</td>
+              <td>{sup.codigoPostal}</td>
+              <td>
+                <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Delete</button>
+                <Link to={`/edit/supplier/${sup._id}`}>
+                  <button className="btn-edit">Edit</button>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-            }
-
-        }
-        fetchSupplier();
-    },[navegar]);// Dependencias vacías para ejecutar solo al montar el componente
-    return(
-        <div className="cont-supplier">
-            <table>
-                <thead>
-                    <th>Nombre:</th>
-                    <th>Apellido:</th>
-                    <th>Ruc:</th>
-                    <th>Telefono:</th>
-                    <th>Correo:</th>
-                    <th>Ciudad:</th>
-                    <th>Codigo Postal:</th>
-                </thead>
-                <tbody>
-                {supplier.map((suppliers,idx)=>{
-                    return(
-                        <tr key={idx}>
-                            <td>{suppliers.nombre}</td>
-                            <td>{suppliers.apellido}</td>
-                            <td>{suppliers.ruc}</td>
-                            <td>{suppliers.telefono}</td>
-                            <td>{suppliers.correo}</td>
-                            <td>{suppliers.ciudad}</td>
-                            <td>{suppliers.codigoPostal}</td>
-                            <button className="btn-delete" onClick={()=>handleDeleteClick(suppliers._id)}>Delete</button>
-                            <Link to={`/edit/supplier/${suppliers._id}`}>
-                            <button className="btn-edit">Edit</button>
-                            </Link>
-                        </tr>
-                    )
-                })}
-                    </tbody>
-                </table>
-                <Modal show={showModal}
-                onClose={()=> setShowModal(false)}
-                onConfirm={handleConfirmDelete}>
-                <p>¿Are you sure you want to remove this provider?</p>
-                </Modal>
-        </div>
-    )
-}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+      >
+        <p>¿Are you sure you want to remove this provider?</p>
+      </Modal>
+    </div>
+  );
+};
 
 export default Suppliers;

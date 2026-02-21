@@ -34,28 +34,36 @@ const UpdateProduct = ()=>{
         });
     }, [id]);
 
-    const actualizarProducto = e => {
-        e.preventDefault();
+    const actualizarProducto = async (e) => {
+    e.preventDefault();
 
-        axios.put(`http://localhost:8000/api/actulizar/product/${id}`, {
-            category,
-            nombre,
-            marca,
-            precio,
-            descripcion
-        },{
-            headers:{
-                token_usuario: localStorage.getItem("token")
-            }
-        })
-            .then(res => console.log(res))
-            .catch(err => {
-                console.error("Error al cargar producto", err);
-                if (err.response && err.response.status === 401) {
-                    navigate('/login');
+    try {
+        await axios.put(
+            `http://localhost:8000/api/actulizar/product/${id}`,
+            {
+                category,
+                nombre,
+                marca,
+                precio,
+                descripcion
+            },
+            {
+                headers: {
+                    token_usuario: localStorage.getItem("token")
                 }
-            });
-    };
+            }
+        );
+
+        // 🔥 Redirige correctamente a la categoría
+        navigate(`/category/${encodeURIComponent(category)}`);
+
+    } catch (err) {
+        console.error("Error al actualizar producto", err);
+        if (err.response && err.response.status === 401) {
+            navigate('/login');
+        }
+    }
+};
 
 
 

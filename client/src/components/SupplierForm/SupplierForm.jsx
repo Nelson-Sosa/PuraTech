@@ -30,6 +30,7 @@ export const SupplierForm = ()=>{
                     token_usuario: localStorage.getItem("token")
                 }
             })
+            
 
             .then(res=>{
                 if(res.status ===200){
@@ -40,8 +41,14 @@ export const SupplierForm = ()=>{
                     setCorreo("");
                     setCiudad("");
                     setCodigoPostal("");
+
+                    // 🔥 Redirige y pasa mensaje de éxito
+                  navegar("/suppliers", {
+                    state: { success: "Proveedor agregado correctamente" },
+                    });
                 }
             })
+            
             .catch(err =>{
                 console.error("Error al cargar proveedor");
                 if(err.response && err.response.status === 401){
