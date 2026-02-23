@@ -1,15 +1,57 @@
-.targ-cont{
+.targ-cont {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-}
-.targ-cont form{
-    border: 1px solid #bbb3b3;
-    height: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
+    gap: 20px; /* espacio entre elementos */
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 200px;
+    width: 100%;
 }
 
+.targ-cont h1 {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.targ-cont form {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.targ-cont form button {
+    padding: 12px;
+    background-color: #4caf50;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100px;
+}
+
+.targ-cont form button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+.targ-cont form button:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.targ-cont form div {
+    color: red; /* para mostrar errores */
+    font-size: 0.9rem;
+    text-align: center;
+}

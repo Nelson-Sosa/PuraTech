@@ -1,0 +1,50 @@
+.payment-container {
+  max-width: 100%;      /* Limita el ancho para que no se vea gigante */
+      /* Centrado horizontal y margen superior */
+  padding: 30px 25px;    /* Espaciado interno */
+  background: linear-gradient(145deg, #1e1e2f, #2a2a40); /* Gradiente moderno tipo gamer/tech */   /* Bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35); /* Sombra suave */
+  color: #fff;           /* Texto claro sobre fondo oscuro */
+  font-family: 'Inter', sans-serif; /* Tipografía moderna */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 800px;          /* Espaciado entre elementos hijos */
+}
+
+.payment-container div {
+  text-align: center;
+  font-size: 1rem;
+  
+}
+
+.payment-container .loading {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #a0a0a0;
+  animation: pulse 1.5s infinite;
+}
+
+.payment-container .error {
+  background: #ff4d4f;  /* Fondo rojo para errores */
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Animación para la carga */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Ajuste de responsividad */
+@media (max-width: 500px) {
+  .payment-container {
+    padding: 20px 15px;
+    margin: 20px auto;
+  }
+}

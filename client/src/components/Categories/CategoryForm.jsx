@@ -36,16 +36,22 @@ const CategoryForm = ({ onCategoryAdded }) => {
   };
 
   return (
-    <form className="category-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Nombre de categoría"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-      />
-      <button type="submit">Agregar</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+   <div className="category-container">
+  <form className="category-form" onSubmit={handleSubmit}>
+    <h2 className="form-title">Agregar Categoría</h2>
+
+    <input
+      type="text"
+      placeholder="Nombre de categoría"
+      value={nombre}
+      onChange={(e) => setNombre(e.target.value)}
+    />
+
+    <button type="submit">Agregar</button>
+
+    {error && <div className="error">{error}</div>}
+  </form>
+</div>
   );
 };
 

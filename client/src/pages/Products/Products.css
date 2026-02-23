@@ -69,7 +69,8 @@
 /* ===================== Información del Producto ===================== */
 .products-wrapper .product-info {
   padding: 15px 20px;
-  text-align: center;
+  flex: 1;
+  
 }
 .products-wrapper .product-info h2 {
   font-size: 20px;
@@ -86,6 +87,7 @@
   font-size: 14px;
   color: #333;
   min-height: 45px;
+
 }
 
 /* ===================== Botones del Producto ===================== */
@@ -164,4 +166,16 @@
   .products-wrapper .image-container img {
     height: 200px;
   }
+}
+
+.description-list {
+  margin-top: 10px;
+  padding-left: 18px;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.description-list li {
+  margin-bottom: 4px;
 }

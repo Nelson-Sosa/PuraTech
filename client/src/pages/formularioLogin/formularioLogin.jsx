@@ -33,7 +33,7 @@ const FormularioLogin = (props) => {
      
       props.setLogin(true);
       setError("");
-      navegacion("/category/Pc Gamer");
+      navegacion("/category/Tablet");
     }
   } catch (error) {
     const errorMessage = error.response

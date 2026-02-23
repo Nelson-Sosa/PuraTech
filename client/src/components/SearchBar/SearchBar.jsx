@@ -40,7 +40,7 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
       </div>
 
       <form className="search-form" onSubmit={productSearch}>
-        <label className="lab">Search products</label>
+        <label className="lab">Buscar Productos</label>
         <div className="search-input-container">
           <input
             type="search"
@@ -56,9 +56,9 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
       {/* ✅ Mostrar botones solo para admin */}
       {userRole === "admin" && (
         <div className="btn-cont">
-          <Link to="/agregar/product" className="btn">Add Product</Link>
-          <Link to="/add/suppliers" className="btn">Add Supplier</Link>
-          <Link to="/add/category" className="btn">Add Category</Link> {/* Nuevo botón */}
+          <Link to="/agregar/product" className="btn">Agregar Producto</Link>
+          <Link to="/add/suppliers" className="btn">Agregar Proveedor</Link>
+          <Link to="/add/category" className="btn">Agregar Categoría</Link> {/* Nuevo botón */}
         </div>
       )}
     </div>

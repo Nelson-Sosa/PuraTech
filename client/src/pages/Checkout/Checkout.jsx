@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
-
+import './Checkout.css';
 const stripePromise = loadStripe('pk_test_51PxDMmRt6zQTXipITWkIwDzvLWs9t6dsBRAsxXWf3rA3t7AaCXBbGI3N0EJk3Kv1yhcHPbsDZRRAm8GExsOcSfS100lW2AKtm0');
 
 const Checkout = () => {
@@ -19,17 +19,16 @@ const Checkout = () => {
 
 
     return (
-      <div>
-         {/* Si el clientSecret está disponible, muestra el formulario de pago */}
-        {clientSecret ? (
-            <Elements stripe={stripePromise}> {/* Componente que envuelve el formulario y se encarga de proporcionar el contexto de Stripe */}
-                <CheckoutForm clientSecret={clientSecret} />{/* Pasa el clientSecret al formulario */}
-            </Elements>
-        ) : (
-            <div>Cargando...</div>// Mientras no se tenga el clientSecret, muestra un mensaje de carga
-        )}
-        {error && <div>{error}</div>}
-      </div>
+      <div className="payment-container">
+  {clientSecret ? (
+    <Elements stripe={stripePromise}>
+      <CheckoutForm clientSecret={clientSecret} />
+    </Elements>
+  ) : (
+    <div className="loading">Cargando...</div>
+  )}
+  {error && <div className="error">{error}</div>}
+</div>
     )
   };
   

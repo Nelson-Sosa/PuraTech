@@ -109,8 +109,16 @@ export const Products = () => {
 
                         <div className="product-info">
                             <h2>{producto.marca}</h2>
-                            <p className="price">{producto.precio} Gs.</p>
-                            <p className="description">{producto.descripcion}</p>
+                            <p className="price">
+                            {Number(producto.precio).toLocaleString("es-PY")} Gs.
+                            </p>
+                            <ul className="description-list">
+                            {producto.descripcion &&
+                            producto.descripcion.split('. ').map((item, index) => (
+                            <li key={index}>{item.trim()}</li>
+    ))
+}
+</ul>
                         </div>
 
                         <div className="product-actions">
@@ -120,12 +128,12 @@ export const Products = () => {
                                         className="btn-delete"
                                         onClick={() => handleDeleteClick(producto._id)}
                                     >
-                                        Delete
+                                        Eliminar
                                     </button>
 
                                     <Link to={`/actualizar/product/${producto._id}`}>
                                         <button className="btn-update">
-                                            Update
+                                            Actualizar
                                         </button>
                                     </Link>
                                 </>
@@ -145,7 +153,7 @@ export const Products = () => {
             onClose={() => setShowModal(false)}
             onConfirm={handleConfirmDelete}
         >
-            <p>¿Are you sure you want to remove this product?</p>
+            <p>¿Está seguro de que desea eliminar este producto?</p>
         </Modal>
         </>
     );

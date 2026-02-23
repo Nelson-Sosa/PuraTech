@@ -58,7 +58,7 @@ const UpdateSupplier = () => {
 
   return (
     <div className="contenedor">
-      <h2 className="titulo-rgb">Update Supplier</h2>
+      <h2 className="titulo-rgb">Actualizar Proveedor</h2>
 
       <form onSubmit={handleUpdateSupplier}>
         <div className="form-group">
@@ -91,7 +91,7 @@ const UpdateSupplier = () => {
           <input type="number" value={codigoPostal} onChange={e => setCodigoPostal(e.target.value)} />
         </div>
 
-        <button type="submit" className="btn-rgb">Update</button>
+        <button type="submit" className="btn-rgb">Actualizar</button>
       </form>
     </div>
   );

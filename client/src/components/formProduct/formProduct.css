@@ -120,3 +120,83 @@
 button {
   position: relative !important;
 }
+
+.btn-view-categories {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.btn-view-categories:hover {
+  background: #00ffcc;
+  color: #111;
+  box-shadow: 0 0 15px #00ffcc;
+}
+
+.descripcion-textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #1e1e2f;
+  color: #fff;
+  resize: vertical; /* permite al usuario cambiar altura */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #fff; /* Color del texto de la etiqueta */
+  font-size: 14px;
+}
+
+.form-group input[type="file"] {
+  padding: 10px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  background-color: #1e1e2f; /* Fondo oscuro tipo gamer */
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="file"]:hover {
+  border-color: #ff3d00; /* Efecto al pasar el mouse */
+  box-shadow: 0 4px 8px rgba(255, 61, 0, 0.3);
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+  background-color: #ff3d00;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #e63900;
+}
+
+.error {
+  color: #ff5555;
+  font-size: 12px;
+  margin-top: 5px;
+}

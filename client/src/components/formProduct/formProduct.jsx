@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../formProduct/formProduct.css";
 
 const FormProduct = () => {
-  const [category, setCategory] = useState("Pc Gamer");
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [nombre, setNombre] = useState("");
   const [marca, setMarca] = useState("");
   const [precio, setPrecio] = useState("");
@@ -23,6 +24,34 @@ const FormProduct = () => {
     if (!imageUrl) newErrors.imageUrl = "Image is required";
     return newErrors;
   };
+
+  useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:8000/api/categories",
+        {
+          headers: { token_usuario: token }
+        }
+      );
+
+      console.log("Categorias recibidas:", res.data);
+
+      setCategories(res.data);
+
+      if (res.data.length > 0) {
+        setCategory(res.data[0].name);
+      }
+
+    } catch (error) {
+      console.error("Error cargando categorías", error);
+    }
+  };
+
+  fetchCategories();
+}, []);
 
   const handleImageChange = (e) => {
     setImageUrl(e.target.files[0]);
@@ -80,20 +109,29 @@ const FormProduct = () => {
 
   return (
     <div className="contenedor">
-  <h2 className="titulo-rgb">Add Product</h2>
-
+  <h2 className="titulo-rgb">Agregar Producto</h2>
+  <button
+  type="button"
+  className="btn-view-categories"
+  onClick={() => navigate("/categories")}
+>
+  Ver Categorías
+</button>
   <form onSubmit={procesaForm}>
     
     <div className="form-group">
       <label>Categoria</label>
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
-        <option value="Pc Gamer">Pc Gamer</option>
-        <option value="Notebook Gamer">Notebook Gamer</option>
-        <option value="Consolas">Consolas</option>
-        <option value="Mouse">Mouse</option>
-        <option value="Teclado">Teclado</option>
-        <option value="Monitor">Monitor</option>
-      </select>
+            {categories.length > 0 ? (
+              categories.map((cat) => (
+            <option key={cat._id} value={cat.name}>
+            {cat.name}
+            </option>
+    ))
+  ) : (
+    <option>Cargando categorías...</option>
+  )}
+</select>
       {errors.category && <span className="error">{errors.category}</span>}
     </div>
 
@@ -128,12 +166,17 @@ const FormProduct = () => {
     </div>
 
     <div className="form-group">
-      <label>Descripcion</label>
-      <input
-        type="text"
-        value={descripcion}
-        onChange={(e) => setDescripcion(e.target.value)}
-      />
+     <label htmlFor="descripcion">Descripción del producto:</label>
+        <textarea
+       id="descripcion"
+  name="descripcion"
+  placeholder="Ej: Tipo de pantalla: VA LCD de 23.8&quot;. Resolución: Full HD..."
+  rows={6}      // Altura inicial del textarea
+  cols={50}     // Ancho aproximado (puedes controlar mejor con CSS)
+  value={descripcion}
+  onChange={(e) => setDescripcion(e.target.value)}
+  className="descripcion-textarea"
+/>
       {errors.descripcion && <span className="error">{errors.descripcion}</span>}
     </div>
 
@@ -144,7 +187,7 @@ const FormProduct = () => {
     </div>
 
     <button type="submit" className="btn-rgb">
-      Add Product
+      Guardar
     </button>
   </form>
 </div>

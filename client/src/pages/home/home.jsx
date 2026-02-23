@@ -4,7 +4,7 @@ const home = () =>{
     return(
         <>
         <div className="cont">
-            <h1>Welcome!</h1>
+            <h1>Bienvenido!</h1>
             <nav className="imagenes">
                 <img src="/img/gamer.png" alt="gamer" />
                 <img src="/img/Caballero.png"/>

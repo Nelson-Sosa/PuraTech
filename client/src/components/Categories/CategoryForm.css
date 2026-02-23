@@ -1,72 +1,88 @@
-/* Contenedor del formulario */
-.category-form {
+/* 🔥 CONTENEDOR GENERAL */
+.category-container {
+  min-height: 90vh;
   display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  width: 50%;
+  background: radial-gradient(circle at top, #0f2027, #0a0f1a);
+  padding: 40px 20px;
 }
 
-/* Inputs estilo gamer */
+/* 🎮 TARJETA GAMER */
+.category-form {
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 0 20px #00ff99;
+  border: 1px solid #00ff99;
+  text-align: center;
+}
+
+/* 🏆 TÍTULO */
+.form-title {
+  color: #00ffcc;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+/* 🕹 INPUT GAMER */
 .category-form input {
-  padding: 12px 18px;
+  padding: 14px 18px;
   border: 2px solid #00ff99;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
-  flex: 1;
   background: #111;
   color: #fff;
   transition: all 0.3s ease;
-  box-shadow: 0 0 5px #00ff99;
+  box-shadow: 0 0 8px #00ff99;
 }
 
-/* Focus glow */
+/* Glow focus */
 .category-form input:focus {
   outline: none;
-  border-color: #00ffc0;
-  box-shadow: 0 0 15px #00ffc0;
+  border-color: #00ccff;
+  box-shadow: 0 0 15px #00ccff;
 }
 
-/* Botón estilo gamer */
+/* 🚀 BOTÓN GAMER */
 .category-form button {
-  padding: 12px 25px;
+  padding: 14px;
   background: linear-gradient(45deg, #00ff99, #00ccff);
   color: #111;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #00ff99;
+  transition: 0.3s ease;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 15px #00ff99;
 }
 
-/* Hover con glow y movimiento */
+/* Hover épico */
 .category-form button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ccff;
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #00ffcc, 0 0 40px #00ccff;
 }
 
-/* Mensaje de error */
+/* ❌ ERROR */
 .category-form .error {
   color: #ff1744;
-  margin-top: 8px;
-  text-align: center;
   font-size: 14px;
   text-shadow: 0 0 5px #ff1744;
 }
 
-/* Responsive */
+/* 📱 Responsive */
 @media (max-width: 600px) {
   .category-form {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .category-form input,
-  .category-form button {
-    width: 100%;
+    padding: 30px 20px;
   }
 }

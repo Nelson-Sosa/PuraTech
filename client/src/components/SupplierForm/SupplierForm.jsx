@@ -60,10 +60,10 @@ export const SupplierForm = ()=>{
             <div className="contenedor">
 
   <Link to="/suppliers" className="btn-rgb" style={{ marginBottom: "20px", textDecoration: "none", textAlign: "center" }}>
-    All Providers
+    Lista de Proveedores
   </Link>
 
-  <h2 className="titulo-rgb">Add Supplier</h2>
+  <h2 className="titulo-rgb">Agregar Proveedor</h2>
 
   <form onSubmit={fetchSupplier}>
 
@@ -145,7 +145,7 @@ export const SupplierForm = ()=>{
     </div>
 
     <button type="submit" className="btn-rgb">
-      Add Supplier
+      Guardar
     </button>
 
   </form>

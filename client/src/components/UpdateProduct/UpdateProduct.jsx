@@ -6,12 +6,13 @@ import '../UpdateProduct/UpdateProduct.css';
 
 const UpdateProduct = ()=>{
     const{id} = useParams();
-    const [category, setCategory] = useState('pcgamer');
+    const [category, setCategory] = useState('');
     const [nombre, setNombre] = useState("");
     const [marca, setMarca] = useState("");
     const [precio, setPrecio] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
     
     useEffect(()=>{
         axios.get(`http://localhost:8000/api/product/${id}`,{
@@ -33,13 +34,35 @@ const UpdateProduct = ()=>{
             }
         });
     }, [id]);
+    
+    useEffect(() => {
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get(
+                "http://localhost:8000/api/categories",
+                {
+                    headers: {
+                        token_usuario: localStorage.getItem("token")
+                    }
+                }
+            );
+
+            setCategories(res.data);
+
+        } catch (error) {
+            console.error("Error cargando categorías", error);
+        }
+    };
+
+    fetchCategories();
+}, []);
 
     const actualizarProducto = async (e) => {
     e.preventDefault();
 
     try {
         await axios.put(
-            `http://localhost:8000/api/actulizar/product/${id}`,
+            `http://localhost:8000/api/actualizar/product/${id}`,
             {
                 category,
                 nombre,
@@ -70,20 +93,22 @@ const UpdateProduct = ()=>{
     return(
         <>
         <div className="update-cont">
-    <h2>Update Product</h2>
+    <h2>Actualizar Producto</h2>
 
     <form onSubmit={actualizarProducto}>
 
         <p>
-            <label>Categoria:</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="pcgamer">Pc Gamer</option>
-                <option value="notebookgamer">Notebook Gamer</option>
-                <option value="consolas">Consolas</option>
-                <option value="mouse">Mouse</option>
-                <option value="teclado">Teclado</option>
-                <option value="monitor">Monitor</option>
-            </select>
+           <select value={category} onChange={(e) => setCategory(e.target.value)}>
+    {categories.length > 0 ? (
+        categories.map((cat) => (
+            <option key={cat._id} value={cat.name}>
+                {cat.name}
+            </option>
+        ))
+    ) : (
+        <option>Cargando categorías...</option>
+    )}
+</select>
         </p>
 
         <p>
@@ -117,16 +142,20 @@ const UpdateProduct = ()=>{
         </p>
 
         <p>
-            <label>Descripcion</label>
-            <input
-                type="text"
-                name="descripcion"
-                onChange={(e) => setDescripcion(e.target.value)}
-                value={descripcion}
-            />
+            <label htmlFor="descripcion">Descripción del producto:</label>
+<textarea
+  id="descripcion"
+  name="descripcion"
+  placeholder="Ej: Tipo de pantalla: VA LCD de 23.8&quot;. Resolución: Full HD..."
+  rows={6}      // Altura inicial del textarea
+  cols={50}     // Ancho aproximado (puedes controlar mejor con CSS)
+  value={descripcion}
+  onChange={(e) => setDescripcion(e.target.value)}
+  className="descripcion-textarea"
+/>
         </p>
 
-        <button type="submit">Update</button>
+        <button type="submit">Actualizar</button>
 
     </form>
 </div>

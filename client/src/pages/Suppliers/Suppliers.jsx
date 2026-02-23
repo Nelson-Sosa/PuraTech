@@ -52,7 +52,7 @@ const Suppliers = () => {
 
   return (
     <div className="cont-supplier">
-      <Link to="/add/suppliers" className="btn">Add Supplier</Link>
+      <Link to="/add/suppliers" className="btn">Agregar Proveedor</Link>
       <table>
         <thead>
           <tr>
@@ -77,9 +77,9 @@ const Suppliers = () => {
               <td>{sup.ciudad}</td>
               <td>{sup.codigoPostal}</td>
               <td>
-                <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Delete</button>
+                <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Eliminar</button>
                 <Link to={`/edit/supplier/${sup._id}`}>
-                  <button className="btn-edit">Edit</button>
+                  <button className="btn-edit">Editar</button>
                 </Link>
               </td>
             </tr>
