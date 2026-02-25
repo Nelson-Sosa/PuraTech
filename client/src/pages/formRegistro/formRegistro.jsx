@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../formRegistro/formRegistro.css';
+import { API_URL } from '../../config';
 
 const FormRegistro = () => {
     const [nombre, setNombre] = useState('');
@@ -34,7 +35,7 @@ const FormRegistro = () => {
 
         if (Object.keys(newError).length === 0) {
             try {
-                await axios.post('http://localhost:8000/api/agregar/usuario', {
+                await axios.post(`${API_URL}/api/agregar/usuario`, {
                     nombre,
                     apellido,
                     edad,

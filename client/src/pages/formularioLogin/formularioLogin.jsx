@@ -4,7 +4,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
 import { jwtDecode } from "jwt-decode";
+import { API_URL } from '../../config';
 
+const res = await axios.post(`${API_URL}/api/login`, {
+    correo,
+    contraseña
+});
 
 const FormularioLogin = (props) => {
   const [correo, setCorreo] = useState("");
@@ -16,7 +21,7 @@ const FormularioLogin = (props) => {
     e.preventDefault();
     
     try{
-      const res = await axios.post('http://localhost:8000/api/login',{
+      const res = await axios.post(`${API_URL}/api/login`,{
               correo,
               contraseña
     });
