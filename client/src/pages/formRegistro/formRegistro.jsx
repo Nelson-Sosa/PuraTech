@@ -11,7 +11,7 @@ const FormRegistro = () => {
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [confirContraseña, setConfirContraseña] = useState('');
-  const [rol, setRol] = useState('usuario'); // default usuario
+  const [rol, setRol] = useState('usuario');
   const [error, setError] = useState({});
   const navegar = useNavigate();
 
@@ -43,6 +43,7 @@ const FormRegistro = () => {
           contraseña,
           rol
         });
+
         alert("Usuario registrado correctamente");
         navegar('/login');
       } catch (err) {
@@ -98,7 +99,7 @@ const FormRegistro = () => {
           </select>
         </div>
 
-        <button type="submit" className="btn-registro">Registro</button>
+        <button className="btn-registro" type="submit">Registro</button>
       </form>
     </div>
   );

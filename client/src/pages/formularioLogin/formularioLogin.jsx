@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import jwtDecode from "jwt-decode"; // ✅ Importación correcta
 import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
-import jwtDecode from "jwt-decode";
 import { API_URL } from '../../config';
 
 const FormularioLogin = ({ setLogin }) => {
@@ -21,15 +21,14 @@ const FormularioLogin = ({ setLogin }) => {
         contraseña
       });
 
-      const datos = res.data;
       if (res.status === 200) {
+        const datos = res.data;
         console.log("Inicio de sesión exitoso", datos);
 
+        // Guardar token y rol
         localStorage.setItem("token", datos.token);
-
         const decodificar = jwtDecode(datos.token);
-        const userRole = decodificar.rol;
-        localStorage.setItem("rol", userRole); // Guardar el rol en localStorage
+        localStorage.setItem("rol", decodificar.rol);
 
         setLogin(true);
         setError("");
@@ -60,7 +59,6 @@ const FormularioLogin = ({ setLogin }) => {
             onChange={(e) => setCorreo(e.target.value)}
           />
         </div>
-
         <div>
           <label htmlFor="contraseña">Contraseña:</label>
           <input
@@ -70,10 +68,8 @@ const FormularioLogin = ({ setLogin }) => {
             onChange={(e) => setContraseña(e.target.value)}
           />
         </div>
-
         <button type="submit">Login</button>
-
-        {error && <div className="error">{error}</div>}
+        {error && <span className="error">{error}</span>}
       </form>
     </div>
   );
