@@ -1,64 +1,58 @@
-import axios from "axios";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import { API_URL } from '../../config';
 
-const res = await axios.post(`${API_URL}/api/login`, {
-    correo,
-    contraseña
-});
-
-const FormularioLogin = (props) => {
+const FormularioLogin = ({ setLogin }) => {
   const [correo, setCorreo] = useState("");
   const [contraseña, setContraseña] = useState("");
+  const [error, setError] = useState("");
   const navegacion = useNavigate();
-  const [error, setError] = useState();
 
-  const procesaLogin = async (e)=>{
+  const procesaLogin = async (e) => {
     e.preventDefault();
-    
-    try{
-      const res = await axios.post(`${API_URL}/api/login`,{
-              correo,
-              contraseña
-    });
 
-    const datos = res.data;
-    if(res.status === 200){
-      console.log("Inicio de sesión exitoso", datos);
-      localStorage.setItem("token", datos.token);
+    try {
+      const res = await axios.post(`${API_URL}/api/login`, {
+        correo,
+        contraseña
+      });
 
-      const decodificar = jwtDecode(datos.token);
-      const userRole = decodificar.rol;
-      
-      localStorage.setItem("rol", userRole); // Guardar el rol en localStorage
-     
-      props.setLogin(true);
-      setError("");
-      navegacion("/category/Tablet");
+      const datos = res.data;
+      if (res.status === 200) {
+        console.log("Inicio de sesión exitoso", datos);
+
+        localStorage.setItem("token", datos.token);
+
+        const decodificar = jwtDecode(datos.token);
+        const userRole = decodificar.rol;
+        localStorage.setItem("rol", userRole); // Guardar el rol en localStorage
+
+        setLogin(true);
+        setError("");
+        navegacion("/category/Tablet");
+      }
+    } catch (err) {
+      const errorMessage = err.response
+        ? (typeof err.response.data === 'string'
+          ? err.response.data
+          : err.response.data.mensaje || JSON.stringify(err.response.data))
+        : err.message;
+
+      setError(errorMessage);
+      console.error("Error durante el inicio de sesión", errorMessage);
     }
-  } catch (error) {
-    const errorMessage = error.response
-      ? (typeof error.response.data === 'string'
-        ? error.response.data
-        : error.response.data.mensaje || JSON.stringify(error.response.data))
-      : error.message;
-  
-    setError(errorMessage);
-    console.error("Error durante el inicio de sesión", errorMessage);
-  }
-
   };
 
   return (
-    <div className="contLogin" style={{ backgroundImage: `url(${backgroundImage1})` }}> 
+    <div className="contLogin" style={{ backgroundImage: `url(${backgroundImage1})` }}>
       <h1>Login</h1>
-      <form onSubmit={procesaLogin} className="">
+      <form onSubmit={procesaLogin}>
         <div>
-          <label htmlFor="correo">mail:</label>
+          <label htmlFor="correo">Correo:</label>
           <input
             type="text"
             id="correo"
@@ -66,21 +60,23 @@ const FormularioLogin = (props) => {
             onChange={(e) => setCorreo(e.target.value)}
           />
         </div>
+
         <div>
-          <label htmlFor="contraseña">password:</label>
+          <label htmlFor="contraseña">Contraseña:</label>
           <input
-            type="password"  
+            type="password"
             id="contraseña"
             value={contraseña}
             onChange={(e) => setContraseña(e.target.value)}
           />
         </div>
-        <button> Login </button>
-        {error && <span>{error}</span>}
+
+        <button type="submit">Login</button>
+
+        {error && <div className="error">{error}</div>}
       </form>
     </div>
   );
 };
 
 export default FormularioLogin;
-
