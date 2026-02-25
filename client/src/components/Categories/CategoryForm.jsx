@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import './CategoryForm.css';
+import { API_URL } from '../../config';
 
 const CategoryForm = ({ onCategoryAdded }) => {
   const [nombre, setNombre] = useState("");
@@ -15,7 +16,7 @@ const CategoryForm = ({ onCategoryAdded }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/categories",
+        `${API_URL}/api/categories`,
         { name: nombre },  // ✅ Aquí cambia 'nombre' por 'name'
         { headers: { token_usuario: localStorage.getItem("token") } }
       );

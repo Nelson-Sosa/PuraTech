@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../UpdateProduct/UpdateProduct.css';
-
+import { API_URL } from '../../config';
 const UpdateProduct = ()=>{
     const{id} = useParams();
     const [category, setCategory] = useState('');
@@ -15,7 +15,7 @@ const UpdateProduct = ()=>{
     const [categories, setCategories] = useState([]);
     
     useEffect(()=>{
-        axios.get(`http://localhost:8000/api/product/${id}`,{
+        axios.get(`${API_URL}/api/product/${id}`,{
             headers: {
                 token_usuario: localStorage.getItem("token")
             }
@@ -39,7 +39,7 @@ const UpdateProduct = ()=>{
     const fetchCategories = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:8000/api/categories",
+                `${API_URL}/api/categories`,
                 {
                     headers: {
                         token_usuario: localStorage.getItem("token")
@@ -62,7 +62,7 @@ const UpdateProduct = ()=>{
 
     try {
         await axios.put(
-            `http://localhost:8000/api/actualizar/product/${id}`,
+            `${API_URL}/api/actualizar/product/${id}`,
             {
                 category,
                 nombre,

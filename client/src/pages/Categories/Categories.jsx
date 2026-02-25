@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CategoryForm from "../../components/Categories/CategoryForm";
 import './Categories.css';
-
+import { API_URL} from '../../config';
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [userRole, setUserRole] = useState(null);
@@ -16,7 +16,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/categories", {
+      const res = await axios.get(`${API_URL}/api/categories`, {
         headers: { token_usuario: localStorage.getItem("token") },
       });
       setCategories(res.data);
@@ -32,7 +32,7 @@ const Categories = () => {
 
   const handleDeleteCategory = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/categories/${id}`, {
+      await axios.delete(`${API_URL}/api/categories/${id}`, {
         headers: { token_usuario: localStorage.getItem("token") },
       });
       setCategories((prev) => prev.filter((cat) => cat._id !== id));

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../formProduct/formProduct.css";
+import { API_URL } from '../../config';
 
 const FormProduct = () => {
   const [category, setCategory] = useState("");
@@ -31,7 +32,7 @@ const FormProduct = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:8000/api/categories",
+        `${API_URL}/api/categories`,
         {
           headers: { token_usuario: token }
         }
@@ -78,7 +79,7 @@ const FormProduct = () => {
       if (!token) throw new Error("No hay token disponible. Inicia sesión primero.");
 
       const res = await axios.post(
-        "http://localhost:8000/api/agregar/producto",
+        `${API_URL}/api/agregar/producto`,
         formData,
         {
           headers: {

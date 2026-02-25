@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import '../Suppliers/Suppliers.css';
 import Modal from "../../components/Modal/Modal";
-
+import { API_URL} from '../../config';
 const Suppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Suppliers = () => {
   // 🔥 Elimina proveedor y actualiza el state automáticamente
   const deleteSupplier = async (supplierID) => {
     try {
-      await axios.delete(`http://localhost:8000/api/delete/supplier/${supplierID}`, {
+      await axios.delete(`${API_URL}/api/delete/supplier/${supplierID}`, {
         headers: { token_usuario: localStorage.getItem("token") }
       });
       // ⚡ Elimina del state para refrescar la lista automáticamente
@@ -38,7 +38,7 @@ const Suppliers = () => {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/suppliers', {
+        const res = await axios.get(`${API_URL}/api/suppliers`, {
           headers: { token_usuario: localStorage.getItem("token") }
         });
         if (res.status === 200) setSuppliers(res.data);

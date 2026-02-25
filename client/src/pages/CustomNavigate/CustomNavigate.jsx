@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./CustomNavigate.css";
-
+import { API_URL} from '../../config';
 const CustomNavigate = () => {
   const [categories, setCategories] = useState([]);
 
@@ -12,7 +12,7 @@ const CustomNavigate = () => {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:8000/api/categories",
+          `${API_URL}/api/categories`,
           {
             headers: { token_usuario: token }
           }

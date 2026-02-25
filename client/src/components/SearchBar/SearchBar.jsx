@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import './SearchBar.css';
-
+import { API_URL } from '../../config';
 const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   const [consulta, setConsulta] = useState("");
   const [userRole, setUserRole] = useState(null); // Estado para rol
@@ -18,7 +18,7 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
 
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/search-products?category=${consulta}`,
+        `${API_URL}/api/search-products?category=${consulta}`,
         { headers: { token_usuario: localStorage.getItem("token") } }
       );
       setSearchResultados(res.data);

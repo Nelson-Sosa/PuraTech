@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../UpdateSupplier/UpdateSupplier.css';
-
+import { API_URL } from '../../config';
 const UpdateSupplier = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const UpdateSupplier = () => {
   useEffect(() => {
     const fetchSupplier = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/supplier/${id}`, {
+        const res = await axios.get(`${API_URL}/api/supplier/${id}`, {
           headers: { token_usuario: localStorage.getItem("token") }
         });
         const s = res.data;
@@ -42,7 +42,7 @@ const UpdateSupplier = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:8000/api/edit/supplier/${id}`,
+        `${API_URL}/api/edit/supplier/${id}`,
         { nombre, apellido, ruc, correo, ciudad, codigoPostal },
         { headers: { token_usuario: localStorage.getItem("token") } }
       );

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../SupplierForm/SupplierForm.css';
-
+import { API_URL } from '../../config';
 export const SupplierForm = ()=>{
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
@@ -17,7 +17,7 @@ export const SupplierForm = ()=>{
     
         const fetchSupplier = async (e)=>{
             e.preventDefault();
-            await axios.post('http://localhost:8000/api/add/suppliers', {
+            await axios.post(`${API_URL}/api/add/suppliers`, {
                 nombre,
                 apellido,
                 ruc,

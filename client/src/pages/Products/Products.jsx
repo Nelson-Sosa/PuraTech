@@ -6,7 +6,7 @@ import CustomNavigate from "../CustomNavigate/CustomNavigate";
 import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { useLocation } from "react-router-dom";
-
+import { API_URL} from '../../config';
 export const Products = () => {
     const { category } = useParams();
     const [product, setProduct] = useState([]);
@@ -22,7 +22,7 @@ export const Products = () => {
     const getProducts = async () => {
         try {
             const res = await axios.get(
-                `http://localhost:8000/api/products?category=${category}`,
+                `${API_URL}/api/products?category=${category}`,
                 {
                     headers: {
                         token_usuario: localStorage.getItem("token")
@@ -55,7 +55,7 @@ export const Products = () => {
     const deleteProduct = async (productID) => {
         try {
             await axios.delete(
-                `http://localhost:8000/api/remover/product/${productID}`,
+                `${API_URL}/api/remover/product/${productID}`,
                 {
                     headers: { token_usuario: localStorage.getItem("token") }
                 }
