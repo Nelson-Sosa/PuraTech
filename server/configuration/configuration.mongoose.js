@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/crmdb", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => console.log("Se estableció una conexión a la base de datos"))
-    .catch(err => console.log("Algo salió mal al conectarse a la base de datos", err));
+
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log("✅ Conectado a MongoDB Atlas"))
+    .catch(err => console.log("❌ Error al conectarse a la base de datos", err));
