@@ -1,9 +1,9 @@
+// src/components/formularioLogin/FormularioLogin.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { decode as jwtDecode } from "jwt-decode";
 import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
+import { decode as jwtDecode } from "jwt-decode"; // ← Cambio aquí
 import { API_URL } from '../../config';
 
 const FormularioLogin = ({ setLogin }) => {
@@ -21,14 +21,15 @@ const FormularioLogin = ({ setLogin }) => {
         contraseña
       });
 
+      const datos = res.data;
       if (res.status === 200) {
-        const datos = res.data;
         console.log("Inicio de sesión exitoso", datos);
 
-        // Guardar token y rol
         localStorage.setItem("token", datos.token);
-        const decodificar = jwtDecode(datos.token);
-        localStorage.setItem("rol", decodificar.rol);
+
+        const decodificar = jwtDecode(datos.token); // ← funciona ahora
+        const userRole = decodificar.rol;
+        localStorage.setItem("rol", userRole); // Guardar el rol en localStorage
 
         setLogin(true);
         setError("");
@@ -47,7 +48,7 @@ const FormularioLogin = ({ setLogin }) => {
   };
 
   return (
-    <div className="contLogin" style={{ backgroundImage: `url(${backgroundImage1})` }}>
+    <div className="contLogin" style={{ backgroundImage: `url(${backgroundImage1})` }}> 
       <h1>Login</h1>
       <form onSubmit={procesaLogin}>
         <div>
@@ -62,13 +63,13 @@ const FormularioLogin = ({ setLogin }) => {
         <div>
           <label htmlFor="contraseña">Contraseña:</label>
           <input
-            type="password"
+            type="password"  
             id="contraseña"
             value={contraseña}
             onChange={(e) => setContraseña(e.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button>Login</button>
         {error && <span className="error">{error}</span>}
       </form>
     </div>
