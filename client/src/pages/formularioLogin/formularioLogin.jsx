@@ -1,5 +1,6 @@
 // src/components/formularioLogin/FormularioLogin.jsx
 import { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../formularioLogin/formularioLogin.css';
 import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
