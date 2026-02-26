@@ -21,7 +21,7 @@ module.exports.agregarProducto = async (req, res) => {
     marca,
     precio,
     descripcion,
-    imageUrl: req.file ? `/uploads/${req.file.filename}` : '' // ⚡ Validación de seguridad
+    imageUrl: req.file.path  // multer + Cloudinary te devuelve la URL completa en req.file.path
 });
 
       console.log("New Product:", newProduct);
