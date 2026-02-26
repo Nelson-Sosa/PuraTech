@@ -100,3 +100,72 @@
     50% { box-shadow: 0 0 25px #ff00ff, 0 0 50px #00ffff; }
     100% { box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
 }
+
+/* ===================== LOGIN FORM RESPONSIVE ===================== */
+
+/* Para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .contLogin {
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .contLogin form {
+        width: 80%;
+        padding: 25px 20px;
+    }
+
+    .contLogin h1 {
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+
+    .contLogin label {
+        font-size: 16px;
+    }
+
+    .contLogin input {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .contLogin button {
+        font-size: 15px;
+        padding: 10px;
+        width: 60%;
+    }
+}
+
+/* Para pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+    .contLogin {
+        height: auto;
+        padding: 30px 15px;
+    }
+
+    .contLogin form {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .contLogin h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .contLogin label {
+        font-size: 14px;
+    }
+
+    .contLogin input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .contLogin button {
+        font-size: 14px;
+        padding: 10px;
+        width: 70%;
+        margin: 15px 0;
+    }
+}

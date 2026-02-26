@@ -6,13 +6,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Fondo oscuro gamer */
     color: #fff;
     text-align: center;
     font-family: 'Orbitron', sans-serif;
     padding: 20px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /* Título principal */
@@ -88,4 +88,53 @@
     color: #0ff;
     text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
     font-size: 1.1rem;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+/* Para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .cont h1 {
+        font-size: 3rem;
+    }
+
+    .cont img {
+        width: 40%;
+        max-width: 250px;
+    }
+
+    .cont button {
+        font-size: 1rem;
+        padding: 12px 30px;
+    }
+}
+
+/* Para pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+    .cont h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .cont img {
+        width: 70%;
+        max-width: 200px;
+        margin: 15px 0;
+    }
+
+    .cont button {
+        font-size: 0.9rem;
+        padding: 10px 25px;
+        margin: 10px;
+        max-width: 200px;
+    }
+
+    .imagenes {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .cont p, .imagenes p {
+        font-size: 1rem;
+    }
 }

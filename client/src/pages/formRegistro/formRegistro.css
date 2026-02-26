@@ -138,3 +138,70 @@
     color: #00ffff;
     font-family: 'Orbitron', sans-serif;
 }
+
+/* ===================== REGISTRO FORM RESPONSIVE ===================== */
+
+/* Para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .contRegistro {
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .contRegistro form {
+        width: 80%;
+        padding: 30px 25px;
+    }
+
+    .contRegistro h1 {
+        font-size: 36px;
+        margin-bottom: 25px;
+    }
+
+    .contRegistro input,
+    .contRegistro select {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .contRegistro button {
+        font-size: 15px;
+        padding: 12px;
+        width: 60%;
+    }
+}
+
+/* Para pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+    .contRegistro {
+        height: auto;
+        padding: 30px 15px;
+    }
+
+    .contRegistro form {
+        width: 95%;
+        padding: 25px 20px;
+    }
+
+    .contRegistro h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .contRegistro label {
+        font-size: 16px;
+    }
+
+    .contRegistro input,
+    .contRegistro select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .contRegistro button {
+        font-size: 14px;
+        padding: 10px;
+        width: 70%;
+        margin: 15px 0;
+    }
+}
