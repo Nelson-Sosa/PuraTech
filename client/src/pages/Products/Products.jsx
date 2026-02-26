@@ -102,12 +102,12 @@ export const Products = () => {
         <div className="product-card" key={producto._id}>
           {/* Imagen del producto */}
           <div className="image-container">
-            <img
-              src={producto.imageUrl} // Aquí usamos directamente la URL de Cloudinary
-              alt={producto.nombre}
-              className="product-image"
-            />
-          </div>
+  <img
+    src={producto.imageUrl || "/img/placeholder.png"}
+    alt={producto.nombre}
+    className="product-image"
+  />
+</div>
 
           {/* Información del producto */}
           <div className="product-info">
