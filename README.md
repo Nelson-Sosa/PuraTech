@@ -1,65 +1,89 @@
-🎮 GameMasters
+🎮 GameMasters – Aplicación Full Stack MERN
 
-Plataforma e-commerce para gestión y venta de productos tecnológicos, con autenticación basada en roles, panel administrativo y sistema de pagos integrado.
-🚀 Características
+🌐 Demo en producción: https: https://gamemasters-aqha.onrender.com
 
-🔐 Autenticación con JWT
 
-👥 Sistema de roles (admin / usuario)
+GameMasters es una aplicación web Full Stack tipo e-commerce desarrollada con el stack MERN (MongoDB, Express.js, React.js, Node.js).
 
-🛍 CRUD completo de productos
+El sistema implementa una API RESTful, autenticación segura con JWT (JSON Web Tokens), control de acceso basado en roles (RBAC), integración con servicios externos y arquitectura modular preparada para entorno de producción.
 
-🏷 Gestión de categorías
+Este proyecto demuestra experiencia práctica en desarrollo Full Stack, diseño de APIs seguras y escalables, e integración de servicios cloud.
 
-🚚 Gestión de proveedores
+🚀 Funcionalidades Principales
 
-🖼 Subida de imágenes (Cloudinary / Multer)
+Autenticación con JWT
 
-💳 Integración de pagos (Stripe)
+Autorización basada en roles (Admin / Usuario)
 
-🔎 Búsqueda global de productos
+CRUD completo de productos
 
-📦 Arquitectura Full Stack (MERN)
+Gestión de categorías y proveedores
 
-🛠 Tecnologías Utilizadas
+Subida de imágenes en la nube (Cloudinary)
+
+Integración de pagos con Stripe (Payment Intent API)
+
+Búsqueda global de productos
+
+SPA (Single Page Application) desarrollada en React
+
+Backend sirviendo build de producción
+
+🛠 Stack Tecnológico (Optimizado para ATS)
 Frontend
 
-React
-
-Axios
+React.js
 
 React Router DOM
 
-CSS personalizado
+Axios
+
+Hooks (useState, useEffect)
+
+Manejo de formularios con FormData (multipart/form-data)
+
+Arquitectura basada en componentes
+
+UI responsive
 
 Backend
 
 Node.js
 
-Express
+Express.js
 
-MongoDB + Mongoose
+MongoDB
 
-JWT
+Mongoose (ODM)
 
-Multer
+Diseño de API RESTful
 
-Cloudinary
+JWT Authentication
 
-Stripe
+Middleware personalizado
 
-📁 Estructura del Proyecto
-GameMasters/
-│
-├── client/              # Frontend React
-│   ├── src/
-│   └── build/
-│
-├── server/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── configuration/
-│   └── uploads/
-│
-└── README.md
+Role-Based Access Control (RBAC)
+
+Cloudinary (gestión de imágenes)
+
+Stripe API (procesamiento de pagos)
+
+Manejo de variables de entorno (.env)
+
+Control de errores HTTP (400, 401, 403)
+
+Conceptos Aplicados
+
+Patrón MVC
+
+Separación de responsabilidades
+
+Seguridad en APIs
+
+Arquitectura modular y escalable
+
+Integración de APIs externas
+
+Despliegue preparado para producción
+
+Control de versiones con Git
