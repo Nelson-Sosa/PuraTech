@@ -105,6 +105,7 @@ Manejo seguro de variables de entorno
 Control de errores HTTP estructurado
 
 ☁️ Integraciones Externas
+
 🖼 Cloudinary
 
 Almacenamiento escalable
