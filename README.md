@@ -29,6 +29,7 @@ Implementa autenticación segura con JWT, autorización basada en roles (RBAC), 
 📦 Backend sirviendo build de React en producción
 
 🛠 Stack Tecnológico
+
 🔹 Frontend
 
 React.js
@@ -91,3 +92,31 @@ GameMasters/
 │
 └── README.md
 ```
+🔐 Seguridad
+
+Autenticación con JSON Web Tokens
+
+Protección de rutas mediante middleware
+
+Role-Based Access Control (RBAC)
+
+Manejo seguro de variables de entorno
+
+Control de errores HTTP estructurado
+
+☁️ Integraciones Externas
+🖼 Cloudinary
+
+Almacenamiento escalable
+
+Optimización automática de imágenes
+
+Independencia del servidor físico
+
+💳 Stripe
+
+Creación de Payment Intents
+
+Comunicación segura backend → Stripe
+
+Preparado para entorno real
