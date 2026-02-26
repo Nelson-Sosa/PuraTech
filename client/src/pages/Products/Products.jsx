@@ -102,9 +102,9 @@ export const Products = () => {
                     <div className="product-card" key={producto._id}>
                         <div className="image-container">
                             <img
-                                src={`${API_URL}${producto.imageUrl}`}
-                                alt={producto.nombre}
-                            />
+  src={`${API_URL}/${producto.imageUrl.replace(/^\/?/, "")}`}
+  alt={producto.nombre}
+/>
                         </div>
 
                         <div className="product-info">
