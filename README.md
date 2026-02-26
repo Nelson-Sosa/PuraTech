@@ -20,3 +20,46 @@ Plataforma e-commerce para gestión y venta de productos tecnológicos, con aute
 🔎 Búsqueda global de productos
 
 📦 Arquitectura Full Stack (MERN)
+
+🛠 Tecnologías Utilizadas
+Frontend
+
+React
+
+Axios
+
+React Router DOM
+
+CSS personalizado
+
+Backend
+
+Node.js
+
+Express
+
+MongoDB + Mongoose
+
+JWT
+
+Multer
+
+Cloudinary
+
+Stripe
+
+📁 Estructura del Proyecto
+GameMasters/
+│
+├── client/              # Frontend React
+│   ├── src/
+│   └── build/
+│
+├── server/
+│   ├── controllers/
+│   ├── routes/
+│   ├── middlewares/
+│   ├── configuration/
+│   └── uploads/
+│
+└── README.md
