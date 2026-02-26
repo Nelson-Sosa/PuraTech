@@ -1,34 +1,31 @@
-/* Importa la fuente Orbitron */
+/* Fuente futurista estilo ciberpunk */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-.cont {
+.contHome {
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Fondo oscuro gamer */
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     color: #fff;
-    text-align: center;
     font-family: 'Orbitron', sans-serif;
+    text-align: center;
     padding: 20px;
-    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Título principal */
-.cont h1 {
-    font-size: 4rem;
+.contHome h1 {
+    font-size: 3rem;
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
     margin-bottom: 20px;
-    color: #0ff; /* Neón cyan */
-    text-shadow:
-        0 0 5px #0ff,
-        0 0 10px #0ff,
-        0 0 20px #0ff,
-        0 0 40px #0ff;
 }
 
-/* Botones estilo gamer */
-.cont button {
+/* Botones */
+.contHome button {
     background: linear-gradient(45deg, #ff00ff, #00ffff);
     border: none;
     padding: 15px 40px;
@@ -37,104 +34,41 @@
     color: #fff;
     border-radius: 50px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow:
-        0 0 5px #ff00ff,
-        0 0 10px #00ffff,
-        0 0 15px #ff00ff;
     margin: 15px;
+    box-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff, 0 0 15px #ff00ff;
+    transition: all 0.3s ease;
     max-width: 250px;
 }
 
-/* Hover efecto neón */
-.cont button:hover {
-    box-shadow:
-        0 0 10px #ff00ff,
-        0 0 20px #00ffff,
-        0 0 30px #ff00ff,
-        0 0 40px #00ffff;
+.contHome button:hover {
     transform: scale(1.05);
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
     background: linear-gradient(45deg, #00ffff, #ff00ff);
 }
 
 /* Imagen central */
-.cont img {
-    width: 25%;
+.contHome img {
+    width: 40%;
     max-width: 300px;
     height: auto;
     margin: 20px 0;
     border-radius: 15px;
-    box-shadow:
-        0 0 10px #0ff,
-        0 0 20px #0ff;
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
     transition: transform 0.3s ease;
 }
 
-.cont img:hover {
+.contHome img:hover {
     transform: scale(1.05);
 }
 
-/* Contenedor de varias imágenes */
-.imagenes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-/* Efecto de neón en textos secundarios */
-.cont p, .imagenes p {
-    color: #0ff;
-    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-    font-size: 1.1rem;
-}
-
-/* ===================== RESPONSIVE ===================== */
-
-/* Para pantallas medianas (tablets) */
+/* Media Queries */
 @media (max-width: 1024px) {
-    .cont h1 {
-        font-size: 3rem;
-    }
-
-    .cont img {
-        width: 40%;
-        max-width: 250px;
-    }
-
-    .cont button {
-        font-size: 1rem;
-        padding: 12px 30px;
-    }
+    .contHome h1 { font-size: 2.5rem; }
+    .contHome img { width: 50%; }
 }
 
-/* Para pantallas pequeñas (celulares) */
 @media (max-width: 600px) {
-    .cont h1 {
-        font-size: 2rem;
-        margin-bottom: 15px;
-    }
-
-    .cont img {
-        width: 70%;
-        max-width: 200px;
-        margin: 15px 0;
-    }
-
-    .cont button {
-        font-size: 0.9rem;
-        padding: 10px 25px;
-        margin: 10px;
-        max-width: 200px;
-    }
-
-    .imagenes {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .cont p, .imagenes p {
-        font-size: 1rem;
-    }
+    .contHome h1 { font-size: 2rem; }
+    .contHome img { width: 70%; }
+    .contHome button { width: 80%; padding: 12px; font-size: 1rem; }
 }
