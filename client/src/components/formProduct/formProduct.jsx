@@ -181,11 +181,11 @@ const FormProduct = () => {
       {errors.descripcion && <span className="error">{errors.descripcion}</span>}
     </div>
 
-    <div className="form-group">
-      <label>Imagen</label>
-      <input type="file" onChange={handleImageChange} />
-      {errors.imageUrl && <span className="error">{errors.imageUrl}</span>}
-    </div>
+   <div className="form-group">
+  <label>Imagen</label>
+  <input type="file" name="imageUrl" onChange={handleImageChange} />
+  {errors.imageUrl && <span className="error">{errors.imageUrl}</span>}
+</div>
 
     <button type="submit" className="btn-rgb">
       Guardar
