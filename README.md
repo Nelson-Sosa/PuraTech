@@ -71,24 +71,23 @@ Variables de entorno (.env)
 
 Manejo de errores HTTP (400, 401, 403)
 
-🏗 Arquitectura del Proyecto
+## 🏗 Arquitectura del Proyecto
 
-Estructura organizada por capas siguiendo buenas prácticas:
-
+```text
 GameMasters/
-│
 ├── server/
-│   ├── controllers/      # Lógica de negocio
-│   ├── routes/           # Definición de endpoints
-│   ├── middlewares/      # Autenticación y autorización
-│   ├── models/           # Esquemas de MongoDB (Mongoose)
-│   ├── configuration/    # Configuración de DB y servicios externos
-│   └── server.js         # Punto de entrada del backend
+│   ├── controllers/
+│   ├── routes/
+│   ├── middlewares/
+│   ├── models/
+│   ├── configuration/
+│   └── server.js
 │
 ├── client/
-│   ├── components/       # Componentes reutilizables
-│   ├── pages/            # Vistas principales
-│   ├── config/           # Configuración (API_URL)
+│   ├── components/
+│   ├── pages/
+│   ├── config/
 │   └── App.js
 │
 └── README.md
+```
