@@ -15,14 +15,14 @@ module.exports.agregarProducto = async (req, res) => {
       }
   
       // Crear el nuevo producto
-      const newProduct = await Product.create({
-        category,
-        nombre,
-        marca,
-        precio,
-        descripcion,
-        imageUrl: `/uploads/${req.file.filename}`// Guardar la URL de la imagen en la base de datos
-      });
+    const newProduct = await Product.create({
+    category,
+    nombre,
+    marca,
+    precio,
+    descripcion,
+    imageUrl: req.file ? `/uploads/${req.file.filename}` : '' // ⚡ Validación de seguridad
+});
 
       console.log("New Product:", newProduct);
       res.json(newProduct);
