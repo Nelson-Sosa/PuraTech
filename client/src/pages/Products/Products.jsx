@@ -83,78 +83,79 @@ export const Products = () => {
     };
 
     return (
-        <>
-        <header className="header-container">
-            <SearchBar 
-                setSearchResultados={setProduct} 
-                setSearchActive={setSearchActive} 
+       <>
+  <header className="header-container">
+    <SearchBar 
+      setSearchResultados={setProduct} 
+      setSearchActive={setSearchActive} 
+    />
+    <CustomNavigate />
+  </header>
+
+  <div className="products-wrapper">
+    <h1 className="category-title">
+      {searchActive ? "Resultados de búsqueda" : category}
+    </h1>
+
+    <div className="products-grid">
+      {Array.isArray(product) && product.map((producto) => (
+        <div className="product-card" key={producto._id}>
+          {/* Imagen del producto */}
+          <div className="image-container">
+            <img
+              src={producto.imageUrl} // Aquí usamos directamente la URL de Cloudinary
+              alt={producto.nombre}
+              className="product-image"
             />
-            <CustomNavigate />
-        </header>
+          </div>
 
-        <div className="products-wrapper">
-            <h1 className="category-title">
-                {searchActive ? "Resultados de búsqueda" : category}
-            </h1>
+          {/* Información del producto */}
+          <div className="product-info">
+            <h2>{producto.marca}</h2>
+            <p className="price">
+              {Number(producto.precio).toLocaleString("es-PY")} Gs.
+            </p>
+            <ul className="description-list">
+              {producto.descripcion &&
+                producto.descripcion.split('. ').map((item, index) => (
+                  <li key={index}>{item.trim()}</li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="products-grid">
-                {Array.isArray(product) && product.map((producto) => (
-                    <div className="product-card" key={producto._id}>
-                        <div className="image-container">
-                            <img
-  src={`${API_URL.replace(/\/$/, "")}/${producto.imageUrl.replace(/^\/+/, "")}`}
-  alt={producto.nombre}
-/>
-                        </div>
+          {/* Acciones del producto */}
+          <div className="product-actions">
+            {userRole === "admin" && (
+              <>
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDeleteClick(producto._id)}
+                >
+                  Eliminar
+                </button>
 
-                        <div className="product-info">
-                            <h2>{producto.marca}</h2>
-                            <p className="price">
-                            {Number(producto.precio).toLocaleString("es-PY")} Gs.
-                            </p>
-                            <ul className="description-list">
-                            {producto.descripcion &&
-                            producto.descripcion.split('. ').map((item, index) => (
-                            <li key={index}>{item.trim()}</li>
-    ))
-}
-</ul>
-                        </div>
+                <Link to={`/actualizar/product/${producto._id}`}>
+                  <button className="btn-update">Actualizar</button>
+                </Link>
+              </>
+            )}
 
-                        <div className="product-actions">
-                            {userRole === "admin" && (
-                                <>
-                                    <button
-                                        className="btn-delete"
-                                        onClick={() => handleDeleteClick(producto._id)}
-                                    >
-                                        Eliminar
-                                    </button>
-
-                                    <Link to={`/actualizar/product/${producto._id}`}>
-                                        <button className="btn-update">
-                                            Actualizar
-                                        </button>
-                                    </Link>
-                                </>
-                            )}
-
-                            <Link to="/create-payment-intent">
-                                <button className="btn-buy">Solicitar</button>
-                            </Link>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <Link to="/create-payment-intent">
+              <button className="btn-buy">Solicitar</button>
+            </Link>
+          </div>
         </div>
+      ))}
+    </div>
+  </div>
 
-        <Modal
-            show={showModal}
-            onClose={() => setShowModal(false)}
-            onConfirm={handleConfirmDelete}
-        >
-            <p>¿Está seguro de que desea eliminar este producto?</p>
-        </Modal>
-        </>
+  <Modal
+    show={showModal}
+    onClose={() => setShowModal(false)}
+    onConfirm={handleConfirmDelete}
+  >
+    <p>¿Está seguro de que desea eliminar este producto?</p>
+  </Modal>
+</>
     );
 };
