@@ -106,10 +106,10 @@
 
     /* Imagen principal */
     .cont > img {
-        width: 140px !important;
-        max-width: 140px !important;
+        width: 160px !important;
+        max-width: 160px !important;
         height: auto;
-        margin: 15px auto;
+        margin: 10px auto;
     }
 
     /* Contenedor de imágenes secundarias - apiladas vertical */
