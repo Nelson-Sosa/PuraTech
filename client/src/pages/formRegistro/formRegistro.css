@@ -153,8 +153,8 @@
 
     /* Formulario */
     .contRegistro form {
-        width: 100%;
-        max-width: 100%;
+        width: 80%;
+        max-width: 80%;
         padding: 25px 18px;
         margin-top: 30px;
     }
@@ -183,7 +183,7 @@
 
     /* Botón */
     .contRegistro button {
-        width: 100%;
+        width: 60%;
         font-size: 15px;
         padding: 14px;
         margin: 20px 0 10px 0;

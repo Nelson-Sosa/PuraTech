@@ -124,10 +124,10 @@
 
     /* Todas las imágenes secundarias igual tamaño */
     .imagenes img {
-        width: 95px !important;
-        max-width: 95px !important;
+        width: 50px !important;
+        max-width: 50px !important;
         height: auto;
-        
+        margin: 0 auto;
     }
 
     /* Botones */
