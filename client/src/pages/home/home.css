@@ -92,11 +92,11 @@
 
 
 
-/* ===================== HOME RESPONSIVE CELULAR FIX REAL ===================== */
+/* ===================== HOME RESPONSIVE CELULAR HORIZONTAL ===================== */
 @media (max-width: 600px) {
 
     .cont {
-        padding: 20px 15px;
+        padding: 20px 10px;
     }
 
     .cont h1 {
@@ -105,25 +105,27 @@
         margin-bottom: 15px;
     }
 
-    /* 🔥 TODAS las imágenes dentro de .cont */
-    .cont img {
-        width: 160px !important;
-        max-width: 160px !important;
-        height: auto;
+    /* Imagen principal */
+    .cont > img {
+        width: 130px !important;
+        max-width: 130px !important;
         margin: 15px auto;
     }
 
-    /* Contenedor imágenes */
+    /* 🔥 MANTENER HORIZONTAL */
     .imagenes {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;      /* ← horizontal */
+        justify-content: center;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
+        flex-wrap: wrap;          /* si no caben, bajan ordenadas */
     }
 
-    /* 🔥 Imágenes secundarias */
     .imagenes img {
-        width: 150px !important;
-        max-width: 150px !important;
+        width: 120px !important;
+        max-width: 120px !important;
+        height: auto;
     }
 
     .cont button {
@@ -136,7 +138,7 @@
 
     .cont p,
     .imagenes p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         padding: 0 10px;
     }
 }
