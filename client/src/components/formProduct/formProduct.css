@@ -208,18 +208,20 @@ button {
     padding: 20px 10px;
     min-height: auto; /* Ajusta altura automáticamente */
     box-sizing: border-box;
+    width: auto;
   }
 
   /* Título RGB */
   .titulo-rgb {
     font-size: 24px;
     margin-bottom: 20px;
+
   }
 
   /* Card del formulario */
   .contenedor form {
-    width: 95%;       /* Ocupa casi todo el ancho del móvil */
-    max-width: 400px; /* Para no estirarse demasiado */
+    width: 90%;       /* Ocupa casi todo el ancho del móvil */
+    max-width: 350px; /* Para no estirarse demasiado */
     padding: 25px 15px;
   }
 
@@ -246,7 +248,7 @@ button {
   /* Botones */
   .btn-rgb,
   .btn-view-categories {
-    width: 100%;
+    width: 50%;
     font-size: 14px;
     padding: 10px;
   }
