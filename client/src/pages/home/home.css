@@ -106,10 +106,10 @@
 
     /* Imagen principal */
     .cont > img {
-        width: 160px !important;
-        max-width: 160px !important;
+        width: 165px !important;
+        max-width: 165px !important;
         height: auto;
-        margin: 10px auto;
+        margin: 10px;
     }
 
     /* Contenedor de imágenes secundarias - apiladas vertical */
@@ -118,7 +118,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 15px;
+        gap: 10px;
         width: 100%;
     }
 
@@ -127,7 +127,7 @@
         width: 95px !important;
         max-width: 95px !important;
         height: auto;
-        margin: 0 auto;
+        
     }
 
     /* Botones */
