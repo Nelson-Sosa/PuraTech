@@ -139,69 +139,62 @@
     font-family: 'Orbitron', sans-serif;
 }
 
-/* ===================== REGISTRO FORM RESPONSIVE ===================== */
-
-/* Para pantallas medianas (tablets) */
-@media (max-width: 1024px) {
-    .contRegistro {
-        height: auto;
-        padding: 40px 20px;
-    }
-
-    .contRegistro form {
-        width: 75%;
-        padding: 30px 25px;
-    }
-
-    .contRegistro h1 {
-        font-size: 36px;
-        margin-bottom: 25px;
-    }
-
-    .contRegistro input,
-    .contRegistro select {
-        font-size: 15px;
-        padding: 10px;
-    }
-
-    .contRegistro button {
-        font-size: 15px;
-        padding: 12px;
-        width: 60%;
-    }
-}
-
-/* Para pantallas pequeñas (celulares) */
+/* ===================== REGISTRO FORM RESPONSIVE CELULAR FIX ===================== */
 @media (max-width: 600px) {
+    /* Contenedor principal */
     .contRegistro {
-        height: auto;
-        padding: 30px 15px;
+        height: auto;         /* Ajusta altura automáticamente */
+        padding: 20px 10px;   /* Más espacio lateral */
+        box-sizing: border-box;
     }
 
+    /* Formulario */
     .contRegistro form {
-        width: 80%;
-        padding: 25px 20px;
+        width: 95%;            /* Ocupa casi todo el ancho */
+        max-width: 400px;      /* No se estire demasiado */
+        padding: 25px 15px;
     }
 
+    /* Título */
     .contRegistro h1 {
-        font-size: 28px;
+        font-size: 26px;
         margin-bottom: 20px;
+        text-align: center;
+        line-height: 1.2;
     }
 
+    /* Labels */
     .contRegistro label {
-        font-size: 16px;
+        font-size: 14px;
+        margin-bottom: 5px;
     }
 
+    /* Inputs y selects */
     .contRegistro input,
     .contRegistro select {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    .contRegistro button {
+        width: 100%;
         font-size: 14px;
         padding: 10px;
-        width: 65%;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Botón */
+    .contRegistro button {
+        width: 80%;
+        max-width: 260px;
+        font-size: 14px;
+        padding: 12px;
         margin: 15px 0;
+    }
+
+    /* Contenedor del rol */
+    .contRegistro div label {
+        font-size: 14px;
+    }
+
+    .contRegistro div select {
+        font-size: 14px;
+        padding: 10px;
     }
 }
