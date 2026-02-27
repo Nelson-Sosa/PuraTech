@@ -208,7 +208,9 @@ button {
     padding: 20px 10px;
     min-height: auto; /* Ajusta altura automáticamente */
     box-sizing: border-box;
-    width: auto;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto; 
   }
 
   /* Título RGB */
