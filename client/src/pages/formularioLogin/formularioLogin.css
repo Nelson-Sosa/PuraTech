@@ -101,20 +101,27 @@
     100% { box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
 }
 
-/* ===================== LOGIN RESPONSIVE CELULAR ===================== */
+/* ===================== LOGIN RESPONSIVE CELULAR FIX REAL ===================== */
 @media (max-width: 600px) {
+
     .contLogin {
-        padding: 20px;
-        height: auto; /* Ajusta altura para que no se corte */
+        height: auto !important;
+        min-height: 100vh;
+        padding: 25px 15px;
+        overflow: visible !important;
+        justify-content: flex-start;
     }
 
     .contLogin form {
-        width: 90%;
-        padding: 20px;
+        width: 100% !important;
+        max-width: 350px;
+        padding: 25px 20px;
+        margin-top: 40px;
+        box-sizing: border-box;
     }
 
     .contLogin h1 {
-        font-size: 26px;
+        font-size: 24px;
         margin-bottom: 20px;
     }
 
@@ -122,16 +129,16 @@
         font-size: 14px;
     }
 
-    .contLogin input,
-    .contLogin select {
+    .contLogin input {
         font-size: 14px;
-        padding: 8px;
+        padding: 10px;
     }
 
     .contLogin button {
-        width: 80%;
+        width: 85%;
+        max-width: 220px;
         font-size: 14px;
-        padding: 10px;
-        margin: 15px 0;
+        padding: 12px;
+        margin-top: 15px;
     }
 }
