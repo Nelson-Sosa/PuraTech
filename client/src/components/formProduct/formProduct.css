@@ -208,8 +208,8 @@ button {
     padding: 20px 10px;
     min-height: auto; /* Ajusta altura automáticamente */
     box-sizing: border-box;
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto; 
   }
 
