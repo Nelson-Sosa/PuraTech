@@ -109,39 +109,54 @@
     }
 }
 
-/* ===================== HOME RESPONSIVE CELULAR ===================== */
+/* ===================== HOME RESPONSIVE CELULAR MEJORADO ===================== */
 @media (max-width: 600px) {
+
     .cont {
-        padding: 15px;
+        padding: 20px 15px;
     }
 
     .cont h1 {
-        font-size: 2rem; /* Reduce tamaño del título */
+        font-size: 1.9rem;
+        line-height: 1.2;
         margin-bottom: 15px;
     }
 
-    .cont img {
-        width: 40%; /* Imagen más grande pero proporcional */
-        max-width: none;
+    /* Imagen principal */
+    .cont > img {
+        width: 55%;
+        max-width: 180px;
+        margin: 15px 0;
     }
 
+    /* Botones */
     .cont button {
-        width: 80%; /* Botones ocupan más ancho */
-        font-size: 1rem;
+        width: 85%;
+        max-width: 280px;
+        font-size: 0.95rem;
         padding: 12px;
+        margin: 10px 0;
     }
 
+    /* Contenedor de imágenes */
     .imagenes {
-        flex-direction: column; /* Imágenes apiladas */
-        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
     }
 
+    /* Imágenes secundarias */
     .imagenes img {
-        width: 60%; /* Ajusta tamaño imágenes */
+        width: 65%;
+        max-width: 200px;
+        height: auto;
         margin: 0 auto;
     }
 
-    .cont p, .imagenes p {
-        font-size: 1rem;
+    .cont p,
+    .imagenes p {
+        font-size: 0.95rem;
+        padding: 0 10px;
     }
 }
