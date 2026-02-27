@@ -124,8 +124,8 @@
 
     /* Todas las imágenes secundarias igual tamaño */
     .imagenes img {
-        width: 80px !important;
-        max-width: 80px !important;
+        width: 95px !important;
+        max-width: 95px !important;
         height: auto;
         margin: 0 auto;
     }
@@ -136,7 +136,7 @@
         max-width: 260px;
         font-size: 0.95rem;
         padding: 12px;
-        margin: 10px 0;
+        margin: 15px;
     }
 
     /* Texto secundario */

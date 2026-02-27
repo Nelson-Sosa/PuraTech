@@ -144,7 +144,7 @@
     /* Contenedor principal */
     .contRegistro {
         height: auto;         /* Ajusta altura automáticamente */
-        padding: 20px 10px;   /* Más espacio lateral */
+       /* Más espacio lateral */
         box-sizing: border-box;
     }
 
