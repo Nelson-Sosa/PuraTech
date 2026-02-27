@@ -115,7 +115,7 @@
     /* Contenedor de imágenes secundarias - apiladas vertical */
     .imagenes {
         display: flex;
-        flex-direction: column;   /* ← vertical */
+        flex-direction: row;
         justify-content: center;
         align-items: center;
         gap: 15px;
@@ -124,8 +124,8 @@
 
     /* Todas las imágenes secundarias igual tamaño */
     .imagenes img {
-        width: 140px !important;
-        max-width: 140px !important;
+        width: 110px !important;
+        max-width: 110px !important;
         height: auto;
         margin: 0 auto;
     }
