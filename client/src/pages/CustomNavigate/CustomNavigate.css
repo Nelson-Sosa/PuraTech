@@ -34,7 +34,7 @@
 
     .cont-nav a {
         flex: none;               /* Quita flex de ancho automático */
-        width: 90%;               /* Ocupa casi todo el ancho del móvil */
+        width: 55%;               /* Ocupa casi todo el ancho del móvil */
         padding: 12px 0;          /* Más cómodo para tocar */
         text-align: center;
         font-size: 0.95rem;       /* Tamaño ligeramente más pequeño */
