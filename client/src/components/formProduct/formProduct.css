@@ -200,3 +200,59 @@ button {
   font-size: 12px;
   margin-top: 5px;
 }
+
+/* ===================== FORMULARIO CELULAR RESPONSIVE ===================== */
+@media (max-width: 600px) {
+  /* Contenedor principal */
+  .contenedor {
+    padding: 20px 10px;
+    min-height: auto; /* Ajusta altura automáticamente */
+    box-sizing: border-box;
+  }
+
+  /* Título RGB */
+  .titulo-rgb {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  /* Card del formulario */
+  .contenedor form {
+    width: 95%;       /* Ocupa casi todo el ancho del móvil */
+    max-width: 400px; /* Para no estirarse demasiado */
+    padding: 25px 15px;
+  }
+
+  /* Labels */
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  /* Inputs y selects */
+  .form-group input,
+  .form-group select,
+  .descripcion-textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Input file */
+  .form-group input[type="file"] {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  /* Botones */
+  .btn-rgb,
+  .btn-view-categories {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Error */
+  .error {
+    font-size: 12px;
+  }
+}
