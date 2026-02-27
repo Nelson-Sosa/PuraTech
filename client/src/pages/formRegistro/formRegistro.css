@@ -179,7 +179,7 @@
     }
 
     .contRegistro form {
-        width: 95%;
+        width: 80%;
         padding: 25px 20px;
     }
 
@@ -201,7 +201,7 @@
     .contRegistro button {
         font-size: 14px;
         padding: 10px;
-        width: 70%;
+        width: 65%;
         margin: 15px 0;
     }
 }

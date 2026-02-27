@@ -92,7 +92,6 @@
 
 
 
-/* ===================== HOME RESPONSIVE CELULAR HORIZONTAL ===================== */
 @media (max-width: 600px) {
 
     .cont {
@@ -107,27 +106,31 @@
 
     /* Imagen principal */
     .cont > img {
-        width: 120px !important;
-        max-width: 120px !important;
+        width: 140px !important;
+        max-width: 140px !important;
+        height: auto;
         margin: 15px auto;
     }
 
-    /* 🔥 MANTENER HORIZONTAL */
+    /* Contenedor de imágenes secundarias - apiladas vertical */
     .imagenes {
         display: flex;
-        flex-direction: row;      /* ← horizontal */
+        flex-direction: column;   /* ← vertical */
         justify-content: center;
         align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;          /* si no caben, bajan ordenadas */
+        gap: 15px;
+        width: 100%;
     }
 
+    /* Todas las imágenes secundarias igual tamaño */
     .imagenes img {
-        width: 100px !important;
-        max-width: 100px !important;
+        width: 140px !important;
+        max-width: 140px !important;
         height: auto;
+        margin: 0 auto;
     }
 
+    /* Botones */
     .cont button {
         width: 85%;
         max-width: 260px;
@@ -136,9 +139,11 @@
         margin: 10px 0;
     }
 
+    /* Texto secundario */
     .cont p,
     .imagenes p {
         font-size: 0.9rem;
         padding: 0 10px;
+        text-align: center;
     }
 }

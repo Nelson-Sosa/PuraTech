@@ -114,7 +114,7 @@
 
     .contLogin form {
         width: 100% !important;
-        max-width: 320px;
+        max-width: 340px;
         padding: 25px 20px;
         margin-top: 40px;
         box-sizing: border-box;
@@ -132,11 +132,11 @@
     .contLogin input {
         font-size: 14px;
         padding: 10px;
-        width: 75%;
+        width: 80%;
     }
 
     .contLogin button {
-        width: 85%;
+        width: 75%;
         max-width: 220px;
         font-size: 14px;
         padding: 12px;
