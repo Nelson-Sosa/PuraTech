@@ -23,9 +23,20 @@
   background-color: #6c6c6c;
 }
 
-@media (max-width: 768px) {
-  .cont-nav a {
-    flex: 1 1 45%;
-    text-align: center;
-  }
+/* ===================== NAV CELULAR RESPONSIVE ===================== */
+@media (max-width: 600px) {
+    .cont-nav {
+        flex-direction: column;   /* Links apilados verticalmente */
+        align-items: center;
+        gap: 12px;                /* Espacio entre botones */
+        margin-top: 15px;
+    }
+
+    .cont-nav a {
+        flex: none;               /* Quita flex de ancho automático */
+        width: 90%;               /* Ocupa casi todo el ancho del móvil */
+        padding: 12px 0;          /* Más cómodo para tocar */
+        text-align: center;
+        font-size: 0.95rem;       /* Tamaño ligeramente más pequeño */
+    }
 }
