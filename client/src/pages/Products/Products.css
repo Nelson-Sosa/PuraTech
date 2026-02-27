@@ -146,36 +146,73 @@
   box-shadow: 0 6px 10px rgba(0,0,0,0.25);
 }
 
-/* ===================== Responsive ===================== */
-@media screen and (max-width: 768px) {
-  .products-wrapper .product-info h2 {
-    font-size: 18px;
+/* ===================== PRODUCTOS CELULAR RESPONSIVE ===================== */
+@media (max-width: 600px) {
+
+  /* Contenedor principal */
+  .products-wrapper {
+    padding: 15px 10px;
   }
-  .products-wrapper .product-info .price {
+
+  /* Grid de productos */
+  .products-wrapper .products-grid {
+    grid-template-columns: 1fr; /* Una tarjeta por fila */
+    gap: 15px;
+  }
+
+  /* Tarjeta de producto */
+  .products-wrapper .product-card {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  /* Imagen del producto */
+  .products-wrapper .image-container {
+    height: 180px; /* Altura proporcional para celular */
+  }
+
+  .products-wrapper .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Información del producto */
+  .products-wrapper .product-info {
+    padding: 10px 15px;
+  }
+
+  .products-wrapper .product-info h2 {
     font-size: 16px;
   }
+
+  .products-wrapper .product-info .price {
+    font-size: 15px;
+  }
+
   .products-wrapper .product-info .description {
     font-size: 13px;
+    min-height: auto;
   }
+
+  /* Botones */
+  .products-wrapper .product-actions {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
   .products-wrapper .btn-delete,
   .products-wrapper .btn-update,
   .products-wrapper .btn-buy {
-    padding: 8px 20px;
+    width: 90%; /* Ocupan casi todo el ancho del celular */
     font-size: 13px;
+    padding: 10px 0;
   }
-  .products-wrapper .image-container img {
-    height: 200px;
+
+  /* Lista de descripción */
+  .description-list {
+    font-size: 13px;
+    padding-left: 15px;
   }
-}
-
-.description-list {
-  margin-top: 10px;
-  padding-left: 18px;
-  color: #444;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.description-list li {
-  margin-bottom: 4px;
 }
