@@ -90,26 +90,9 @@
     font-size: 1.1rem;
 }
 
-/* ===================== RESPONSIVE ===================== */
 
-/* Para pantallas medianas (tablets) */
-@media (max-width: 1024px) {
-    .cont h1 {
-        font-size: 3rem;
-    }
 
-    .cont img {
-        width: 40%;
-        max-width: 250px;
-    }
-
-    .cont button {
-        font-size: 1rem;
-        padding: 12px 30px;
-    }
-}
-
-/* ===================== HOME RESPONSIVE CELULAR MEJORADO ===================== */
+/* ===================== HOME RESPONSIVE CELULAR FIX REAL ===================== */
 @media (max-width: 600px) {
 
     .cont {
@@ -117,41 +100,38 @@
     }
 
     .cont h1 {
-        font-size: 1.9rem;
+        font-size: 1.8rem;
         line-height: 1.2;
         margin-bottom: 15px;
     }
 
-    /* Imagen principal */
-    .cont > img {
-        width: 55%;
-        max-width: 180px;
-        margin: 15px 0;
+    /* 🔥 TODAS las imágenes dentro de .cont */
+    .cont img {
+        width: 160px !important;
+        max-width: 160px !important;
+        height: auto;
+        margin: 15px auto;
     }
 
-    /* Botones */
-    .cont button {
-        width: 85%;
-        max-width: 280px;
-        font-size: 0.95rem;
-        padding: 12px;
-        margin: 10px 0;
-    }
-
-    /* Contenedor de imágenes */
+    /* Contenedor imágenes */
     .imagenes {
         flex-direction: column;
         align-items: center;
-        gap: 20px;
-        width: 100%;
+        gap: 15px;
     }
 
-    /* Imágenes secundarias */
+    /* 🔥 Imágenes secundarias */
     .imagenes img {
-        width: 65%;
-        max-width: 200px;
-        height: auto;
-        margin: 0 auto;
+        width: 150px !important;
+        max-width: 150px !important;
+    }
+
+    .cont button {
+        width: 85%;
+        max-width: 260px;
+        font-size: 0.95rem;
+        padding: 12px;
+        margin: 10px 0;
     }
 
     .cont p,
