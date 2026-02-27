@@ -209,7 +209,7 @@ button {
     min-height: auto; /* Ajusta altura automáticamente */
     box-sizing: border-box;
     width: 100%;
-    max-width: 600px;
+    max-width: 630px;
     margin: 0 auto; 
   }
 
@@ -222,7 +222,7 @@ button {
 
   /* Card del formulario */
   .contenedor form {
-    width: 90%;       /* Ocupa casi todo el ancho del móvil */
+    width: 80%;       /* Ocupa casi todo el ancho del móvil */
     max-width: 350px; /* Para no estirarse demasiado */
     padding: 25px 15px;
   }
