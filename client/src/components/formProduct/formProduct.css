@@ -220,13 +220,16 @@ button {
 
   }
 
-  /* Card del formulario */
-  .contenedor form {
-    width: 70%;       /* Ocupa casi todo el ancho del móvil */
-    max-width: 300px; /* Para no estirarse demasiado */
-    padding: 25px 15px;
-  }
-
+ .contenedor form {
+  width: 90%;         /* Ocupa el 90% del contenedor */
+  max-width: 350px;   /* No se haga más grande */
+  margin: 0 auto;     /* Centra horizontalmente */
+  padding: 20px;      /* Espacio interno */
+  box-sizing: border-box;
+  background-color: #fff; /* Fondo opcional */
+  border-radius: 10px;    /* Bordes redondeados */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
   /* Labels */
   .form-group label {
     font-size: 13px;
