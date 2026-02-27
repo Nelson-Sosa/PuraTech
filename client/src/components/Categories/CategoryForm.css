@@ -80,9 +80,41 @@
   text-shadow: 0 0 5px #ff1744;
 }
 
-/* 📱 Responsive */
+/* 📱 Responsive celulares */
 @media (max-width: 600px) {
+  /* Contenedor general */
+  .category-container {
+    padding: 20px 10px;  /* Reduce padding para pantallas pequeñas */
+    min-height: auto;    /* Ajusta altura según contenido */
+  }
+
+  /* Tarjeta gamer */
   .category-form {
-    padding: 30px 20px;
+    width: 90%;          /* Ocupa 90% del contenedor */
+    max-width: 350px;    /* No se haga demasiado grande */
+    padding: 25px 15px;  /* Reduce padding interno */
+    gap: 15px;           /* Reduce espacio entre elementos */
+  }
+
+  /* Título */
+  .form-title {
+    font-size: 20px;     /* Ajusta tamaño de fuente */
+  }
+
+  /* Inputs */
+  .category-form input {
+    font-size: 14px;     /* Ajusta tamaño de texto */
+    padding: 12px 15px;  /* Ajusta padding interno */
+  }
+
+  /* Botón */
+  .category-form button {
+    font-size: 14px;     /* Ajusta tamaño de texto */
+    padding: 12px;       /* Ajusta padding interno */
+  }
+
+  /* Error */
+  .category-form .error {
+    font-size: 12px;
   }
 }
