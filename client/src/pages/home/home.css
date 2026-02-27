@@ -121,7 +121,7 @@
     }
 
     .cont img {
-        width: 70%; /* Imagen más grande pero proporcional */
+        width: 40%; /* Imagen más grande pero proporcional */
         max-width: none;
     }
 
@@ -137,7 +137,7 @@
     }
 
     .imagenes img {
-        width: 80%; /* Ajusta tamaño imágenes */
+        width: 60%; /* Ajusta tamaño imágenes */
         margin: 0 auto;
     }
 
