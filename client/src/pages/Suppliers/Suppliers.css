@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 /* ===================== CONTENEDOR PRINCIPAL ===================== */
-/* Contenedor y tabla principal (desktop) */
 .cont-supplier {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 25px;
+    max-width: 100%;
+    padding: 15px; /* Menos padding en general */
     margin: 0 auto;
     border-radius: 15px;
     background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
@@ -13,6 +14,7 @@
     font-family: 'Orbitron', sans-serif;
     color: #fff;
     position: relative;
+    box-sizing: border-box; /* Evita overflow por padding */
 }
 
 .table-wrapper {
@@ -50,12 +52,16 @@
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 /* ================= MOBILE STACK TABLE ================= */
 @media screen and (max-width: 768px) {
+  .cont-supplier {
+      padding: 10px;
+      border-radius: 0; /* Opcional: ocupa todo el ancho */
+  }
 
-  /* Tabla se vuelve vertical */
   .cont-supplier table, 
   .cont-supplier thead, 
   .cont-supplier tbody, 
@@ -66,34 +72,38 @@
       width: 100%;
   }
 
-  /* Ocultar encabezados originales */
   .cont-supplier thead {
       display: none;
   }
 
-  /* Cada celda se convierte en fila con etiqueta */
   .cont-supplier td {
       position: relative;
       padding-left: 50%;
+      padding-top: 10px;
+      padding-bottom: 10px;
       text-align: left;
       white-space: normal;
       border-bottom: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 10px;
-    }
+  }
 
   .cont-supplier td::before {
       content: attr(data-label);
       position: absolute;
       left: 16px;
+      top: 10px;
       width: 45%;
-      padding-right: 10px;
       font-weight: bold;
       color: #00ffff;
       text-transform: uppercase;
   }
 
+  /* Botones ocupan todo el ancho y alineados */
   .btn-delete, .btn-edit {
-      width: 100%;
-      margin: 5px 0;
+      width: 90%;
+      margin: 5px auto;
+      display: block;
+      text-align: center;
+      padding: 10px 0;
   }
 }
