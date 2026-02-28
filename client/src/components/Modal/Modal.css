@@ -10,13 +10,13 @@
     justify-content: center;
     backdrop-filter: blur(5px);
 }
-.modal{
-    background: white;
+.modal {
+    background: #1a1a1a; /* mismo estilo oscuro */
     padding: 20px;
     border-radius: 8px;
     width: 300px;
     text-align: center;
-   
+    color: #fff; /* texto visible */
 }
 .modal-cont{
     margin-bottom: 20px;
