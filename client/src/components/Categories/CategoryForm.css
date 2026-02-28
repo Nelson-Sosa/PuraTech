@@ -1,13 +1,13 @@
 /* 🔥 CONTENEDOR GENERAL */
 .category-container {
-  min-height: 90vh;
+  min-height: 100vh; /* 🔥 Mejor que 90vh */
   display: flex;
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at top, #0f2027, #0a0f1a);
   padding: 40px 20px;
+  box-sizing: border-box;
 }
-
 /* 🎮 TARJETA GAMER */
 .category-form {
   background: rgba(20, 20, 20, 0.9);
@@ -22,6 +22,8 @@
   box-shadow: 0 0 20px #00ff99;
   border: 1px solid #00ff99;
   text-align: center;
+
+  box-sizing: border-box; /* 🔥 MUY IMPORTANTE */
 }
 
 /* 🏆 TÍTULO */
@@ -83,20 +85,33 @@
 /* 📱 Responsive */
 @media (max-width: 600px) {
 
+  .category-container {
+    padding: 20px 10px;
+    align-items: flex-start; /* 🔥 Evita problemas de altura */
+  }
+
   .category-form {
-    width: 90%;
-    max-width: 350px;
+    width: 100%;
+    max-width: 100%;
     padding: 25px 15px;
     gap: 15px;
   }
 
-  .category-form input {
+  .category-form input,
+  .category-form button {
     width: 100%;
-    max-width: 100%;      /* 🔥 Muy importante */
+    max-width: 100%;
     box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .category-form input {
     font-size: 14px;
-    padding: 12px 15px;
-    min-width: 0;         /* 🔥 SOLUCIÓN FLEXBOX */
+    padding: 12px;
+  }
+
+  .form-title {
+    font-size: 18px;
   }
 
 }

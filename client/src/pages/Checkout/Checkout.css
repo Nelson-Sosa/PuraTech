@@ -1,17 +1,21 @@
 .payment-container {
-  max-width: 100%;      /* Limita el ancho para que no se vea gigante */
-      /* Centrado horizontal y margen superior */
-  padding: 30px 25px;    /* Espaciado interno */
-  background: linear-gradient(145deg, #1e1e2f, #2a2a40); /* Gradiente moderno tipo gamer/tech */   /* Bordes redondeados */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35); /* Sombra suave */
-  color: #fff;           /* Texto claro sobre fondo oscuro */
-  font-family: 'Inter', sans-serif; /* Tipografía moderna */
+  width: 100%;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background: linear-gradient(145deg, #1e1e2f, #2a2a40);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 600px;          /* Espaciado entre elementos hijos */
-}
 
+  /* 🔥 CAMBIO CLAVE */
+  min-height: 300px;
+  height: auto;
+  box-sizing: border-box;
+}
 .payment-container div {
   text-align: center;
   font-size: 1rem;
@@ -42,9 +46,21 @@
 }
 
 /* Ajuste de responsividad */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
+
   .payment-container {
+    width: 95%;
     padding: 20px 15px;
     margin: 20px auto;
+    gap: 15px;
   }
+
+  .payment-container div {
+    font-size: 14px;
+  }
+
+  .payment-container .loading {
+    font-size: 1rem;
+  }
+
 }
