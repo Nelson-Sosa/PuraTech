@@ -67,25 +67,25 @@ const Suppliers = () => {
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          {suppliers.map((sup, idx) => (
-            <tr key={idx}>
-              <td>{sup.nombre}</td>
-              <td>{sup.apellido}</td>
-              <td>{sup.ruc}</td>
-              <td>{sup.telefono}</td>
-              <td>{sup.correo}</td>
-              <td>{sup.ciudad}</td>
-              <td>{sup.codigoPostal}</td>
-              <td>
-                <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Eliminar</button>
-                <Link to={`/edit/supplier/${sup._id}`}>
-                  <button className="btn-edit">Editar</button>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+      <tbody>
+        {suppliers.map((sup, idx) => (
+          <tr key={idx}>
+            <td data-label="Nombre">{sup.nombre}</td>
+            <td data-label="Apellido">{sup.apellido}</td>
+            <td data-label="RUC">{sup.ruc}</td>
+            <td data-label="Teléfono">{sup.telefono}</td>
+            <td data-label="Correo">{sup.correo}</td>
+            <td data-label="Ciudad">{sup.ciudad}</td>
+            <td data-label="Código Postal">{sup.codigoPostal}</td>
+            <td data-label="Acciones">
+              <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Eliminar</button>
+              <Link to={`/edit/supplier/${sup._id}`}>
+                <button className="btn-edit">Editar</button>
+              </Link>
+            </td>
+          </tr>
+        ))}
+      </tbody>
       </table>
 </div>
       <Modal
