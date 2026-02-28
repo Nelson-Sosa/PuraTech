@@ -3,21 +3,23 @@
 .cont-supplier {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+    /* 🔥 CAMBIO CLAVE */
+    align-items: stretch;  /* Antes estaba center */
+
     width: 100%;
     min-height: 550px;
     padding: 25px;
     margin: 0 auto;
     border-radius: 15px;
     background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.3);
     color: #fff;
     font-family: 'Orbitron', sans-serif;
     position: relative;
 
-    /* 🔥 CAMBIO IMPORTANTE */
     overflow-x: auto;
-    overflow-y: visible;
 }
 /* Agregar efecto de “luz pulsante” al fondo */
 .cont-supplier::before {
@@ -39,14 +41,12 @@
 
 /* ===================== TABLA ===================== */
 .cont-supplier table {
-    width: 100%;              /* Usa todo el ancho disponible */
-    min-width: 700px;         /* 🔥 Clave: evita que se comprima en celular */
+    width: 100%;
     border-collapse: collapse;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
     margin: 10px 0;
-    position: relative;       /* 🔥 Mejor que usar z-index suelto */
 }
 
 /* Encabezados */
@@ -116,7 +116,6 @@
 
 
 
-
 @media screen and (max-width: 768px) {
 
     .cont-supplier {
@@ -125,7 +124,9 @@
     }
 
     .cont-supplier table {
-        min-width: 700px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap; /* 🔥 Evita que columnas se partan */
         font-size: 13px;
     }
 
