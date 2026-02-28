@@ -96,7 +96,7 @@ const Suppliers = () => {
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}
       >
-        <p>¿Are you sure you want to remove this provider?</p>
+        <p>¿Estas seguro de que quieres eliminar este proveedor?</p>
       </Modal>
     </div>
   );

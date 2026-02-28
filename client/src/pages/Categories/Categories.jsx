@@ -52,11 +52,10 @@ const Categories = () => {
       )}
 
       {error && <p className="error">{error}</p>}
-
-      <ul className="categories-list">
+<ul className="categories-list">
   {categories.map((cat) => (
-    <li key={cat._id}>
-      {cat.name}  {/* ✅ usa 'name' */}
+    <li key={cat._id} className="category-item">
+      <span>{cat.name}</span>
       {userRole === "admin" && (
         <button
           className="btndelete"

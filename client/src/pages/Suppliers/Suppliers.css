@@ -28,7 +28,7 @@
     font-weight: bold;
     text-align: center;
     transition: 0.3s;
-    width: 30%;
+    width: 20%;
 }
 
 .cont-supplier .btn:hover {
@@ -122,6 +122,7 @@
       width: 45%;
       padding: 12px 0;
       margin-bottom: 10px;
+    overflow-x: auto; /* Permite scroll si algo se sale */
   }
 
   .cont-supplier table, 
@@ -147,6 +148,7 @@
       white-space: normal;
       border-bottom: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 10px;
+      box-sizing: border-box; /* Evita overflow */
   }
 
   .cont-supplier td::before {
