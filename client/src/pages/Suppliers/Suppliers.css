@@ -28,6 +28,7 @@
     font-weight: bold;
     text-align: center;
     transition: 0.3s;
+    width: 30%;
 }
 
 .cont-supplier .btn:hover {
@@ -67,15 +68,49 @@
 }
 
 /* BOTONES ACCIONES */
-.btn-delete, .btn-edit {
-    padding: 8px 20px;
-    margin: 3px;
-    border-radius: 5px;
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Para que se acomoden en móvil */
+    justify-content: flex-start;
+}
+/* Botón eliminar */
+.btn-delete {
+    flex: 1 1 45%;
+    padding: 10px 0;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    box-sizing: border-box;
+    background-color: #ff007f;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
 }
 
+/* Hover eliminar */
+.btn-delete:hover {
+    background-color: #e60073;
+}
+/* Botón editar (ahora sobre el Link) */
+.btn-edit {
+    flex: 1 1 45%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #00ffff;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none; /* Importante para Link */
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #0ff;
+}
 /* ================= MOBILE ================= */
 @media screen and (max-width: 768px) {
   .cont-supplier {
@@ -84,7 +119,7 @@
   }
 
   .cont-supplier .btn {
-      width: 100%;
+      width: 30%;
       padding: 12px 0;
       margin-bottom: 10px;
   }
@@ -124,13 +159,14 @@
       color: #00ffff;
       text-transform: uppercase;
   }
+  .actions {
+        flex-direction: column;
+    }
+      .btn-delete,
+    .btn-edit {
+        width: 100%;
+        flex: unset;
+    }
 
-  /* Botones dentro de tabla ocupan todo el ancho */
-  .btn-delete, .btn-edit {
-      width: 90%;
-      margin: 5px auto;
-      display: block;
-      text-align: center;
-      padding: 10px 0;
-  }
+
 }

@@ -77,12 +77,15 @@ const Suppliers = () => {
             <td data-label="Correo">{sup.correo}</td>
             <td data-label="Ciudad">{sup.ciudad}</td>
             <td data-label="Código Postal">{sup.codigoPostal}</td>
-            <td data-label="Acciones">
-              <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Eliminar</button>
-              <Link to={`/edit/supplier/${sup._id}`}>
-                <button className="btn-edit">Editar</button>
-              </Link>
-            </td>
+           <td data-label="Acciones">
+                  <div className="actions">
+                    <button className="btn-delete" onClick={() => handleDeleteClick(sup._id)}>Eliminar</button>
+    
+                    <Link to={`/edit/supplier/${sup._id}`} className="btn-edit">
+                              Editar
+                    </Link>
+                  </div>
+                  </td>
           </tr>
         ))}
       </tbody>
