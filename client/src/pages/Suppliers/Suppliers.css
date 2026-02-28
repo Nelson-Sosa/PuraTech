@@ -129,24 +129,18 @@
     }
 }
 
-/* ===================== WRAPPER PARA TABLA ===================== */
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;   /* 🔥 Permite scroll horizontal */
-    z-index: 1;
-}
+
 
 /* ===================== RESPONSIVE CELULAR ===================== */
 @media screen and (max-width: 768px) {
-
     .cont-supplier {
         padding: 15px;
         min-height: auto;
-        overflow: visible;  /* 🔥 IMPORTANTE: evita que recorte */
     }
 
     .cont-supplier table {
-        min-width: 650px;   /* 🔥 Fuerza ancho mínimo */
+        width: 100%;
+        min-width: 700px;   /* 🔥 Esto es clave */
         font-size: 13px;
     }
 
