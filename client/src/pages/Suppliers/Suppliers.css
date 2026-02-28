@@ -14,9 +14,11 @@
     color: #fff;
     font-family: 'Orbitron', sans-serif;
     position: relative;
-    overflow: hidden;
-}
 
+    /* 🔥 CAMBIO IMPORTANTE */
+    overflow-x: auto;
+    overflow-y: visible;
+}
 /* Agregar efecto de “luz pulsante” al fondo */
 .cont-supplier::before {
     content: "";
@@ -37,14 +39,14 @@
 
 /* ===================== TABLA ===================== */
 .cont-supplier table {
-    width: 95%;
+    width: 100%;              /* Usa todo el ancho disponible */
+    min-width: 700px;         /* 🔥 Clave: evita que se comprima en celular */
     border-collapse: collapse;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-    z-index: 1; /* Para estar sobre el fondo animado */
-    margin: 10px;
+    margin: 10px 0;
+    position: relative;       /* 🔥 Mejor que usar z-index suelto */
 }
 
 /* Encabezados */
@@ -111,40 +113,23 @@
     box-shadow: 0 0 15px #00bfff, 0 0 25px #1e90ff, 0 0 35px #66ffff;
 }
 
-/* ===================== RESPONSIVE ===================== */
+
+
+
+
 @media screen and (max-width: 768px) {
+
     .cont-supplier {
         padding: 15px;
         min-height: auto;
     }
 
     .cont-supplier table {
-        width: 100%;
-        font-size: 12px;
-    }
-
-    .btn-delete, .btn-edit {
-        padding: 6px 12px;
-        font-size: 13px;
-    }
-}
-
-
-
-/* ===================== RESPONSIVE CELULAR ===================== */
-@media screen and (max-width: 768px) {
-    .cont-supplier {
-        padding: 15px;
-        min-height: auto;
-    }
-
-    .cont-supplier table {
-        width: 100%;
-        min-width: 700px;   /* 🔥 Esto es clave */
+        min-width: 700px;
         font-size: 13px;
     }
 
-    .btn-delete, 
+    .btn-delete,
     .btn-edit {
         padding: 6px 10px;
         font-size: 12px;
