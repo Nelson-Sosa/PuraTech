@@ -1,28 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-/* ===================== CONTENEDOR PRINCIPAL ===================== */
+/* CONTENEDOR PRINCIPAL */
 .cont-supplier {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 100%;
-    padding: 15px; /* Menos padding en general */
-    margin: 0 auto;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    padding: 20px;
+    margin: 0;
     border-radius: 15px;
     background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
     box-shadow: 0 0 20px rgba(255,0,255,0.5), 0 0 30px rgba(0,255,255,0.3);
     font-family: 'Orbitron', sans-serif;
     color: #fff;
-    position: relative;
-    box-sizing: border-box; /* Evita overflow por padding */
+    box-sizing: border-box;
 }
 
+/* BOTÓN AGREGAR */
+.cont-supplier .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-bottom: 15px;
+    background-color: #00ffff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.cont-supplier .btn:hover {
+    background-color: #0ff;
+    color: #000;
+}
+
+/* TABLE WRAPPER */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    flex: 1; /* Ocupa todo el espacio disponible */
 }
 
+/* TABLA */
 .cont-supplier table {
     width: 100%;
     border-collapse: collapse;
@@ -45,7 +66,7 @@
     color: #ff00ff;
 }
 
-/* Botones */
+/* BOTONES ACCIONES */
 .btn-delete, .btn-edit {
     padding: 8px 20px;
     margin: 3px;
@@ -55,11 +76,17 @@
     box-sizing: border-box;
 }
 
-/* ================= MOBILE STACK TABLE ================= */
+/* ================= MOBILE ================= */
 @media screen and (max-width: 768px) {
   .cont-supplier {
       padding: 10px;
-      border-radius: 0; /* Opcional: ocupa todo el ancho */
+      border-radius: 0;
+  }
+
+  .cont-supplier .btn {
+      width: 100%;
+      padding: 12px 0;
+      margin-bottom: 10px;
   }
 
   .cont-supplier table, 
@@ -98,7 +125,7 @@
       text-transform: uppercase;
   }
 
-  /* Botones ocupan todo el ancho y alineados */
+  /* Botones dentro de tabla ocupan todo el ancho */
   .btn-delete, .btn-edit {
       width: 90%;
       margin: 5px auto;
