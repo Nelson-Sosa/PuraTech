@@ -99,7 +99,7 @@
   border-top: 1px solid #e0e0e0;
 }
 
-.products-wrapper .btn-delete,
+.products-wrapper .btn_delete,
 .products-wrapper .btn-update,
 .products-wrapper .btn-buy {
   padding: 10px 30px;
@@ -114,11 +114,11 @@
 }
 
 /* Botón Eliminar */
-.products-wrapper .btn-delete {
+.products-wrapper .btn_delete {
   background: linear-gradient(145deg, #f72222, #ff4b4b);
   color: #fff;
 }
-.products-wrapper .btn-delete:hover {
+.products-wrapper .btn_delete:hover {
   background: linear-gradient(145deg, #fe8b8b, #ffcccc);
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 6px 10px rgba(0,0,0,0.2);
@@ -157,7 +157,7 @@
   .products-wrapper .product-info .description {
     font-size: 13px;
   }
-  .products-wrapper .btn-delete,
+  .products-wrapper .btn_delete,
   .products-wrapper .btn-update,
   .products-wrapper .btn-buy {
     padding: 8px 20px;

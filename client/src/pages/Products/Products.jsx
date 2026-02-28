@@ -128,7 +128,7 @@ export const Products = () => {
             {userRole === "admin" && (
               <>
                 <button
-                  className="btn-delete"
+                  className="btn_delete"
                   onClick={() => handleDeleteClick(producto._id)}
                 >
                   Eliminar
