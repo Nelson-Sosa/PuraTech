@@ -162,7 +162,7 @@
       text-transform: uppercase;
   }
   .actions {
-        flex-direction: column;
+        flex-direction: row;
     }
       .btn-delete,
     .btn-edit {
