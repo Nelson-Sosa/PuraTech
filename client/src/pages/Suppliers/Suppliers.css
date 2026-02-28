@@ -128,3 +128,30 @@
         font-size: 13px;
     }
 }
+/* 🔥 Hacer la tabla scrolleable en móvil */
+@media screen and (max-width: 768px) {
+
+    .cont-supplier {
+        padding: 15px;
+        min-height: auto;
+    }
+
+    .cont-supplier table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;   /* 🔥 Permite scroll horizontal */
+        white-space: nowrap; /* 🔥 Evita que el texto se rompa */
+        font-size: 13px;
+    }
+
+    .cont-supplier th,
+    .cont-supplier td {
+        padding: 10px;
+    }
+
+    .btn-delete,
+    .btn-edit {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
