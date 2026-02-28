@@ -59,7 +59,7 @@ const Categories = () => {
       {cat.name}  {/* ✅ usa 'name' */}
       {userRole === "admin" && (
         <button
-          className="btn-delete"
+          className="btndelete"
           onClick={() => handleDeleteCategory(cat._id)}
         >
           Eliminar

@@ -46,7 +46,7 @@
 }
 
 /* Botón de eliminar */
-.category-item .btn-delete {
+.category-item .btndelete {
   background: #e53935;
   color: white;
   border: none;
@@ -57,7 +57,7 @@
   transition: all 0.3s ease;
 }
 
-.category-item .btn-delete:hover {
+.category-item .btndelete:hover {
   background: #d32f2f;
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
