@@ -10,7 +10,7 @@ body {
 /* 🎮 CONTENEDOR PRINCIPAL */
 .categories-container {
   width: 100%;
-  max-width: 1200px; /* 🔥 límite elegante en PC */
+  max-width: 1000px; /* 🔥 límite elegante en PC */
   margin: 40px auto;
   padding: 30px 20px;
 
