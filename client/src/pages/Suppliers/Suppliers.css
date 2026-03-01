@@ -30,7 +30,7 @@
     width: 25%;
 }
 
-.cont-supplier .btn-proveedor:hover {
+.btn-proveedor:hover {
     background-color: #0ff;
     color: #000;
 }
