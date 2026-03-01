@@ -8,7 +8,6 @@
     min-height: 100vh; /* Ocupa toda la altura de la pantalla */
     padding: 20px;
     margin: 0;
-    border-radius: 15px;
     background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
     box-shadow: 0 0 20px rgba(255,0,255,0.5), 0 0 30px rgba(0,255,255,0.3);
     font-family: 'Orbitron', sans-serif;
