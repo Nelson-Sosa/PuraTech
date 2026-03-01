@@ -16,6 +16,7 @@
     min-height: 100vh; /* 🔥 ocupa toda la pantalla */
     height: auto; /* 🔥 elimina altura fija */
     box-sizing: border-box;
+    
 }
 
 .targ-cont h1 {
@@ -33,7 +34,7 @@
     border-radius: 10px;
     background-color: #fff;
     box-sizing: border-box;
-    height: 50%;
+    
 }
 
 .targ-cont form button {
@@ -67,7 +68,6 @@
 @media (max-width: 600px) {
 
   .targ-cont{
-   height: 50%;
    display: flex;
    justify-content: center;
    align-items: center;

@@ -1,6 +1,6 @@
 .payment-container {
   width: 100%;
-  min-height: 100vh;
+  
   padding: 40px 20px;
 
   background: linear-gradient(145deg, #1e1e2f, #2a2a40);
@@ -10,6 +10,7 @@
   align-items: center;
 
   box-sizing: border-box;
+  height: 50%;
 }
 .payment-container div {
   text-align: center;
@@ -49,6 +50,7 @@
     padding: 20px 15px;
     margin: 0;
     border-radius: 0;
+    height: 50%;
   }
 
   .targ-cont {
