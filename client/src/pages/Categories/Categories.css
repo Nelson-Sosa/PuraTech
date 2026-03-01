@@ -1,6 +1,6 @@
 /* Contenedor principal */
 .categories-container {
-  max-width: 1000px;
+  max-width: 100%;
   margin: 20px auto;
   padding: 20px;
   background: #1a1a1a;
@@ -8,6 +8,7 @@
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(0, 255, 150, 0.2);
   font-family: 'Orbitron', sans-serif; /* estilo gamer */
+  height: 100vh;
 }
 
 /* Título */
