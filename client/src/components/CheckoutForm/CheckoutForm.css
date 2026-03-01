@@ -13,8 +13,8 @@
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 
-    min-height: 50vh; /* 🔥 ocupa toda la pantalla */
-    height: auto; /* 🔥 elimina altura fija */
+    
+    height: 50vh; /* 🔥 elimina altura fija */
     box-sizing: border-box;
     
 }
