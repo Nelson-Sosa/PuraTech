@@ -17,7 +17,7 @@
 }
 
 /* BOTÓN AGREGAR */
-.cont-supplier .btn {
+.cont-supplier .btn-proveedor {
     display: inline-block;
     padding: 12px 25px;
     margin-bottom: 15px;
@@ -118,7 +118,7 @@
       border-radius: 0;
   }
 
-  .cont-supplier .btn {
+  .cont-supplier .btn-proveedor {
       width: 45%;
       padding: 12px 0;
       margin-bottom: 10px;

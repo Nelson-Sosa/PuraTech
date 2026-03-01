@@ -52,7 +52,7 @@ const Suppliers = () => {
 
   return (
     <div className="cont-supplier">
-      <Link to="/add/suppliers" className="btn">Agregar Proveedor</Link>
+      <Link to="/add/suppliers" className="btn-proveedor">Agregar Proveedor</Link>
       <div className="table-wrapper">
       <table>
         <thead>
