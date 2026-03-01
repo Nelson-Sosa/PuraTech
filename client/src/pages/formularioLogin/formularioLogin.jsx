@@ -49,7 +49,10 @@ const FormularioLogin = ({ setLogin }) => {
   };
 
   return (
-    <div className="contLogin" style={{ backgroundImage: `url(${backgroundImage1})` }}> 
+    <div 
+  className="contLogin" 
+  style={{ backgroundImage: "url('/img/login-bg.webp')" }}
+>
       <h1>Login</h1>
       <form onSubmit={procesaLogin}>
         <div>
