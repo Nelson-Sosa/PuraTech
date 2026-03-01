@@ -36,7 +36,7 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   return (
     <div className="searchBarContain">
       <div className="logo-container">
-        <img src="/img/GameMastersLogo-.png" alt="Logo" />
+        <img src="/img/GameMastersLogo-.webp" alt="Logo" />
       </div>
 
       <form className="search-form" onSubmit={productSearch}>
