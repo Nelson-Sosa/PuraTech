@@ -27,10 +27,10 @@
     font-weight: bold;
     text-align: center;
     transition: 0.3s;
-    width: 15%;
+    width: 25%;
 }
 
-.cont-supplier .btn:hover {
+.cont-supplier .btn-proveedor:hover {
     background-color: #0ff;
     color: #000;
 }
