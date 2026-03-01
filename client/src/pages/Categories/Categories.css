@@ -1,81 +1,111 @@
-/* Contenedor principal */
-.categories-container {
-  max-width: 100%;
-  margin: 20px auto;
-  padding: 20px;
-  background: #1a1a1a;
-  color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0, 255, 150, 0.2);
-  font-family: 'Orbitron', sans-serif; /* estilo gamer */
-  height: 100vh;
+/* 🔥 Reset recomendado */
+* {
+  box-sizing: border-box;
 }
 
-/* Título */
+body {
+  margin: 0;
+}
+
+/* 🎮 CONTENEDOR PRINCIPAL */
+.categories-container {
+  width: 100%;
+  max-width: 1200px; /* 🔥 límite elegante en PC */
+  margin: 40px auto;
+  padding: 30px 20px;
+
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 255, 150, 0.2);
+
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* 🏆 TÍTULO */
 .categories-container h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-size: 28px;
   color: #4caf50;
   text-shadow: 0 0 10px #4caf50;
 }
 
-/* Lista de categorías */
+/* 📦 GRID DE CATEGORÍAS */
 .categories-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+
   list-style: none;
   padding: 0;
-  margin-top: 10px;
+  margin: 0;
 }
 
-/* Cada item de categoría */
+/* 🎯 ITEM INDIVIDUAL */
 .category-item {
   background: #222;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 18px;
+  border-radius: 14px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+
   transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 255, 150, 0.2);
+
+  word-break: break-word; /* 🔥 evita que texto largo rompa */
 }
 
 .category-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(0, 255, 150, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 0 25px rgba(0, 255, 150, 0.4);
 }
 
-/* Botón de eliminar */
+/* 🗑 BOTÓN ELIMINAR */
 .category-item .btndelete {
   background: #e53935;
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   cursor: pointer;
   font-weight: bold;
+  white-space: nowrap;
+
   transition: all 0.3s ease;
 }
 
 .category-item .btndelete:hover {
   background: #d32f2f;
   transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
 }
 
-/* Media queries para móviles */
+/* 📱 RESPONSIVE CELULAR */
 @media (max-width: 600px) {
+
+  .categories-container {
+    margin: 0;
+    padding: 20px 15px;
+    border-radius: 0; /* 🔥 ocupa toda la pantalla */
+  }
+
   .categories-list {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
 
-  .category-form {
+  .category-item {
     flex-direction: column;
+    align-items: flex-start;
   }
 
-  .category-form input,
-  .category-form button {
+  .category-item .btndelete {
     width: 100%;
+    text-align: center;
   }
+
 }
