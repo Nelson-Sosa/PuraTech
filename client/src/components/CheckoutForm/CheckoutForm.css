@@ -33,6 +33,7 @@
     border-radius: 10px;
     background-color: #fff;
     box-sizing: border-box;
+    height: 50%;
 }
 
 .targ-cont form button {
@@ -45,7 +46,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
 
-    width: 100%; /* 🔥 antes 100px */
+    width: 60%; /* 🔥 antes 100px */
 }
 
 .targ-cont form button:disabled {
@@ -61,4 +62,15 @@
     color: red; /* para mostrar errores */
     font-size: 0.9rem;
     text-align: center;
+}
+
+@media (max-width: 600px) {
+
+  .targ-cont{
+   height: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+  }
+
 }
