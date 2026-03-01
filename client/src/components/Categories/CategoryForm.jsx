@@ -48,7 +48,7 @@ const CategoryForm = ({ onCategoryAdded }) => {
       onChange={(e) => setNombre(e.target.value)}
     />
 
-    <button type="submit">Agregar</button>
+<button type="submit">Agregar</button>
 
     {error && <div className="error">{error}</div>}
   </form>

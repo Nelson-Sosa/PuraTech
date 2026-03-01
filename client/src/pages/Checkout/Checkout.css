@@ -3,17 +3,19 @@
   max-width: 500px;
   margin: 40px auto;
   padding: 30px 25px;
+
   background: linear-gradient(145deg, #1e1e2f, #2a2a40);
   box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  border-radius: 16px;
+
   color: #fff;
   font-family: 'Inter', sans-serif;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  /* 🔥 CAMBIO CLAVE */
-  min-height: 300px;
-  height: auto;
+  min-height: 100vh; /* 🔥 ocupa pantalla completa */
   box-sizing: border-box;
 }
 .payment-container div {
@@ -46,21 +48,19 @@
 }
 
 /* Ajuste de responsividad */
+
 @media (max-width: 600px) {
 
   .payment-container {
-    width: 95%;
+    width: 100%;
     padding: 20px 15px;
-    margin: 20px auto;
-    gap: 15px;
+    margin: 0;
+    border-radius: 0;
   }
 
-  .payment-container div {
-    font-size: 14px;
-  }
-
-  .payment-container .loading {
-    font-size: 1rem;
+  .targ-cont {
+    border-radius: 0;
+    padding: 15px;
   }
 
 }
