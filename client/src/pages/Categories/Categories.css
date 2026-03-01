@@ -1,9 +1,7 @@
 /* 🔥 Reset recomendado */
 * {
   box-sizing: border-box;
-  background: #363131;
-  box-shadow: 0 0 25px rgba(0, 255, 150, 0.2);
-
+  
 }
 
 body {
