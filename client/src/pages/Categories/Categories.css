@@ -74,7 +74,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   white-space: nowrap;
-
+  width: 50%;
   transition: all 0.3s ease;
 }
 
@@ -104,7 +104,7 @@ body {
   }
 
   .category-item .btndelete {
-    width: 100%;
+    width: 50%;
     text-align: center;
   }
 
