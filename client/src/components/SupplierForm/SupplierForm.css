@@ -97,6 +97,7 @@
     transition: 0.4s ease;
     text-align: center;
     display: inline-block;
+    width: 50%;
 }
 
 .btn-rgb:hover {
@@ -124,5 +125,8 @@
 
     .titulo-rgb {
         font-size: 24px;
+    }
+    .btn-rgb{
+        width: 50%;
     }
 }

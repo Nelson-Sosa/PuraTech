@@ -1,21 +1,14 @@
 .payment-container {
   width: 100%;
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 30px 25px;
+  min-height: 100vh;
+  padding: 40px 20px;
 
   background: linear-gradient(145deg, #1e1e2f, #2a2a40);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-  border-radius: 16px;
-
-  color: #fff;
-  font-family: 'Inter', sans-serif;
 
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
 
-  min-height: 100vh; /* 🔥 ocupa pantalla completa */
   box-sizing: border-box;
 }
 .payment-container div {
