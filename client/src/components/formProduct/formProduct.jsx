@@ -78,7 +78,7 @@ const FormProduct = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No hay token disponible. Inicia sesión primero.");
 
-      const res = await axios.post(
+      await axios.post(
         `${API_URL}/api/agregar/producto`,
         formData,
         {

@@ -49,7 +49,7 @@ export const Products = () => {
         if (location.state?.success) {
         alert(location.state.success);
     }
-    }, [category, searchActive] , [location.state]);
+    }, [category, searchActive, location.state, getProducts]);
 
     // 🔥 Delete profesional con refresh automático
     const deleteProduct = async (productID) => {

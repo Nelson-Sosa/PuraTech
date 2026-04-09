@@ -3,7 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../formularioLogin/formularioLogin.css';
-import backgroundImage1 from '../../assets/images/pexels-rdne-7915437.jpg';
 import jwtDecode from "jwt-decode";
 import { API_URL } from '../../config';
 
