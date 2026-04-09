@@ -5,24 +5,32 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(",") 
+  : ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+};
+
 const RoutesUser = require('./routes/routes');
 
 require('./configuration/configuration.mongoose');
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
 
 RoutesUser(app);
-
-// 👇 SERVIR FRONTEND REACT
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-});
 
 app.listen(PORT, () => {
     console.log(`El servidor se está ejecutando en el puerto: ${PORT}`);

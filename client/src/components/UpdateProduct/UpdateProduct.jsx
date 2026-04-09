@@ -33,7 +33,7 @@ const UpdateProduct = ()=>{
                 navigate('/login');
             }
         });
-    }, [id]);
+    }, [id, navigate]);
     
     useEffect(() => {
     const fetchCategories = async () => {
