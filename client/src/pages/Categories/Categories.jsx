@@ -16,9 +16,10 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/categories`, {
-        headers: { token_usuario: localStorage.getItem("token") },
-      });
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`${API_URL}/api/categories`, 
+        token ? { headers: { token_usuario: token } } : {}
+      );
       setCategories(res.data);
     } catch (err) {
       console.error("Error al cargar categorías", err);

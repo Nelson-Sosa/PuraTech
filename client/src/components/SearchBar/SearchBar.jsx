@@ -17,9 +17,10 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
     if (!consulta.trim()) return;
 
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.get(
         `${API_URL}/api/search-products?category=${consulta}`,
-        { headers: { token_usuario: localStorage.getItem("token") } }
+        token ? { headers: { token_usuario: token } } : {}
       );
       setSearchResultados(res.data);
       setSearchActive(true);

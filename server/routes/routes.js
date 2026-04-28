@@ -10,11 +10,11 @@ const router = express.Router();
 const upload = require('../configuration/multerConfig');
 
 module.exports = (app) => {
-    app.get('/api/search-products', validarToken, ProductController.searchGlobal);
+    app.get('/api/search-products', ProductController.searchGlobal);
 
     // ===== CATEGORÍAS =====
 // Solo admin puede agregar o eliminar categorías
-app.get('/api/categories', validarToken, CategoryController.getCategories);
+app.get('/api/categories', CategoryController.getCategories);
 app.post('/api/categories', validarToken, verificarRol('admin'), CategoryController.addCategory);
 app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.deleteCategory);
 
@@ -32,10 +32,10 @@ app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryC
     app.delete("/api/remover/product/:id", validarToken, verificarRol('admin'), ProductController.removerProducto);
     
     
-    // Rutas públicas o para cualquier usuario logueado
-    app.get('/api/product/:id', validarToken, ProductController.getProduct);
-    app.get('/api/productos', validarToken, ProductController.todosLosProductos);
-    app.get('/api/products', validarToken, ProductController.categoriaProductos);
+    // Rutas públicas para usuarios normales
+    app.get('/api/product/:id', ProductController.getProduct);
+    app.get('/api/productos', ProductController.todosLosProductos);
+    app.get('/api/products', ProductController.categoriaProductos);
 
     // ===== PROVEEDORES =====
     app.post('/api/add/suppliers', validarToken, verificarRol('admin'), SuppliersController.addSuppliers);

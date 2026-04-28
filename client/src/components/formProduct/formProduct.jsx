@@ -33,9 +33,7 @@ const FormProduct = () => {
 
       const res = await axios.get(
         `${API_URL}/api/categories`,
-        {
-          headers: { token_usuario: token }
-        }
+        token ? { headers: { token_usuario: token } } : {}
       );
 
       console.log("Categorias recibidas:", res.data);

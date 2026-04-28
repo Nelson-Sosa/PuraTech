@@ -38,9 +38,10 @@ const Suppliers = () => {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/suppliers`, {
-          headers: { token_usuario: localStorage.getItem("token") }
-        });
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API_URL}/api/suppliers`, 
+          token ? { headers: { token_usuario: token } } : {}
+        );
         if (res.status === 200) setSuppliers(res.data);
       } catch (err) {
         console.error("Ocurrió un error:", err.message);

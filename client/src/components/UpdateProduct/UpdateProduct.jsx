@@ -15,11 +15,12 @@ const UpdateProduct = ()=>{
     const [categories, setCategories] = useState([]);
     
     useEffect(()=>{
-        axios.get(`${API_URL}/api/product/${id}`,{
+        const token = localStorage.getItem("token");
+        axios.get(`${API_URL}/api/product/${id}`, token ? {
             headers: {
-                token_usuario: localStorage.getItem("token")
+                token_usuario: token
             }
-        })
+        } : {})
         .then(res =>{
             setCategory(res.data.category);
             setNombre(res.data.nombre);

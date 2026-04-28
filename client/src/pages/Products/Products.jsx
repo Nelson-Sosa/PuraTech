@@ -21,13 +21,10 @@ export const Products = () => {
     // 🔥 Función central para traer productos
     const getProducts = async () => {
         try {
+            const token = localStorage.getItem("token");
             const res = await axios.get(
                 `${API_URL}/api/products?category=${category}`,
-                {
-                    headers: {
-                        token_usuario: localStorage.getItem("token")
-                    }
-                }
+                token ? { headers: { token_usuario: token } } : {}
             );
             setProduct(res.data);
         } catch (err) {

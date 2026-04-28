@@ -10,14 +10,10 @@ const CustomNavigate = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
-
         const res = await axios.get(
           `${API_URL}/api/categories`,
-          {
-            headers: { token_usuario: token }
-          }
+          token ? { headers: { token_usuario: token } } : {}
         );
-
         setCategories(res.data);
       } catch (error) {
         console.error("Error cargando categorías", error);
