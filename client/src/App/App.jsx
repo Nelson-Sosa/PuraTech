@@ -16,6 +16,7 @@ import CategoryForm from "../components/Categories/CategoryForm";
 import Categories from "../pages/Categories/Categories";
 
 const App = ()=> {
+  const [login, setLogin] = useState(false);
   return (
     <div>
     <Routes>
