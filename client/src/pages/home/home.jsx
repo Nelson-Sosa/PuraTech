@@ -8,7 +8,7 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userRole, setUserRole] = useState(localStorage.getItem('rol'));
+  const userRole = localStorage.getItem('rol');
 
   useEffect(() => {
     const fetchProducts = async () => {
