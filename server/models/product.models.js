@@ -6,25 +6,41 @@ const ProductSchema = new mongoose.Schema({
         required: [true],
     },
     nombre: {
-        type : String,
-        require: [true]
-    },
-    marca:{
         type: String,
-        require:[true]
+        required: [true]
     },
-    precio:{
+    marca: {
+        type: String,
+        required: [true]
+    },
+    precio: {
         type: Number,
-        require: [true]
+        required: [true]
     },
-    descripcion:{
+    descripcion: {
         type: String,
-        require: [true]
+        required: [true]
     },
-    imageUrl:{
+    imageUrl: {
         type: String
-    } //URL de la imagen
-})
+    }, // URL de la imagen
+    ventas: {
+        type: Number,
+        default: 0
+    },
+    isOffer: {
+        type: Boolean,
+        default: false
+    },
+    isNew: {
+        type: Boolean,
+        default: true
+    },
+    stock: {
+        type: Number,
+        default: 10
+    }
+});
 
 const Product = mongoose.model("Product", ProductSchema);
 

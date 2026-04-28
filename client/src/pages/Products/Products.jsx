@@ -7,6 +7,7 @@ import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { useLocation } from "react-router-dom";
 import { API_URL} from '../../config';
+import { useCart } from '../../context/CartContext';
 
 export const Products = () => {
     const { category } = useParams();
@@ -20,24 +21,21 @@ export const Products = () => {
     const location = useLocation();
     const [sortBy, setSortBy] = useState('relevance');
     const [priceFilter, setPriceFilter] = useState('all');
+    const { addToCart } = useCart();
 
-    // 🔥 Función central para traer productos
+    // 🔥 Función central para traer productos (PÚBLICO)
     const getProducts = useCallback(async () => {
         try {
-            const token = localStorage.getItem("token");
             const res = await axios.get(
-                `${API_URL}/api/products?category=${category}`,
-                token ? { headers: { token_usuario: token } } : {}
+                `${API_URL}/api/products/public?category=${category}`
             );
             setProducts(res.data);
             setFilteredProducts(res.data);
         } catch (err) {
             console.error(err);
-            if (err.response && err.response.status === 401) {
-                navigate('/login');
-            }
+            // NO redirigir a login en rutas públicas
         }
-    }, [category, navigate]);
+    }, [category]);
 
     // 🔥 Se ejecuta al montar y cuando cambia categoría
     useEffect(() => {
@@ -159,7 +157,7 @@ export const Products = () => {
                     ) : (
                         <div className="products-grid">
                             {filteredProducts.map((producto) => (
-                                <div key={producto._id} className="product-card">
+                                 <div key={producto._id} className="product-card">
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
                                             <img
@@ -167,7 +165,17 @@ export const Products = () => {
                                                 alt={producto.nombre}
                                                 className="product-image"
                                             />
-                                            <button className="quick-view-btn">Vista rápida</button>
+                                            {producto.isOffer && <span className="badge offer">OFERTA</span>}
+                                            {producto.isNew && <span className="badge new">NUEVO</span>}
+                                            <button 
+                                                className="quick-view-btn"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    alert('Vista rápida - Próximamente');
+                                                }}
+                                            >
+                                                Vista rápida
+                                            </button>
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.marca}</h3>
@@ -175,10 +183,18 @@ export const Products = () => {
                                             <p className="price">
                                                 {Number(producto.precio).toLocaleString("es-PY")} Gs.
                                             </p>
+                                            <p className="stock">Stock disponible: {producto.stock || 10}</p>
                                         </div>
                                     </Link>
 
                                     <div className="product-actions">
+                                        <button 
+                                            className="add-to-cart-btn"
+                                            onClick={() => addToCart(producto)}
+                                        >
+                                            Agregar al carrito
+                                        </button>
+
                                         {userRole === "admin" && (
                                             <>
                                                 <button
@@ -195,7 +211,7 @@ export const Products = () => {
                                         )}
 
                                         <Link to="/create-payment-intent">
-                                            <button className="btn-buy">Solicitar</button>
+                                            <button className="btn-buy">Comprar ahora</button>
                                         </Link>
                                     </div>
                                 </div>

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './SearchBar.css';
 import { API_URL } from '../../config';
+
 const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   const [consulta, setConsulta] = useState("");
-  const [userRole, setUserRole] = useState(null); // Estado para rol
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const rol = localStorage.getItem("rol"); // obtenemos rol del storage
+    const rol = localStorage.getItem("rol");
     setUserRole(rol);
   }, []);
 
@@ -17,10 +19,8 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
     if (!consulta.trim()) return;
 
     try {
-      const token = localStorage.getItem("token");
       const res = await axios.get(
-        `${API_URL}/api/search-products?category=${consulta}`,
-        token ? { headers: { token_usuario: token } } : {}
+        `${API_URL}/api/products/public?category=${consulta}`
       );
       setSearchResultados(res.data);
       setSearchActive(true);
@@ -45,7 +45,7 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
         <div className="search-input-container">
           <input
             type="search"
-            placeholder="Scan the marketplace..."
+            placeholder="🔎 Buscar productos..."
             value={consulta}
             onChange={(e) => setConsulta(e.target.value)}
           />

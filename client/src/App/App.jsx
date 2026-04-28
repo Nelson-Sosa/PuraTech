@@ -1,5 +1,5 @@
 import '../pages/formularioLogin/formularioLogin';
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
@@ -14,15 +14,19 @@ import Checkout from '../pages/Checkout/Checkout';
 import PrivateRoute from '../components/ProtectedRoute/ProtectedRoute';
 import CategoryForm from "../components/Categories/CategoryForm";
 import Categories from "../pages/Categories/Categories";
+import Cart from '../pages/Cart/Cart';
+import { CartProvider } from '../context/CartContext';
 
 const App = ()=> {
   const [login, setLogin] = useState(false);
   return (
+    <CartProvider>
     <div>
     <Routes>
   <Route path="/" element={<Home />} />
   <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
   <Route path="/register" element={<FormRegistro />} />
+  <Route path="/cart" element={<Cart />} />
   
   {/* Rutas públicas */}
   <Route path="/category/:category" element={<Products />} />
@@ -39,6 +43,7 @@ const App = ()=> {
   
     </Routes>
     </div>
+    </CartProvider>
   );
 }
 

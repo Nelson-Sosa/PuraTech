@@ -1,0 +1,154 @@
+/* Cart.css */
+.cart-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cart-page h2 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.continue-shopping {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 30px;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  gap: 15px;
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-info h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.cart-item-info .brand {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.cart-item-info .price {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.remove-btn {
+  padding: 8px 15px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: #c82333;
+}
+
+.cart-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.cart-summary h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.summary-row.total {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background: #25d366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.checkout-btn:hover {
+  background: #128c7e;
+}
+
+.clear-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.clear-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+}

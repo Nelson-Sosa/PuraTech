@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { API_URL } from '../../config';
 import './home.css';
+import { useCart } from '../../context/CartContext';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
@@ -11,19 +13,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const userRole = localStorage.getItem('rol');
+  const { addToCart, getCount } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(
-          `${API_URL}/api/products?category=all`,
-          token ? { headers: { token_usuario: token } } : {}
-        );
-        const allProducts = res.data;
-        setBestsellers(allProducts.slice(0, 4));
-        setOffers(allProducts.slice(4, 8));
-        setNewProducts(allProducts.slice(8, 12));
+        const res = await axios.get(`${API_URL}/api/products/public/home`);
+        setBestsellers(res.data.bestsellers);
+        setOffers(res.data.offers);
+        setNewProducts(res.data.newProducts);
       } catch (err) {
         console.error("Error cargando productos", err);
       } finally {
@@ -36,7 +35,7 @@ const Home = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/category/${searchQuery}`;
+      navigate(`/search?q=${searchQuery}`);
     }
   };
 
@@ -47,24 +46,42 @@ const Home = () => {
       <h2>{icon} {title}</h2>
       <div className="products-grid">
         {products.map((product) => (
-          <Link to={`/product/${product._id}`} key={product._id} className="product-card">
-            <div className="product-image-container">
-              <img 
-                src={product.imageUrl || "/img/placeholder.png"} 
-                alt={product.nombre}
-                className="product-image"
-              />
-              <button className="quick-view-btn">Vista rápida</button>
-            </div>
-            <div className="product-info">
-              <h3>{product.nombre}</h3>
-              <p className="product-brand">{product.marca}</p>
-              <p className="product-price">
-                {Number(product.precio).toLocaleString("es-PY")} Gs.
-              </p>
-              <button className="add-to-cart-btn">Agregar al carrito</button>
-            </div>
-          </Link>
+          <div key={product._id} className="product-card">
+            <Link to={`/product/${product._id}`} className="product-link">
+              <div className="product-image-container">
+                <img 
+                  src={product.imageUrl || "/img/placeholder.png"} 
+                  alt={product.nombre}
+                  className="product-image"
+                />
+                {product.isOffer && <span className="badge offer">OFERTA</span>}
+                {product.isNew && <span className="badge new">NUEVO</span>}
+                <button 
+                  className="quick-view-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('Vista rápida - Próximamente');
+                  }}
+                >
+                  Vista rápida
+                </button>
+              </div>
+              <div className="product-info">
+                <h3>{product.nombre}</h3>
+                <p className="product-brand">{product.marca}</p>
+                <p className="product-price">
+                  {Number(product.precio).toLocaleString("es-PY")} Gs.
+                </p>
+                <p className="stock">Stock: {product.stock || 10}</p>
+              </div>
+            </Link>
+            <button 
+              className="add-to-cart-btn"
+              onClick={() => addToCart(product)}
+            >
+              Agregar al carrito
+            </button>
+          </div>
         ))}
       </div>
     </section>
@@ -87,7 +104,7 @@ const Home = () => {
           <button type="submit">Buscar</button>
         </form>
         <div className="header-actions">
-          <Link to="/cart" className="cart-icon">🛒 <span className="cart-count">0</span></Link>
+          <Link to="/cart" className="cart-icon">🛒 <span className="cart-count">{getCount()}</span></Link>
           {userRole ? (
             <div className="user-dropdown">
               <span className="user-role">{userRole}</span>
