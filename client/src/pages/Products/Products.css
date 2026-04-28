@@ -21,6 +21,11 @@
   text-decoration: underline;
 }
 
+.separator {
+  margin: 0 8px;
+  color: #999;
+}
+
 /* LAYOUT */
 .products-layout {
   display: grid;

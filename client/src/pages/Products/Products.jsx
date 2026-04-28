@@ -109,7 +109,7 @@ export const Products = () => {
         <div className="products-page">
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
-                <Link to="/">Inicio</Link> > <span>{category}</span>
+                <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{category}</span>
             </div>
 
             <div className="products-layout">
