@@ -1,5 +1,5 @@
 import '../pages/formularioLogin/formularioLogin';
-import { Routes, Route, Link} from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
@@ -17,20 +17,9 @@ import Categories from "../pages/Categories/Categories";
 
 const App = ()=> {
   const [login, setLogin] = useState(false);
-  const [userRole, setUserRole] = useState(localStorage.getItem('rol'));
 
   return (
     <div>
-    <div style={{position: 'absolute', top: 10, right: 10}}>
-      {userRole ? (
-        <span>Bienvenido, {userRole}</span>
-      ) : (
-        <>
-          <a href="/login" style={{marginRight: 10}}>Iniciá sesión</a>
-          <a href="/register">Registrarse</a>
-        </>
-      )}
-    </div>
     <Routes>
   <Route path="/" element={<Home />} />
   <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
