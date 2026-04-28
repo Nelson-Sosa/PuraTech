@@ -1,6 +1,6 @@
 🎮 GameMasters – Aplicación Full Stack MERN
 
-🌐 Demo en producción: https: https://gamemasters-aqha.onrender.com
+🌐 Demo en producción: https://game-masters-nine.vercel.app/
 
 📌 Descripción
 
