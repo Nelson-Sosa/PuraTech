@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios"; 
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -17,9 +17,8 @@ export const Products = () => {
     const [userRole, setUserRole] = useState(null);
     const location = useLocation();
 
-
     // 🔥 Función central para traer productos
-    const getProducts = async () => {
+    const getProducts = useCallback(async () => {
         try {
             const token = localStorage.getItem("token");
             const res = await axios.get(
@@ -33,7 +32,7 @@ export const Products = () => {
                 navegar('/login');
             }
         }
-    };
+    }, [category, navegar]);
 
     // 🔥 Se ejecuta al montar y cuando cambia categoría
     useEffect(() => {
