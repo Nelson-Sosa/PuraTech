@@ -5,27 +5,32 @@ import { API_URL } from '../../config';
 import './home.css';
 
 const Home = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [bestsellers, setBestsellers] = useState([]);
+  const [offers, setOffers] = useState([]);
+  const [newProducts, setNewProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const userRole = localStorage.getItem('rol');
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchAllProducts = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
           `${API_URL}/api/products?category=all`,
           token ? { headers: { token_usuario: token } } : {}
         );
-        setFeaturedProducts(res.data.slice(0, 8));
+        const allProducts = res.data;
+        setBestsellers(allProducts.slice(0, 4));
+        setOffers(allProducts.slice(4, 8));
+        setNewProducts(allProducts.slice(8, 12));
       } catch (err) {
         console.error("Error cargando productos", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchAllProducts();
   }, []);
 
   const handleSearch = (e) => {
@@ -35,7 +40,35 @@ const Home = () => {
     }
   };
 
-  const whatsappNumber = "595981123456"; // Cambia por tu número
+  const whatsappNumber = "595981123456";
+
+  const ProductSection = ({ title, products, icon }) => (
+    <section className="product-section">
+      <h2>{icon} {title}</h2>
+      <div className="products-grid">
+        {products.map((product) => (
+          <Link to={`/product/${product._id}`} key={product._id} className="product-card">
+            <div className="product-image-container">
+              <img 
+                src={product.imageUrl || "/img/placeholder.png"} 
+                alt={product.nombre}
+                className="product-image"
+              />
+              <button className="quick-view-btn">Vista rápida</button>
+            </div>
+            <div className="product-info">
+              <h3>{product.nombre}</h3>
+              <p className="product-brand">{product.marca}</p>
+              <p className="product-price">
+                {Number(product.precio).toLocaleString("es-PY")} Gs.
+              </p>
+              <button className="add-to-cart-btn">Agregar al carrito</button>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
 
   return (
     <div className="home-container">
@@ -54,25 +87,31 @@ const Home = () => {
           <button type="submit">Buscar</button>
         </form>
         <div className="header-actions">
-          <span className="cart-icon">🛒</span>
+          <Link to="/cart" className="cart-icon">🛒 <span className="cart-count">0</span></Link>
           {userRole ? (
-            <span className="user-role">{userRole}</span>
+            <div className="user-dropdown">
+              <span className="user-role">{userRole}</span>
+            </div>
           ) : (
             <Link to="/login" className="login-btn">Iniciá sesión</Link>
           )}
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="hero-section">
-        <h1>🎮 Equipos y accesorios gamer al mejor precio</h1>
-        <p>🚀 Comprá fácil y rápido desde tu casa</p>
-        <Link to="/category/Consolas" className="hero-btn">Ver productos</Link>
+      {/* HERO SECTION CON SLIDER */}
+      <section className="hero-slider">
+        <div className="slide active">
+          <div className="slide-content">
+            <h1>🎮 Equipos y accesorios gamer al mejor precio</h1>
+            <p>🚀 Comprá fácil y rápido desde tu casa</p>
+            <Link to="/category/Consolas" className="hero-btn">Ver ofertas</Link>
+          </div>
+        </div>
       </section>
 
       {/* CATEGORÍAS PRINCIPALES */}
       <section className="categories-section">
-        <h2>Categorías</h2>
+        <h2>Categorías principales</h2>
         <div className="categories-grid">
           <Link to="/category/Consolas" className="category-card">🎮 Consolas</Link>
           <Link to="/category/PCs Gamer" className="category-card">💻 PCs Gamer</Link>
@@ -82,29 +121,31 @@ const Home = () => {
       </section>
 
       {/* PRODUCTOS DESTACADOS */}
-      <section className="featured-section">
-        <h2>Más vendidos</h2>
-        {loading ? (
-          <p>Cargando productos...</p>
-        ) : (
-          <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <div key={product._id} className="product-card">
-                <img 
-                  src={product.imageUrl || "/img/placeholder.png"} 
-                  alt={product.nombre}
-                  className="product-image"
-                />
-                <h3>{product.nombre}</h3>
-                <p className="product-brand">{product.marca}</p>
-                <p className="product-price">
-                  {Number(product.precio).toLocaleString("es-PY")} Gs.
-                </p>
-                <button className="add-to-cart-btn">Agregar al carrito</button>
-              </div>
-            ))}
+      {loading ? (
+        <p className="loading">Cargando productos...</p>
+      ) : (
+        <>
+          <ProductSection title="Más vendidos" products={bestsellers} icon="🔥" />
+          <ProductSection title="Ofertas" products={offers} icon="💰" />
+          <ProductSection title="Nuevos" products={newProducts} icon="🆕" />
+        </>
+      )}
+
+      {/* TESTIMONIOS */}
+      <section className="testimonials-section">
+        <h2>Lo que dicen nuestros clientes</h2>
+        <div className="testimonials-grid">
+          <div className="testimonial-card">
+            <div className="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Excelente atención y productos de calidad"</p>
+            <span>- Juan P.</span>
           </div>
-        )}
+          <div className="testimonial-card">
+            <div className="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Llegó súper rápido a mi casa"</p>
+            <span>- María G.</span>
+          </div>
+        </div>
       </section>
 
       {/* BENEFICIOS */}
@@ -126,7 +167,24 @@ const Home = () => {
 
       {/* FOOTER */}
       <footer className="home-footer">
-        <p>© 2026 GameMasters - Todos los derechos reservados</p>
+        <div className="footer-content">
+          <div className="footer-section">
+            <h3>GameMasters</h3>
+            <p>Tu tienda gamer de confianza</p>
+          </div>
+          <div className="footer-section">
+            <h4>Categorías</h4>
+            <Link to="/category/Consolas">Consolas</Link>
+            <Link to="/category/PCs Gamer">PCs Gamer</Link>
+            <Link to="/category/Componentes">Componentes</Link>
+          </div>
+          <div className="footer-section">
+            <h4>Contacto</h4>
+            <p>📱 WhatsApp: +595 981 123 456</p>
+            <p>📧 email@gamemasters.com</p>
+          </div>
+        </div>
+        <p className="footer-bottom">© 2026 GameMasters - Todos los derechos reservados</p>
       </footer>
     </div>
   );
