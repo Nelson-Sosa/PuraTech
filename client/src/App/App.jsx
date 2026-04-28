@@ -17,22 +17,35 @@ import Categories from "../pages/Categories/Categories";
 
 const App = ()=> {
   const [login, setLogin] = useState(false);
+  const [userRole, setUserRole] = useState(localStorage.getItem('rol'));
 
   return (
     <div>
+    <div style={{position: 'absolute', top: 10, right: 10}}>
+      {userRole ? (
+        <span>Bienvenido, {userRole}</span>
+      ) : (
+        <>
+          <a href="/login" style={{marginRight: 10}}>Iniciá sesión</a>
+          <a href="/register">Registrarse</a>
+        </>
+      )}
+    </div>
     <Routes>
   <Route path="/" element={<Home />} />
   <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
   <Route path="/register" element={<FormRegistro />} />
   
-  {/* Ruta protegida */}
-  <Route path="/category/:category" element={<PrivateRoute component={Products} />} />
+  {/* Rutas públicas */}
+  <Route path="/category/:category" element={<Products />} />
+  <Route path="/suppliers" element={<Suppliers />} />
+  <Route path="/create-payment-intent" element={<Checkout />} />
+  
+  {/* Rutas protegidas para admin */}
   <Route path="/agregar/product" element={<PrivateRoute component={FormProduct} />} />
   <Route path="/actualizar/product/:id" element={<PrivateRoute component={UpdateProduct} />} />
   <Route path="/add/suppliers" element={<PrivateRoute component={SupplierForm} />} />
-  <Route path="/suppliers" element={<Suppliers />} />
   <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
-  <Route path="/create-payment-intent" element={<Checkout />} />
   <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
   <Route path="/categories" element={<PrivateRoute component={Categories} />} />
   
