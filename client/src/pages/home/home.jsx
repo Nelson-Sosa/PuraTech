@@ -4,17 +4,14 @@ import { useState, useEffect } from "react";
 import { API_URL } from '../../config';
 import './home.css';
 import { useCart } from '../../context/CartContext';
-import { useNavigate } from "react-router-dom";
+import Navbar from '../../components/Navbar/Navbar';
 
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
   const [offers, setOffers] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const userRole = localStorage.getItem('rol');
-  const { addToCart, getCount } = useCart();
-  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -32,88 +29,60 @@ const Home = () => {
     fetchAllProducts();
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${searchQuery}`);
-    }
-  };
-
-  const whatsappNumber = "595981123456";
-
   const ProductSection = ({ title, products, icon }) => (
     <section className="product-section">
       <h2>{icon} {title}</h2>
-      <div className="products-grid">
-        {products.map((product) => (
-          <div key={product._id} className="product-card">
-            <Link to={`/product/${product._id}`} className="product-link">
-              <div className="product-image-container">
-                <img 
-                  src={product.imageUrl || "/img/placeholder.png"} 
-                  alt={product.nombre}
-                  className="product-image"
-                />
-                {product.isOffer && <span className="badge offer">OFERTA</span>}
-                {product.isNew && <span className="badge new">NUEVO</span>}
-                <button 
-                  className="quick-view-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert('Vista rápida - Próximamente');
-                  }}
-                >
-                  Vista rápida
-                </button>
-              </div>
-              <div className="product-info">
-                <h3>{product.nombre}</h3>
-                <p className="product-brand">{product.marca}</p>
-                <p className="product-price">
-                  {Number(product.precio).toLocaleString("es-PY")} Gs.
-                </p>
-                <p className="stock">Stock: {product.stock || 10}</p>
-              </div>
-            </Link>
-            <button 
-              className="add-to-cart-btn"
-              onClick={() => addToCart(product)}
-            >
-              Agregar al carrito
-            </button>
-          </div>
-        ))}
-      </div>
+      {products.length === 0 ? (
+        <p className="no-products">No hay productos en esta sección</p>
+      ) : (
+        <div className="products-grid">
+          {products.map((product) => (
+            <div key={product._id} className="product-card">
+              <Link to={`/product/${product._id}`} className="product-link">
+                <div className="product-image-container">
+                  <img 
+                    src={product.imageUrl || "/img/placeholder.png"} 
+                    alt={product.nombre}
+                    className="product-image"
+                  />
+                  {product.isOffer && <span className="badge offer">OFERTA</span>}
+                  {product.isNew && <span className="badge new">NUEVO</span>}
+                  <button 
+                    className="quick-view-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      alert('Vista rápida - Próximamente');
+                    }}
+                  >
+                    Vista rápida
+                  </button>
+                </div>
+                <div className="product-info">
+                  <h3>{product.nombre}</h3>
+                  <p className="product-brand">{product.marca}</p>
+                  <p className="product-price">
+                    {Number(product.precio).toLocaleString("es-PY")} Gs.
+                  </p>
+                  <p className="stock">Stock: {product.stock || 10}</p>
+                </div>
+              </Link>
+              <button 
+                className="add-to-cart-btn"
+                onClick={() => addToCart(product)}
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 
   return (
     <div className="home-container">
-      {/* HEADER FIJO */}
-      <header className="home-header">
-        <div className="header-logo">
-          <Link to="/">🎮 GameMasters</Link>
-        </div>
-        <form className="header-search" onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="🔎 Buscar productos..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button type="submit">Buscar</button>
-        </form>
-        <div className="header-actions">
-          <Link to="/cart" className="cart-icon">🛒 <span className="cart-count">{getCount()}</span></Link>
-          {userRole ? (
-            <div className="user-dropdown">
-              <span className="user-role">{userRole}</span>
-            </div>
-          ) : (
-            <Link to="/login" className="login-btn">Iniciá sesión</Link>
-          )}
-        </div>
-      </header>
+      {/* NAVBAR */}
+      <Navbar />
 
       {/* HERO SECTION CON SLIDER */}
       <section className="hero-slider">
@@ -174,7 +143,7 @@ const Home = () => {
 
       {/* BOTÓN FLOTANTE DE WHATSAPP */}
       <a
-        href={`https://wa.me/${whatsappNumber}`}
+        href={`https://wa.me/595981123456`}
         className="whatsapp-float"
         target="_blank"
         rel="noopener noreferrer"

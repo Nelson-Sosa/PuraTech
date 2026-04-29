@@ -1,13 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios"; 
 import { Link, useNavigate, useParams } from "react-router-dom";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import CustomNavigate from "../CustomNavigate/CustomNavigate";
 import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
-import { useLocation } from "react-router-dom";
-import { API_URL} from '../../config';
+import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
+import Navbar from '../../components/Navbar/Navbar';
 
 export const Products = () => {
     const { category } = useParams();
@@ -101,17 +99,21 @@ export const Products = () => {
     const handleConfirmDelete = () => {
         deleteProduct(currentProductID);
         setShowModal(false);
+        setCurrentProduct(null);
     };
 
     return (
         <div className="products-page">
+            {/* NAVBAR */}
+            <Navbar />
+
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
                 <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{category}</span>
             </div>
 
             <div className="products-layout">
-                {/* SIDEBAR FILTROS */}
+                {/* SIDEBAR FILTERS */}
                 <aside className="filters-sidebar">
                     <h3>Filtrar por precio</h3>
                     <select 
@@ -144,12 +146,6 @@ export const Products = () => {
 
                 {/* PRODUCTOS GRID */}
                 <div className="products-content">
-                    <SearchBar 
-                        setSearchResultados={setFilteredProducts} 
-                        setSearchActive={setSearchActive} 
-                    />
-                    <CustomNavigate />
-
                     {filteredProducts.length === 0 ? (
                         <div className="no-products">
                             <p>No hay productos en esta categoría</p>
@@ -157,11 +153,11 @@ export const Products = () => {
                     ) : (
                         <div className="products-grid">
                             {filteredProducts.map((producto) => (
-                                 <div key={producto._id} className="product-card">
+                                <div key={producto._id} className="product-card">
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
-                                            <img
-                                                src={producto.imageUrl || "/img/placeholder.png"}
+                                            <img 
+                                                src={producto.imageUrl || "/img/placeholder.png"} 
                                                 alt={producto.nombre}
                                                 className="product-image"
                                             />
