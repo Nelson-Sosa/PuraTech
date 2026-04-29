@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios"; 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { API_URL } from '../../config';
