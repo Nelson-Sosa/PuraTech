@@ -1,5 +1,6 @@
 const { MongooseError } = require('mongoose');
 const Product = require('../models/product.models');
+const Order = require('../models/order.model');
 const { request } = require('express');
 const Stripe = require('stripe');
 // Inicializamos Stripe con la clave secreta de prueba (sk_test_...)
@@ -147,8 +148,36 @@ module.exports.agregarPago = async (req, res) => {
       clientSecret: paymentIntent.client_secret, // Enviar client_secret al frontend
     });
 
-  } catch (err) {
+  } catch(err) {
     console.error("Error en agregarPago:", err.message);
     res.status(500).send({ error: err.message });
+  }
+};
+
+// Endpoint para meta de ventas mensual
+module.exports.checkSalesMeta = async (req, res) => {
+  try {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const orders = await Order.find({
+      createdAt: { $gte: startOfMonth },
+      status: 'completed'
+    });
+
+    const totalSales = orders.reduce((sum, order) => sum + order.total, 0);
+    const meta = 5000; // Meta mensual de $5000
+    const percentage = (totalSales / meta) * 100;
+
+    res.json({
+      totalSales,
+      meta,
+      percentage: Math.min(percentage, 100),
+      achieved: percentage >= 50
+    });
+  } catch (err) {
+    console.error("Error en checkSalesMeta:", err);
+    res.status(500).json({ error: 'Error al verificar meta' });
   }
 };

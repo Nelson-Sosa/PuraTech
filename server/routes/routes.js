@@ -45,4 +45,7 @@ module.exports = (app) => {
 
     // ===== PAGOS =====
     app.post('/api/create-payment-intent', ProductController.agregarPago);
+    
+    // ===== META DE VENTAS =====
+    app.get('/api/sales-meta', ProductController.checkSalesMeta);
 };

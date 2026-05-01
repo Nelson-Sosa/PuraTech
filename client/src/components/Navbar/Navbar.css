@@ -161,3 +161,35 @@
     display: none;
   }
 }
+
+/* META NOTIfication */
+.meta-notification {
+  background: #ffc107;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 10px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.logout-btn {
+  color: #dc3545 !important;
+}
+
+.admin-badge {
+  background: #dc3545;
+  color: white;
+}
+
+.user-badge {
+  background: #28a745;
+  color: white;
+}
