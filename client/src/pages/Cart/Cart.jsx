@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useCart } from '../../context/CartContext';
 import { useState } from 'react';
 import { API_URL } from '../../config';
+import './Cart.css';
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
@@ -19,8 +20,12 @@ const Cart = () => {
   if (cart.length === 0) {
     return (
       <div className="cart-page">
-        <h2>🛒 Tu carrito está vacío</h2>
-        <Link to="/" className="continue-shopping">Seguir comprando</Link>
+        <div className="cart-empty">
+          <span className="cart-empty-icon">🛒</span>
+          <h2>Tu carrito está vacío</h2>
+          <p>Explorá nuestros productos y encontrá lo que buscás</p>
+          <Link to="/" className="continue-shopping">← Seguir comprando</Link>
+        </div>
       </div>
     );
   }

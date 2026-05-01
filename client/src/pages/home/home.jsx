@@ -31,7 +31,9 @@ const Home = () => {
 
   const ProductSection = ({ title, products, icon }) => (
     <section className="product-section">
-      <h2>{icon} {title}</h2>
+      <div className="product-section-header">
+        <h2>{icon} {title}</h2>
+      </div>
       {products.length === 0 ? (
         <p className="no-products">No hay productos en esta sección</p>
       ) : (
@@ -58,19 +60,19 @@ const Home = () => {
                   </button>
                 </div>
                 <div className="product-info">
-                  <h3>{product.nombre}</h3>
                   <p className="product-brand">{product.marca}</p>
+                  <h3>{product.nombre}</h3>
                   <p className="product-price">
                     {Number(product.precio).toLocaleString("es-PY")} Gs.
                   </p>
-                  <p className="stock">Stock: {product.stock || 10}</p>
+                  <p className="stock">✓ Stock: {product.stock || 10} unidades</p>
                 </div>
               </Link>
               <button 
                 className="add-to-cart-btn"
                 onClick={() => addToCart(product)}
               >
-                Agregar al carrito
+                🛒 Agregar al carrito
               </button>
             </div>
           ))}
@@ -84,61 +86,93 @@ const Home = () => {
       {/* NAVBAR */}
       <Navbar />
 
-      {/* HERO SECTION CON SLIDER */}
+      {/* HERO SECTION */}
       <section className="hero-slider">
+        <div className="hero-orb-left" />
         <div className="slide active">
           <div className="slide-content">
-            <h1>🎮 Equipos y accesorios gamer al mejor precio</h1>
-            <p>🚀 Comprá fácil y rápido desde tu casa</p>
-            <Link to="/category/Consolas" className="hero-btn">Ver ofertas</Link>
+            <h1>
+              Tu tienda gamer<br />
+              <span>al mejor precio</span>
+            </h1>
+            <p>🚀 Equipos, consolas y accesorios premium. Comprá fácil y rápido desde tu casa.</p>
+            <Link to="/category/Consolas" className="hero-btn">
+              Ver productos →
+            </Link>
           </div>
         </div>
       </section>
 
       {/* CATEGORÍAS PRINCIPALES */}
       <section className="categories-section">
-        <h2>Categorías principales</h2>
+        <h2>🎮 Categorías</h2>
         <div className="categories-grid">
-          <Link to="/category/Consolas" className="category-card">🎮 Consolas</Link>
-          <Link to="/category/PCs Gamer" className="category-card">💻 PCs Gamer</Link>
-          <Link to="/category/Componentes" className="category-card">🖥️ Componentes</Link>
-          <Link to="/category/Accesorios" className="category-card">🖱️ Accesorios</Link>
+          <Link to="/category/Consolas" className="category-card">
+            <span className="cat-icon">🎮</span>
+            <span className="cat-label">Consolas</span>
+          </Link>
+          <Link to="/category/PCs Gamer" className="category-card">
+            <span className="cat-icon">💻</span>
+            <span className="cat-label">PCs Gamer</span>
+          </Link>
+          <Link to="/category/Componentes" className="category-card">
+            <span className="cat-icon">🖥️</span>
+            <span className="cat-label">Componentes</span>
+          </Link>
+          <Link to="/category/Accesorios" className="category-card">
+            <span className="cat-icon">🖱️</span>
+            <span className="cat-label">Accesorios</span>
+          </Link>
         </div>
       </section>
 
       {/* PRODUCTOS DESTACADOS */}
       {loading ? (
-        <p className="loading">Cargando productos...</p>
+        <div className="loading">Cargando productos...</div>
       ) : (
         <>
           <ProductSection title="Más vendidos" products={bestsellers} icon="🔥" />
           <ProductSection title="Ofertas" products={offers} icon="💰" />
-          <ProductSection title="Nuevos" products={newProducts} icon="🆕" />
+          <ProductSection title="Nuevos" products={newProducts} icon="✨" />
         </>
       )}
+
+      {/* BENEFICIOS */}
+      <section className="benefits-section">
+        <div className="benefit-item">
+          <span className="benefit-icon">🚚</span>
+          Envíos a todo Paraguay
+        </div>
+        <div className="benefit-item">
+          <span className="benefit-icon">💳</span>
+          Pagá por transferencia o QR
+        </div>
+        <div className="benefit-item">
+          <span className="benefit-icon">📱</span>
+          Atención por WhatsApp
+        </div>
+      </section>
 
       {/* TESTIMONIOS */}
       <section className="testimonials-section">
         <h2>Lo que dicen nuestros clientes</h2>
         <div className="testimonials-grid">
           <div className="testimonial-card">
-            <div className="stars">⭐⭐⭐⭐⭐</div>
+            <div className="stars">★★★★★</div>
             <p>"Excelente atención y productos de calidad"</p>
-            <span>- Juan P.</span>
+            <span>— Juan P.</span>
           </div>
           <div className="testimonial-card">
-            <div className="stars">⭐⭐⭐⭐⭐</div>
+            <div className="stars">★★★★★</div>
             <p>"Llegó súper rápido a mi casa"</p>
-            <span>- María G.</span>
+            <span>— María G.</span>
+          </div>
+          <div className="testimonial-card">
+            <div className="stars">★★★★★</div>
+            <p>"Precios increíbles, volveré a comprar"</p>
+            <span>— Carlos M.</span>
           </div>
         </div>
-      </section>
-
-      {/* BENEFICIOS */}
-      <section className="benefits-section">
-        <div className="benefit-item">🚚 Envíos a todo Paraguay</div>
-        <div className="benefit-item">💳 Pagá por transferencia o QR</div>
-        <div className="benefit-item">📱 Atención por WhatsApp</div>
       </section>
 
       {/* BOTÓN FLOTANTE DE WHATSAPP */}
@@ -147,6 +181,7 @@ const Home = () => {
         className="whatsapp-float"
         target="_blank"
         rel="noopener noreferrer"
+        title="Contactanos por WhatsApp"
       >
         📱
       </a>
@@ -155,22 +190,24 @@ const Home = () => {
       <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>GameMasters</h3>
-            <p>Tu tienda gamer de confianza</p>
+            <div className="footer-brand-logo">🎮 GameMasters</div>
+            <p className="footer-tagline">Tu tienda gamer de confianza en Paraguay</p>
           </div>
           <div className="footer-section">
             <h4>Categorías</h4>
             <Link to="/category/Consolas">Consolas</Link>
             <Link to="/category/PCs Gamer">PCs Gamer</Link>
             <Link to="/category/Componentes">Componentes</Link>
+            <Link to="/category/Accesorios">Accesorios</Link>
           </div>
           <div className="footer-section">
             <h4>Contacto</h4>
             <p>📱 WhatsApp: +595 981 123 456</p>
             <p>📧 email@gamemasters.com</p>
+            <p>📍 Asunción, Paraguay</p>
           </div>
         </div>
-        <p className="footer-bottom">© 2026 GameMasters - Todos los derechos reservados</p>
+        <p className="footer-bottom">© 2026 GameMasters — Todos los derechos reservados</p>
       </footer>
     </div>
   );

@@ -1,102 +1,116 @@
-/* 🔥 Reset recomendado */
+/* ============================================================
+   CATEGORIES PAGE — GameMasters
+   ============================================================ */
+
 * {
   box-sizing: border-box;
-  
 }
 
-body {
-  margin: 0;
-}
-
-/* 🎮 CONTENEDOR PRINCIPAL */
 .categories-container {
-  width: 100%;
-  max-width: 1000px; /* 🔥 límite elegante en PC */
+  min-height: 100vh;
+  background: var(--bg-primary);
+  max-width: 1000px;
   margin: 40px auto;
-  padding: 30px 20px;
-
-  background: #1a1a1a;
-  color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(0, 255, 150, 0.2);
-
-  font-family: 'Orbitron', sans-serif;
+  padding: 40px 24px;
 }
 
-/* 🏆 TÍTULO */
 .categories-container h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  color: #4caf50;
-  text-shadow: 0 0 10px #4caf50;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* 📦 GRID DE CATEGORÍAS */
+.categories-container h1::after {
+  content: '';
+  display: inline-block;
+  height: 3px;
+  flex: 1;
+  background: var(--gradient-accent);
+  border-radius: 2px;
+  margin-left: 16px;
+  opacity: 0.3;
+}
+
+/* ── Grid ── */
 .categories-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* 🎯 ITEM INDIVIDUAL */
+/* ── Item ── */
 .category-item {
-  background: #222;
-  padding: 18px;
-  border-radius: 14px;
-
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  padding: 20px;
+  border-radius: var(--radius-lg);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 255, 150, 0.2);
-
-  word-break: break-word; /* 🔥 evita que texto largo rompa */
+  gap: 12px;
+  transition: var(--transition);
+  word-break: break-word;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .category-item:hover {
+  border-color: rgba(139,92,246,0.4);
+  box-shadow: var(--shadow-hover);
   transform: translateY(-4px);
-  box-shadow: 0 0 25px rgba(0, 255, 150, 0.4);
 }
 
-/* 🗑 BOTÓN ELIMINAR */
+/* ── Delete button ── */
 .category-item .btndelete {
-  background: #e53935;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
+  background: rgba(239,68,68,0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 0.82rem;
+  font-weight: 700;
   white-space: nowrap;
-  width: 50%;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
 }
 
 .category-item .btndelete:hover {
-  background: #d32f2f;
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239,68,68,0.35);
 }
 
-/* 📱 RESPONSIVE CELULAR */
-@media (max-width: 600px) {
+/* Error */
+.error {
+  color: #ef4444;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
 
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
   .categories-container {
     margin: 0;
-    padding: 20px 15px;
-    border-radius: 0; /* 🔥 ocupa toda la pantalla */
+    padding: 24px 16px;
+    border-radius: 0;
   }
 
   .categories-list {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
 
   .category-item {
@@ -105,8 +119,7 @@ body {
   }
 
   .category-item .btndelete {
-    width: 50%;
+    width: 100%;
     text-align: center;
   }
-
 }
