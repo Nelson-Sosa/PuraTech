@@ -31,7 +31,6 @@ export const Products = () => {
             setFilteredProducts(res.data);
         } catch (err) {
             console.error(err);
-            // NO redirigir a login en rutas públicas
         }
     }, [decodedCategory]);
 
@@ -42,9 +41,6 @@ export const Products = () => {
 
         if (!searchActive) {
             getProducts();
-        }
-        if (location.state?.success) {
-            alert(location.state.success);
         }
     }, [decodedCategory, searchActive, getProducts]);
 
@@ -82,7 +78,7 @@ export const Products = () => {
                     headers: { token_usuario: localStorage.getItem("token") }
                 }
             );
-            getProducts(); // 🔥 actualiza automáticamente
+            getProducts();
         } catch (error) {
             console.error('Error al eliminar producto', error);
             if (error.response && error.response.status === 401) {
@@ -113,7 +109,7 @@ export const Products = () => {
             </div>
 
             <div className="products-layout">
-                {/* SIDEBAR FILTERS */}
+                {/* FILTERS SIDEBAR */}
                 <aside className="filters-sidebar">
                     <h3>Filtrar por precio</h3>
                     <select 
@@ -144,7 +140,7 @@ export const Products = () => {
                     </div>
                 </aside>
 
-                {/* PRODUCTOS GRID */}
+                {/* PRODUCTS GRID */}
                 <div className="products-content">
                     {filteredProducts.length === 0 ? (
                         <div className="no-products">
@@ -163,15 +159,6 @@ export const Products = () => {
                                             />
                                             {producto.isOffer && <span className="badge offer">OFERTA</span>}
                                             {producto.isNew && <span className="badge new">NUEVO</span>}
-                                            <button 
-                                                className="quick-view-btn"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    alert('Vista rápida - Próximamente');
-                                                }}
-                                            >
-                                                Vista rápida
-                                            </button>
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>

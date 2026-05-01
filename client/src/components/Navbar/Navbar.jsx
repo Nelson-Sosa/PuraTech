@@ -51,7 +51,7 @@ const Navbar = () => {
           e.preventDefault();
           const query = e.target.search.value;
           if (query.trim()) {
-            navigate(`/category/${encodeURIComponent(query)}`);
+            window.location.href = `/category/${encodeURIComponent(query)}`;
           }
         }}>
           <input 
