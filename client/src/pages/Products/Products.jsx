@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios"; 
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { API_URL } from '../../config';
@@ -9,7 +9,7 @@ import Navbar from '../../components/Navbar/Navbar';
 
 export const Products = () => {
     const { category } = useParams();
-    const decodedCategory = decodeURIComponent(category); // Decodificar espacios
+    const decodedCategory = decodeURIComponent(category || '');
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchActive, setSearchActive] = useState(false); 
@@ -17,7 +17,6 @@ export const Products = () => {
     const [showModal, setShowModal] = useState(false);
     const [currentProductID, setCurrentProduct] = useState(null);
     const [userRole, setUserRole] = useState(null);
-    const location = useLocation();
     const [sortBy, setSortBy] = useState('relevance');
     const [priceFilter, setPriceFilter] = useState('all');
     const { addToCart } = useCart();
@@ -47,7 +46,7 @@ export const Products = () => {
         if (location.state?.success) {
             alert(location.state.success);
         }
-    }, [category, searchActive, location.state, getProducts]);
+    }, [decodedCategory, searchActive, getProducts]);
 
     // 🔥 Filtrar y ordenar productos
     useEffect(() => {
@@ -78,7 +77,7 @@ export const Products = () => {
     const deleteProduct = async (productID) => {
         try {
             await axios.delete(
-                `${API_URL}/api/remover/product/${productID}`,
+                `${API_URL}/api/remover/producto/${productID}`,
                 {
                     headers: { token_usuario: localStorage.getItem("token") }
                 }
@@ -110,7 +109,7 @@ export const Products = () => {
 
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
-                <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{category}</span>
+                <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{decodedCategory}</span>
             </div>
 
             <div className="products-layout">
@@ -175,9 +174,9 @@ export const Products = () => {
                                             </button>
                                         </div>
                                         <div className="product-info">
-                                            <h3>{producto.marca}</h3>
-                                            <h4>{producto.nombre}</h4>
-                                            <p className="price">
+                                            <h3>{producto.nombre}</h3>
+                                            <p className="product-brand">{producto.marca}</p>
+                                            <p className="product-price">
                                                 {Number(producto.precio).toLocaleString("es-PY")} Gs.
                                             </p>
                                             <p className="stock">Stock disponible: {producto.stock || 10}</p>

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useCart } from '../../context/CartContext';
 import axios from "axios";
 import { API_URL } from '../../config';
-import './Navbar.css';
 
 const Navbar = () => {
   const [userRole, setUserRole] = useState(localStorage.getItem('rol'));
