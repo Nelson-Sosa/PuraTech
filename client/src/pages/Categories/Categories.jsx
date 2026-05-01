@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CategoryForm from "../../components/Categories/CategoryForm";
 import './Categories.css';
+import Navbar from '../../components/Navbar/Navbar';
 import { API_URL} from '../../config';
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -44,6 +45,8 @@ const Categories = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="categories-container">
       <h1>Categorías</h1>
 
@@ -69,6 +72,7 @@ const Categories = () => {
   ))}
 </ul>
     </div>
+    </>
   );
 };
 

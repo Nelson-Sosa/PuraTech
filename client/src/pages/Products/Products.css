@@ -149,19 +149,25 @@
 .product-image-container {
   position: relative;
   overflow: hidden;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  height: 240px;
 }
 
 .product-image {
   width: 100%;
-  height: 240px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.06);
+  transform: scale(1.1) translateY(-5px);
 }
 
 /* Quick View */

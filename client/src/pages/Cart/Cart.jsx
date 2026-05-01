@@ -3,6 +3,7 @@ import { useCart } from '../../context/CartContext';
 import { useState } from 'react';
 import { API_URL } from '../../config';
 import './Cart.css';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
@@ -19,6 +20,8 @@ const Cart = () => {
 
   if (cart.length === 0) {
     return (
+      <>
+      <Navbar />
       <div className="cart-page">
         <div className="cart-empty">
           <span className="cart-empty-icon">🛒</span>
@@ -27,10 +30,13 @@ const Cart = () => {
           <Link to="/" className="continue-shopping">← Seguir comprando</Link>
         </div>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+    <Navbar />
     <div className="cart-page">
       <h2>🛒 Tu Carrito ({getCount()} productos)</h2>
 
@@ -78,6 +84,7 @@ const Cart = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
