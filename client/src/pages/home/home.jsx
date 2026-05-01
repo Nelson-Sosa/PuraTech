@@ -83,9 +83,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* NAVBAR */}
-      <Navbar />
-
       {/* HERO SECTION */}
       <section className="hero-slider">
         <div className="hero-orb-left" />

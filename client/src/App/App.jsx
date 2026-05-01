@@ -16,32 +16,33 @@ import CategoryForm from "../components/Categories/CategoryForm";
 import Categories from "../pages/Categories/Categories";
 import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
+import Navbar from '../components/Navbar/Navbar';
 
 const App = ()=> {
   const [login, setLogin] = useState(false);
   return (
     <CartProvider>
     <div>
-    <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
-  <Route path="/register" element={<FormRegistro />} />
-  <Route path="/cart" element={<Cart />} />
-  
-  {/* Rutas públicas */}
-  <Route path="/category/:category" element={<Products />} />
-  <Route path="/suppliers" element={<Suppliers />} />
-  <Route path="/create-payment-intent" element={<Checkout />} />
-  
-  {/* Rutas protegidas para admin */}
-  <Route path="/agregar/product" element={<PrivateRoute component={FormProduct} />} />
-  <Route path="/actualizar/product/:id" element={<PrivateRoute component={UpdateProduct} />} />
-  <Route path="/add/suppliers" element={<PrivateRoute component={SupplierForm} />} />
-  <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
-  <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
-  <Route path="/categories" element={<PrivateRoute component={Categories} />} />
-  
-    </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
+        <Route path="/register" element={<FormRegistro />} />
+        <Route path="/cart" element={<Cart />} />
+        
+        {/* Rutas públicas */}
+        <Route path="/category/:category" element={<Products />} />
+        <Route path="/suppliers" element={<Suppliers />} />
+        <Route path="/create-payment-intent" element={<Checkout />} />
+        
+        {/* Rutas protegidas para admin */}
+        <Route path="/agregar/product" element={<PrivateRoute component={FormProduct} />} />
+        <Route path="/actualizar/product/:id" element={<PrivateRoute component={UpdateProduct} />} />
+        <Route path="/add/suppliers" element={<PrivateRoute component={SupplierForm} />} />
+        <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
+        <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
+        <Route path="/categories" element={<PrivateRoute component={Categories} />} />
+      </Routes>
     </div>
     </CartProvider>
   );
