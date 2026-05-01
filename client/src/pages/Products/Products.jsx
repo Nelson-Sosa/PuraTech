@@ -9,6 +9,7 @@ import Navbar from '../../components/Navbar/Navbar';
 
 export const Products = () => {
     const { category } = useParams();
+    const decodedCategory = decodeURIComponent(category); // Decodificar espacios
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchActive, setSearchActive] = useState(false); 
@@ -25,7 +26,7 @@ export const Products = () => {
     const getProducts = useCallback(async () => {
         try {
             const res = await axios.get(
-                `${API_URL}/api/products/public?category=${category}`
+                `${API_URL}/api/products/public?category=${decodedCategory}`
             );
             setProducts(res.data);
             setFilteredProducts(res.data);
@@ -33,7 +34,7 @@ export const Products = () => {
             console.error(err);
             // NO redirigir a login en rutas públicas
         }
-    }, [category]);
+    }, [decodedCategory]);
 
     // 🔥 Se ejecuta al montar y cuando cambia categoría
     useEffect(() => {

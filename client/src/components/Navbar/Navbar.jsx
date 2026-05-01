@@ -52,7 +52,7 @@ const Navbar = () => {
           e.preventDefault();
           const query = e.target.search.value;
           if (query.trim()) {
-            window.location.href = `/category/${query}`;
+            navigate(`/category/${encodeURIComponent(query)}`);
           }
         }}>
           <input 

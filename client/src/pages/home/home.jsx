@@ -107,22 +107,10 @@ const Home = () => {
       <section className="categories-section">
         <h2>🎮 Categorías</h2>
         <div className="categories-grid">
-          <Link to="/category/Consolas" className="category-card">
-            <span className="cat-icon">🎮</span>
-            <span className="cat-label">Consolas</span>
-          </Link>
-          <Link to="/category/PCs Gamer" className="category-card">
-            <span className="cat-icon">💻</span>
-            <span className="cat-label">PCs Gamer</span>
-          </Link>
-          <Link to="/category/Componentes" className="category-card">
-            <span className="cat-icon">🖥️</span>
-            <span className="cat-label">Componentes</span>
-          </Link>
-          <Link to="/category/Accesorios" className="category-card">
-            <span className="cat-icon">🖱️</span>
-            <span className="cat-label">Accesorios</span>
-          </Link>
+          <Link to={`/category/${encodeURIComponent('Consolas')}`} className="category-card">🎮 Consolas</Link>
+          <Link to={`/category/${encodeURIComponent('PCs Gamer')}`} className="category-card">💻 PCs Gamer</Link>
+          <Link to={`/category/${encodeURIComponent('Componentes')}`} className="category-card">🖥️ Componentes</Link>
+          <Link to={`/category/${encodeURIComponent('Accesorios')}`} className="category-card">🖱️ Accesorios</Link>
         </div>
       </section>
 
