@@ -21,7 +21,6 @@ const Cart = () => {
   if (cart.length === 0) {
     return (
       <>
-      <Navbar />
       <div className="cart-page">
         <div className="cart-empty">
           <span className="cart-empty-icon">🛒</span>
@@ -36,7 +35,6 @@ const Cart = () => {
 
   return (
     <>
-    <Navbar />
     <div className="cart-page">
       <h2>🛒 Tu Carrito ({getCount()} productos)</h2>
 

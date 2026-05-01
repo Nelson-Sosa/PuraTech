@@ -100,9 +100,6 @@ export const Products = () => {
 
     return (
         <div className="products-page">
-            {/* NAVBAR */}
-            <Navbar />
-
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
                 <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{decodedCategory}</span>

@@ -46,7 +46,6 @@ const Categories = () => {
 
   return (
     <>
-    <Navbar />
     <div className="categories-container">
       <h1>Categorías</h1>
 
