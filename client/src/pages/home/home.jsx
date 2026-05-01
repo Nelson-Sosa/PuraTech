@@ -105,7 +105,7 @@ const Home = () => {
         <h2>🎮 Categorías</h2>
         <div className="categories-grid">
           <Link to={`/category/${encodeURIComponent('Consolas')}`} className="category-card">🎮 Consolas</Link>
-          <Link to={`/category/${encodeURIComponent('PCs Gamer')}`} className="category-card">💻 PCs Gamer</Link>
+          <Link to={`/category/${encodeURIComponent('Pc Gamer')}`} className="category-card">💻 PCs Gamer</Link>
           <Link to={`/category/${encodeURIComponent('Componentes')}`} className="category-card">🖥️ Componentes</Link>
           <Link to={`/category/${encodeURIComponent('Accesorios')}`} className="category-card">🖱️ Accesorios</Link>
         </div>
@@ -181,7 +181,7 @@ const Home = () => {
           <div className="footer-section">
             <h4>Categorías</h4>
             <Link to="/category/Consolas">Consolas</Link>
-            <Link to="/category/PCs Gamer">PCs Gamer</Link>
+            <Link to="/category/Pc Gamer">PCs Gamer</Link>
             <Link to="/category/Componentes">Componentes</Link>
             <Link to="/category/Accesorios">Accesorios</Link>
           </div>
