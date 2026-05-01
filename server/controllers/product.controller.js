@@ -34,7 +34,11 @@ module.exports.getPublicHome = async (req, res) => {
 module.exports.getPublicProducts = async (req, res) => {
   try {
     const { category } = req.query;
-    const products = await Product.find(category ? { category } : {});
+    let query = {};
+    if (category && category !== 'all') {
+      query.category = new RegExp(category, 'i');
+    }
+    const products = await Product.find(query);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener productos' });
