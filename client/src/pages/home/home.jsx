@@ -10,23 +10,29 @@ const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
   const [offers, setOffers] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const fetchAllProducts = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/products/public/home`);
-        setBestsellers(res.data.bestsellers);
-        setOffers(res.data.offers);
-        setNewProducts(res.data.newProducts);
+        const [productsRes, categoriesRes] = await Promise.all([
+          axios.get(`${API_URL}/api/products/public/home`),
+          axios.get(`${API_URL}/api/categories`)
+        ]);
+        
+        setBestsellers(productsRes.data.bestsellers);
+        setOffers(productsRes.data.offers);
+        setNewProducts(productsRes.data.newProducts);
+        setCategories(categoriesRes.data);
       } catch (err) {
-        console.error("Error cargando productos", err);
+        console.error("Error cargando datos de inicio", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchAllProducts();
+    fetchData();
   }, []);
 
   const ProductSection = ({ title, products, icon }) => (
@@ -81,6 +87,16 @@ const Home = () => {
     </section>
   );
 
+  const getCategoryIcon = (name) => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('consolas')) return '🎮';
+    if (lowerName.includes('pc') || lowerName.includes('notebook')) return '💻';
+    if (lowerName.includes('componentes') || lowerName.includes('hardware')) return '🖥️';
+    if (lowerName.includes('accesorios') || lowerName.includes('perifericos')) return '🖱️';
+    if (lowerName.includes('juegos')) return '🎲';
+    return '📁';
+  };
+
   return (
     <div className="home-container">
       {/* HERO SECTION */}
@@ -104,10 +120,19 @@ const Home = () => {
       <section className="categories-section">
         <h2>🎮 Categorías</h2>
         <div className="categories-grid">
-          <Link to={`/category/${encodeURIComponent('Consolas')}`} className="category-card">🎮 Consolas</Link>
-          <Link to={`/category/${encodeURIComponent('Pc Gamer')}`} className="category-card">💻 PCs Gamer</Link>
-          <Link to={`/category/${encodeURIComponent('Componentes')}`} className="category-card">🖥️ Componentes</Link>
-          <Link to={`/category/${encodeURIComponent('Accesorios')}`} className="category-card">🖱️ Accesorios</Link>
+          {categories.length > 0 ? (
+            categories.map((cat) => (
+              <Link 
+                key={cat._id} 
+                to={`/category/${encodeURIComponent(cat.name)}`} 
+                className="category-card"
+              >
+                {getCategoryIcon(cat.name)} {cat.name}
+              </Link>
+            ))
+          ) : (
+            <p>Cargando categorías...</p>
+          )}
         </div>
       </section>
 
@@ -180,10 +205,11 @@ const Home = () => {
           </div>
           <div className="footer-section">
             <h4>Categorías</h4>
-            <Link to="/category/Consolas">Consolas</Link>
-            <Link to="/category/Pc Gamer">PCs Gamer</Link>
-            <Link to="/category/Componentes">Componentes</Link>
-            <Link to="/category/Accesorios">Accesorios</Link>
+            {categories.slice(0, 6).map((cat) => (
+              <Link key={`footer-${cat._id}`} to={`/category/${encodeURIComponent(cat.name)}`}>
+                {cat.name}
+              </Link>
+            ))}
           </div>
           <div className="footer-section">
             <h4>Contacto</h4>
