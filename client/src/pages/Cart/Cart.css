@@ -99,9 +99,13 @@
   object-fit: contain;
   border-radius: var(--radius-md);
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.02);
-  padding: 8px;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  /* Efecto de iluminación miniatura */
+  background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  padding: 10px;
+  /* Sombra 3D */
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4)) drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .cart-item-info {

@@ -149,12 +149,23 @@
 .product-image-container {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.02);
+  /* Efecto de iluminación de estudio (Studio Lighting Effect) */
+  background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  height: 240px;
+  padding: 30px;
+  height: 250px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Anillo de reflejo interno para dar volumen */
+.product-image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
+  pointer-events: none;
 }
 
 .product-image {
@@ -162,12 +173,16 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Doble sombra para un efecto 3D más realista */
+  filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5)) drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  z-index: 1;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.1) translateY(-5px);
+  transform: scale(1.12) translateY(-8px) rotate(-1deg);
+  /* Resplandor violeta en hover para estética gamer */
+  filter: drop-shadow(0 15px 30px rgba(139, 92, 246, 0.25)) drop-shadow(0 8px 10px rgba(0,0,0,0.6));
 }
 
 /* Quick View */
