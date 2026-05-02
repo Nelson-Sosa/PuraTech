@@ -55,15 +55,6 @@ const Home = () => {
                   />
                   {product.isOffer && <span className="badge offer">OFERTA</span>}
                   {product.isNew && <span className="badge new">NUEVO</span>}
-                  <button 
-                    className="quick-view-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      alert('Vista rápida - Próximamente');
-                    }}
-                  >
-                    Vista rápida
-                  </button>
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.marca}</p>
