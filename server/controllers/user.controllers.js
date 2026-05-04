@@ -40,7 +40,7 @@ module.exports.login =(req, res) =>{
                 rol: usuarioEncontrado.rol
             }
 
-            jwt.sign(infoEnToken,  SECRETO, {expiresIn: "15m"}, (error, token) =>{
+            jwt.sign(infoEnToken,  SECRETO, {expiresIn: "24h"}, (error, token) =>{
                 if(error){
                     return res.status(400).json({mensaje: "Algo fallo al generar el token"})
                 }
@@ -83,7 +83,7 @@ module.exports.agregarUsuario = async (req, res) => {
       rol: newUser.rol
     };
 
-    jwt.sign(infoEnToken, SECRETO, { expiresIn: "15m" }, (error, token) => {
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
       if (error) {
         return res.status(400).json({ mensaje: "Algo falló al generar el token" });
       }
