@@ -33,7 +33,7 @@ const FormularioLogin = ({ setLogin }) => {
 
         setLogin(true);
         setError("");
-        navegacion("/category/Tablet");
+        window.location.href = "/"; // Forzar recarga para actualizar el Navbar
       }
     } catch (err) {
       const errorMessage = err.response
