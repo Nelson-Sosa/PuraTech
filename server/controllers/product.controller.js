@@ -48,10 +48,16 @@ module.exports.getPublicProducts = async (req, res) => {
 // Endpoints ADMIN (requieren token)
 module.exports.agregarProducto = async (req, res) => {
   try {
-    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock } = req.body;
+    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ error: "Imagen no cargada correctamente" });
+    let finalImageUrl = "";
+
+    if (req.file) {
+      finalImageUrl = req.file.path;
+    } else if (imageUrlText) {
+      finalImageUrl = imageUrlText;
+    } else {
+      return res.status(400).json({ error: "Imagen no proporcionada (sube un archivo o envía un link)" });
     }
 
     const newProduct = await Product.create({
@@ -60,7 +66,7 @@ module.exports.agregarProducto = async (req, res) => {
       marca,
       precio,
       descripcion,
-      imageUrl: req.file.path,
+      imageUrl: finalImageUrl,
       isOffer: isOffer || false,
       isNew: isNew !== false, // Por defecto es nuevo
       stock: stock || 10

@@ -12,6 +12,7 @@ const FormProduct = () => {
   const [precio, setPrecio] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrlText, setImageUrlText] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ const FormProduct = () => {
     if (!marca) newErrors.marca = "Brand is required";
     if (!precio) newErrors.precio = "Price is required";
     if (!descripcion) newErrors.descripcion = "Description is required";
-    if (!imageUrl) newErrors.imageUrl = "Image is required";
+    if (!imageUrl && !imageUrlText) newErrors.image = "Se requiere una imagen (archivo o link)";
     return newErrors;
   };
 
@@ -54,6 +55,12 @@ const FormProduct = () => {
 
   const handleImageChange = (e) => {
     setImageUrl(e.target.files[0]);
+    setImageUrlText(""); // Si sube archivo, limpiamos el link
+  };
+
+  const handleImageUrlChange = (e) => {
+    setImageUrlText(e.target.value);
+    setImageUrl(null); // Si pone link, limpiamos el archivo
   };
 
   const procesaForm = async (e) => {
@@ -70,7 +77,12 @@ const FormProduct = () => {
     formData.append("marca", marca);
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
-    formData.append("imageUrl", imageUrl);
+    if (imageUrl) {
+      formData.append("imageUrl", imageUrl);
+    }
+    if (imageUrlText) {
+      formData.append("imageUrlText", imageUrlText);
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -180,9 +192,25 @@ const FormProduct = () => {
     </div>
 
    <div className="form-group">
-  <label>Imagen</label>
-  <input type="file" name="imageUrl" onChange={handleImageChange} />
-  {errors.imageUrl && <span className="error">{errors.imageUrl}</span>}
+  <label>Imagen del Producto</label>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <div>
+      <span style={{ fontSize: '12px', color: '#888' }}>Opción 1: Subir un archivo de imagen</span>
+      <input type="file" name="imageUrl" onChange={handleImageChange} accept="image/*" />
+    </div>
+    <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold' }}>O</div>
+    <div>
+      <span style={{ fontSize: '12px', color: '#888' }}>Opción 2: Pegar un link de la imagen</span>
+      <input 
+        type="text" 
+        name="imageUrlText" 
+        value={imageUrlText} 
+        onChange={handleImageUrlChange} 
+        placeholder="https://ejemplo.com/imagen.jpg" 
+      />
+    </div>
+  </div>
+  {errors.image && <span className="error">{errors.image}</span>}
 </div>
 
     <button type="submit" className="btn-rgb">
