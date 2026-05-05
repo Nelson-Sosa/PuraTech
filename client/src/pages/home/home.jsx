@@ -13,6 +13,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const [addingToCart, setAddingToCart] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,10 +67,27 @@ const Home = () => {
                 </div>
               </Link>
               <button 
-                className="add-to-cart-btn"
-                onClick={() => addToCart(product)}
+                className={`add-to-cart-btn ${addingToCart[product._id] ? 'added' : ''}`}
+                onClick={() => {
+                  setAddingToCart(prev => ({...prev, [product._id]: 'adding'}));
+                  addToCart(product);
+                  setAddingToCart(prev => ({...prev, [product._id]: 'added'}));
+                  setTimeout(() => {
+                    setAddingToCart(prev => {
+                      const newState = {...prev};
+                      delete newState[product._id];
+                      return newState;
+                    });
+                  }, 1500);
+                }}
               >
-                🛒 Agregar al carrito
+                {addingToCart[product._id] === 'added' ? (
+                  <>✓ Agregado</>
+                ) : addingToCart[product._id] === 'adding' ? (
+                  <>Agregando...</>
+                ) : (
+                  <>🛒 Agregar al carrito</>
+                )}
               </button>
             </div>
           ))}
