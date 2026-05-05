@@ -337,10 +337,53 @@ module.exports.updateProduct = async (req, res) => {
   }
 };
 
-module.exports.getProduct = (req, res) => {
-  Product.findOne({ _id: req.params.id })
-    .then(product => res.json(product))
-    .catch(error => res.json(error));
+module.exports.getProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ _id: req.params.id });
+    if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Helper to check if URL is valid
+    const isValidImageUrl = (url) => {
+      if (!url) return false;
+      // Cloudinary URLs are always valid
+      if (url.includes('cloudinary.com')) return true;
+      // Local uploads are valid
+      if (url.startsWith('/uploads/')) return true;
+      // HTTP/HTTPS URLs that are NOT from blocked domains
+      if (url.match(/^https?:\/\/.+/)) {
+        const blockedPatterns = [
+          /walmartimages/i,
+          /gstatic\.com/i,
+          /encrypted-tbn/i,
+          /facebook\.com.*\.(jpg|jpeg|png)/i
+        ];
+        return !blockedPatterns.some(p => p.test(url));
+      }
+      return false;
+    };
+
+    // Fix imageUrl if broken
+    if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
+      product.imageUrl = '/img/placeholder.png';
+    }
+
+    // Fix images array if broken URLs
+    if (product.images && product.images.length > 0) {
+      product.images = product.images.map(img => {
+        if (!isValidImageUrl(img)) {
+          return '/img/placeholder.png';
+        }
+        return img;
+      });
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error("Error getting product:", error);
+    res.status(500).json({ error: 'Error al obtener producto' });
+  }
 };
 
 module.exports.searchGlobal = async (req, res) => {

@@ -32,12 +32,42 @@ const ProductDetail = () => {
   const getAllImages = () => {
     if (!product) return [];
     const images = [];
-    if (product.imageUrl) images.push(product.imageUrl);
+    
+    // Helper to check if URL is valid
+    const isValidImageUrl = (url) => {
+      if (!url) return false;
+      // Cloudinary URLs are always valid
+      if (url.includes('cloudinary.com')) return true;
+      // Local uploads are valid
+      if (url.startsWith('/uploads/')) return true;
+      // HTTP/HTTPS URLs that are NOT from blocked domains
+      if (url.match(/^https?:\/\/.+/)) {
+        const blockedPatterns = [
+          /walmartimages/i,
+          /gstatic\.com/i,
+          /encrypted-tbn/i,
+          /facebook\.com.*\.(jpg|jpeg|png)/i
+        ];
+        return !blockedPatterns.some(p => p.test(url));
+      }
+      return false;
+    };
+    
+    if (product.imageUrl && isValidImageUrl(product.imageUrl)) {
+      images.push(product.imageUrl);
+    } else if (product.imageUrl) {
+      // Broken URL - use placeholder instead
+      images.push("/img/placeholder.png");
+    }
+    
     if (product.images && product.images.length > 0) {
       product.images.forEach(img => {
-        if (!images.includes(img)) images.push(img);
+        if (isValidImageUrl(img) && !images.includes(img)) {
+          images.push(img);
+        }
       });
     }
+    
     return images.length > 0 ? images : ["/img/placeholder.png"];
   };
 
