@@ -3,7 +3,9 @@
   bottom: 25px;     /* separación del fondo */
   right: 25px;      /* 👈 clave: lado derecho */
   left: auto;       /* 👈 evita que se vaya a la izquierda */
-  
+  left: auto !important;
+  top: auto !important;
+  z-index: 99999; /* 🔥 CLAVE */
   background: #25D366;
   color: white;
   border: none;

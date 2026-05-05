@@ -17,7 +17,9 @@ const WhatsAppFloat = () => {
   };
 
   return (
-    <button className="whatsapp-float" onClick={handleClick}>
+    <button className="whatsapp-float" 
+    onClick={handleClick}
+     style={{ position: "fixed" }} >
       💬
     </button>
   );
