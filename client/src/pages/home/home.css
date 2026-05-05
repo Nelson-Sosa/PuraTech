@@ -493,9 +493,9 @@
 
 /* Add to cart btn - Compact Premium Design */
 .add-to-cart-btn {
-  width: calc(100% - 32px);
-  margin: 0 16px 16px;
-  padding: 12px 20px;
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  padding: 0 20px;
   background: var(--gradient-accent);
   color: var(--text-bright);
   border: none;
@@ -516,6 +516,7 @@
   height: 44px;
   min-height: 44px;
   max-height: 44px;
+  flex-shrink: 0;
 }
 
 .add-to-cart-btn::before {
