@@ -70,4 +70,3 @@ export const sendWhatsAppContact = (message = '') => {
   const encodedMessage = encodeURIComponent(defaultMessage);
   window.open('https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage, '_blank');
 };
-
