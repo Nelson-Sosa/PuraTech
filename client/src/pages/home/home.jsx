@@ -21,7 +21,7 @@ const Home = () => {
           axios.get(`${API_URL}/api/products/public/home`),
           axios.get(`${API_URL}/api/categories`)
         ]);
-
+        
         setBestsellers(productsRes.data.bestsellers);
         setOffers(productsRes.data.offers);
         setNewProducts(productsRes.data.newProducts);
@@ -48,8 +48,8 @@ const Home = () => {
             <div key={product._id} className="product-card">
               <Link to={`/product/${product._id}`} className="product-link">
                 <div className="product-image-container">
-                  <img
-                    src={product.imageUrl || "/img/placeholder.png"}
+                  <img 
+                    src={product.imageUrl || "/img/placeholder.png"} 
                     alt={product.nombre}
                     className="product-image"
                   />
@@ -65,7 +65,7 @@ const Home = () => {
                   <p className="stock">✓ Stock: {product.stock || 10} unidades</p>
                 </div>
               </Link>
-              <button
+              <button 
                 className="add-to-cart-btn"
                 onClick={() => addToCart(product)}
               >
@@ -100,7 +100,7 @@ const Home = () => {
               <span>al mejor precio</span>
             </h1>
             <p>🚀 Equipos, consolas y accesorios premium. Comprá fácil y rápido desde tu casa.</p>
-            <Link to="/category/Consolas" className="hero-btn">
+            <Link to="/products" className="hero-btn">
               Ver productos →
             </Link>
           </div>
@@ -113,9 +113,9 @@ const Home = () => {
         <div className="categories-grid">
           {categories.length > 0 ? (
             categories.map((cat) => (
-              <Link
-                key={cat._id}
-                to={`/category/${encodeURIComponent(cat.name)}`}
+              <Link 
+                key={cat._id} 
+                to={`/category/${encodeURIComponent(cat.name)}`} 
                 className="category-card"
               >
                 {getCategoryIcon(cat.name)} {cat.name}
@@ -176,35 +176,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BOTÓN FLOTANTE DE WHATSAPP */}
-      <a
-        href={`https://wa.me/595981123456`}
-        className="whatsapp-float"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Contactanos por WhatsApp"
-      >
-        📱
-      </a>
-
       {/* FOOTER */}
       <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-brand-logo">🎮 GameMasters</div>
-            <p className="footer-tagline">Tu tienda gamer de confianza en Paraguay</p>
+            <p>Tu tienda gamer de confianza en Paraguay.</p>
           </div>
           <div className="footer-section">
-            <h4>Categorías</h4>
-            {categories.slice(0, 6).map((cat) => (
-              <Link key={`footer-${cat._id}`} to={`/category/${encodeURIComponent(cat.name)}`}>
-                {cat.name}
-              </Link>
-            ))}
+            <h4>Enlaces rápidos</h4>
+            <Link to="/products">Catálogo</Link>
+            <Link to="/login">Mi cuenta</Link>
+            <Link to="/cart">Carrito</Link>
           </div>
           <div className="footer-section">
             <h4>Contacto</h4>
-            <p>📱 WhatsApp: +595 981 123 456</p>
+            <p>📱 WhatsApp: +595 983 986 775</p>
             <p>📧 email@gamemasters.com</p>
             <p>📍 Asunción, Paraguay</p>
           </div>
