@@ -7,6 +7,41 @@ const Stripe = require('stripe');
 // Initialize Stripe
 const stripe = Stripe('sk_test_51PxDMmRt6zQTXipIoi6NdMsHncrdJJkErnnL4pe50T2kjpBOZ39jyNZw4GePqz0uPaPOs3ZEx8BDQ7nTUGpUiAHZ00W3n2ShcA');
 
+// Global helper: ONLY allow trusted domains for images
+const isValidImageUrl = (url) => {
+  if (!url) return false;
+  
+  // Cloudinary URLs are always valid
+  if (url.includes('cloudinary.com')) return true;
+  
+  // Local uploads are valid
+  if (url.startsWith('/uploads/')) return true;
+  
+  // ONLY allow specific trusted domains
+  if (url.match(/^https?:\/\/.+/)) {
+    const trustedDomains = [
+      'cloudinary.com',
+      'imgur.com',
+      'unsplash.com',
+      'images.unsplash.com',
+      'via.placeholder.com',
+      'placeholder.com',
+      'gamemasters-aqha.onrender.com'
+    ];
+    
+    const isTrusted = trustedDomains.some(domain => url.includes(domain));
+    
+    if (!isTrusted) {
+      console.log('⚠️ Blocking untrusted URL:', url.substring(0, 80));
+      return false;
+    }
+    
+    return true;
+  }
+  
+  return false;
+};
+
 // Helper function to upload image to Cloudinary
 const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
   try {
@@ -418,23 +453,39 @@ module.exports.getProduct = async (req, res) => {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
 
-    // Helper to check if URL is valid
+    // Helper to check if URL is valid - ONLY allow trusted sources
     const isValidImageUrl = (url) => {
       if (!url) return false;
+      
       // Cloudinary URLs are always valid
       if (url.includes('cloudinary.com')) return true;
+      
       // Local uploads are valid
       if (url.startsWith('/uploads/')) return true;
-      // HTTP/HTTPS URLs that are NOT from blocked domains
+      
+      // ONLY allow specific trusted domains
       if (url.match(/^https?:\/\/.+/)) {
-        const blockedPatterns = [
-          /walmartimages/i,
-          /gstatic\.com/i,
-          /encrypted-tbn/i,
-          /facebook\.com.*\.(jpg|jpeg|png)/i
+        const trustedDomains = [
+          'cloudinary.com',
+          'imgur.com',
+          'unsplash.com',
+          'images.unsplash.com',
+          'via.placeholder.com',
+          'placeholder.com',
+          'gamemasters-aqha.onrender.com'
         ];
-        return !blockedPatterns.some(p => p.test(url));
+        
+        // Check if URL is from trusted domain
+        const isTrusted = trustedDomains.some(domain => url.includes(domain));
+        
+        if (!isTrusted) {
+          console.log('⚠️ Blocking untrusted URL:', url.substring(0, 80));
+          return false;
+        }
+        
+        return true;
       }
+      
       return false;
     };
 
