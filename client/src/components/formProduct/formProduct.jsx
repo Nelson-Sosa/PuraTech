@@ -110,6 +110,10 @@ const FormProduct = () => {
   const procesaForm = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
+    
+    // Note: Backend now downloads images from protected URLs automatically
+    // No need to warn user - the server handles it
+    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -297,7 +301,7 @@ const FormProduct = () => {
                 {previewUrl && (
                   <div className="image-preview-box">
                     <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
-                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
+                      {previewError ? '⚠️ Vista previa no disponible (se descargará al guardar)' : previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
                     </p>
                     <div className="preview-container">
                       {previewLoading && !previewError && (
@@ -323,14 +327,14 @@ const FormProduct = () => {
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981',
+                          border: previewError ? '2px solid #f59e0b' : '2px solid #10b981',
                           display: previewLoading ? 'none' : 'block'
                         }}
                       />
                     </div>
                     {previewError && (
                       <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px' }}>
-                        Intenta con: imgur.com, images.unsplash.com, via.placeholder.com
+                        💡 Al guardar, el servidor descargará la imagen automáticamente
                       </p>
                     )}
                   </div>
