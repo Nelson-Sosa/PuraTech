@@ -54,14 +54,18 @@ module.exports.agregarProducto = async (req, res) => {
     let imagesArray = [];
 
     // Procesar imagen principal (imageUrl)
-    if (req.file) {
+    if (req.files && req.files.imageUrl) {
+      finalImageUrl = req.files.imageUrl[0].path;
+    } else if (req.file) {
       finalImageUrl = req.file.path;
     } else if (imageUrlText) {
       finalImageUrl = imageUrlText;
     }
 
     // Procesar múltiples imágenes
-    if (imagesJson) {
+    if (req.files && req.files.additionalImages) {
+      imagesArray = req.files.additionalImages.map(file => file.path);
+    } else if (imagesJson) {
       try {
         imagesArray = JSON.parse(imagesJson);
       } catch (e) {

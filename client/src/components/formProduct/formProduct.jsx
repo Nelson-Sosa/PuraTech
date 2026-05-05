@@ -13,6 +13,8 @@ const FormProduct = () => {
   const [descripcion, setDescripcion] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [imageUrlText, setImageUrlText] = useState("");
+  const [additionalImages, setAdditionalImages] = useState([]);
+  const [additionalImagesText, setAdditionalImagesText] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -23,7 +25,14 @@ const FormProduct = () => {
     if (!marca) newErrors.marca = "Brand is required";
     if (!precio) newErrors.precio = "Price is required";
     if (!descripcion) newErrors.descripcion = "Description is required";
-    if (!imageUrl && !imageUrlText) newErrors.image = "Se requiere una imagen (archivo o link)";
+    
+    // Validar que haya al menos una imagen (principal o adicionales)
+    const hasMainImage = imageUrl || imageUrlText;
+    const hasAdditionalImages = additionalImages.length > 0 || additionalImagesText;
+    
+    if (!hasMainImage && !hasAdditionalImages) {
+      newErrors.image = "Se requiere al menos una imagen (archivo o link)";
+    }
     return newErrors;
   };
 
@@ -63,7 +72,15 @@ const FormProduct = () => {
     setImageUrl(null); // Si pone link, limpiamos el archivo
   };
 
-  const procesaForm = async (e) => {
+  const handleAdditionalImagesChange = (e) => {
+    setAdditionalImages(Array.from(e.target.files));
+  };
+
+  const handleAdditionalImagesTextChange = (e) => {
+    setAdditionalImagesText(e.target.value);
+  };
+
+    const procesaForm = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
@@ -77,17 +94,29 @@ const FormProduct = () => {
     formData.append("marca", marca);
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
+    
+    // Imagen principal
     if (imageUrl) {
       formData.append("imageUrl", imageUrl);
     }
     if (imageUrlText) {
       formData.append("imageUrlText", imageUrlText);
     }
+    
+    // Imágenes adicionales
+    if (additionalImages.length > 0) {
+      additionalImages.forEach((file) => {
+        formData.append("additionalImages", file);
+      });
+    }
+    if (additionalImagesText) {
+      formData.append("images", additionalImagesText);
+    }
 
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No hay token disponible. Inicia sesión primero.");
-
+      
       await axios.post(
         `${API_URL}/api/agregar/producto`,
         formData,
@@ -100,8 +129,8 @@ const FormProduct = () => {
       );
       
       navigate(`/category/${encodeURIComponent(category)}`, {  
-      });   
-    
+      });    
+      
     } catch (err) {
       console.error("Error al cargar producto", err);
       if (err.response) {
@@ -192,7 +221,7 @@ const FormProduct = () => {
     </div>
 
    <div className="form-group">
-  <label>Imagen del Producto</label>
+  <label>Imagen Principal del Producto</label>
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
     <div>
       <span style={{ fontSize: '12px', color: '#888' }}>Opción 1: Subir un archivo de imagen</span>
@@ -211,6 +240,32 @@ const FormProduct = () => {
     </div>
   </div>
   {errors.image && <span className="error">{errors.image}</span>}
+</div>
+
+<div className="form-group">
+  <label>Imágenes Adicionales (Opcional)</label>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <div>
+      <span style={{ fontSize: '12px', color: '#888' }}>Seleccionar múltiples imágenes</span>
+      <input type="file" name="additionalImages" onChange={handleAdditionalImagesChange} accept="image/*" multiple />
+      {additionalImages.length > 0 && (
+        <p style={{ fontSize: '12px', color: '#10b981', marginTop: '5px' }}>
+          {additionalImages.length} imagen(es) seleccionada(s)
+        </p>
+      )}
+    </div>
+    <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold' }}>O</div>
+    <div>
+      <span style={{ fontSize: '12px', color: '#888' }}>Pegar URLs de imágenes (separadas por coma)</span>
+      <input 
+        type="text" 
+        name="additionalImagesText" 
+        value={additionalImagesText} 
+        onChange={handleAdditionalImagesTextChange} 
+        placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg" 
+      />
+    </div>
+  </div>
 </div>
 
     <button type="submit" className="btn-rgb">
