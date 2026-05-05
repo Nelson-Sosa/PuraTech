@@ -491,15 +491,16 @@
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
-/* Add to cart btn - Premium Design */
+/* Add to cart btn - Compact Premium Design */
 .add-to-cart-btn {
-  width: 100%;
-  padding: 16px 24px;
+  width: calc(100% - 32px);
+  margin: 0 16px 16px;
+  padding: 12px 20px;
   background: var(--gradient-accent);
   color: var(--text-bright);
   border: none;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -507,11 +508,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
 }
 
 .add-to-cart-btn::before {
@@ -531,8 +535,47 @@
 
 .add-to-cart-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
   filter: brightness(1.1);
+}
+
+.add-to-cart-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
+}
+
+/* Success state */
+.add-to-cart-btn.added {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+  animation: cart-added 0.5s ease;
+}
+
+@keyframes cart-added {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Loading state */
+.add-to-cart-btn.loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.add-to-cart-btn.loading::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .add-to-cart-btn:active {

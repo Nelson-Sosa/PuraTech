@@ -86,7 +86,7 @@ const Home = () => {
                 ) : addingToCart[product._id] === 'adding' ? (
                   <>Agregando...</>
                 ) : (
-                  <>🛒 Agregar al carrito</>
+                  <>🛒 Agregar</>
                 )}
               </button>
             </div>
