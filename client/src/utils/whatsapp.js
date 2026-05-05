@@ -3,8 +3,11 @@
  * Numero de la tienda: +595 983 986 775 (Paraguay)
  */
 
-const STORE_PHONE = '595983986775';
+const STORE_PHONE = '595983986775'; // Paraguay number without leading 0
 
+/**
+ * Envía un pedido completo por WhatsApp
+ */
 export const sendWhatsAppOrder = (products, customerInfo) => {
   const total = products.reduce(function(sum, p) {
     return sum + (p.precio * (p.quantity || 1));
@@ -40,6 +43,9 @@ export const sendWhatsAppOrder = (products, customerInfo) => {
   window.open(url, '_blank');
 };
 
+/**
+ * Envía consulta sobre producto
+ */
 export const sendWhatsAppProductInquiry = (product) => {
   var message = '*CONSULTA SOBRE PRODUCTO*\n\n';
   message += '*' + product.nombre + '*\n';
@@ -54,9 +60,12 @@ export const sendWhatsAppProductInquiry = (product) => {
   window.open(url, '_blank');
 };
 
+/**
+ * Envía mensaje general
+ */
 export const sendWhatsAppContact = (message) => {
   var defaultMessage = message || 'Hola! \n\nVi su tienda online GameMasters y quisiera hacer una consulta.\n\nMuchas gracias!';
-  
+    
   var encodedMessage = encodeURIComponent(defaultMessage);
   var url = 'https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage;
   window.open(url, '_blank');
