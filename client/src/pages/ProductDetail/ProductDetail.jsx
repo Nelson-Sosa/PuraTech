@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
-import Navbar from '../../components/Navbar/Navbar';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -66,39 +65,32 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="detail-loading">
-          <div className="loading-spinner"></div>
-          <p>Cargando producto...</p>
-        </div>
-      </>
+      <div className="detail-loading">
+        <div className="loading-spinner"></div>
+        <p>Cargando producto...</p>
+      </div>
     );
   }
 
   if (!product) {
     return (
-      <>
-        <Navbar />
-        <div className="detail-empty">
-          <span className="empty-icon">😕</span>
-          <h2>Producto no encontrado</h2>
-          <Link to="/products" className="back-link">← Volver a productos</Link>
-        </div>
-      </>
+      <div className="detail-empty">
+        <span className="empty-icon">😕</span>
+        <h2>Producto no encontrado</h2>
+        <Link to="/products" className="back-link">← Volver a productos</Link>
+      </div>
     );
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="detail-container">
-        <div className="breadcrumbs">
-          <Link to="/">Inicio</Link> <span className="separator">/</span>
-          <Link to={`/category/${encodeURIComponent(product.category)}`}>{product.category}</Link>
-          <span className="separator">/</span>
-          <span>{product.nombre}</span>
-        </div>
+    <div className="detail-container">
+      <div className="breadcrumbs">
+        <Link to="/">Inicio</Link> <span className="separator">/</span>
+        <Link to={`/category/${encodeURIComponent(product.category)}`}>{product.category}</Link>
+        <span className="separator">/</span>
+        <span>{product.nombre}</span>
+      </div>
+
 
         <div className="detail-layout">
           {/* Image Gallery */}
@@ -189,8 +181,7 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
+    </div>
   );
 };
 
