@@ -17,7 +17,7 @@ import Categories from "../pages/Categories/Categories";
 import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar/Navbar';
-
+import WhatsAppFloat from '../components/WhatsAppFloat/WhatsAppFloat';
 const App = () => {
   const [login, setLogin] = useState(false);
   
@@ -45,6 +45,8 @@ const App = () => {
         <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
         <Route path="/categories" element={<PrivateRoute component={Categories} />} />
       </Routes>
+       {/* 🔥 BOTÓN FLOTANTE (SIEMPRE VISIBLE) */}
+        <WhatsAppFloat />
     </div>
     </CartProvider>
   );
