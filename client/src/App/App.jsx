@@ -18,28 +18,9 @@ import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar/Navbar';
 
-// Componente de botón flotante de WhatsApp
-const WhatsAppFloat = () => {
-  const handleClick = () => {
-    window.open('https://wa.me/595981123456', '_blank');
-  };
-
-  return (
-    <button 
-      className="whatsapp-float" 
-      onClick={handleClick} 
-      title="Contactanos por WhatsApp"
-      aria-label="Contactanos por WhatsApp"
-      type="button"
-    >
-      <span style={{fontSize: '28px'}}>📱</span>
-      <span className="whatsapp-tooltip">¡Consultanos!</span>
-    </button>
-  );
-};
-
 const App = () => {
   const [login, setLogin] = useState(false);
+  
   return (
     <CartProvider>
     <div>
@@ -63,7 +44,35 @@ const App = () => {
         <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
         <Route path="/categories" element={<PrivateRoute component={Categories} />} />
       </Routes>
-      <WhatsAppFloat />
+      
+      {/* BOTÓN FLOTANTE DE WHATSAPP */}
+      <a
+        href="https://wa.me/595981123456"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Contactanos por WhatsApp"
+        style={{
+          position: 'fixed',
+          bottom: '28px',
+          right: '28px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: '#25D366',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textDecoration: 'none',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          zIndex: 99999,
+          fontSize: '28px',
+          fontFamily: 'Arial, sans-serif',
+          color: 'white',
+          fontWeight: 'bold'
+        }}
+      >
+        WA
+      </a>
     </div>
     </CartProvider>
   );
