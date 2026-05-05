@@ -176,16 +176,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BOTÓN FLOTANTE DE WHATSAPP */}
-      <a
-        href={`https://wa.me/595981123456`}
-        className="whatsapp-float"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Contactanos por WhatsApp"
-      >
-        📱
-      </a>
+      {/* BOTÓN FLOTANTE DE WHATSAPP - MOVIDO A App.jsx */}
 
       {/* FOOTER */}
       <footer className="home-footer">
