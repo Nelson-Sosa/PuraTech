@@ -44,7 +44,7 @@ module.exports = (app) => {
     app.get("/api/supplier/:id", validarToken, verificarRol('admin'), SuppliersController.getSupplier);
 
     // ===== PAGOS =====
-    app.post('/api/create-payment-intent', ProductController.agregarPago);
+    app.post('/api/create-payment-intent', ProductController.createPaymentIntent);
     
     // ===== META DE VENTAS =====
     app.get('/api/sales-meta', ProductController.checkSalesMeta);

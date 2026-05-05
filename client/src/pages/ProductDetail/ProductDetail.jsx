@@ -33,36 +33,48 @@ const ProductDetail = () => {
     if (!product) return [];
     const images = [];
     
-    // Helper to check if URL is valid
+    // Helper to check if URL is VALID - ONLY allow perfect URLs
     const isValidImageUrl = (url) => {
-      if (!url) return false;
-      // Cloudinary URLs are always valid
-      if (url.includes('cloudinary.com')) return true;
-      // Local uploads are valid
-      if (url.startsWith('/uploads/')) return true;
-      // HTTP/HTTPS URLs that are NOT from blocked domains
+      if (!url || typeof url !== 'string') return false;
+      
+      // Must be a string starting with proper protocol or path
+      // ONLY allow Cloudinary URLs
+      if (url.includes('res.cloudinary.com')) return true;
+      
+      // ONLY allow /uploads/ paths
+      if (url.startsWith('/uploads/') && url.includes('.')) return true;
+      
+      // ONLY allow specific trusted domains with proper HTTP/HTTPS
       if (url.match(/^https?:\/\/.+/)) {
-        const blockedPatterns = [
-          /walmartimages/i,
-          /gstatic\.com/i,
-          /encrypted-tbn/i,
-          /facebook\.com.*\.(jpg|jpeg|png)/i
+        const trustedDomains = [
+          'res.cloudinary.com',
+          'imgur.com',
+          'i.imgur.com',
+          'images.unsplash.com',
+          'via.placeholder.com',
+          'gamemasters-aqha.onrender.com'
         ];
-        return !blockedPatterns.some(p => p.test(url));
+        return trustedDomains.some(domain => url.includes(domain));
       }
+      
+      // EVERYTHING else is invalid
       return false;
     };
     
-    if (product.imageUrl && isValidImageUrl(product.imageUrl)) {
-      images.push(product.imageUrl);
-    } else if (product.imageUrl) {
-      // Broken URL - use placeholder instead
-      images.push("/img/placeholder.png");
+    // Process imageUrl
+    if (product.imageUrl) {
+      if (isValidImageUrl(product.imageUrl)) {
+        images.push(product.imageUrl);
+      } else {
+        // Invalid URL - use placeholder
+        images.push("/img/placeholder.png");
+      }
     }
     
-    if (product.images && product.images.length > 0) {
+    // Process images array
+    if (product.images && Array.isArray(product.images)) {
       product.images.forEach(img => {
-        if (isValidImageUrl(img) && !images.includes(img)) {
+        if (img && isValidImageUrl(img) && !images.includes(img)) {
           images.push(img);
         }
       });
@@ -126,9 +138,14 @@ const ProductDetail = () => {
         <div className="gallery-section">
            <div className="main-image-container">
              <img 
-               src={images[currentImageIndex]} 
+               src={images[currentImageIndex] && typeof images[currentImageIndex] === 'string' && 
+                    (images[currentImageIndex].includes('cloudinary.com') || 
+                     images[currentImageIndex].startsWith('/uploads/') || 
+                     images[currentImageIndex].match(/^https?:\/\/[a-z0-9-]+\.(imgur|unsplash|placeholder|onrender)\./)) 
+                    ? images[currentImageIndex] : '/img/placeholder.png'} 
                alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
                className="main-image"
+               onError={(e) => { e.target.src = '/img/placeholder.png'; }}
              />
             
             {images.length > 1 && (
