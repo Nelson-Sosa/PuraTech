@@ -3,8 +3,44 @@ const Product = require('../models/product.models');
 const Order = require('../models/order.model');
 const { request } = require('express');
 const Stripe = require('stripe');
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 // Inicializamos Stripe con la clave secreta de prueba (sk_test_...)
 const stripe = Stripe('sk_test_51PxDMmRt6zQTXipIoi6NdMsHncrdJJkErnnL4pe50T2kjpBOZ39jyNZw4GePqz0uPaPOs3ZEx8BDQ7nTUGpUiAHZ00W3n2ShcA');
+
+// Helper function to download image from URL and save locally
+const downloadImage = async (url, uploadsPath) => {
+  try {
+    const response = await axios({
+      url,
+      method: 'GET',
+      responseType: 'stream',
+      timeout: 10000, // 10 second timeout
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    });
+
+    // Get file extension from URL or default to .jpg
+    const urlPath = new URL(url).pathname;
+    const ext = path.extname(urlPath) || '.jpg';
+    const filename = `img_${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
+    const filepath = path.join(uploadsPath, filename);
+
+    // Save file
+    const writer = fs.createWriteStream(filepath);
+    response.data.pipe(writer);
+
+    return new Promise((resolve, reject) => {
+      writer.on('finish', () => resolve(`/uploads/${filename}`));
+      writer.on('error', reject);
+    });
+  } catch (error) {
+    console.error('Error downloading image:', error.message);
+    return null; // Return null if download fails
+  }
+};
 
 // Endpoints PÚBLICOS
 module.exports.getPublicHome = async (req, res) => {
@@ -52,6 +88,7 @@ module.exports.agregarProducto = async (req, res) => {
 
     let finalImageUrl = "";
     let imagesArray = [];
+    const uploadsPath = path.join(__dirname, '../uploads');
 
     // Procesar imagen principal (imageUrl)
     if (req.files && req.files.imageUrl) {
@@ -61,8 +98,9 @@ module.exports.agregarProducto = async (req, res) => {
       // Archivo subido (multer lo guarda en el servidor)
       finalImageUrl = req.file.path;
     } else if (imageUrlText) {
-      // URL externa (se guarda tal cual)
-      finalImageUrl = imageUrlText.trim();
+      // URL externa: intentar descargar y guardar localmente
+      const downloadedUrl = await downloadImage(imageUrlText.trim(), uploadsPath);
+      finalImageUrl = downloadedUrl || imageUrlText.trim(); // Fallback to original URL if download fails
     }
 
     // Procesar múltiples imágenes
@@ -74,14 +112,27 @@ module.exports.agregarProducto = async (req, res) => {
         const parsed = JSON.parse(imagesJson);
         // Si es un array de URLs
         if (Array.isArray(parsed)) {
-          imagesArray = parsed.map(url => url.trim()).filter(url => url);
+          // Try to download each URL
+          const downloadedImages = [];
+          for (const url of parsed.map(url => url.trim()).filter(url => url)) {
+            const downloaded = await downloadImage(url, uploadsPath);
+            downloadedImages.push(downloaded || url); // Use downloaded URL or original
+          }
+          imagesArray = downloadedImages;
         } else if (typeof parsed === 'string' && parsed.trim()) {
-          imagesArray = [parsed.trim()];
+          const downloaded = await downloadImage(parsed.trim(), uploadsPath);
+          imagesArray = [downloaded || parsed.trim()];
         }
       } catch (e) {
         // Si no es JSON válido, verificar si es una sola URL o múltiples separadas por coma
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          imagesArray = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          const downloadedImages = [];
+          for (const url of urls) {
+            const downloaded = await downloadImage(url, uploadsPath);
+            downloadedImages.push(downloaded || url);
+          }
+          imagesArray = downloadedImages;
         }
       }
     }
@@ -174,14 +225,37 @@ module.exports.updateProduct = async (req, res) => {
     }
     
     // Agregar nuevas imágenes de URLs
+    const uploadsPath = path.join(__dirname, '../uploads');
     if (imagesJson) {
       try {
-        const urlImages = JSON.parse(imagesJson);
-        updatedImages = [...updatedImages, ...urlImages];
+        const parsed = JSON.parse(imagesJson);
+        let urlImages = [];
+        if (Array.isArray(parsed)) {
+          urlImages = parsed.map(url => url.trim()).filter(url => url);
+        } else if (typeof parsed === 'string' && parsed.trim()) {
+          urlImages = [parsed.trim()];
+        }
+        // Download each image
+        for (const url of urlImages) {
+          const downloaded = await downloadImage(url, uploadsPath);
+          if (downloaded) {
+            updatedImages.push(downloaded);
+          } else {
+            updatedImages.push(url); // Fallback to original URL
+          }
+        }
       } catch (e) {
         // Si no es JSON, verificar si es string
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          updatedImages = [...updatedImages, imagesJson];
+          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          for (const url of urls) {
+            const downloaded = await downloadImage(url, uploadsPath);
+            if (downloaded) {
+              updatedImages.push(downloaded);
+            } else {
+              updatedImages.push(url);
+            }
+          }
         }
       }
     }
@@ -190,6 +264,12 @@ module.exports.updateProduct = async (req, res) => {
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.files && req.files.imageUrl) {
       updatedImageUrl = req.files.imageUrl[0].path;
+    } else if (req.body.imageUrlText) {
+      // If text URL provided, download it
+      const downloaded = await downloadImage(req.body.imageUrlText.trim(), uploadsPath);
+      if (downloaded) {
+        updatedImageUrl = downloaded;
+      }
     }
     
     // Si imageUrl fue eliminada, usar la primera de images
