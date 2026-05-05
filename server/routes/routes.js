@@ -47,5 +47,6 @@ module.exports = (app) => {
     app.post('/api/create-payment-intent', ProductController.createPaymentIntent);
     
     // ===== META DE VENTAS =====
-    app.get('/api/sales-meta', ProductController.checkSalesMeta);
+    // TEMPORALMENTE COMENTADO - Función checkSalesMeta no existe aún
+    // app.get('/api/sales-meta', ProductController.checkSalesMeta);
 };
