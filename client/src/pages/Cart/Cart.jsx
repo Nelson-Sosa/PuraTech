@@ -46,7 +46,7 @@ const Cart = () => {
   return (
     <>
     <div className="cart-page">
-      <h2>🛒 Tu Carrito ({getCount()} productos)</h2>
+      <h2>Tu Carrito ({getCount()} productos)</h2>
 
       <div className="cart-layout">
         <div className="cart-items">

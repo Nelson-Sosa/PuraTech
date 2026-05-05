@@ -22,11 +22,6 @@
   letter-spacing: -0.02em;
 }
 
-.cart-page h2::before {
-  content: '🛒';
-  font-size: 1.8rem;
-}
-
 /* ── Empty Cart ── */
 .cart-empty {
   text-align: center;
