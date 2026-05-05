@@ -28,7 +28,7 @@ const FormProduct = () => {
     if (!precio) newErrors.precio = "Price is required";
     if (!descripcion) newErrors.descripcion = "Description is required";
     
-    // Validar que haya al menos una imagen (principal o adicionales)
+    // Validate that there's at least one image
     const hasMainImage = imageUrl || imageUrlText;
     const hasAdditionalImages = additionalImages.length > 0 || additionalImagesText;
     
@@ -39,30 +39,23 @@ const FormProduct = () => {
   };
 
   useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      const res = await axios.get(
-        `${API_URL}/api/categories`,
-        token ? { headers: { token_usuario: token } } : {}
-      );
-
-      console.log("Categorias recibidas:", res.data);
-
-      setCategories(res.data);
-
-      if (res.data.length > 0) {
-        setCategory(res.data[0].name);
+    const fetchCategories = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(
+          `${API_URL}/api/categories`,
+          token ? { headers: { token_usuario: token } } : {}
+        );
+        setCategories(res.data);
+        if (res.data.length > 0) {
+          setCategory(res.data[0].name);
+        }
+      } catch (error) {
+        console.error("Error cargando categorías", error);
       }
-
-    } catch (error) {
-      console.error("Error cargando categorías", error);
-    }
-  };
-
-  fetchCategories();
-}, []);
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = (e) => {
     setImageUrl(e.target.files[0]);
@@ -72,7 +65,7 @@ const FormProduct = () => {
   const handleImageUrlChange = (e) => {
     const url = e.target.value;
     setImageUrlText(url);
-    setImageUrl(null); // Si pega link, limpiamos el archivo
+    setImageUrl(null); // Si pone link, limpiamos el archivo
     
     // Preview logic - only preview if looks like a URL
     if (url && url.match(/^https?:\/\/.+/)) {
@@ -98,14 +91,6 @@ const FormProduct = () => {
     return blockedPatterns.some(pattern => pattern.test(url));
   };
 
-  const handlePreviewError = () => {
-    setPreviewError(true);
-  };
-
-  const handleAdditionalImagesTextChange = (e) => {
-    setAdditionalImagesText(e.target.value);
-  };
-
   const handleAdditionalImagesChange = (e) => {
     setAdditionalImages(Array.from(e.target.files));
   };
@@ -117,7 +102,11 @@ const FormProduct = () => {
   const procesaForm = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
-    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     // Validate image URLs before saving
     if (imageUrlText && isLikelyBlockedDomain(imageUrlText)) {
       const shouldContinue = window.confirm(
@@ -130,11 +119,6 @@ const FormProduct = () => {
         return; // Stop saving
       }
     }
-    
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
 
     const formData = new FormData();
     formData.append("category", category);
@@ -143,7 +127,15 @@ const FormProduct = () => {
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
     
-    // Agregar nuevas imágenes
+    // Main image
+    if (imageUrl) {
+      formData.append("imageUrl", imageUrl);
+    }
+    if (imageUrlText) {
+      formData.append("imageUrlText", imageUrlText);
+    }
+    
+    // Additional images
     if (additionalImages.length > 0) {
       additionalImages.forEach(file => {
         formData.append("additionalImages", file);
@@ -195,16 +187,8 @@ const FormProduct = () => {
           <p className="form-subtitle">Completá los datos para agregar un nuevo producto al catálogo</p>
         </div>
 
-        <button
-          type="button"
-          className="btn-view-categories"
-          onClick={() => navigate("/categories")}
-        >
-          ← Ver Categorías
-        </button>
-
         <form onSubmit={procesaForm} className="product-form">
-          
+
           {/* Información Básica */}
           <div className="form-group">
             <label className="form-label">Categoría</label>
@@ -300,6 +284,34 @@ const FormProduct = () => {
                   placeholder="https://ejemplo.com/imagen.jpg" 
                   className="form-input"
                 />
+                
+                {/* Preview for URL */}
+                {previewUrl && (
+                  <div className="image-preview-box">
+                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : '#10b981', marginBottom: '8px' }}>
+                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : '✓ Vista previa de la imagen:'}
+                    </p>
+                    <div className="preview-container">
+                      <img 
+                        src={previewUrl} 
+                        alt="Vista previa"
+                        onError={handlePreviewError}
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '200px', 
+                          objectFit: 'contain',
+                          borderRadius: '8px',
+                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981'
+                        }}
+                      />
+                    </div>
+                    {previewError && (
+                      <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px' }}>
+                        Intenta con: imgur.com, images.unsplash.com, via.placeholder.com
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="divider">IMÁGENES ADICIONALES (OPCIONAL)</div>
@@ -325,51 +337,21 @@ const FormProduct = () => {
               <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
 
               <div className="image-option">
-                <label className="image-option-label">Pegar un link de la imagen</label>
+                <label className="image-option-label">Pegar URLs de imágenes (separadas por coma)</label>
                 <input 
                   type="text" 
-                  name="imageUrlText" 
-                  value={imageUrlText} 
-                  onChange={handleImageUrlChange} 
-                  placeholder="https://ejemplo.com/imagen.jpg" 
+                  name="additionalImagesText" 
+                  value={additionalImagesText} 
+                  onChange={handleAdditionalImagesTextChange} 
+                  placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg" 
                   className="form-input"
                 />
-                {/* Preview for URL */}
-                {previewUrl && (
-                  <div className="image-preview-box">
-                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : '#10b981', marginBottom: '8px' }}>
-                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : '✓ Vista previa de la imagen:'}
-                    </p>
-                    <div className="preview-container">
-                      <img 
-                        src={previewUrl} 
-                        alt="Vista previa"
-                        onError={handlePreviewError}
-                        style={{ 
-                          maxWidth: '100%', 
-                          maxHeight: '200px', 
-                          objectFit: 'contain',
-                          borderRadius: '8px',
-                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981'
-                        }}
-                      />
-                    </div>
-                    {previewError && (
-                      <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px' }}>
-                        Intenta con: i.imgur.com, images.unsplash.com, via.placeholder.com
-                      </p>
-                    )}
-                  </div>
-                )}
               </div>
-            </div>
-          </div>
             </div>
           </div>
 
           {errors.image && <span className="error-message">{errors.image}</span>}
 
-          {/* Botón de Envío */}
           <button type="submit" className="btn-submit">
             ✓ Guardar Producto
           </button>
