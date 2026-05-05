@@ -18,6 +18,7 @@ const FormProduct = () => {
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewError, setPreviewError] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -71,13 +72,20 @@ const FormProduct = () => {
     if (url && url.match(/^https?:\/\/.+/)) {
       setPreviewUrl(url);
       setPreviewError(false);
+      setPreviewLoading(true);
     } else {
       setPreviewUrl("");
+      setPreviewLoading(false);
     }
   };
 
   const handlePreviewError = () => {
     setPreviewError(true);
+    setPreviewLoading(false);
+  };
+
+  const handlePreviewLoad = () => {
+    setPreviewLoading(false);
   };
 
   const isLikelyBlockedDomain = (url) => {
@@ -288,20 +296,35 @@ const FormProduct = () => {
                 {/* Preview for URL */}
                 {previewUrl && (
                   <div className="image-preview-box">
-                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : '#10b981', marginBottom: '8px' }}>
-                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : '✓ Vista previa de la imagen:'}
+                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
+                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
                     </p>
                     <div className="preview-container">
+                      {previewLoading && !previewError && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                          <div style={{ 
+                            width: '20px', 
+                            height: '20px', 
+                            border: '2px solid #e2e8f0',
+                            borderTop: '2px solid #8b5cf6',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite'
+                          }} />
+                          <span style={{ fontSize: '12px' }}>Cargando...</span>
+                        </div>
+                      )}
                       <img 
                         src={previewUrl} 
                         alt="Vista previa"
                         onError={handlePreviewError}
+                        onLoad={handlePreviewLoad}
                         style={{ 
                           maxWidth: '100%', 
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981'
+                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981',
+                          display: previewLoading ? 'none' : 'block'
                         }}
                       />
                     </div>
