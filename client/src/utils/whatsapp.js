@@ -1,14 +1,12 @@
 /**
  * Utilidades de WhatsApp para GameMasters
- * Número de la tienda: +595 981 123 456 (cambiar por el real)
+ * Número de la tienda: +595 983 986 775 (Paraguay)
  */
 
-const STORE_PHONE = '595981123456'; // Sin el +, formato internacional sin 0
+const STORE_PHONE = '595983986775'; // Paraguay number without leading 0
 
 /**
  * Envía un pedido completo por WhatsApp
- * @param {Array} products - Array de productos en el carrito
- * @param {Object} customerInfo - Información del cliente (opcional)
  */
 export const sendWhatsAppOrder = (products, customerInfo = null) => {
   const total = products.reduce((sum, p) => {
@@ -17,8 +15,7 @@ export const sendWhatsAppOrder = (products, customerInfo = null) => {
   
   let message = '*NUEVO PEDIDO - GameMasters*\n\n';
   
-  // Info del cliente si se proporciona
-  if (customerInfo) {
+  if (customerInfo && (customerInfo.name || customerInfo.phone)) {
     message += '*Cliente:* ' + (customerInfo.name || 'No especificado') + '\n';
     message += '*Teléfono:* ' + (customerInfo.phone || 'No especificado') + '\n';
     message += '*Dirección:* ' + (customerInfo.address || 'No especificada') + '\n\n';
@@ -46,8 +43,7 @@ export const sendWhatsAppOrder = (products, customerInfo = null) => {
 };
 
 /**
- * Envía una consulta rápida sobre un producto
- * @param {Object} product - Producto a consultar
+ * Envía consulta sobre producto
  */
 export const sendWhatsAppProductInquiry = (product) => {
   const message = '*CONSULTA SOBRE PRODUCTO*\n\n' +
@@ -63,8 +59,7 @@ export const sendWhatsAppProductInquiry = (product) => {
 };
 
 /**
- * Envía un mensaje general de contacto
- * @param {string} message - Mensaje personalizado (opcional)
+ * Envía mensaje general
  */
 export const sendWhatsAppContact = (message = '') => {
   const defaultMessage = message || 
@@ -75,3 +70,4 @@ export const sendWhatsAppContact = (message = '') => {
   const encodedMessage = encodeURIComponent(defaultMessage);
   window.open('https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage, '_blank');
 };
+
