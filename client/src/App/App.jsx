@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
+import ProductDetail from '../pages/ProductDetail/ProductDetail';
 import { useState } from 'react';
 import FormProduct from '../components/formProduct/formProduct';
 import FormRegistro from '../pages/formRegistro/formRegistro';
@@ -34,6 +35,7 @@ const App = () => {
         {/* Rutas públicas */}
         <Route path="/products" element={<Products />} />
         <Route path="/category/:category" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/suppliers" element={<Suppliers />} />
         <Route path="/create-payment-intent" element={<Checkout />} />
         
