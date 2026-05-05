@@ -1,122 +1,48 @@
 const { MongooseError } = require('mongoose');
 const Product = require('../models/product.models');
 const Order = require('../models/order.model');
-const { request } = require('express');
+const cloudinary = require('../configuration/cloudinary');
 const Stripe = require('stripe');
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-// Inicializamos Stripe con la clave secreta de prueba (sk_test_...)
+
+// Initialize Stripe
 const stripe = Stripe('sk_test_51PxDMmRt6zQTXipIoi6NdMsHncrdJJkErnnL4pe50T2kjpBOZ39jyNZw4GePqz0uPaPOs3ZEx8BDQ7nTUGpUiAHZ00W3n2ShcA');
 
-// Helper function to download image from URL and save locally
-const downloadImage = async (url, uploadsPath) => {
+// Helper function to upload image to Cloudinary
+const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
   try {
-    // Clean and validate URL
-    let cleanUrl = url.trim();
+    console.log('☁️ Uploading to Cloudinary:', typeof imagePathOrUrl === 'string' ? imagePathOrUrl.substring(0, 80) : 'file');
     
-    // Remove everything after comma (multiple URLs pasted)
-    if (cleanUrl.includes(',')) {
-      cleanUrl = cleanUrl.split(',')[0].trim();
-    }
+    const result = await cloudinary.uploader.upload(imagePathOrUrl, {
+      folder: 'gamemasters/products',
+      transformation: [
+        { width: 1000, height: 1000, crop: 'limit' },
+        { quality: 'auto' },
+        { fetch_format: 'auto' }
+      ],
+      ...options
+    });
     
-    // Validate URL format
-    if (!cleanUrl.match(/^https?:\/\/.+/)) {
-      console.error('❌ Invalid URL format:', cleanUrl.substring(0, 50));
-      return null;
-    }
-    
-    console.log('🔄 Downloading image from:', cleanUrl.substring(0, 100));
-    
-    // Verify uploads directory exists
-    if (!fs.existsSync(uploadsPath)) {
-      console.log('📁 Creating uploads directory:', uploadsPath);
-      fs.mkdirSync(uploadsPath, { recursive: true });
-    }
-
-    // Try with http instead of https if SSL fails
-    let response;
-    try {
-      response = await axios({
-        url: cleanUrl,
-        method: 'GET',
-        responseType: 'arraybuffer',
-        timeout: 20000, // 20 second timeout
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.9',
-          'Referer': 'https://www.google.com/'
-        },
-        maxRedirects: 5,
-        validateStatus: function (status) {
-          return status >= 200 && status < 400; // Accept 3xx redirects
-        }
-      });
-    } catch (sslError) {
-      console.log('⚠️ SSL error, trying without SSL verification...');
-      // Try with http if https fails
-      if (cleanUrl.startsWith('https://')) {
-        const httpUrl = cleanUrl.replace('https://', 'http://');
-        console.log('🔄 Retrying with HTTP:', httpUrl.substring(0, 80));
-        response = await axios({
-          url: httpUrl,
-          method: 'GET',
-          responseType: 'arraybuffer',
-          timeout: 20000,
-          headers: {
-            'User-Agent': 'Mozilla/5.0'
-          }
-        });
-      } else {
-        throw sslError;
-      }
-    }
-
-    console.log('✅ Download response status:', response.status);
-    console.log('✅ Content-Type:', response.headers['content-type']);
-
-    // Validate it's actually an image
-    const contentType = response.headers['content-type'] || '';
-    if (!contentType.startsWith('image/')) {
-      console.error('❌ Not an image! Content-Type:', contentType);
-      return null;
-    }
-
-    // Get file extension from content-type or URL
-    let ext = '.jpg';
-    if (contentType.includes('png')) ext = '.png';
-    else if (contentType.includes('webp')) ext = '.webp';
-    else if (contentType.includes('gif')) ext = '.gif';
-    else {
-      // Try from URL
-      try {
-        const urlPath = new URL(cleanUrl).pathname;
-        const urlExt = path.extname(urlPath);
-        if (urlExt && urlExt.length <= 5) ext = urlExt;
-      } catch (e) {}
-    }
-
-    const filename = `img_${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
-    const filepath = path.join(uploadsPath, filename);
-
-    console.log('💾 Saving to:', filepath);
-
-    // Save file
-    fs.writeFileSync(filepath, response.data);
-    
-    // Verify file was saved
-    if (fs.existsSync(filepath)) {
-      console.log('✅ Image saved successfully:', `/uploads/${filename}`);
-      console.log('   File size:', fs.statSync(filepath).size, 'bytes');
-      return `/uploads/${filename}`;
-    } else {
-      console.error('❌ File not saved!');
-      return null;
-    }
+    console.log('✅ Cloudinary upload success:', result.secure_url);
+    return {
+      url: result.secure_url,
+      public_id: result.public_id
+    };
   } catch (error) {
-    console.error('❌ Error downloading image:', error.message);
-    return null; // Return null if download fails
+    console.error('❌ Cloudinary upload failed:', error.message);
+    return null;
+  }
+};
+
+// Helper to extract public_id from Cloudinary URL
+const getPublicIdFromUrl = (url) => {
+  if (!url || !url.includes('cloudinary.com')) return null;
+  try {
+    const urlParts = url.split('/');
+    const filename = urlParts[urlParts.length - 1];
+    const publicId = filename.split('.')[0];
+    return `gamemasters/products/${publicId}`;
+  } catch (e) {
+    return null;
   }
 };
 
@@ -166,94 +92,65 @@ module.exports.agregarProducto = async (req, res) => {
 
     let finalImageUrl = "";
     let imagesArray = [];
-    const uploadsPath = path.join(__dirname, '../uploads');
-
-    // Helper to clean and validate URL
-    const cleanUrl = (url) => {
-      if (!url) return null;
-      url = url.trim();
-      // Remove any appended URLs (after comma)
-      if (url.includes(',')) {
-        url = url.split(',')[0].trim();
-      }
-      // Ensure it's a valid HTTP(S) URL
-      if (!url.match(/^https?:\/\/.+/)) {
-        return null;
-      }
-      return url;
-    };
-
-    // Helper to ensure local path format
-    const ensureLocalPath = (img) => {
-      if (!img) return img;
-      // If it's already a /uploads/ path, return as is
-      if (img.startsWith('/uploads/')) return img;
-      // If it's just a filename, add /uploads/ prefix
-      if (!img.includes('/') && !img.includes('http')) {
-        return `/uploads/${img}`;
-      }
-      return img;
-    };
 
     // Procesar imagen principal (imageUrl)
     if (req.files && req.files.imageUrl) {
-      // Archivo subido (multer lo guarda en el servidor)
-      finalImageUrl = ensureLocalPath(req.files.imageUrl[0].path);
+      // Archivo subido → Subir a Cloudinary
+      const result = await uploadToCloudinary(req.files.imageUrl[0].path);
+      if (result) {
+        finalImageUrl = result.url;
+      }
     } else if (req.file) {
-      // Archivo subido (multer lo guarda en el servidor)
-      finalImageUrl = ensureLocalPath(req.file.path);
+      // Archivo subido → Subir a Cloudinary
+      const result = await uploadToCloudinary(req.file.path);
+      if (result) {
+        finalImageUrl = result.url;
+      }
     } else if (imageUrlText) {
-      // URL externa: intentar descargar y guardar localmente
-      const cleanedUrl = cleanUrl(imageUrlText);
-      if (cleanedUrl) {
-        console.log('🔄 Processing main image URL:', cleanedUrl.substring(0, 80));
-        const downloadedUrl = await downloadImage(cleanedUrl, uploadsPath);
-        if (downloadedUrl) {
-          finalImageUrl = downloadedUrl;
-          console.log('✅ Main image downloaded:', downloadedUrl);
-        } else {
-          console.error('❌ Download failed for main image, NOT saving');
-          finalImageUrl = ""; // Don't save broken URL
-        }
+      // URL externa → Subir a Cloudinary
+      const result = await uploadToCloudinary(imageUrlText.trim());
+      if (result) {
+        finalImageUrl = result.url;
       }
     }
 
     // Procesar múltiples imágenes
     if (req.files && req.files.additionalImages) {
-      // Archivos subidos
-      imagesArray = req.files.additionalImages.map(file => ensureLocalPath(file.path));
+      // Archivos subidos → Subir a Cloudinary
+      for (const file of req.files.additionalImages) {
+        const result = await uploadToCloudinary(file.path);
+        if (result) {
+          imagesArray.push(result.url);
+        }
+      }
     } else if (imagesJson) {
       try {
         const parsed = JSON.parse(imagesJson);
-        // Si es un array de URLs
+        let urls = [];
+        
         if (Array.isArray(parsed)) {
-          // Clean and try to download each URL
-          const cleanedUrls = parsed.map(url => cleanUrl(url)).filter(url => url);
-          console.log('🔄 Processing', cleanedUrls.length, 'additional image URLs');
-          const downloadedImages = [];
-          for (const url of cleanedUrls) {
-            const downloaded = await downloadImage(url, uploadsPath);
-            downloadedImages.push(downloaded || url); // Use downloaded URL or original
-          }
-          imagesArray = downloadedImages;
+          urls = parsed.map(url => url.trim()).filter(url => url);
         } else if (typeof parsed === 'string' && parsed.trim()) {
-          const cleanedUrl = cleanUrl(parsed);
-          if (cleanedUrl) {
-            const downloaded = await downloadImage(cleanedUrl, uploadsPath);
-            imagesArray = [downloaded || cleanedUrl];
+          urls = [parsed.trim()];
+        }
+        
+        // Subir cada URL a Cloudinary
+        for (const url of urls) {
+          const result = await uploadToCloudinary(url);
+          if (result) {
+            imagesArray.push(result.url);
           }
         }
       } catch (e) {
-        // Si no es JSON válido, verificar si es una sola URL o múltiples separadas por coma
+        // Si no es JSON, verificar si es múltiples URLs separadas por coma
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          const urls = imagesJson.split(',').map(url => cleanUrl(url)).filter(url => url);
-          console.log('🔄 Processing', urls.length, 'comma-separated URLs');
-          const downloadedImages = [];
+          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
           for (const url of urls) {
-            const downloaded = await downloadImage(url, uploadsPath);
-            downloadedImages.push(downloaded || url);
+            const result = await uploadToCloudinary(url);
+            if (result) {
+              imagesArray.push(result.url);
+            }
           }
-          imagesArray = downloadedImages;
         }
       }
     }
@@ -261,7 +158,7 @@ module.exports.agregarProducto = async (req, res) => {
     // Si no hay imagen principal pero hay imágenes, usar la primera como principal
     if (!finalImageUrl && imagesArray.length > 0) {
       finalImageUrl = imagesArray[0];
-      imagesArray = imagesArray.slice(1); // Quitar la primera del array de adicionales
+      imagesArray = imagesArray.slice(1);
     }
 
     // Si no hay ninguna imagen
@@ -333,6 +230,13 @@ module.exports.updateProduct = async (req, res) => {
     if (deletedImagesJson) {
       try {
         const deletedImages = JSON.parse(deletedImagesJson);
+        // Eliminar de Cloudinary si es necesario
+        for (const img of deletedImages) {
+          const publicId = getPublicIdFromUrl(img);
+          if (publicId) {
+            await cloudinary.uploader.destroy(publicId);
+          }
+        }
         updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
       } catch (e) {
         console.error("Error parsing deletedImages:", e);
@@ -341,67 +245,41 @@ module.exports.updateProduct = async (req, res) => {
     
     // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
     if (req.files && req.files.additionalImages) {
-      const newImages = req.files.additionalImages.map(file => file.path);
-      updatedImages = [...updatedImages, ...newImages];
+      for (const file of req.files.additionalImages) {
+        const result = await uploadToCloudinary(file.path);
+        if (result) {
+          updatedImages.push(result.url);
+        }
+      }
     }
     
     // Agregar nuevas imágenes de URLs
-    const uploadsPath = path.join(__dirname, '../uploads');
-    
-    // Helper to clean URL
-    const cleanImageUrl = (url) => {
-      if (!url) return null;
-      url = url.trim();
-      // Remove any appended URLs (after comma or space with http)
-      if (url.includes(',')) {
-        url = url.split(',')[0].trim();
-      }
-      // Remove any special characters at the end
-      url = url.replace(/[,\s]+$/, '');
-      // Validate it's a proper HTTP(S) URL
-      if (!url.match(/^https?:\/\/.+/)) {
-        return null;
-      }
-      return url;
-    };
-    
     if (imagesJson) {
       try {
         const parsed = JSON.parse(imagesJson);
         let urlImages = [];
+        
         if (Array.isArray(parsed)) {
-          urlImages = parsed.map(url => cleanImageUrl(url)).filter(url => url);
+          urlImages = parsed.map(url => url.trim()).filter(url => url);
         } else if (typeof parsed === 'string' && parsed.trim()) {
-          const cleaned = cleanImageUrl(parsed);
-          if (cleaned) urlImages = [cleaned];
+          urlImages = [parsed.trim()];
         }
-        console.log('🔄 Processing', urlImages.length, 'URLs for update');
-        // Download each image
+        
+        // Subir a Cloudinary
         for (const url of urlImages) {
-          console.log('   Downloading:', url.substring(0, 80));
-          const downloaded = await downloadImage(url, uploadsPath);
-          if (downloaded) {
-            console.log('   ✅ Downloaded:', downloaded);
-            updatedImages.push(downloaded);
-          } else {
-            console.log('   ⚠️ Using original URL (download failed)');
-            updatedImages.push(url); // Fallback to original URL
+          const result = await uploadToCloudinary(url);
+          if (result) {
+            updatedImages.push(result.url);
           }
         }
       } catch (e) {
         // Si no es JSON, verificar si es string
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          const urls = imagesJson.split(',').map(url => cleanImageUrl(url)).filter(url => url);
-          console.log('🔄 Processing', urls.length, 'comma-separated URLs for update');
+          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
           for (const url of urls) {
-            console.log('   Downloading:', url.substring(0, 80));
-            const downloaded = await downloadImage(url, uploadsPath);
-            if (downloaded) {
-              console.log('   ✅ Downloaded:', downloaded);
-              updatedImages.push(downloaded);
-            } else {
-              console.log('   ⚠️ Using original URL (download failed)');
-              updatedImages.push(url);
+            const result = await uploadToCloudinary(url);
+            if (result) {
+              updatedImages.push(result.url);
             }
           }
         }
@@ -411,20 +289,24 @@ module.exports.updateProduct = async (req, res) => {
     // Actualizar imagen principal si se proporciona
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.files && req.files.imageUrl) {
-      updatedImageUrl = req.files.imageUrl[0].path;
+      // Eliminar imagen anterior de Cloudinary
+      if (updatedImageUrl) {
+        const publicId = getPublicIdFromUrl(updatedImageUrl);
+        if (publicId) await cloudinary.uploader.destroy(publicId);
+      }
+      const result = await uploadToCloudinary(req.files.imageUrl[0].path);
+      if (result) {
+        updatedImageUrl = result.url;
+      }
     } else if (req.body.imageUrlText) {
-      // If text URL provided, download it
-      const cleanedUrl = cleanImageUrl(req.body.imageUrlText);
-      if (cleanedUrl) {
-        console.log('🔄 Updating main image from URL:', cleanedUrl.substring(0, 80));
-        const downloaded = await downloadImage(cleanedUrl, uploadsPath);
-        if (downloaded) {
-          console.log('   ✅ Downloaded:', downloaded);
-          updatedImageUrl = downloaded;
-        } else {
-          console.log('   ⚠️ Using original URL (download failed)');
-          updatedImageUrl = cleanedUrl;
-        }
+      // Eliminar imagen anterior de Cloudinary
+      if (updatedImageUrl) {
+        const publicId = getPublicIdFromUrl(updatedImageUrl);
+        if (publicId) await cloudinary.uploader.destroy(publicId);
+      }
+      const result = await uploadToCloudinary(req.body.imageUrlText.trim());
+      if (result) {
+        updatedImageUrl = result.url;
       }
     }
     
@@ -464,71 +346,53 @@ module.exports.getProduct = (req, res) => {
 module.exports.searchGlobal = async (req, res) => {
   try {
     const term = req.query.category?.trim();
-    if (!term) return res.status(400).json({ message: 'El término de búsqueda es requerido' });
+    if (!term) return res.status(400).json({ error: "Missing search term" });
 
-    console.log("BUSCANDO:", term);
-
-    const product = await Product.find({
+    const regex = new RegExp(term, "i");
+    const results = await Product.find({
       $or: [
-        { category: { $regex: term, $options: 'i' } },
-        { nombre: { $regex: term, $options: 'i' } },
-        { descripcion: { $regex: term, $options: 'i' } },
-        { marca: { $regex: term, $options: 'i' } }
+        { nombre: regex },
+        { marca: regex },
+        { category: regex },
+        { descripcion: regex }
       ]
     });
 
-    console.log("RESULTADOS:", product);
-    res.json(product);
-
-  } catch (err) {
-    console.log("ERROR SEARCH:", err);
-    res.status(500).json({ error: err.message });
+    res.json(results);
+  } catch (error) {
+    console.error("Error searching:", error);
+    res.status(500).json({ error: "Error en la búsqueda" });
   }
 };
 
-module.exports.agregarPago = async (req, res) => {
-  const { cantidad } = req.body; // Monto en centavos
+module.exports.createPaymentIntent = async (req, res) => {
   try {
-    // Crear la intención de pago con Stripe  
+    const { amount, items } = req.body;
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: "Monto inválido" });
+    }
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: cantidad, // La cantidad se espera en centavos (100 = $1.00 USD)
-      currency: 'usd',  // Moneda en la que se procesará el pago, en este caso, dólares estadounidenses
-    });
-    // Respondemos con el client_secret necesario para confirmar el pago en el frontend
-    res.status(200).send({
-      clientSecret: paymentIntent.client_secret, // Enviar client_secret al frontend
+      amount: Math.round(amount * 100),
+      currency: "usd",
+      automatic_payment_methods: { enabled: true },
+      metadata: {
+        items: JSON.stringify(items || [])
+      }
     });
 
-  } catch(err) {
-    console.error("Error en agregarPago:", err.message);
-    res.status(500).send({ error: err.message });
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error("Error creando PaymentIntent:", error);
+    res.status(500).json({ error: "Error al procesar el pago" });
   }
 };
 
-// Endpoint para meta de ventas mensual
-module.exports.checkSalesMeta = async (req, res) => {
+module.exports.getInventory = async (req, res) => {
   try {
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
-
-    const orders = await Order.find({
-      createdAt: { $gte: startOfMonth },
-      status: 'completed'
-    });
-
-    const totalSales = orders.reduce((sum, order) => sum + order.total, 0);
-    const meta = 5000; // Meta mensual de $5000
-    const percentage = (totalSales / meta) * 100;
-
-    res.json({
-      totalSales,
-      meta,
-      percentage: Math.min(percentage, 100),
-      achieved: percentage >= 50
-    });
-  } catch (err) {
-    console.error("Error en checkSalesMeta:", err);
-    res.status(500).json({ error: 'Error al verificar meta' });
+    const products = await Product.find({ stock: { $gt: 0 } });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener inventario" });
   }
 };
