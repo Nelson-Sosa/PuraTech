@@ -16,6 +16,8 @@ const FormProduct = () => {
   const [additionalImages, setAdditionalImages] = useState([]);
   const [additionalImagesText, setAdditionalImagesText] = useState("");
   const [errors, setErrors] = useState({});
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewError, setPreviewError] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -68,8 +70,25 @@ const FormProduct = () => {
   };
 
   const handleImageUrlChange = (e) => {
-    setImageUrlText(e.target.value);
+    const url = e.target.value;
+    setImageUrlText(url);
     setImageUrl(null); // Si pone link, limpiamos el archivo
+    
+    // Preview logic
+    if (url && url.startsWith('http')) {
+      setPreviewUrl(url);
+      setPreviewError(false);
+    } else {
+      setPreviewUrl(");
+    }
+  };
+
+  const handlePreviewError = () => {
+    setPreviewError(true);
+  };
+
+  const handleAdditionalImagesTextChange = (e) => {
+    setAdditionalImagesText(e.target.value);
   };
 
   const handleAdditionalImagesChange = (e) => {
@@ -285,16 +304,45 @@ const FormProduct = () => {
               <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
 
               <div className="image-option">
-                <label className="image-option-label">Pegar URLs de imágenes (separadas por coma)</label>
+                <label className="image-option-label">Pegar un link de la imagen</label>
                 <input 
                   type="text" 
-                  name="additionalImagesText" 
-                  value={additionalImagesText} 
-                  onChange={handleAdditionalImagesTextChange} 
-                  placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg" 
+                  name="imageUrlText" 
+                  value={imageUrlText} 
+                  onChange={handleImageUrlChange} 
+                  placeholder="https://ejemplo.com/imagen.jpg" 
                   className="form-input"
                 />
+                {/* Preview for URL */}
+                {previewUrl && (
+                  <div className="image-preview-box">
+                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : '#10b981', marginBottom: '8px' }}>
+                      {previewError ? '❌ Error: Imagen no carga (403/Blocked)' : '✓ Vista previa de la imagen:'}
+                    </p>
+                    <div className="preview-container">
+                      <img 
+                        src={previewUrl} 
+                        alt="Vista previa"
+                        onError={handlePreviewError}
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '200px', 
+                          objectFit: 'contain',
+                          borderRadius: '8px',
+                          border: previewError ? '2px solid #ef4444' : '2px solid #10b981'
+                        }}
+                      />
+                    </div>
+                    {previewError && (
+                      <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px' }}>
+                        Intenta con: i.imgur.com, images.unsplash.com, via.placeholder.com
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
+            </div>
+          </div>
             </div>
           </div>
 
