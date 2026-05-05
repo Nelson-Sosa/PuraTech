@@ -55,23 +55,33 @@ module.exports.agregarProducto = async (req, res) => {
 
     // Procesar imagen principal (imageUrl)
     if (req.files && req.files.imageUrl) {
+      // Archivo subido (multer lo guarda en el servidor)
       finalImageUrl = req.files.imageUrl[0].path;
     } else if (req.file) {
+      // Archivo subido (multer lo guarda en el servidor)
       finalImageUrl = req.file.path;
     } else if (imageUrlText) {
-      finalImageUrl = imageUrlText;
+      // URL externa (se guarda tal cual)
+      finalImageUrl = imageUrlText.trim();
     }
 
     // Procesar múltiples imágenes
     if (req.files && req.files.additionalImages) {
+      // Archivos subidos
       imagesArray = req.files.additionalImages.map(file => file.path);
     } else if (imagesJson) {
       try {
-        imagesArray = JSON.parse(imagesJson);
+        const parsed = JSON.parse(imagesJson);
+        // Si es un array de URLs
+        if (Array.isArray(parsed)) {
+          imagesArray = parsed.map(url => url.trim()).filter(url => url);
+        } else if (typeof parsed === 'string' && parsed.trim()) {
+          imagesArray = [parsed.trim()];
+        }
       } catch (e) {
-        // Si no es JSON válido, verificar si es una sola URL
+        // Si no es JSON válido, verificar si es una sola URL o múltiples separadas por coma
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          imagesArray = [imagesJson];
+          imagesArray = imagesJson.split(',').map(url => url.trim()).filter(url => url);
         }
       }
     }
@@ -79,6 +89,7 @@ module.exports.agregarProducto = async (req, res) => {
     // Si no hay imagen principal pero hay imágenes, usar la primera como principal
     if (!finalImageUrl && imagesArray.length > 0) {
       finalImageUrl = imagesArray[0];
+      imagesArray = imagesArray.slice(1); // Quitar la primera del array de adicionales
     }
 
     // Si no hay ninguna imagen
