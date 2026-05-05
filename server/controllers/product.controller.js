@@ -12,32 +12,110 @@ const stripe = Stripe('sk_test_51PxDMmRt6zQTXipIoi6NdMsHncrdJJkErnnL4pe50T2kjpBO
 // Helper function to download image from URL and save locally
 const downloadImage = async (url, uploadsPath) => {
   try {
-    const response = await axios({
-      url,
-      method: 'GET',
-      responseType: 'stream',
-      timeout: 10000, // 10 second timeout
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
-    });
+    // Clean and validate URL
+    let cleanUrl = url.trim();
+    
+    // Remove everything after comma (multiple URLs pasted)
+    if (cleanUrl.includes(',')) {
+      cleanUrl = cleanUrl.split(',')[0].trim();
+    }
+    
+    // Validate URL format
+    if (!cleanUrl.match(/^https?:\/\/.+/)) {
+      console.error('❌ Invalid URL format:', cleanUrl.substring(0, 50));
+      return null;
+    }
+    
+    console.log('🔄 Downloading image from:', cleanUrl.substring(0, 100));
+    
+    // Verify uploads directory exists
+    if (!fs.existsSync(uploadsPath)) {
+      console.log('📁 Creating uploads directory:', uploadsPath);
+      fs.mkdirSync(uploadsPath, { recursive: true });
+    }
 
-    // Get file extension from URL or default to .jpg
-    const urlPath = new URL(url).pathname;
-    const ext = path.extname(urlPath) || '.jpg';
+    // Try with http instead of https if SSL fails
+    let response;
+    try {
+      response = await axios({
+        url: cleanUrl,
+        method: 'GET',
+        responseType: 'arraybuffer',
+        timeout: 20000, // 20 second timeout
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Referer': 'https://www.google.com/'
+        },
+        maxRedirects: 5,
+        validateStatus: function (status) {
+          return status >= 200 && status < 400; // Accept 3xx redirects
+        }
+      });
+    } catch (sslError) {
+      console.log('⚠️ SSL error, trying without SSL verification...');
+      // Try with http if https fails
+      if (cleanUrl.startsWith('https://')) {
+        const httpUrl = cleanUrl.replace('https://', 'http://');
+        console.log('🔄 Retrying with HTTP:', httpUrl.substring(0, 80));
+        response = await axios({
+          url: httpUrl,
+          method: 'GET',
+          responseType: 'arraybuffer',
+          timeout: 20000,
+          headers: {
+            'User-Agent': 'Mozilla/5.0'
+          }
+        });
+      } else {
+        throw sslError;
+      }
+    }
+
+    console.log('✅ Download response status:', response.status);
+    console.log('✅ Content-Type:', response.headers['content-type']);
+
+    // Validate it's actually an image
+    const contentType = response.headers['content-type'] || '';
+    if (!contentType.startsWith('image/')) {
+      console.error('❌ Not an image! Content-Type:', contentType);
+      return null;
+    }
+
+    // Get file extension from content-type or URL
+    let ext = '.jpg';
+    if (contentType.includes('png')) ext = '.png';
+    else if (contentType.includes('webp')) ext = '.webp';
+    else if (contentType.includes('gif')) ext = '.gif';
+    else {
+      // Try from URL
+      try {
+        const urlPath = new URL(cleanUrl).pathname;
+        const urlExt = path.extname(urlPath);
+        if (urlExt && urlExt.length <= 5) ext = urlExt;
+      } catch (e) {}
+    }
+
     const filename = `img_${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
     const filepath = path.join(uploadsPath, filename);
 
-    // Save file
-    const writer = fs.createWriteStream(filepath);
-    response.data.pipe(writer);
+    console.log('💾 Saving to:', filepath);
 
-    return new Promise((resolve, reject) => {
-      writer.on('finish', () => resolve(`/uploads/${filename}`));
-      writer.on('error', reject);
-    });
+    // Save file
+    fs.writeFileSync(filepath, response.data);
+    
+    // Verify file was saved
+    if (fs.existsSync(filepath)) {
+      console.log('✅ Image saved successfully:', `/uploads/${filename}`);
+      console.log('   File size:', fs.statSync(filepath).size, 'bytes');
+      return `/uploads/${filename}`;
+    } else {
+      console.error('❌ File not saved!');
+      return null;
+    }
   } catch (error) {
-    console.error('Error downloading image:', error.message);
+    console.error('❌ Error downloading image:', error.message);
     return null; // Return null if download fails
   }
 };
@@ -90,43 +168,86 @@ module.exports.agregarProducto = async (req, res) => {
     let imagesArray = [];
     const uploadsPath = path.join(__dirname, '../uploads');
 
+    // Helper to clean and validate URL
+    const cleanUrl = (url) => {
+      if (!url) return null;
+      url = url.trim();
+      // Remove any appended URLs (after comma)
+      if (url.includes(',')) {
+        url = url.split(',')[0].trim();
+      }
+      // Ensure it's a valid HTTP(S) URL
+      if (!url.match(/^https?:\/\/.+/)) {
+        return null;
+      }
+      return url;
+    };
+
+    // Helper to ensure local path format
+    const ensureLocalPath = (img) => {
+      if (!img) return img;
+      // If it's already a /uploads/ path, return as is
+      if (img.startsWith('/uploads/')) return img;
+      // If it's just a filename, add /uploads/ prefix
+      if (!img.includes('/') && !img.includes('http')) {
+        return `/uploads/${img}`;
+      }
+      return img;
+    };
+
     // Procesar imagen principal (imageUrl)
     if (req.files && req.files.imageUrl) {
       // Archivo subido (multer lo guarda en el servidor)
-      finalImageUrl = req.files.imageUrl[0].path;
+      finalImageUrl = ensureLocalPath(req.files.imageUrl[0].path);
     } else if (req.file) {
       // Archivo subido (multer lo guarda en el servidor)
-      finalImageUrl = req.file.path;
+      finalImageUrl = ensureLocalPath(req.file.path);
     } else if (imageUrlText) {
       // URL externa: intentar descargar y guardar localmente
-      const downloadedUrl = await downloadImage(imageUrlText.trim(), uploadsPath);
-      finalImageUrl = downloadedUrl || imageUrlText.trim(); // Fallback to original URL if download fails
+      const cleanedUrl = cleanUrl(imageUrlText);
+      if (cleanedUrl) {
+        console.log('🔄 Processing main image URL:', cleanedUrl.substring(0, 80));
+        const downloadedUrl = await downloadImage(cleanedUrl, uploadsPath);
+        if (downloadedUrl) {
+          finalImageUrl = downloadedUrl;
+          console.log('✅ Main image downloaded:', downloadedUrl);
+        } else {
+          console.error('❌ Download failed for main image, NOT saving');
+          finalImageUrl = ""; // Don't save broken URL
+        }
+      }
     }
 
     // Procesar múltiples imágenes
     if (req.files && req.files.additionalImages) {
       // Archivos subidos
-      imagesArray = req.files.additionalImages.map(file => file.path);
+      imagesArray = req.files.additionalImages.map(file => ensureLocalPath(file.path));
     } else if (imagesJson) {
       try {
         const parsed = JSON.parse(imagesJson);
         // Si es un array de URLs
         if (Array.isArray(parsed)) {
-          // Try to download each URL
+          // Clean and try to download each URL
+          const cleanedUrls = parsed.map(url => cleanUrl(url)).filter(url => url);
+          console.log('🔄 Processing', cleanedUrls.length, 'additional image URLs');
           const downloadedImages = [];
-          for (const url of parsed.map(url => url.trim()).filter(url => url)) {
+          for (const url of cleanedUrls) {
             const downloaded = await downloadImage(url, uploadsPath);
             downloadedImages.push(downloaded || url); // Use downloaded URL or original
           }
           imagesArray = downloadedImages;
         } else if (typeof parsed === 'string' && parsed.trim()) {
-          const downloaded = await downloadImage(parsed.trim(), uploadsPath);
-          imagesArray = [downloaded || parsed.trim()];
+          const cleanedUrl = cleanUrl(parsed);
+          if (cleanedUrl) {
+            const downloaded = await downloadImage(cleanedUrl, uploadsPath);
+            imagesArray = [downloaded || cleanedUrl];
+          }
         }
       } catch (e) {
         // Si no es JSON válido, verificar si es una sola URL o múltiples separadas por coma
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          const urls = imagesJson.split(',').map(url => cleanUrl(url)).filter(url => url);
+          console.log('🔄 Processing', urls.length, 'comma-separated URLs');
           const downloadedImages = [];
           for (const url of urls) {
             const downloaded = await downloadImage(url, uploadsPath);
@@ -226,33 +347,60 @@ module.exports.updateProduct = async (req, res) => {
     
     // Agregar nuevas imágenes de URLs
     const uploadsPath = path.join(__dirname, '../uploads');
+    
+    // Helper to clean URL
+    const cleanImageUrl = (url) => {
+      if (!url) return null;
+      url = url.trim();
+      // Remove any appended URLs (after comma or space with http)
+      if (url.includes(',')) {
+        url = url.split(',')[0].trim();
+      }
+      // Remove any special characters at the end
+      url = url.replace(/[,\s]+$/, '');
+      // Validate it's a proper HTTP(S) URL
+      if (!url.match(/^https?:\/\/.+/)) {
+        return null;
+      }
+      return url;
+    };
+    
     if (imagesJson) {
       try {
         const parsed = JSON.parse(imagesJson);
         let urlImages = [];
         if (Array.isArray(parsed)) {
-          urlImages = parsed.map(url => url.trim()).filter(url => url);
+          urlImages = parsed.map(url => cleanImageUrl(url)).filter(url => url);
         } else if (typeof parsed === 'string' && parsed.trim()) {
-          urlImages = [parsed.trim()];
+          const cleaned = cleanImageUrl(parsed);
+          if (cleaned) urlImages = [cleaned];
         }
+        console.log('🔄 Processing', urlImages.length, 'URLs for update');
         // Download each image
         for (const url of urlImages) {
+          console.log('   Downloading:', url.substring(0, 80));
           const downloaded = await downloadImage(url, uploadsPath);
           if (downloaded) {
+            console.log('   ✅ Downloaded:', downloaded);
             updatedImages.push(downloaded);
           } else {
+            console.log('   ⚠️ Using original URL (download failed)');
             updatedImages.push(url); // Fallback to original URL
           }
         }
       } catch (e) {
         // Si no es JSON, verificar si es string
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          const urls = imagesJson.split(',').map(url => cleanImageUrl(url)).filter(url => url);
+          console.log('🔄 Processing', urls.length, 'comma-separated URLs for update');
           for (const url of urls) {
+            console.log('   Downloading:', url.substring(0, 80));
             const downloaded = await downloadImage(url, uploadsPath);
             if (downloaded) {
+              console.log('   ✅ Downloaded:', downloaded);
               updatedImages.push(downloaded);
             } else {
+              console.log('   ⚠️ Using original URL (download failed)');
               updatedImages.push(url);
             }
           }
@@ -266,9 +414,17 @@ module.exports.updateProduct = async (req, res) => {
       updatedImageUrl = req.files.imageUrl[0].path;
     } else if (req.body.imageUrlText) {
       // If text URL provided, download it
-      const downloaded = await downloadImage(req.body.imageUrlText.trim(), uploadsPath);
-      if (downloaded) {
-        updatedImageUrl = downloaded;
+      const cleanedUrl = cleanImageUrl(req.body.imageUrlText);
+      if (cleanedUrl) {
+        console.log('🔄 Updating main image from URL:', cleanedUrl.substring(0, 80));
+        const downloaded = await downloadImage(cleanedUrl, uploadsPath);
+        if (downloaded) {
+          console.log('   ✅ Downloaded:', downloaded);
+          updatedImageUrl = downloaded;
+        } else {
+          console.log('   ⚠️ Using original URL (download failed)');
+          updatedImageUrl = cleanedUrl;
+        }
       }
     }
     
