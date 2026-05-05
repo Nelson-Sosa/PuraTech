@@ -5,42 +5,53 @@
 
 const STORE_PHONE = '595983986775';
 
-/**
- * Envía un pedido completo por WhatsApp
- */
 export const sendWhatsAppOrder = (products, customerInfo) => {
-  const total = products.reduce(function(sum, p) {
+  if (!products || products.length === 0) {
+    alert("El carrito está vacío");
+    return;
+  }
+
+  const total = products.reduce((sum, p) => {
     return sum + (p.precio * (p.quantity || 1));
   }, 0);
 
-  let message = '*NUEVO PEDIDO - GameMasters*\n\n';
+  let message = `🛒 *NUEVO PEDIDO - GameMasters*\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  if (customerInfo && (customerInfo.name || customerInfo.phone)) {
-    message += '*Cliente:* ' + (customerInfo.name || 'No especificado') + '\n';
-    message += '*Teléfono:* ' + (customerInfo.phone || 'No especificado') + '\n';
-    message += '*Dirección:* ' + (customerInfo.address || 'No especificada') + '\n\n';
+  // Datos del cliente
+  if (customerInfo) {
+    message += `👤 *Cliente:* ${customerInfo.name || 'No especificado'}\n`;
+    message += `📞 *Teléfono:* ${customerInfo.phone || 'No especificado'}\n`;
+    message += `📍 *Dirección:* ${customerInfo.address || 'No especificada'}\n\n`;
   }
 
-  message += '*PRODUCTOS:*\n';
-  message += '------------------------------\n';
+  message += `📦 *DETALLE DEL PEDIDO:*\n\n`;
 
-  products.forEach(function(p, index) {
-    var subtotal = p.precio * (p.quantity || 1);
-    message += (index + 1) + '. *' + p.nombre + '*\n';
-    message += '   Marca: ' + (p.marca || 'N/A') + '\n';
-    message += '   Cantidad: ' + (p.quantity || 1) + '\n';
-    message += '   Precio unit.: ' + Number(p.precio).toLocaleString("es-PY") + ' Gs.\n';
-    message += '   Subtotal: ' + subtotal.toLocaleString("es-PY") + ' Gs.\n\n';
+  products.forEach((p, index) => {
+    const subtotal = p.precio * (p.quantity || 1);
+
+    message += `🔹 *${index + 1}. ${p.nombre}*\n`;
+    message += `   🏷️ Marca: ${p.marca || 'N/A'}\n`;
+    message += `   🔢 Cantidad: ${p.quantity || 1}\n`;
+    message += `   💲 Precio: ${Number(p.precio).toLocaleString("es-PY")} Gs.\n`;
+    message += `   🧾 Subtotal: ${subtotal.toLocaleString("es-PY")} Gs.\n\n`;
   });
 
-  message += '------------------------------\n';
-  message += '*TOTAL DEL PEDIDO:* ' + total.toLocaleString("es-PY") + ' Gs.\n\n';
-  message += '_Pedido realizado desde la web_\n';
-  message += '_' + new Date().toLocaleString("es-PY") + '_';
+  message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `💰 *TOTAL:* ${total.toLocaleString("es-PY")} Gs.\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  var encodedMessage = encodeURIComponent(message);
-  var url = 'https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage;
-  window.open(url, '_blank');
+  message += `🕒 Pedido realizado: ${new Date().toLocaleString("es-PY")}\n`;
+  message += `🌐 Desde la tienda online`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const url = `https://wa.me/${STORE_PHONE}?text=${encodedMessage}`;
+
+  // 🔥 FIX anti-bloqueo
+  const win = window.open(url, '_blank');
+  if (!win) {
+    window.location.href = url;
+  }
 };
 
 /**

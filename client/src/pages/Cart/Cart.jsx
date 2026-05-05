@@ -17,6 +17,7 @@ const Cart = () => {
   });
 
   const handleWhatsApp = () => {
+    console.log("Click detectado", cart, customerInfo);
     sendWhatsAppOrder(cart, customerInfo.name || customerInfo.phone ? customerInfo : null);
   };
 
@@ -120,9 +121,8 @@ const Cart = () => {
               </div>
             )}
           </div>
-
           <button className="checkout-btn" onClick={handleWhatsApp}>
-            📱 Enviar pedido por WhatsApp
+          🚀 Finalizar pedido por WhatsApp
           </button>
           <button className="clear-btn" onClick={clearCart}>
             Vaciar carrito
