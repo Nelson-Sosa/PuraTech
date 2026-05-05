@@ -4,18 +4,27 @@ import { useState } from 'react';
 import { API_URL } from '../../config';
 import './Cart.css';
 import Navbar from '../../components/Navbar/Navbar';
+import { sendWhatsAppOrder } from '../../utils/whatsapp';
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
+  const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    address: ''
+  });
 
   const handleWhatsApp = () => {
-    const productsList = cart.map(p => 
-      `- ${p.nombre} (${p.quantity}x) - ${(p.precio * p.quantity).toLocaleString("es-PY")} Gs.`
-    ).join('%0A'); // %0A es salto de línea
+    sendWhatsAppOrder(cart, customerInfo.name || customerInfo.phone ? customerInfo : null);
+  };
 
-    const message = `Hola! Quiero comprar:%0A${productsList}%0ATotal: ${getTotal().toLocaleString("es-PY")} Gs.`;
-    window.open(`https://wa.me/595981123456?text=${encodeURIComponent(message)}`, '_blank');
+  const handleCustomerInfoChange = (e) => {
+    setCustomerInfo({
+      ...customerInfo,
+      [e.target.name]: e.target.value
+    });
   };
 
   if (cart.length === 0) {
@@ -72,6 +81,46 @@ const Cart = () => {
             <span>Total:</span>
             <span>{getTotal().toLocaleString("es-PY")} Gs.</span>
           </div>
+
+          {/* Formulario opcional de cliente */}
+          <div className="customer-info-section">
+            <button 
+              className="toggle-form-btn"
+              onClick={() => setShowCustomerForm(!showCustomerForm)}
+            >
+              {showCustomerForm ? '▼ Ocultar' : '▶'} Agregar mis datos (opcional)
+            </button>
+            
+            {showCustomerForm && (
+              <div className="customer-form">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Tu nombre"
+                  value={customerInfo.name}
+                  onChange={handleCustomerInfoChange}
+                  className="customer-input"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Tu teléfono (ej. 0981 123 456)"
+                  value={customerInfo.phone}
+                  onChange={handleCustomerInfoChange}
+                  className="customer-input"
+                />
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Dirección de entrega (opcional)"
+                  value={customerInfo.address}
+                  onChange={handleCustomerInfoChange}
+                  className="customer-input"
+                />
+              </div>
+            )}
+          </div>
+
           <button className="checkout-btn" onClick={handleWhatsApp}>
             📱 Enviar pedido por WhatsApp
           </button>

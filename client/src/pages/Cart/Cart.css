@@ -291,3 +291,52 @@
     height: 70px;
   }
 }
+
+/* ── Customer Info Form ── */
+.customer-info-section {
+  margin: 20px 0;
+}
+
+.toggle-form-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.toggle-form-btn:hover {
+  border-color: var(--accent-violet);
+  color: var(--text-primary);
+}
+
+.customer-form {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.customer-input {
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.customer-input:focus {
+  outline: none;
+  border-color: var(--accent-violet);
+}
+
+.customer-input::placeholder {
+  color: var(--text-muted);
+}
