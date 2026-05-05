@@ -54,9 +54,11 @@ const App = () => {
         rel="noopener noreferrer"
         title="Contactanos por WhatsApp"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
-          <path fill="white" d="M17.472 14.382c-1.947 0-3.623-.421-5.022-1.272l-5.565 1.737 1.737-5.565c-.851-1.399-1.272-3.075-1.272-5.022 0-5.514 4.486-10 10-10s10 4.486 10 10c0 1.947-.421 3.623-1.272 5.022z" />
-        </svg>
+        <img 
+          src="/img/whatsapp-symbol-logo.svg" 
+          alt="WhatsApp"
+          style={{ width: '28px', height: '28px', filter: 'brightness(0) invert(1)' }}
+        />
       </a>
     </div>
     </CartProvider>
