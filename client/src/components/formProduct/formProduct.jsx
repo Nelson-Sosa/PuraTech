@@ -17,7 +17,6 @@ const FormProduct = () => {
   const [additionalImagesText, setAdditionalImagesText] = useState("");
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
-  const [previewError, setPreviewError] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -71,7 +70,6 @@ const FormProduct = () => {
     // Preview logic - only preview if looks like a URL
     if (url && url.match(/^https?:\/\/.+/)) {
       setPreviewUrl(url);
-      setPreviewError(false);
       setPreviewLoading(true);
     } else {
       setPreviewUrl("");
@@ -79,24 +77,8 @@ const FormProduct = () => {
     }
   };
 
-  const handlePreviewError = () => {
-    setPreviewError(true);
-    setPreviewLoading(false);
-  };
-
   const handlePreviewLoad = () => {
     setPreviewLoading(false);
-  };
-
-  const isLikelyBlockedDomain = (url) => {
-    const blockedPatterns = [
-      /walmartimages\.com/i,
-      /encrypted-tbn.*\.gstatic\.com/i,
-      /google\.com.*\.(jpg|jpeg|png|webp)/i,
-      /facebook\.com.*\.(jpg|jpeg|png|webp)/i,
-      /amazon\.com.*\.(jpg|jpeg|png|webp)/i
-    ];
-    return blockedPatterns.some(pattern => pattern.test(url));
   };
 
   const handleAdditionalImagesChange = (e) => {
@@ -110,26 +92,10 @@ const FormProduct = () => {
   const procesaForm = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
-    
-    // Note: Backend now downloads images from protected URLs automatically
-    // No need to warn user - the server handles it
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
-    }
-
-    // Validate image URLs before saving
-    if (imageUrlText && isLikelyBlockedDomain(imageUrlText)) {
-      const shouldContinue = window.confirm(
-        "⚠️ ADVERTENCIA: Esta URL probablemente tiene protección anti-hotlink y no se mostrará en la tienda.\n\n" +
-        "URL: " + imageUrlText.substring(0, 100) + "...\n\n" +
-        "¿Deseas continuar de todos modos?\n\n" +
-        "Recomendación: Usa imágenes de imgur.com, unsplash.com o subí un archivo."
-      );
-      if (!shouldContinue) {
-        return; // Stop saving
-      }
     }
 
     const formData = new FormData();
@@ -300,11 +266,11 @@ const FormProduct = () => {
                 {/* Preview for URL */}
                 {previewUrl && (
                   <div className="image-preview-box">
-                    <p style={{ fontSize: '12px', color: previewError ? '#ef4444' : previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
-                      {previewError ? '⚠️ Vista previa no disponible (se descargará al guardar)' : previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
+                    <p style={{ fontSize: '12px', color: previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
+                      {previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
                     </p>
                     <div className="preview-container">
-                      {previewLoading && !previewError && (
+                      {previewLoading && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
                           <div style={{ 
                             width: '20px', 
@@ -320,23 +286,17 @@ const FormProduct = () => {
                       <img 
                         src={previewUrl} 
                         alt="Vista previa"
-                        onError={handlePreviewError}
                         onLoad={handlePreviewLoad}
                         style={{ 
                           maxWidth: '100%', 
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: previewError ? '2px solid #f59e0b' : '2px solid #10b981',
+                          border: '2px solid #10b981',
                           display: previewLoading ? 'none' : 'block'
                         }}
                       />
                     </div>
-                    {previewError && (
-                      <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px' }}>
-                        💡 Al guardar, el servidor descargará la imagen automáticamente
-                      </p>
-                    )}
                   </div>
                 )}
               </div>

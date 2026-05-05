@@ -14,15 +14,12 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
-  const [imgErrors, setImgErrors] = useState({});
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/product/${id}`);
         setProduct(res.data);
         setCurrentImageIndex(0); // Reset to first image
-        setImgErrors({}); // Clear previous errors
       } catch (error) {
         console.error("Error cargando producto:", error);
       } finally {
@@ -66,17 +63,6 @@ const ProductDetail = () => {
     }, 1500);
   };
 
-  const handleImageError = (index) => {
-    setImgErrors(prev => ({...prev, [index]: true }));
-  };
-
-  const getImageSrc = (img, index) => {
-    if (imgErrors[index]) {
-      return "/img/placeholder.png";
-    }
-    return img;
-  };
-
   if (loading) {
     return (
       <div className="detail-loading">
@@ -108,13 +94,12 @@ const ProductDetail = () => {
       <div className="detail-layout">
         {/* Image Gallery */}
         <div className="gallery-section">
-          <div className="main-image-container">
-            <img 
-              src={getImageSrc(images[currentImageIndex], currentImageIndex)} 
-              alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
-              className="main-image"
-              onError={() => handleImageError(currentImageIndex)}
-            />
+           <div className="main-image-container">
+             <img 
+               src={images[currentImageIndex]} 
+               alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
+               className="main-image"
+             />
             
             {images.length > 1 && (
               <>
@@ -132,21 +117,20 @@ const ProductDetail = () => {
           </div>
 
           {images.length > 1 && (
-            <div className="thumbnail-grid">
-              {images.map((img, index) => (
-                <div 
-                  key={index}
-                  className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                  onClick={() => goToImage(index)}
-                >
-                  <img 
-                    src={getImageSrc(img, index)} 
-                    alt={`${product.nombre} - ${index + 1}`}
-                    onError={() => handleImageError(index)}
-                  />
-                </div>
-              ))}
-            </div>
+             <div className="thumbnail-grid">
+               {images.map((img, index) => (
+                 <div 
+                   key={index}
+                   className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                   onClick={() => goToImage(index)}
+                 >
+                   <img 
+                     src={img} 
+                     alt={`${product.nombre} - ${index + 1}`}
+                   />
+                 </div>
+               ))}
+             </div>
           )}
         </div>
 
