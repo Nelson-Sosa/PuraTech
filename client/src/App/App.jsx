@@ -32,6 +32,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         
         {/* Rutas públicas */}
+        <Route path="/products" element={<Products />} />
         <Route path="/category/:category" element={<Products />} />
         <Route path="/suppliers" element={<Suppliers />} />
         <Route path="/create-payment-intent" element={<Checkout />} />

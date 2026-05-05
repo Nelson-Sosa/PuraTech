@@ -100,7 +100,7 @@ const Home = () => {
               <span>al mejor precio</span>
             </h1>
             <p>🚀 Equipos, consolas y accesorios premium. Comprá fácil y rápido desde tu casa.</p>
-            <Link to="/category/Consolas" className="hero-btn">
+            <Link to="/products" className="hero-btn">
               Ver productos →
             </Link>
           </div>

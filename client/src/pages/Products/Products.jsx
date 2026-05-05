@@ -24,9 +24,11 @@ export const Products = () => {
     // 🔥 Función central para traer productos (PÚBLICO)
     const getProducts = useCallback(async () => {
         try {
-            const res = await axios.get(
-                `${API_URL}/api/products/public?category=${decodedCategory}`
-            );
+            let url = `${API_URL}/api/products/public`;
+            if (decodedCategory) {
+                url += `?category=${decodedCategory}`;
+            }
+            const res = await axios.get(url);
             setProducts(res.data);
             setFilteredProducts(res.data);
         } catch (err) {
@@ -102,7 +104,8 @@ export const Products = () => {
         <div className="products-page">
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
-                <Link to="/">Inicio</Link> <span className="separator">/</span> <span>{decodedCategory}</span>
+                <Link to="/">Inicio</Link> <span className="separator">/</span> 
+                <span>{decodedCategory || 'Todos los productos'}</span>
             </div>
 
             <div className="products-layout">
