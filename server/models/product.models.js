@@ -23,7 +23,11 @@ const ProductSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String
-    }, // URL de la imagen
+    }, // URL de la imagen principal (backward compatibility)
+    images: {
+        type: [String],
+        default: []
+    }, // Múltiples imágenes del producto
     ventas: {
         type: Number,
         default: 0
@@ -40,6 +44,8 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 10
     }
+}, {
+    timestamps: true // Agrega createdAt y updatedAt automáticamente
 });
 
 const Product = mongoose.model("Product", ProductSchema);

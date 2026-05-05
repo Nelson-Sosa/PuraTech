@@ -48,15 +48,37 @@ module.exports.getPublicProducts = async (req, res) => {
 // Endpoints ADMIN (requieren token)
 module.exports.agregarProducto = async (req, res) => {
   try {
-    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText } = req.body;
+    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText, images: imagesJson } = req.body;
 
     let finalImageUrl = "";
+    let imagesArray = [];
 
+    // Procesar imagen principal (imageUrl)
     if (req.file) {
       finalImageUrl = req.file.path;
     } else if (imageUrlText) {
       finalImageUrl = imageUrlText;
-    } else {
+    }
+
+    // Procesar múltiples imágenes
+    if (imagesJson) {
+      try {
+        imagesArray = JSON.parse(imagesJson);
+      } catch (e) {
+        // Si no es JSON válido, verificar si es una sola URL
+        if (typeof imagesJson === 'string' && imagesJson.trim()) {
+          imagesArray = [imagesJson];
+        }
+      }
+    }
+
+    // Si no hay imagen principal pero hay imágenes, usar la primera como principal
+    if (!finalImageUrl && imagesArray.length > 0) {
+      finalImageUrl = imagesArray[0];
+    }
+
+    // Si no hay ninguna imagen
+    if (!finalImageUrl && imagesArray.length === 0) {
       return res.status(400).json({ error: "Imagen no proporcionada (sube un archivo o envía un link)" });
     }
 
@@ -67,6 +89,7 @@ module.exports.agregarProducto = async (req, res) => {
       precio,
       descripcion,
       imageUrl: finalImageUrl,
+      images: imagesArray,
       isOffer: isOffer || false,
       isNew: isNew !== false, // Por defecto es nuevo
       stock: stock || 10

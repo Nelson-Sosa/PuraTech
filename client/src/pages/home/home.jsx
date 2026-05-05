@@ -50,12 +50,15 @@ const Home = () => {
               <Link to={`/product/${product._id}`} className="product-link">
                 <div className="product-image-container">
                   <img 
-                    src={product.imageUrl || "/img/placeholder.png"} 
+                    src={(product.images && product.images[0]) || product.imageUrl || "/img/placeholder.png"} 
                     alt={product.nombre}
                     className="product-image"
                   />
                   {product.isOffer && <span className="badge offer">OFERTA</span>}
                   {product.isNew && <span className="badge new">NUEVO</span>}
+                  {product.images && product.images.length > 1 && (
+                    <span className="image-count">+{product.images.length - 1}</span>
+                  )}
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.marca}</p>

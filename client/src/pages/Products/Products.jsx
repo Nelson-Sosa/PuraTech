@@ -153,12 +153,15 @@ export const Products = () => {
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
                                             <img 
-                                                src={producto.imageUrl || "/img/placeholder.png"} 
+                                                src={(producto.images && producto.images[0]) || producto.imageUrl || "/img/placeholder.png"} 
                                                 alt={producto.nombre}
                                                 className="product-image"
                                             />
                                             {producto.isOffer && <span className="badge offer">OFERTA</span>}
                                             {producto.isNew && <span className="badge new">NUEVO</span>}
+                                            {producto.images && producto.images.length > 1 && (
+                                                <span className="image-count">+{producto.images.length - 1}</span>
+                                            )}
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>
