@@ -21,7 +21,7 @@ const Home = () => {
           axios.get(`${API_URL}/api/products/public/home`),
           axios.get(`${API_URL}/api/categories`)
         ]);
-        
+
         setBestsellers(productsRes.data.bestsellers);
         setOffers(productsRes.data.offers);
         setNewProducts(productsRes.data.newProducts);
@@ -48,8 +48,8 @@ const Home = () => {
             <div key={product._id} className="product-card">
               <Link to={`/product/${product._id}`} className="product-link">
                 <div className="product-image-container">
-                  <img 
-                    src={product.imageUrl || "/img/placeholder.png"} 
+                  <img
+                    src={product.imageUrl || "/img/placeholder.png"}
                     alt={product.nombre}
                     className="product-image"
                   />
@@ -65,7 +65,7 @@ const Home = () => {
                   <p className="stock">✓ Stock: {product.stock || 10} unidades</p>
                 </div>
               </Link>
-              <button 
+              <button
                 className="add-to-cart-btn"
                 onClick={() => addToCart(product)}
               >
@@ -100,7 +100,7 @@ const Home = () => {
               <span>al mejor precio</span>
             </h1>
             <p>🚀 Equipos, consolas y accesorios premium. Comprá fácil y rápido desde tu casa.</p>
-            <Link to="/products" className="hero-btn">
+            <Link to="/category/Consolas" className="hero-btn">
               Ver productos →
             </Link>
           </div>
@@ -113,9 +113,9 @@ const Home = () => {
         <div className="categories-grid">
           {categories.length > 0 ? (
             categories.map((cat) => (
-              <Link 
-                key={cat._id} 
-                to={`/category/${encodeURIComponent(cat.name)}`} 
+              <Link
+                key={cat._id}
+                to={`/category/${encodeURIComponent(cat.name)}`}
                 className="category-card"
               >
                 {getCategoryIcon(cat.name)} {cat.name}
@@ -176,7 +176,16 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BOTÓN FLOTANTE DE WHATSAPP - MOVIDO A App.jsx */}
+      {/* BOTÓN FLOTANTE DE WHATSAPP */}
+      <a
+        href={`https://wa.me/595981123456`}
+        className="whatsapp-float"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Contactanos por WhatsApp"
+      >
+        📱
+      </a>
 
       {/* FOOTER */}
       <footer className="home-footer">
