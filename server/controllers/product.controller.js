@@ -135,10 +135,64 @@ module.exports.categoriaProductos = async (req, res) => {
   }
 };
 
-module.exports.updateProduct = (req, res) => {
-  Product.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(updaProduct => res.json(updaProduct))
-    .catch(error => res.json(error));
+module.exports.updateProduct = async (req, res) => {
+  try {
+    const { category, nombre, marca, precio, descripcion, images: imagesJson } = req.body;
+    
+    // Obtener producto actual
+    const currentProduct = await Product.findById(req.params.id);
+    if (!currentProduct) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Preparar imágenes actualizadas
+    let updatedImages = currentProduct.images || [];
+    
+    // Agregar nuevas imágenes de archivos
+    if (req.files && req.files.additionalImages) {
+      const newImages = req.files.additionalImages.map(file => file.path);
+      updatedImages = [...updatedImages, ...newImages];
+    }
+    
+    // Agregar nuevas imágenes de URLs
+    if (imagesJson) {
+      try {
+        const urlImages = JSON.parse(imagesJson);
+        updatedImages = [...updatedImages, ...urlImages];
+      } catch (e) {
+        // Si no es JSON, verificar si es string
+        if (typeof imagesJson === 'string' && imagesJson.trim()) {
+          updatedImages = [...updatedImages, imagesJson];
+        }
+      }
+    }
+    
+    // Actualizar imagen principal si se proporciona
+    let updatedImageUrl = currentProduct.imageUrl;
+    if (req.files && req.files.imageUrl) {
+      updatedImageUrl = req.files.imageUrl[0].path;
+    }
+    
+    // Actualizar producto
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        category: category || currentProduct.category,
+        nombre: nombre || currentProduct.nombre,
+        marca: marca || currentProduct.marca,
+        precio: precio || currentProduct.precio,
+        descripcion: descripcion || currentProduct.descripcion,
+        imageUrl: updatedImageUrl,
+        images: updatedImages
+      },
+      { new: true }
+    );
+    
+    res.json(updatedProduct);
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(400).json(error);
+  }
 };
 
 module.exports.getProduct = (req, res) => {
