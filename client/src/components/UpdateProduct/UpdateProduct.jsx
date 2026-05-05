@@ -13,6 +13,10 @@ const UpdateProduct = () => {
     const [precio, setPrecio] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [currentImages, setCurrentImages] = useState([]);
+    const [deletedImages, setDeletedImages] = useState([]);
+    const [replaceImageIndex, setReplaceImageIndex] = useState(null);
+    const [replaceImageFile, setReplaceImageFile] = useState(null);
+    const [replaceImageUrl, setReplaceImageUrl] = useState("");
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [newImageUrlText, setNewImageUrlText] = useState("");
@@ -42,6 +46,7 @@ const UpdateProduct = () => {
                 });
             }
             setCurrentImages(images);
+            setDeletedImages([]); // Reset deleted images
         })
         .catch(err => {
             console.error("Error al cargar producto", err);
@@ -81,6 +86,50 @@ const UpdateProduct = () => {
 
     const handleNewAdditionalImagesTextChange = (e) => {
         setNewAdditionalImagesText(e.target.value);
+    };
+
+    const handleDeleteImage = (imageToDelete) => {
+        setCurrentImages(prev => prev.filter(img => img !== imageToDelete));
+        setDeletedImages(prev => [...prev, imageToDelete]);
+    };
+
+    const handleReplaceImage = (index) => {
+        setReplaceImageIndex(index);
+        setReplaceImageFile(null);
+        setReplaceImageUrl("");
+    };
+
+    const handleReplaceImageChange = (e) => {
+        setReplaceImageFile(e.target.files[0]);
+        setReplaceImageUrl("");
+    };
+
+    const handleReplaceImageUrlChange = (e) => {
+        setReplaceImageUrl(e.target.value);
+        setReplaceImageFile(null);
+    };
+
+    const confirmReplaceImage = () => {
+        if (replaceImageIndex === null) return;
+        
+        const newImages = [...currentImages];
+        const oldImage = newImages[replaceImageIndex];
+        
+        if (replaceImageFile) {
+            // For now, we'll handle file replacement on the server
+            // Mark this image for replacement
+            setDeletedImages(prev => [...prev, oldImage]);
+            setNewAdditionalImages(prev => [...prev, replaceImageFile]);
+            newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
+        } else if (replaceImageUrl) {
+            setDeletedImages(prev => [...prev, oldImage]);
+            newImages[replaceImageIndex] = replaceImageUrl;
+        }
+        
+        setCurrentImages(newImages);
+        setReplaceImageIndex(null);
+        setReplaceImageFile(null);
+        setReplaceImageUrl("");
     };
 
     const actualizarProducto = async (e) => {
@@ -215,6 +264,24 @@ const UpdateProduct = () => {
                                     {currentImages.map((img, index) => (
                                         <div key={index} className="thumbnail active">
                                             <img src={img} alt={`Imagen ${index + 1}`} />
+                                            <div className="image-actions">
+                                                <button 
+                                                    type="button"
+                                                    className="image-action-btn replace"
+                                                    onClick={() => handleReplaceImage(index)}
+                                                    title="Reemplazar imagen"
+                                                >
+                                                    🔄
+                                                </button>
+                                                <button 
+                                                    type="button"
+                                                    className="image-action-btn delete"
+                                                    onClick={() => handleDeleteImage(img)}
+                                                    title="Eliminar imagen"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -222,6 +289,57 @@ const UpdateProduct = () => {
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                                     No hay imágenes cargadas
                                 </p>
+                            )}
+                            
+                            {/* Replace Image Section */}
+                            {replaceImageIndex !== null && (
+                                <div className="image-section" style={{ marginTop: '16px' }}>
+                                    <h4 style={{ fontSize: '0.95rem', marginBottom: '12px' }}>
+                                        Reemplazando imagen {replaceImageIndex + 1}
+                                    </h4>
+                                    <div className="image-options">
+                                        <div className="image-option">
+                                            <label className="image-option-label">Seleccionar nuevo archivo</label>
+                                            <input
+                                                type="file"
+                                                onChange={handleReplaceImageChange}
+                                                accept="image/*"
+                                                className="form-file-input"
+                                            />
+                                        </div>
+                                        <div className="divider">O</div>
+                                        <div className="image-option">
+                                            <label className="image-option-label">Pegar nueva URL</label>
+                                            <input
+                                                type="text"
+                                                value={replaceImageUrl}
+                                                onChange={handleReplaceImageUrlChange}
+                                                placeholder="https://ejemplo.com/nueva-imagen.jpg"
+                                                className="form-input"
+                                            />
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn-submit"
+                                            style={{ marginTop: '12px' }}
+                                            onClick={confirmReplaceImage}
+                                        >
+                                            ✓ Confirmar Reemplazo
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn-view-categories"
+                                            style={{ marginTop: '8px' }}
+                                            onClick={() => {
+                                                setReplaceImageIndex(null);
+                                                setReplaceImageFile(null);
+                                                setReplaceImageUrl("");
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </div>
                             )}
                         </div>
 

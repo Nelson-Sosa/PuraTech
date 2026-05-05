@@ -137,7 +137,7 @@ module.exports.categoriaProductos = async (req, res) => {
 
 module.exports.updateProduct = async (req, res) => {
   try {
-    const { category, nombre, marca, precio, descripcion, images: imagesJson } = req.body;
+    const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson } = req.body;
     
     // Obtener producto actual
     const currentProduct = await Product.findById(req.params.id);
@@ -145,10 +145,18 @@ module.exports.updateProduct = async (req, res) => {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
 
-    // Preparar imágenes actualizadas
+    // Procesar imágenes eliminadas
     let updatedImages = currentProduct.images || [];
+    if (deletedImagesJson) {
+      try {
+        const deletedImages = JSON.parse(deletedImagesJson);
+        updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
+      } catch (e) {
+        console.error("Error parsing deletedImages:", e);
+      }
+    }
     
-    // Agregar nuevas imágenes de archivos
+    // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
     if (req.files && req.files.additionalImages) {
       const newImages = req.files.additionalImages.map(file => file.path);
       updatedImages = [...updatedImages, ...newImages];
@@ -171,6 +179,11 @@ module.exports.updateProduct = async (req, res) => {
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.files && req.files.imageUrl) {
       updatedImageUrl = req.files.imageUrl[0].path;
+    }
+    
+    // Si imageUrl fue eliminada, usar la primera de images
+    if (updatedImageUrl && !updatedImages.includes(updatedImageUrl) && updatedImages.length > 0) {
+      updatedImageUrl = updatedImages[0];
     }
     
     // Actualizar producto
