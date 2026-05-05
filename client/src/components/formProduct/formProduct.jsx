@@ -72,15 +72,30 @@ const FormProduct = () => {
   const handleImageUrlChange = (e) => {
     const url = e.target.value;
     setImageUrlText(url);
-    setImageUrl(null); // Si pone link, limpiamos el archivo
+    setImageUrl(null); // Si pega link, limpiamos el archivo
     
-    // Preview logic
-    if (url && url.startsWith('http')) {
+    // Preview logic - only preview if looks like a URL
+    if (url && url.match(/^https?:\/\/.+/)) {
       setPreviewUrl(url);
       setPreviewError(false);
     } else {
-      setPreviewUrl(");
+      setPreviewUrl("");
     }
+  };
+
+  const handlePreviewError = () => {
+    setPreviewError(true);
+  };
+
+  const isLikelyBlockedDomain = (url) => {
+    const blockedPatterns = [
+      /walmartimages\.com/i,
+      /encrypted-tbn.*\.gstatic\.com/i,
+      /google\.com.*\.(jpg|jpeg|png|webp)/i,
+      /facebook\.com.*\.(jpg|jpeg|png|webp)/i,
+      /amazon\.com.*\.(jpg|jpeg|png|webp)/i
+    ];
+    return blockedPatterns.some(pattern => pattern.test(url));
   };
 
   const handlePreviewError = () => {
@@ -99,9 +114,23 @@ const FormProduct = () => {
     setAdditionalImagesText(e.target.value);
   };
 
-    const procesaForm = async (e) => {
+  const procesaForm = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
+    
+    // Validate image URLs before saving
+    if (imageUrlText && isLikelyBlockedDomain(imageUrlText)) {
+      const shouldContinue = window.confirm(
+        "⚠️ ADVERTENCIA: Esta URL probablemente tiene protección anti-hotlink y no se mostrará en la tienda.\n\n" +
+        "URL: " + imageUrlText.substring(0, 100) + "...\n\n" +
+        "¿Deseas continuar de todos modos?\n\n" +
+        "Recomendación: Usa imágenes de imgur.com, unsplash.com o subí un archivo."
+      );
+      if (!shouldContinue) {
+        return; // Stop saving
+      }
+    }
+    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -114,20 +143,13 @@ const FormProduct = () => {
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
     
-    // Imagen principal
-    if (imageUrl) {
-      formData.append("imageUrl", imageUrl);
-    }
-    if (imageUrlText) {
-      formData.append("imageUrlText", imageUrlText);
-    }
-    
-    // Imágenes adicionales
+    // Agregar nuevas imágenes
     if (additionalImages.length > 0) {
-      additionalImages.forEach((file) => {
+      additionalImages.forEach(file => {
         formData.append("additionalImages", file);
       });
     }
+    
     if (additionalImagesText) {
       formData.append("images", additionalImagesText);
     }
@@ -147,8 +169,7 @@ const FormProduct = () => {
         }
       );
       
-      navigate(`/category/${encodeURIComponent(category)}`, {  
-      });    
+      navigate(`/category/${encodeURIComponent(category)}`);
       
     } catch (err) {
       console.error("Error al cargar producto", err);
