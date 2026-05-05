@@ -235,9 +235,10 @@ button {
 
 /* ── WHATSAPP FLOAT (Global) ── */
 .whatsapp-float {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
+  position: fixed !important;
+  bottom: 28px !important;
+  right: 28px !important;
+  left: auto !important;
   width: 58px;
   height: 58px;
   background: linear-gradient(135deg, #25d366, #128c7e);
@@ -247,10 +248,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
   text-decoration: none;
   box-shadow: 0 6px 20px rgba(37,211,102,0.45);
-  z-index: 1000;
+  z-index: 1000 !important;
   transition: all 0.3s ease;
   cursor: pointer;
   animation: pulse-whatsapp 2s infinite;
