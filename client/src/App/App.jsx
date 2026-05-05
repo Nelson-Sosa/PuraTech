@@ -21,6 +21,10 @@ import Navbar from '../components/Navbar/Navbar';
 const App = () => {
   const [login, setLogin] = useState(false);
   
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/595981123456', '_blank');
+  };
+
   return (
     <CartProvider>
     <div>
@@ -45,12 +49,11 @@ const App = () => {
         <Route path="/categories" element={<PrivateRoute component={Categories} />} />
       </Routes>
       
-      {/* BOTÓN FLOTANTE DE WHATSAPP */}
-      <a
-        href="https://wa.me/595981123456"
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* BOTÓN FLOTANTE DE WHATSAPP - POSICIÓN DERECHA */}
+      <button
+        onClick={handleWhatsApp}
         title="Contactanos por WhatsApp"
+        aria-label="Contactanos por WhatsApp"
         style={{
           position: 'fixed',
           bottom: '28px',
@@ -59,20 +62,18 @@ const App = () => {
           height: '60px',
           borderRadius: '50%',
           background: '#25D366',
+          border: 'none',
+          cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          textDecoration: 'none',
           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
           zIndex: 99999,
-          fontSize: '28px',
-          fontFamily: 'Arial, sans-serif',
-          color: 'white',
-          fontWeight: 'bold'
+          fontSize: '32px'
         }}
       >
-        WA
-      </a>
+        📱
+      </button>
     </div>
     </CartProvider>
   );
