@@ -1,13 +1,10 @@
 /**
  * Utilidades de WhatsApp para GameMasters
- * Numero de la tienda: +595 983 986 775 (Paraguay)
+ * Número de la tienda: +595 983 986 775 (Paraguay)
  */
 
-const STORE_PHONE = '595983986775'; // Paraguay number without leading 0
+const STORE_PHONE = '595983986775';
 
-/**
- * Envía un pedido completo por WhatsApp
- */
 export const sendWhatsAppOrder = (products, customerInfo) => {
   const total = products.reduce(function(sum, p) {
     return sum + (p.precio * (p.quantity || 1));
@@ -17,8 +14,8 @@ export const sendWhatsAppOrder = (products, customerInfo) => {
   
   if (customerInfo && (customerInfo.name || customerInfo.phone)) {
     message += '*Cliente:* ' + (customerInfo.name || 'No especificado') + '\n';
-    message += '*Telefono:* ' + (customerInfo.phone || 'No especificado') + '\n';
-    message += '*Direccion:* ' + (customerInfo.address || 'No especificada') + '\n\n';
+    message += '*Teléfono:* ' + (customerInfo.phone || 'No especificado') + '\n';
+    message += '*Dirección:* ' + (customerInfo.address || 'No especificada') + '\n\n';
   }
   
   message += '*PRODUCTOS:*\n';
@@ -35,36 +32,32 @@ export const sendWhatsAppOrder = (products, customerInfo) => {
   
   message += '------------------------------\n';
   message += '*TOTAL DEL PEDIDO:* ' + total.toLocaleString("es-PY") + ' Gs.\n\n';
-  message += 'Pedido realizado desde la web\n';
-  message += new Date().toLocaleString("es-PY");
+  message += '_Pedido realizado desde la web_\n';
+  message += '_' + new Date().toLocaleString("es-PY") + '_';
   
   var encodedMessage = encodeURIComponent(message);
   var url = 'https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage;
   window.open(url, '_blank');
 };
 
-/**
- * Envía consulta sobre producto
- */
 export const sendWhatsAppProductInquiry = (product) => {
-  var message = '*CONSULTA SOBRE PRODUCTO*\n\n';
-  message += '*' + product.nombre + '*\n';
-  message += 'Marca: ' + (product.marca || 'N/A') + '\n';
-  message += 'Precio: ' + Number(product.precio).toLocaleString("es-PY") + ' Gs.\n';
-  message += 'Stock: ' + (product.stock || 'Consultar') + ' unidades\n\n';
-  message += 'Hola! Me interesa este producto y quisiera mas informacion.\n';
-  message += 'Consulta desde la web';
+  var message = '*CONSULTA SOBRE PRODUCTO*\n\n' +
+    '*' + product.nombre + '*\n' +
+    'Marca: ' + (product.marca || 'N/A') + '\n' +
+    'Precio: ' + Number(product.precio).toLocaleString("es-PY") + ' Gs.\n' +
+    'Stock: ' + (product.stock || 'Consultar') + ' unidades\n\n' +
+    'Hola! Me interesa este producto y quisiera más información.\n' +
+    '_Consulta desde la web_';
   
   var encodedMessage = encodeURIComponent(message);
   var url = 'https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage;
   window.open(url, '_blank');
 };
 
-/**
- * Envía mensaje general
- */
 export const sendWhatsAppContact = (message) => {
-  var defaultMessage = message || 'Hola! \n\nVi su tienda online GameMasters y quisiera hacer una consulta.\n\nMuchas gracias!';
+  var defaultMessage = message || 'Hola! \n\n' +
+    'Vi su tienda online GameMasters y quisiera hacer una consulta.\n\n' +
+    'Muchas gracias!';
     
   var encodedMessage = encodeURIComponent(defaultMessage);
   var url = 'https://wa.me/' + STORE_PHONE + '?text=' + encodedMessage;
