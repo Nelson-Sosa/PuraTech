@@ -5,7 +5,6 @@ import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
-import Navbar from '../../components/Navbar/Navbar';
 
 export const Products = () => {
     const { category } = useParams();

@@ -3,7 +3,6 @@ import { useCart } from '../../context/CartContext';
 import { useState } from 'react';
 import { API_URL } from '../../config';
 import './Cart.css';
-import Navbar from '../../components/Navbar/Navbar';
 import { sendWhatsAppOrder } from '../../utils/whatsapp';
 
 const Cart = () => {

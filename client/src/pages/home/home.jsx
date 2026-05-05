@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { API_URL } from '../../config';
 import './home.css';
 import { useCart } from '../../context/CartContext';
-import Navbar from '../../components/Navbar/Navbar';
 
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
