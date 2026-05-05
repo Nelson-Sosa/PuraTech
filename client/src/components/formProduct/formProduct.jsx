@@ -148,132 +148,165 @@ const FormProduct = () => {
   };
 
   return (
-    <div className="contenedor">
-  <h2 className="titulo-rgb">Agregar Producto</h2>
-  <button
-  type="button"
-  className="btn-view-categories"
-  onClick={() => navigate("/categories")}
->
-  Ver Categorías
-</button>
-  <form onSubmit={procesaForm}>
-    
-    <div className="form-group">
-      <label>Categoria</label>
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            {categories.length > 0 ? (
-              categories.map((cat) => (
-            <option key={cat._id} value={cat.name}>
-            {cat.name}
-            </option>
-    ))
-  ) : (
-    <option>Cargando categorías...</option>
-  )}
-</select>
-      {errors.category && <span className="error">{errors.category}</span>}
-    </div>
+    <div className="form-container">
+      <div className="form-wrapper">
+        <div className="form-header">
+          <h2 className="form-title">Agregar Producto</h2>
+          <p className="form-subtitle">Completá los datos para agregar un nuevo producto al catálogo</p>
+        </div>
 
-    <div className="form-group">
-      <label>Nombre</label>
-      <input
-        type="text"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-      />
-      {errors.nombre && <span className="error">{errors.nombre}</span>}
-    </div>
+        <button
+          type="button"
+          className="btn-view-categories"
+          onClick={() => navigate("/categories")}
+        >
+          ← Ver Categorías
+        </button>
 
-    <div className="form-group">
-      <label>Marca</label>
-      <input
-        type="text"
-        value={marca}
-        onChange={(e) => setMarca(e.target.value)}
-      />
-      {errors.marca && <span className="error">{errors.marca}</span>}
-    </div>
+        <form onSubmit={procesaForm} className="product-form">
+          
+          {/* Información Básica */}
+          <div className="form-group">
+            <label className="form-label">Categoría</label>
+            <select 
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)}
+              className="form-select"
+            >
+              {categories.length > 0 ? (
+                categories.map((cat) => (
+                  <option key={cat._id} value={cat.name}>
+                    {cat.name}
+                  </option>
+                ))
+              ) : (
+                <option>Cargando categorías...</option>
+              )}
+            </select>
+            {errors.category && <span className="error-message">{errors.category}</span>}
+          </div>
 
-    <div className="form-group">
-      <label>Precio</label>
-      <input
-        type="number"
-        value={precio}
-        onChange={(e) => setPrecio(e.target.value)}
-      />
-      {errors.precio && <span className="error">{errors.precio}</span>}
-    </div>
+          <div className="form-group">
+            <label className="form-label">Nombre del Producto</label>
+            <input
+              type="text"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              className="form-input"
+              placeholder="Ej: PlayStation 5 Edición Digital"
+            />
+            {errors.nombre && <span className="error-message">{errors.nombre}</span>}
+          </div>
 
-    <div className="form-group">
-     <label htmlFor="descripcion">Descripción del producto:</label>
-        <textarea
-       id="descripcion"
-  name="descripcion"
-  placeholder="Ej: Tipo de pantalla: VA LCD de 23.8&quot;. Resolución: Full HD..."
-  rows={6}      // Altura inicial del textarea
-  cols={50}     // Ancho aproximado (puedes controlar mejor con CSS)
-  value={descripcion}
-  onChange={(e) => setDescripcion(e.target.value)}
-  className="descripcion-textarea"
-/>
-      {errors.descripcion && <span className="error">{errors.descripcion}</span>}
-    </div>
+          <div className="form-group">
+            <label className="form-label">Marca</label>
+            <input
+              type="text"
+              value={marca}
+              onChange={(e) => setMarca(e.target.value)}
+              className="form-input"
+              placeholder="Ej: Sony, Microsoft, Nintendo"
+            />
+            {errors.marca && <span className="error-message">{errors.marca}</span>}
+          </div>
 
-   <div className="form-group">
-  <label>Imagen Principal del Producto</label>
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-    <div>
-      <span style={{ fontSize: '12px', color: '#888' }}>Opción 1: Subir un archivo de imagen</span>
-      <input type="file" name="imageUrl" onChange={handleImageChange} accept="image/*" />
-    </div>
-    <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold' }}>O</div>
-    <div>
-      <span style={{ fontSize: '12px', color: '#888' }}>Opción 2: Pegar un link de la imagen</span>
-      <input 
-        type="text" 
-        name="imageUrlText" 
-        value={imageUrlText} 
-        onChange={handleImageUrlChange} 
-        placeholder="https://ejemplo.com/imagen.jpg" 
-      />
-    </div>
-  </div>
-  {errors.image && <span className="error">{errors.image}</span>}
-</div>
+          <div className="form-group">
+            <label className="form-label">Precio (Gs.)</label>
+            <input
+              type="number"
+              value={precio}
+              onChange={(e) => setPrecio(e.target.value)}
+              className="form-input"
+              placeholder="Ej: 4500000"
+            />
+            {errors.precio && <span className="error-message">{errors.precio}</span>}
+          </div>
 
-<div className="form-group">
-  <label>Imágenes Adicionales (Opcional)</label>
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-    <div>
-      <span style={{ fontSize: '12px', color: '#888' }}>Seleccionar múltiples imágenes</span>
-      <input type="file" name="additionalImages" onChange={handleAdditionalImagesChange} accept="image/*" multiple />
-      {additionalImages.length > 0 && (
-        <p style={{ fontSize: '12px', color: '#10b981', marginTop: '5px' }}>
-          {additionalImages.length} imagen(es) seleccionada(s)
-        </p>
-      )}
-    </div>
-    <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold' }}>O</div>
-    <div>
-      <span style={{ fontSize: '12px', color: '#888' }}>Pegar URLs de imágenes (separadas por coma)</span>
-      <input 
-        type="text" 
-        name="additionalImagesText" 
-        value={additionalImagesText} 
-        onChange={handleAdditionalImagesTextChange} 
-        placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg" 
-      />
-    </div>
-  </div>
-</div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="descripcion">Descripción del Producto</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              className="form-textarea"
+              placeholder="Ej: Tipo de pantalla: VA LCD de 23.8&quot;. Resolución: Full HD..."
+              rows={6}
+            />
+            {errors.descripcion && <span className="error-message">{errors.descripcion}</span>}
+          </div>
 
-    <button type="submit" className="btn-rgb">
-      Guardar
-    </button>
-  </form>
-</div>
+          {/* Sección de Imágenes */}
+          <div className="image-section">
+            <h3 className="image-section-title">Imágenes del Producto</h3>
+            
+            <div className="image-options">
+              {/* Imagen Principal */}
+              <div className="image-option">
+                <label className="image-option-label">Imagen Principal</label>
+                <input 
+                  type="file" 
+                  name="imageUrl" 
+                  onChange={handleImageChange} 
+                  accept="image/*" 
+                  className="form-file-input" 
+                />
+                <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
+                <input 
+                  type="text" 
+                  name="imageUrlText" 
+                  value={imageUrlText} 
+                  onChange={handleImageUrlChange} 
+                  placeholder="https://ejemplo.com/imagen.jpg" 
+                  className="form-input"
+                />
+              </div>
 
+              <div className="divider">IMÁGENES ADICIONALES (OPCIONAL)</div>
+
+              {/* Imágenes Adicionales */}
+              <div className="image-option">
+                <label className="image-option-label">Seleccionar múltiples imágenes</label>
+                <input 
+                  type="file" 
+                  name="additionalImages" 
+                  onChange={handleAdditionalImagesChange} 
+                  accept="image/*" 
+                  multiple 
+                  className="form-file-input" 
+                />
+                {additionalImages.length > 0 && (
+                  <div className="image-preview">
+                    {additionalImages.length} imagen(es) seleccionada(s)
+                  </div>
+                )}
+              </div>
+
+              <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
+
+              <div className="image-option">
+                <label className="image-option-label">Pegar URLs de imágenes (separadas por coma)</label>
+                <input 
+                  type="text" 
+                  name="additionalImagesText" 
+                  value={additionalImagesText} 
+                  onChange={handleAdditionalImagesTextChange} 
+                  placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg" 
+                  className="form-input"
+                />
+              </div>
+            </div>
+          </div>
+
+          {errors.image && <span className="error-message">{errors.image}</span>}
+
+          {/* Botón de Envío */}
+          <button type="submit" className="btn-submit">
+            ✓ Guardar Producto
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
