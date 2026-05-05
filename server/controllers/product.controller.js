@@ -60,10 +60,44 @@ module.exports.getPublicHome = async (req, res) => {
     // Nuevos
     const newProducts = await Product.find({ isNew: true }).limit(4);
     
+    // Helper to check if URL is valid
+    const isValidImageUrl = (url) => {
+      if (!url) return false;
+      if (url.includes('cloudinary.com')) return true;
+      if (url.startsWith('/uploads/')) return true;
+      if (url.match(/^https?:\/\/.+/)) {
+        const blockedPatterns = [
+          /walmartimages/i,
+          /gstatic\.com/i,
+          /encrypted-tbn/i,
+          /facebook\.com.*\.(jpg|jpeg|png)/i
+        ];
+        return !blockedPatterns.some(p => p.test(url));
+      }
+      return false;
+    };
+    
+    // Clean products data
+    const cleanProduct = (p) => {
+      const product = p.toObject();
+      if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
+        product.imageUrl = '/img/placeholder.png';
+      }
+      if (product.images && product.images.length > 0) {
+        product.images = product.images.map(img => {
+          if (!isValidImageUrl(img)) {
+            return '/img/placeholder.png';
+          }
+          return img;
+        });
+      }
+      return product;
+    };
+    
     res.json({
-      bestsellers,
-      offers,
-      newProducts
+      bestsellers: bestsellers.map(cleanProduct),
+      offers: offers.map(cleanProduct),
+      newProducts: newProducts.map(cleanProduct)
     });
   } catch (err) {
     console.error("Error en getPublicHome:", err);
@@ -79,7 +113,47 @@ module.exports.getPublicProducts = async (req, res) => {
       query.category = new RegExp(category, 'i');
     }
     const products = await Product.find(query);
-    res.json(products);
+    
+    // Helper to check if URL is valid
+    const isValidImageUrl = (url) => {
+      if (!url) return false;
+      if (url.includes('cloudinary.com')) return true;
+      if (url.startsWith('/uploads/')) return true;
+      if (url.match(/^https?:\/\/.+/)) {
+        const blockedPatterns = [
+          /walmartimages/i,
+          /gstatic\.com/i,
+          /encrypted-tbn/i,
+          /facebook\.com.*\.(jpg|jpeg|png)/i
+        ];
+        return !blockedPatterns.some(p => p.test(url));
+      }
+      return false;
+    };
+    
+    // Clean products data
+    const cleanedProducts = products.map(p => {
+      const product = p.toObject();
+      
+      // Fix imageUrl
+      if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
+        product.imageUrl = '/img/placeholder.png';
+      }
+      
+      // Fix images array
+      if (product.images && product.images.length > 0) {
+        product.images = product.images.map(img => {
+          if (!isValidImageUrl(img)) {
+            return '/img/placeholder.png';
+          }
+          return img;
+        });
+      }
+      
+      return product;
+    });
+    
+    res.json(cleanedProducts);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener productos' });
   }
