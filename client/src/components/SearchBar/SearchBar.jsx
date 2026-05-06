@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './SearchBar.css';
@@ -7,6 +7,7 @@ import { API_URL } from '../../config';
 const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   const [consulta, setConsulta] = useState("");
   const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,24 +15,58 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
     setUserRole(rol);
   }, []);
 
-  const productSearch = async (e) => {
-    e.preventDefault();
-    if (!consulta.trim()) return;
+  // Búsqueda avanzada con debounce
+  const performSearch = useCallback(async (searchTerm) => {
+    if (!searchTerm.trim()) {
+      setSearchActive(false);
+      return;
+    }
 
+    setLoading(true);
     try {
+      // Usar endpoint de búsqueda global
       const res = await axios.get(
-        `${API_URL}/api/products/public?category=${consulta}`
+        `${API_URL}/api/search-products?category=${encodeURIComponent(searchTerm)}`
       );
       setSearchResultados(res.data);
       setSearchActive(true);
     } catch (err) {
-      console.error(err);
+      console.error("Error en búsqueda:", err);
+      // Si falla, intentar búsqueda local
+      try {
+        const localRes = await axios.get(
+          `${API_URL}/api/products/public?category=${encodeURIComponent(searchTerm)}`
+        );
+        setSearchResultados(localRes.data);
+        setSearchActive(true);
+      } catch (fallbackErr) {
+        console.error("Fallback search also failed:", fallbackErr);
+      }
+    } finally {
+      setLoading(false);
     }
+  }, [setSearchResultados, setSearchActive]);
+
+  // Debounce de 300ms para búsqueda en tiempo real
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (consulta.trim()) {
+        performSearch(consulta);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [consulta, performSearch]);
+
+  const productSearch = async (e) => {
+    e.preventDefault();
+    performSearch(consulta);
   };
 
   const resetSearch = () => {
     setConsulta("");
     setSearchActive(false);
+    setSearchResultados([]);
   };
 
   return (
@@ -45,11 +80,14 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
         <div className="search-input-container">
           <input
             type="search"
-            placeholder="🔎 Buscar productos..."
+            placeholder="🔎 Buscar productos (nombre, marca, categoría)..."
             value={consulta}
             onChange={(e) => setConsulta(e.target.value)}
+            className={loading ? "searching" : ""}
           />
-          <button type="submit">🔍</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "⏳" : "🔍"}
+          </button>
           {consulta && <button type="button" onClick={resetSearch}>✖</button>}
         </div>
       </form>

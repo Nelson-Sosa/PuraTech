@@ -383,15 +383,19 @@ module.exports.searchGlobal = async (req, res) => {
     const term = req.query.category?.trim();
     if (!term) return res.status(400).json({ error: "Missing search term" });
 
+    // Búsqueda avanzada con múltiples campos y regex
     const regex = new RegExp(term, "i");
     const results = await Product.find({
       $or: [
         { nombre: regex },
         { marca: regex },
         { category: regex },
-        { descripcion: regex }
+        { descripcion: regex },
+        // Búsqueda parcial para mayor flexibilidad
+        { nombre: { $regex: term, $options: 'i' } },
+        { marca: { $regex: term, $options: 'i' } }
       ]
-    });
+    }).limit(50); // Limitar resultados para mejor rendimiento
 
     res.json(results);
   } catch (error) {
