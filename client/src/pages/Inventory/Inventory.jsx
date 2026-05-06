@@ -185,7 +185,7 @@ const Inventory = () => {
               <th>Producto</th>
               <th>Categoría</th>
               <th>Stock Actual</th>
-              <th>Umbral</th>
+              <th>Stock mínimo</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
@@ -288,7 +288,7 @@ const Inventory = () => {
         onConfirm={confirmDelete}
       >
         <h3>Confirmar eliminación</h3>
-        <p>¿Estás seguro de eliminar el producto <strong>"{productToDelete?.name}"</strong>?</p>
+        <p>¿Estás seguro de eliminar el producto?</p>
         <p style={{ color: '#dc3545', fontSize: '14px' }}>Esta acción no se puede deshacer.</p>
       </Modal>
     </div>
