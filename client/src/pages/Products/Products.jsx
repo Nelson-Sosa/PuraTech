@@ -74,7 +74,7 @@ export const Products = () => {
     const deleteProduct = async (productID) => {
         try {
             await axios.delete(
-                `${API_URL}/api/remover/producto/${productID}`,
+                `${API_URL}/api/remover/product/${productID}`,
                 {
                     headers: { token_usuario: localStorage.getItem("token") }
                 }
