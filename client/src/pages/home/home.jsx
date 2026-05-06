@@ -130,9 +130,8 @@ const Home = () => {
       {/* CATEGORÍAS PRINCIPALES */}
       <section className="categories-section">
         <div className="section-header">
-          <div className="section-tag">Explora</div>
-          <h2>Categorías Principales</h2>
-          <p>Encuentra lo mejor en hardware, periféricos y gaming</p>
+          <h2>Categorías</h2>
+          <p>Explora nuestra selección por categorías</p>
         </div>
         
         <div className="categories-grid">
@@ -143,13 +142,9 @@ const Home = () => {
                 to={`/category/${encodeURIComponent(cat.name)}`} 
                 className="category-card"
               >
-                <div className="card-bg-glow"></div>
-                <div className="icon-wrapper">
-                  <span className="cat-icon">{getCategoryIcon(cat.name)}</span>
-                </div>
-                <div className="cat-info">
+                <div className="cat-content">
                   <span className="cat-label">{cat.name}</span>
-                  <span className="cat-explore">Explorar ahora</span>
+                  <span className="cat-explore">Ver productos</span>
                 </div>
               </Link>
             ))
