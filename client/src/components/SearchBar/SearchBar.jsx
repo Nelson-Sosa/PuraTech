@@ -19,28 +19,35 @@ const SearchBar = ({ setSearchResultados, setSearchActive }) => {
   const performSearch = useCallback(async (searchTerm) => {
     if (!searchTerm.trim()) {
       setSearchActive(false);
+      setSearchResultados([]);
       return;
     }
 
     setLoading(true);
+    console.log("🔍 Buscando:", searchTerm);
+    
     try {
       // Usar endpoint de búsqueda global
       const res = await axios.get(
         `${API_URL}/api/search-products?category=${encodeURIComponent(searchTerm)}`
       );
+      console.log("✅ Resultados búsqueda:", res.data.length);
       setSearchResultados(res.data);
       setSearchActive(true);
     } catch (err) {
-      console.error("Error en búsqueda:", err);
-      // Si falla, intentar búsqueda local
+      console.error("🔴 Error en búsqueda:", err);
+      // Si falla, intentar búsqueda por categoría
       try {
+        console.log("🔄 Intentando búsqueda por categoría...");
         const localRes = await axios.get(
-          `${API_URL}/api/products/public?category=${encodeURIComponent(searchTerm)}`
+          `${API_URL}/api/products?category=${encodeURIComponent(searchTerm)}`
         );
+        console.log("✅ Resultados categoría:", localRes.data.length);
         setSearchResultados(localRes.data);
         setSearchActive(true);
       } catch (fallbackErr) {
-        console.error("Fallback search also failed:", fallbackErr);
+        console.error("🔴 Fallback search also failed:", fallbackErr);
+        setSearchResultados([]);
       }
     } finally {
       setLoading(false);

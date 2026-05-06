@@ -381,25 +381,25 @@ module.exports.getProduct = async (req, res) => {
 module.exports.searchGlobal = async (req, res) => {
   try {
     const term = req.query.category?.trim();
+    console.log("🔍 [searchGlobal] Término de búsqueda:", term);
+    
     if (!term) return res.status(400).json({ error: "Missing search term" });
 
-    // Búsqueda avanzada con múltiples campos y regex
+    // Búsqueda avanzada con regex
     const regex = new RegExp(term, "i");
     const results = await Product.find({
       $or: [
-        { nombre: regex },
-        { marca: regex },
-        { category: regex },
-        { descripcion: regex },
-        // Búsqueda parcial para mayor flexibilidad
-        { nombre: { $regex: term, $options: 'i' } },
-        { marca: { $regex: term, $options: 'i' } }
+        { nombre: { $regex: regex } },
+        { marca: { $regex: regex } },
+        { category: { $regex: regex } },
+        { descripcion: { $regex: regex } }
       ]
-    }).limit(50); // Limitar resultados para mejor rendimiento
+    }).limit(50);
 
+    console.log("🔍 [searchGlobal] Resultados encontrados:", results.length);
     res.json(results);
   } catch (error) {
-    console.error("Error searching:", error);
+    console.error("🔴 Error searching:", error);
     res.status(500).json({ error: "Error en la búsqueda" });
   }
 };
