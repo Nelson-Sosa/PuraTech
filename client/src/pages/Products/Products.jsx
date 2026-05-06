@@ -218,32 +218,13 @@ export const Products = () => {
                                         </div>
                                     </Link>
 
-                                    <div className="product-actions">
+<div className="product-actions">
                                         <button 
                                             className="add-to-cart-btn"
                                             onClick={() => addToCart(producto)}
                                         >
                                             Agregar al carrito
                                         </button>
-
-                                        {userRole === "admin" && (
-                                            <>
-                                                <button
-                                                    className="btn_delete"
-                                                    onClick={() => {
-                                                        console.log("🟡 [BTN DELETE] Click! ProductID:", producto._id);
-                                                        handleDeleteClick(producto._id);
-                                                    }}
-                                                >
-                                                    Eliminar
-                                                </button>
-
-                                                <Link to={`/actualizar/product/${producto._id}`}>
-                                                    <button className="btn-update">Actualizar</button>
-                                                </Link>
-                                            </>
-                                        )}
-
                                         
                                     </div>
                                 </div>
