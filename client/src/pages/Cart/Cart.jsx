@@ -18,6 +18,7 @@ const Cart = () => {
   });
 
   const handleWhatsApp = async () => {
+    console.log("🔵 [handleWhatsApp] Iniciando...");
     setLoading(true);
     try {
       // Preparar datos del pedido
@@ -39,27 +40,61 @@ const Cart = () => {
         total: getTotal(),
         notes: ''
       };
+      console.log("🔵 [handleWhatsApp] orderData preparado");
 
       // Guardar pedido en la base de datos
+      console.log("🔵 [handleWhatsApp] Guardando pedido...");
       const orderResponse = await axios.post(`${API_URL}/api/orders`, orderData);
       const savedOrder = orderResponse.data;
-      console.log("✅ Pedido guardado:", savedOrder._id);
+      console.log("✅ [handleWhatsApp] Pedido guardado:", savedOrder._id);
 
       // Generar mensaje de WhatsApp
       const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
-      console.log("📱 Mensaje WhatsApp:", message);
+      console.log("📱 [handleWhatsApp] Mensaje generado:", message.substring(0, 100) + "...");
       
-      // Abrir WhatsApp PRIMERO (antes del alert)
-      const whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
-      const whatsappWindow = window.open(whatsappUrl, '_blank');
+      // Abrir WhatsApp - intentar método 1 (wa.me)
+      let whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
+      console.log("🔵 [handleWhatsApp] URL WhatsApp:", whatsappUrl.substring(0, 80) + "...");
       
-      // Limpiar carrito DESPUÉS de abrir WhatsApp
+      // Intentar abrir ventana
+      let whatsappWindow = window.open(whatsappUrl, '_blank');
+      
+      // Si falló, intentar método 2 (web.whatsapp.com)
+      if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed === 'undefined') {
+        console.log("🔵 [handleWhatsApp] Intentando método alternativo...");
+        whatsappUrl = `https://web.whatsapp.com/send?phone=595983986775&text=${encodeURIComponent(message)}`;
+        whatsappWindow = window.open(whatsappUrl, '_blank');
+      }
+      
+      console.log("🔵 [handleWhatsApp] Ventana abierta:", whatsappWindow ? "SÍ" : "NO");
+      
+      // Si sigue sin abrir, mostrar opciones alternativas
+      if (!whatsappWindow || whatsappWindow.closed) {
+        console.warn("⚠️ [handleWhatsApp] Popup bloqueado");
+        
+        // Opción 1: Copiar al portapapeles
+        const textToCopy = `🛒 *NUEVO PEDIDO*\n\n*Productos:*\n${message}\n\nTotal: ${getTotal().toLocaleString("es-PY")} Gs.\n\n⏰ Pedido desde GameMasters`;
+        
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          alert("📋 Mensaje copiado al portapapeles.\n\nAbre WhatsApp y pega el mensaje (Ctrl+V)");
+        } catch (e) {
+          // Si clipboard no funciona, mostrar link
+          alert(`🔗 Abre WhatsApp y envía este mensaje:\n\n${textToCopy.substring(0, 200)}...`);
+        }
+      }
+      
+      // Limpiar carrito
       clearCart();
+      console.log("✅ [handleWhatsApp] Carrito limpiado");
       
-      // Alert final
-      setTimeout(() => {
-        alert("✅ ¡Pedido guardado exitosamente! Tu pedido #" + savedOrder._id.substring(0, 8) + " ha sido creado.");
-      }, 500);
+    } catch (error) {
+      console.error("🔴 [handleWhatsApp] Error:", error);
+      alert("Error al procesar el pedido. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
       
     } catch (error) {
       console.error("Error al guardar pedido:", error);
