@@ -153,6 +153,13 @@ const UpdateProduct = () => {
             formData.append("precio", precio);
             formData.append("descripcion", descripcion);
             
+            console.log("🟡 [UPDATE] Datos a enviar:");
+            console.log("  - category:", category);
+            console.log("  - nombre:", nombre);
+            console.log("  - marca:", marca);
+            console.log("  - precio:", precio);
+            console.log("  - descripcion:", descripcion);
+            
             // Agregar nuevas imágenes
             if (newAdditionalImages.length > 0) {
                 newAdditionalImages.forEach(file => {
@@ -162,6 +169,7 @@ const UpdateProduct = () => {
             
             if (newAdditionalImagesText) {
                 formData.append("images", newAdditionalImagesText);
+                console.log("🟡 [UPDATE] images text:", newAdditionalImagesText);
             }
 
             console.log("🟡 [UPDATE] Enviando solicitud...");
@@ -176,7 +184,9 @@ const UpdateProduct = () => {
                 }
             );
 
-            console.log("✅ [UPDATE] Respuesta:", res.data);
+            console.log("✅ [UPDATE] Respuesta del servidor:", res.data);
+            console.log("✅ [UPDATE] Nombre actualizado:", res.data.nombre);
+            console.log("✅ [UPDATE] Precio actualizado:", res.data.precio);
             navigate(`/category/${encodeURIComponent(category)}`);
 
         } catch (err) {
