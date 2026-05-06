@@ -33,9 +33,13 @@ const ProductDetail = () => {
     if (!product) return [];
     const images = [];
     
+    console.log("🖼️ [ProductDetail] product.imageUrl:", product.imageUrl);
+    console.log("🖼️ [ProductDetail] product.images:", product.images);
+    
     // Helper simple - aceptar cualquier URL válida de imagen
     const isValidImageUrl = (url) => {
       if (!url || typeof url !== 'string') return false;
+      console.log("🖼️ [isValidImageUrl] Checking URL:", url);
       // Aceptar URLs que empiezan con / (uploads locales)
       if (url.startsWith('/uploads/')) return true;
       // Aceptar cualquier URL https/http que parezca imagen
@@ -46,18 +50,23 @@ const ProductDetail = () => {
     
     // Process imageUrl
     if (product.imageUrl && isValidImageUrl(product.imageUrl)) {
+      console.log("🖼️ [ProductDetail] Adding imageUrl:", product.imageUrl);
       images.push(product.imageUrl);
     }
     
     // Process images array
     if (product.images && Array.isArray(product.images)) {
+      console.log("🖼️ [ProductDetail] Processing images array, length:", product.images.length);
       product.images.forEach(img => {
+        console.log("🖼️ [ProductDetail] Checking image:", img);
         if (img && isValidImageUrl(img) && !images.includes(img)) {
+          console.log("🖼️ [ProductDetail] Adding image:", img);
           images.push(img);
         }
       });
     }
     
+    console.log("🖼️ [ProductDetail] Final images array:", images);
     return images.length > 0 ? images : ["/img/placeholder.png"];
   };
 
@@ -114,9 +123,9 @@ const ProductDetail = () => {
       <div className="detail-layout">
         {/* Image Gallery */}
         <div className="gallery-section">
-           <div className="main-image-container">
-<img 
-                src={images[currentImageIndex] || '/img/placeholder.png'} 
+<div className="main-image-container">
+              <img 
+                src={images && images.length > 0 ? images[currentImageIndex] : '/img/placeholder.png'} 
                 alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
                 className="main-image"
                 onError={(e) => { e.target.src = '/img/placeholder.png'; }}
