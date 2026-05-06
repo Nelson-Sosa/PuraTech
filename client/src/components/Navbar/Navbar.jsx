@@ -85,6 +85,7 @@ const Navbar = () => {
               <Link to="/add/category">Agregar Categoría</Link>
               <Link to="/categories">Ver Categorías</Link>
               <Link to="/orders">📋 Ver Pedidos</Link>
+              <Link to="/clients">👥 Ver Clientes</Link>
               <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
             </div>
           </div>
