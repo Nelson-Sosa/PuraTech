@@ -243,38 +243,6 @@ module.exports.agregarProducto = async (req, res) => {
         }
       }
     }
-      }
-    } else if (imagesJson) {
-      try {
-        const parsed = JSON.parse(imagesJson);
-        let urls = [];
-        
-        if (Array.isArray(parsed)) {
-          urls = parsed.map(url => url.trim()).filter(url => url);
-        } else if (typeof parsed === 'string' && parsed.trim()) {
-          urls = [parsed.trim()];
-        }
-        
-        // Subir cada URL a Cloudinary
-        for (const url of urls) {
-          const result = await uploadToCloudinary(url);
-          if (result) {
-            imagesArray.push(result.url);
-          }
-        }
-      } catch (e) {
-        // Si no es JSON, verificar si es múltiples URLs separadas por coma
-        if (typeof imagesJson === 'string' && imagesJson.trim()) {
-          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
-          for (const url of urls) {
-            const result = await uploadToCloudinary(url);
-            if (result) {
-              imagesArray.push(result.url);
-            }
-          }
-        }
-      }
-    }
 
     // Si no hay imagen principal pero hay imágenes, usar la primera como principal
     if (!finalImageUrl && imagesArray.length > 0) {
