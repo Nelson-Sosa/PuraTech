@@ -11,7 +11,6 @@ import UpdateProduct from '../components/UpdateProduct/UpdateProduct';
 import { SupplierForm } from '../components/SupplierForm/SupplierForm';
 import Suppliers from '../pages/Suppliers/Suppliers';
 import UpdateSupplier from '../components/UpdateSupplier/UpdateSupplier';
-import Checkout from '../pages/Checkout/Checkout';
 import PrivateRoute from '../components/ProtectedRoute/ProtectedRoute';
 import CategoryForm from "../components/Categories/CategoryForm";
 import Categories from "../pages/Categories/Categories";
@@ -36,8 +35,9 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/category/:category" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/suppliers" element={<Suppliers />} />
-        <Route path="/create-payment-intent" element={<Checkout />} />
+        
+        {/* Rutas protegidas */}
+        <Route path="/suppliers" element={<PrivateRoute component={Suppliers} />} />
         
         {/* Rutas protegidas para admin */}
         <Route path="/agregar/product" element={<PrivateRoute component={FormProduct} />} />

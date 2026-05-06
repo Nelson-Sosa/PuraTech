@@ -2,9 +2,6 @@ const { MongooseError } = require('mongoose');
 const Product = require('../models/product.models');
 const Order = require('../models/order.model');
 const cloudinary = require('../configuration/cloudinary');
-// Stripe TEMPORALLY DISABLED
-// const Stripe = require('stripe');
-// const stripe = Stripe('sk_test_51PxDMmRt6zQTXipIoi6NdMsHncrdJJkErnnL4pe50T2kjpBOZ39jyNZw4GePqz0uPaPOs3ZEx8BDQ7nTUGpUiAHZ00W3n2ShcA');
 
 // Global helper: ONLY allow trusted domains for images
 const isValidImageUrl = (url) => {
@@ -476,30 +473,8 @@ module.exports.searchGlobal = async (req, res) => {
   }
 };
 
-module.exports.createPaymentIntent = async (req, res) => {
-  try {
-    // TEMPORALMENTE DISABLED - Stripe not configured
-    // const { amount, items } = req.body;
-    // if (!amount || amount <=0) {
-    //   return res.status(400).json({ error: "Monto inválido" });
-    // }
-
-    // const paymentIntent = await stripe.paymentIntents.create({
-    //   amount: Math.round(amount *100),
-    //   currency: "usd",
-    //   automatic_payment_methods: { enabled: true },
-    //   metadata: {
-    //     items: JSON.stringify(items || [])
-    //   }
-    // });
-
-    // res.json({ clientSecret: paymentIntent.client_secret });
-    res.json({ clientSecret: 'temporary-disabled' });
-  } catch (error) {
-    console.error("Error creando PaymentIntent:", error);
-    res.status(500).json({ error: "Error al procesar el pago" });
-  }
-};
+// ELIMINADO - Stripe removido
+// module.exports.createPaymentIntent = async (req, res) => { }
 
 module.exports.getInventory = async (req, res) => {
   try {

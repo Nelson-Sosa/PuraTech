@@ -43,8 +43,7 @@ module.exports = (app) => {
     app.get('/api/suppliers', validarToken, verificarRol('admin'), SuppliersController.allSuppliers);
     app.get("/api/supplier/:id", validarToken, verificarRol('admin'), SuppliersController.getSupplier);
 
-    // ===== PAGOS =====
-    app.post('/api/create-payment-intent', ProductController.createPaymentIntent);
+    // ===== PAGOS - ELIMINADO (Stripe removido) =====
     
     // ===== META DE VENTAS =====
     // TEMPORALMENTE COMENTADO - Función checkSalesMeta no existe aún
