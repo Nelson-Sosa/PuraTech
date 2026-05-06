@@ -6,6 +6,7 @@ import { API_URL } from '../../config';
 import './Cart.css';
 import { sendWhatsAppOrder } from '../../utils/whatsapp';
 
+// Componente del Carrito de compras
 const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
