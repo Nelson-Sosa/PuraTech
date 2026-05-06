@@ -286,9 +286,18 @@ module.exports.todosLosProductos = (req, res) => {
 };
 
 module.exports.removerProducto = (req, res) => {
+  console.log("🔍 [removerProducto] req.params:", req.params);
+  console.log("🔍 [removerProducto] req.infoUsuario:", req.infoUsuario);
+  
   Product.deleteOne({ _id: req.params.id })
-    .then(deleteProduct => res.json(deleteProduct))
-    .catch(err => res.json(err));
+    .then(deleteProduct => {
+      console.log("✅ [removerProducto] Deleted:", deleteProduct);
+      res.json(deleteProduct);
+    })
+    .catch(err => {
+      console.error("🔴 [removerProducto] Error:", err);
+      res.json(err);
+    });
 };
 
 module.exports.categoriaProductos = async (req, res) => {
@@ -303,6 +312,10 @@ module.exports.categoriaProductos = async (req, res) => {
 
 module.exports.updateProduct = async (req, res) => {
   try {
+    console.log("🔍 [updateProduct] req.body:", req.body);
+    console.log("🔍 [updateProduct] req.params:", req.params);
+    console.log("🔍 [updateProduct] req.infoUsuario:", req.infoUsuario);
+    
     const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson } = req.body;
     
     // Obtener producto actual
@@ -310,6 +323,9 @@ module.exports.updateProduct = async (req, res) => {
     if (!currentProduct) {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
+
+    console.log("🔍 [updateProduct] Current product:", currentProduct.nombre);
+    console.log("🔍 [updateProduct] New values - category:", category, "nombre:", nombre, "marca:", marca, "precio:", precio);
 
     // Procesar imágenes eliminadas
     let updatedImages = currentProduct.images || [];
@@ -380,8 +396,9 @@ module.exports.updateProduct = async (req, res) => {
     );
     
     res.json(updatedProduct);
+    console.log("✅ [updateProduct] Updated product:", updatedProduct);
   } catch (error) {
-    console.error("Error updating product:", error);
+    console.error("🔴 [updateProduct] Error:", error);
     res.status(400).json(error);
   }
 };

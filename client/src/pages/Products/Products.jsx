@@ -38,6 +38,8 @@ export const Products = () => {
     // 🔥 Se ejecuta al montar y cuando cambia categoría
     useEffect(() => {
         const roleFromStorage = localStorage.getItem('rol');
+        console.log("🔵 [USE EFFECT] Role from storage:", roleFromStorage);
+        console.log("🔵 [USE EFFECT] Token from storage:", localStorage.getItem("token") ? "EXISTS" : "NULL");
         setUserRole(roleFromStorage);
 
         if (!searchActive) {
@@ -114,11 +116,16 @@ export const Products = () => {
     };
 
     const handleDeleteClick = (productID) => {
+        console.log("🔵 [handleDeleteClick] Called with ID:", productID);
+        console.log("🔵 [handleDeleteClick] currentProductID state before:", currentProductID);
         setCurrentProduct(productID);
+        console.log("🔵 [handleDeleteClick] currentProductID state after:", productID);
         setShowModal(true);
+        console.log("🔵 [handleDeleteClick] Modal should show now");
     };
 
     const handleConfirmDelete = () => {
+        console.log("🔵 [handleConfirmDelete] currentProductID:", currentProductID);
         deleteProduct(currentProductID);
         setShowModal(false);
         setCurrentProduct(null);
@@ -209,7 +216,10 @@ export const Products = () => {
                                             <>
                                                 <button
                                                     className="btn_delete"
-                                                    onClick={() => handleDeleteClick(producto._id)}
+                                                    onClick={() => {
+                                                        console.log("🟡 [BTN DELETE] Click! ProductID:", producto._id);
+                                                        handleDeleteClick(producto._id);
+                                                    }}
                                                 >
                                                     Eliminar
                                                 </button>
@@ -232,9 +242,9 @@ export const Products = () => {
             </div>
 
             <Modal
-                showModal={showModal}
-                setShowModal={setShowModal}
-                handleConfirmDelete={handleConfirmDelete}
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={handleConfirmDelete}
             />
         </div>
     );
