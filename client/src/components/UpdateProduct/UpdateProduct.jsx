@@ -160,6 +160,12 @@ const UpdateProduct = () => {
             console.log("  - precio:", precio);
             console.log("  - descripcion:", descripcion);
             
+            // Enviar imágenes eliminadas
+            if (deletedImages.length > 0) {
+                formData.append("deletedImages", JSON.stringify(deletedImages));
+                console.log("🟡 [UPDATE] deletedImages:", deletedImages);
+            }
+            
             // Agregar nuevas imágenes
             if (newAdditionalImages.length > 0) {
                 newAdditionalImages.forEach(file => {
