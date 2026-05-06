@@ -3,37 +3,15 @@ const Product = require('../models/product.models');
 const Order = require('../models/order.model');
 const cloudinary = require('../configuration/cloudinary');
 
-// Global helper: ONLY allow trusted domains for images
+// Global helper: accept any valid URL
 const isValidImageUrl = (url) => {
   if (!url) return false;
-  
-  // Cloudinary URLs are always valid
-  if (url.includes('cloudinary.com')) return true;
   
   // Local uploads are valid
   if (url.startsWith('/uploads/')) return true;
   
-  // ONLY allow specific trusted domains
-  if (url.match(/^https?:\/\/.+/)) {
-    const trustedDomains = [
-      'cloudinary.com',
-      'imgur.com',
-      'unsplash.com',
-      'images.unsplash.com',
-      'via.placeholder.com',
-      'placeholder.com',
-      'gamemasters-aqha.onrender.com'
-    ];
-    
-    const isTrusted = trustedDomains.some(domain => url.includes(domain));
-    
-    if (!isTrusted) {
-      console.log('⚠️ Blocking untrusted URL:', url.substring(0, 80));
-      return false;
-    }
-    
-    return true;
-  }
+  // Any valid URL is accepted (relaxed validation)
+  if (url.match(/^https?:\/\/.+/)) return true;
   
   return false;
 };
@@ -108,20 +86,9 @@ module.exports.getPublicHome = async (req, res) => {
       return false;
     };
     
-    // Clean products data
+    // Clean products data - keep original URLs
     const cleanProduct = (p) => {
       const product = p.toObject();
-      if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
-        product.imageUrl = '/img/placeholder.png';
-      }
-      if (product.images && product.images.length > 0) {
-        product.images = product.images.map(img => {
-          if (!isValidImageUrl(img)) {
-            return '/img/placeholder.png';
-          }
-          return img;
-        });
-      }
       return product;
     };
     
@@ -145,44 +112,16 @@ module.exports.getPublicProducts = async (req, res) => {
     }
     const products = await Product.find(query);
     
-    // Helper to check if URL is valid
+    // Helper to check if URL is valid - relaxed
     const isValidImageUrl = (url) => {
       if (!url) return false;
-      if (url.includes('cloudinary.com')) return true;
       if (url.startsWith('/uploads/')) return true;
-      if (url.match(/^https?:\/\/.+/)) {
-        const blockedPatterns = [
-          /walmartimages/i,
-          /gstatic\.com/i,
-          /encrypted-tbn/i,
-          /facebook\.com.*\.(jpg|jpeg|png)/i
-        ];
-        return !blockedPatterns.some(p => p.test(url));
-      }
+      if (url.match(/^https?:\/\/.+/)) return true;
       return false;
     };
     
-    // Clean products data
-    const cleanedProducts = products.map(p => {
-      const product = p.toObject();
-      
-      // Fix imageUrl
-      if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
-        product.imageUrl = '/img/placeholder.png';
-      }
-      
-      // Fix images array
-      if (product.images && product.images.length > 0) {
-        product.images = product.images.map(img => {
-          if (!isValidImageUrl(img)) {
-            return '/img/placeholder.png';
-          }
-          return img;
-        });
-      }
-      
-      return product;
-    });
+    // Clean products data - keep original URLs
+    const cleanedProducts = products.map(p => p.toObject());
     
     res.json(cleanedProducts);
   } catch (error) {
@@ -420,46 +359,17 @@ module.exports.getProduct = async (req, res) => {
       // Local uploads are valid
       if (url.startsWith('/uploads/')) return true;
       
-      // ONLY allow specific trusted domains
+      // Allow any valid image URL (relaxed validation)
       if (url.match(/^https?:\/\/.+/)) {
-        const trustedDomains = [
-          'cloudinary.com',
-          'imgur.com',
-          'unsplash.com',
-          'images.unsplash.com',
-          'via.placeholder.com',
-          'placeholder.com',
-          'gamemasters-aqha.onrender.com'
-        ];
-        
-        // Check if URL is from trusted domain
-        const isTrusted = trustedDomains.some(domain => url.includes(domain));
-        
-        if (!isTrusted) {
-          console.log('⚠️ Blocking untrusted URL:', url.substring(0, 80));
-          return false;
-        }
-        
+        // Accept any URL that looks like an image
         return true;
       }
       
       return false;
     };
 
-    // Fix imageUrl if broken
-    if (product.imageUrl && !isValidImageUrl(product.imageUrl)) {
-      product.imageUrl = '/img/placeholder.png';
-    }
-
-    // Fix images array if broken URLs
-    if (product.images && product.images.length > 0) {
-      product.images = product.images.map(img => {
-        if (!isValidImageUrl(img)) {
-          return '/img/placeholder.png';
-        }
-        return img;
-      });
-    }
+    // NO longer replacing valid URLs with placeholders
+    // Just keep the original URLs as saved by the user
 
     res.json(product);
   } catch (error) {
