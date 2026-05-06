@@ -52,7 +52,7 @@ const App = () => {
       
       {/* BOTÓN FLOTANTE DE WHATSAPP */}
       <a
-        href="https://wa.me/595983986775"
+        href="https://wa.me/595983987775"
         className="whatsapp-float"
         target="_blank"
         rel="noopener noreferrer"

@@ -53,7 +53,7 @@ const Cart = () => {
       console.log("📱 [handleWhatsApp] Mensaje generado:", message.substring(0, 100) + "...");
       
       // Abrir WhatsApp - intentar método 1 (wa.me)
-      let whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
+      let whatsappUrl = `https://wa.me/595983987775?text=${encodeURIComponent(message)}`;
       console.log("🔵 [handleWhatsApp] URL WhatsApp:", whatsappUrl.substring(0, 80) + "...");
       
       // Intentar abrir ventana
@@ -62,7 +62,7 @@ const Cart = () => {
       // Si falló, intentar método 2 (web.whatsapp.com)
       if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed === 'undefined') {
         console.log("🔵 [handleWhatsApp] Intentando método alternativo...");
-        whatsappUrl = `https://web.whatsapp.com/send?phone=595983986775&text=${encodeURIComponent(message)}`;
+        whatsappUrl = `https://web.whatsapp.com/send?phone=595983987775&text=${encodeURIComponent(message)}`;
         whatsappWindow = window.open(whatsappUrl, '_blank');
       }
       
