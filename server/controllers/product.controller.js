@@ -204,23 +204,14 @@ module.exports.agregarProducto = async (req, res) => {
 
     // Procesar imagen principal (imageUrl)
     if (req.files && req.files.imageUrl) {
-      // Archivo subido → Subir a Cloudinary
-      const result = await uploadToCloudinary(req.files.imageUrl[0].path);
-      if (result) {
-        finalImageUrl = result.url;
-      }
+      // Archivo subido → Guardar path local
+      finalImageUrl = '/uploads/' + req.files.imageUrl[0].filename;
     } else if (req.file) {
-      // Archivo subido → Subir a Cloudinary
-      const result = await uploadToCloudinary(req.file.path);
-      if (result) {
-        finalImageUrl = result.url;
-      }
+      // Archivo subido → Guardar path local  
+      finalImageUrl = '/uploads/' + req.file.filename;
     } else if (imageUrlText) {
-      // URL externa → Subir a Cloudinary
-      const result = await uploadToCloudinary(imageUrlText.trim());
-      if (result) {
-        finalImageUrl = result.url;
-      }
+      // URL externa → Guardar directo (confiar en el usuario)
+      finalImageUrl = imageUrlText.trim();
     }
 
     // Procesar múltiples imágenes
@@ -339,13 +330,6 @@ module.exports.updateProduct = async (req, res) => {
     if (deletedImagesJson) {
       try {
         const deletedImages = JSON.parse(deletedImagesJson);
-        // Eliminar de Cloudinary si es necesario
-        for (const img of deletedImages) {
-          const publicId = getPublicIdFromUrl(img);
-          if (publicId) {
-            await cloudinary.uploader.destroy(publicId);
-          }
-        }
         updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
       } catch (e) {
         console.error("Error parsing deletedImages:", e);
@@ -355,10 +339,7 @@ module.exports.updateProduct = async (req, res) => {
     // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
     if (req.files && req.files.additionalImages) {
       for (const file of req.files.additionalImages) {
-        const result = await uploadToCloudinary(file.path);
-        if (result) {
-          updatedImages.push(result.url);
-        }
+        updatedImages.push('/uploads/' + file.filename);
       }
     }
     
@@ -374,23 +355,12 @@ module.exports.updateProduct = async (req, res) => {
           urlImages = [parsed.trim()];
         }
         
-        // Subir a Cloudinary
-        for (const url of urlImages) {
-          const result = await uploadToCloudinary(url);
-          if (result) {
-            updatedImages.push(result.url);
-          }
-        }
+        updatedImages.push(...urlImages);
       } catch (e) {
         // Si no es JSON, verificar si es string
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
           const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
-          for (const url of urls) {
-            const result = await uploadToCloudinary(url);
-            if (result) {
-              updatedImages.push(result.url);
-            }
-          }
+          updatedImages.push(...urls);
         }
       }
     }
@@ -398,25 +368,9 @@ module.exports.updateProduct = async (req, res) => {
     // Actualizar imagen principal si se proporciona
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.files && req.files.imageUrl) {
-      // Eliminar imagen anterior de Cloudinary
-      if (updatedImageUrl) {
-        const publicId = getPublicIdFromUrl(updatedImageUrl);
-        if (publicId) await cloudinary.uploader.destroy(publicId);
-      }
-      const result = await uploadToCloudinary(req.files.imageUrl[0].path);
-      if (result) {
-        updatedImageUrl = result.url;
-      }
+      updatedImageUrl = '/uploads/' + req.files.imageUrl[0].filename;
     } else if (req.body.imageUrlText) {
-      // Eliminar imagen anterior de Cloudinary
-      if (updatedImageUrl) {
-        const publicId = getPublicIdFromUrl(updatedImageUrl);
-        if (publicId) await cloudinary.uploader.destroy(publicId);
-      }
-      const result = await uploadToCloudinary(req.body.imageUrlText.trim());
-      if (result) {
-        updatedImageUrl = result.url;
-      }
+      updatedImageUrl = req.body.imageUrlText.trim();
     }
     
     // Si imageUrl fue eliminada, usar la primera de images
