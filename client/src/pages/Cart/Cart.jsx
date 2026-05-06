@@ -53,7 +53,7 @@ const Cart = () => {
       console.log("📱 [handleWhatsApp] Mensaje generado:", message.substring(0, 100) + "...");
       
       // Abrir WhatsApp - intentar método 1 (wa.me)
-      let whatsappUrl = `https://wa.me/595983987775?text=${encodeURIComponent(message)}`;
+      let whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
       console.log("🔵 [handleWhatsApp] URL WhatsApp:", whatsappUrl.substring(0, 80) + "...");
       
       // Intentar abrir ventana
@@ -62,26 +62,19 @@ const Cart = () => {
       // Si falló, intentar método 2 (web.whatsapp.com)
       if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed === 'undefined') {
         console.log("🔵 [handleWhatsApp] Intentando método alternativo...");
-        whatsappUrl = `https://web.whatsapp.com/send?phone=595983987775&text=${encodeURIComponent(message)}`;
+        whatsappUrl = `https://web.whatsapp.com/send?phone=595983986775&text=${encodeURIComponent(message)}`;
         whatsappWindow = window.open(whatsappUrl, '_blank');
       }
       
       console.log("🔵 [handleWhatsApp] Ventana abierta:", whatsappWindow ? "SÍ" : "NO");
       
-      // Si sigue sin abrir, mostrar opciones alternativas
+      // Si sigue sin abrir, usar método alternativo - redirección directa
       if (!whatsappWindow || whatsappWindow.closed) {
-        console.warn("⚠️ [handleWhatsApp] Popup bloqueado");
+        console.warn("⚠️ [handleWhatsApp] Popup bloqueado, usando redirección directa");
         
-        // Opción 1: Copiar al portapapeles
-        const textToCopy = `🛒 *NUEVO PEDIDO*\n\n*Productos:*\n${message}\n\nTotal: ${getTotal().toLocaleString("es-PY")} Gs.\n\n⏰ Pedido desde GameMasters`;
-        
-        try {
-          await navigator.clipboard.writeText(textToCopy);
-          alert("📋 Mensaje copiado al portapapeles.\n\nAbre WhatsApp y pega el mensaje (Ctrl+V)");
-        } catch (e) {
-          // Si clipboard no funciona, mostrar link
-          alert(`🔗 Abre WhatsApp y envía este mensaje:\n\n${textToCopy.substring(0, 200)}...`);
-        }
+        // Redirección directa a WhatsApp
+        window.location.href = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
+        return;
       }
       
       // Limpiar carrito
