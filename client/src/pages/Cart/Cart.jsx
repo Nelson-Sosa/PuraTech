@@ -127,6 +127,7 @@ ${customerText}⌛ *Fecha: ${new Date().toLocaleDateString('es-PY', {
 ✅ ¡Gracias por tu compra! 
 🏪 *GameMasters - Tu tienda de tecnología*
 📞 ¿Dudas? Escribenos aquí`;
+  };
 
   const handleCustomerInfoChange = (e) => {
     setCustomerInfo({
