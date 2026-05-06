@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from '../../context/CartContext';
 import { useState } from 'react';
+import axios from 'axios';
 import { API_URL } from '../../config';
 import './Cart.css';
 import { sendWhatsAppOrder } from '../../utils/whatsapp';
@@ -9,15 +10,81 @@ const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     phone: '',
     address: ''
   });
 
-  const handleWhatsApp = () => {
-    console.log("Click detectado", cart, customerInfo);
-    sendWhatsAppOrder(cart, customerInfo.name || customerInfo.phone ? customerInfo : null);
+  const handleWhatsApp = async () => {
+    setLoading(true);
+    try {
+      // Preparar datos del pedido
+      const orderData = {
+        customerName: customerInfo.name || 'Cliente',
+        customerPhone: customerInfo.phone || 'No especificado',
+        customerEmail: '',
+        deliveryAddress: customerInfo.address || '',
+        products: cart.map(item => ({
+          productId: item._id,
+          nombre: item.nombre,
+          marca: item.marca,
+          imageUrl: item.imageUrl,
+          quantity: item.quantity,
+          precio: item.precio
+        })),
+        subtotal: getTotal(),
+        shippingCost: 0,
+        total: getTotal(),
+        notes: ''
+      };
+
+      // Guardar pedido en la base de datos
+      const orderResponse = await axios.post(`${API_URL}/api/orders`, orderData);
+      const savedOrder = orderResponse.data;
+      console.log("✅ Pedido guardado:", savedOrder._id);
+
+      // Generar mensaje de WhatsApp
+      const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
+      
+      // Abrir WhatsApp
+      const whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      
+      // Limpiar carrito
+      clearCart();
+      alert("¡Pedido guardado! Serás redirigido a WhatsApp para confirmar.");
+      
+    } catch (error) {
+      console.error("Error al guardar pedido:", error);
+      // Si falla, aún así intentar enviar por WhatsApp
+      sendWhatsAppOrder(cart, customerInfo.name || customerInfo.phone ? customerInfo : null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const generateWhatsAppMessage = (cart, customerInfo, orderId) => {
+    const items = cart.map(item => 
+      `• ${item.nombre} (${item.marca}) x${item.quantity} - ${Number(item.precio).toLocaleString("es-PY")} Gs.`
+    ).join('\n');
+
+    const total = getTotal().toLocaleString("es-PY");
+    
+    const customerText = customerInfo.name || customerInfo.phone 
+      ? `\n📋 *Datos del cliente:*\n👤 Nombre: ${customerInfo.name || 'No especificado'}\n📱 Teléfono: ${customerInfo.phone || 'No especificado'}\n📍 Dirección: ${customerInfo.address || 'No especificada'}`
+      : '';
+
+    return `🛒 *NUEVO PEDIDO #${orderId}*
+
+*Productos:*
+${items}
+
+*Total: ${total} Gs.*
+${customerText}
+
+⏰ Pedido realizado desde la tienda online GameMasters`;
   };
 
   const handleCustomerInfoChange = (e) => {
@@ -120,8 +187,8 @@ const Cart = () => {
               </div>
             )}
           </div>
-          <button className="checkout-btn" onClick={handleWhatsApp}>
-          🚀 Finalizar pedido por WhatsApp
+          <button className="checkout-btn" onClick={handleWhatsApp} disabled={loading}>
+          {loading ? '⏳ Guardando pedido...' : '🚀 Finalizar pedido por WhatsApp'}
           </button>
           <button className="clear-btn" onClick={clearCart}>
             Vaciar carrito

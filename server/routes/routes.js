@@ -3,6 +3,7 @@ const CategoryController = require('../controllers/CategoryController');
 const UserController = require('../controllers/user.controllers');
 const ProductController = require('../controllers/product.controller');
 const SuppliersController = require('../controllers/suppliers.controller');
+const OrderController = require('../controllers/order.controller');
 const validarToken = require('../middlewares/validarToken');
 const verificarRol = require('../middlewares/verificarRol');
 const express = require('express');
@@ -43,8 +44,25 @@ module.exports = (app) => {
     app.get('/api/suppliers', validarToken, verificarRol('admin'), SuppliersController.allSuppliers);
     app.get("/api/supplier/:id", validarToken, verificarRol('admin'), SuppliersController.getSupplier);
 
-    // ===== PAGOS - ELIMINADO (Stripe removido) =====
+    // ===== PEDIDOS =====
+    // Crear pedido (público - desde el checkout)
+    app.post('/api/orders', OrderController.createOrder);
     
+    // Obtener todos los pedidos (admin)
+    app.get('/api/orders', validarToken, verificarRol('admin'), OrderController.getAllOrders);
+    
+    // Obtener pedido por ID (admin)
+    app.get('/api/orders/:id', validarToken, verificarRol('admin'), OrderController.getOrderById);
+    
+    // Actualizar estado del pedido (admin)
+    app.put('/api/orders/:id/status', validarToken, verificarRol('admin'), OrderController.updateOrderStatus);
+    
+    // Eliminar pedido (admin)
+    app.delete('/api/orders/:id', validarToken, verificarRol('admin'), OrderController.deleteOrder);
+    
+    // Obtener pedidos por estado (admin)
+    app.get('/api/orders/status/:status', validarToken, verificarRol('admin'), OrderController.getOrdersByStatus);
+
     // ===== META DE VENTAS =====
     // TEMPORALMENTE COMENTADO - Función checkSalesMeta no existe aún
     // app.get('/api/sales-meta', ProductController.checkSalesMeta);

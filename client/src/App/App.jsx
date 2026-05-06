@@ -14,6 +14,7 @@ import UpdateSupplier from '../components/UpdateSupplier/UpdateSupplier';
 import PrivateRoute from '../components/ProtectedRoute/ProtectedRoute';
 import CategoryForm from "../components/Categories/CategoryForm";
 import Categories from "../pages/Categories/Categories";
+import Orders from '../pages/Orders/Orders';
 import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar/Navbar';
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
         <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
         <Route path="/categories" element={<PrivateRoute component={Categories} />} />
+        <Route path="/orders" element={<PrivateRoute component={Orders} />} />
       </Routes>
       
       {/* BOTÓN FLOTANTE DE WHATSAPP */}

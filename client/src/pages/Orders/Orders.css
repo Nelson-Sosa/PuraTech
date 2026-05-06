@@ -1,0 +1,214 @@
+.orders-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.orders-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.orders-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.orders-stats .stat {
+  padding: 8px 15px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.orders-stats .stat.pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.orders-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  background: #f5f5f5;
+}
+
+.filter-btn.active {
+  background: #2196f3;
+  color: white;
+  border-color: #2196f3;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.no-orders-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-id {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-id strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.order-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.order-status {
+  padding: 5px 12px;
+  border-radius: 15px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.order-customer {
+  margin-bottom: 15px;
+}
+
+.customer-info {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.customer-info .label {
+  color: #666;
+  min-width: 80px;
+}
+
+.order-products {
+  margin-bottom: 15px;
+}
+
+.order-products .label {
+  display: block;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.products-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.products-list li {
+  padding: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.order-total {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+.order-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.status-select {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #d32f2f;
+}
+
+.orders-loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .orders-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .orders-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}

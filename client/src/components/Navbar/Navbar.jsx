@@ -83,6 +83,8 @@ const Navbar = () => {
               <Link to="/agregar/product">Agregar Producto</Link>
               <Link to="/add/suppliers">Agregar Proveedor</Link>
               <Link to="/add/category">Agregar Categoría</Link>
+              <Link to="/categories">Ver Categorías</Link>
+              <Link to="/orders">📋 Ver Pedidos</Link>
               <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
             </div>
           </div>
