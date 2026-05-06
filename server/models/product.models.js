@@ -43,7 +43,11 @@ const ProductSchema = new mongoose.Schema({
     stock: {
         type: Number,
         default: 10
-    }
+    },
+    lowStockThreshold: {
+        type: Number,
+        default: 5
+    }, // Umbral para alerta de stock bajo
 }, {
     timestamps: true // Agrega createdAt y updatedAt automáticamente
 });

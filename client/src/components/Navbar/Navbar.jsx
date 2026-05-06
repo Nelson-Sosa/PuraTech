@@ -94,6 +94,7 @@ const Navbar = () => {
               <Link to="/categories">Ver Categorías</Link>
               <Link to="/orders">📋 Ver Pedidos</Link>
               <Link to="/clients">👥 Ver Clientes</Link>
+              <Link to="/inventory">📦 Inventario</Link>
               <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
             </div>
           </div>

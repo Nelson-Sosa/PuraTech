@@ -4,6 +4,7 @@ const UserController = require('../controllers/user.controllers');
 const ProductController = require('../controllers/product.controller');
 const SuppliersController = require('../controllers/suppliers.controller');
 const OrderController = require('../controllers/order.controller');
+const InventoryController = require('../controllers/inventory.controller');
 const validarToken = require('../middlewares/validarToken');
 const verificarRol = require('../middlewares/verificarRol');
 const express = require('express');
@@ -64,9 +65,11 @@ module.exports = (app) => {
     // Obtener pedidos por estado (admin)
     app.get('/api/orders/status/:status', validarToken, verificarRol('admin'), OrderController.getOrdersByStatus);
 
-    // ===== META DE VENTAS =====
-    // TEMPORALMENTE COMENTADO - Función checkSalesMeta no existe aún
-    // app.get('/api/sales-meta', ProductController.checkSalesMeta);
+    // ===== INVENTARIO (solo admin) =====
+    app.get('/api/inventory', validarToken, verificarRol('admin'), InventoryController.getInventory);
+    app.put('/api/inventory/:id', validarToken, verificarRol('admin'), InventoryController.updateStock);
+    app.get('/api/inventory/low-stock', validarToken, verificarRol('admin'), InventoryController.getLowStockProducts);
+    app.post('/api/inventory/bulk-adjust', validarToken, verificarRol('admin'), InventoryController.bulkStockAdjustment);
 };
 
 // Updated: 05/05/2026 21:10:26
