@@ -42,6 +42,25 @@ const Inventory = () => {
     setEditThreshold(product.lowStockThreshold?.toString() || '5');
   };
 
+  const handleDeleteProduct = async (productId, productName) => {
+    if (!window.confirm(`¿Estás seguro de eliminar el producto "${productName}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+    
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `${API_URL}/api/remover/product/${productId}`,
+        { headers: { token_usuario: token } }
+      );
+      alert("Producto eliminado correctamente");
+      fetchInventory();
+    } catch (err) {
+      console.error("Error deleting product:", err);
+      alert("Error al eliminar el producto");
+    }
+  };
+
   const handleSaveEdit = async (id) => {
     try {
       const token = localStorage.getItem('token');
@@ -232,6 +251,13 @@ const Inventory = () => {
                         onClick={() => handleEditClick(product)}
                       >
                         ✏️ Editar
+                      </button>
+                      <button
+                        className="btn-delete-inventory"
+                        onClick={() => handleDeleteProduct(product._id, product.name)}
+                        style={{ marginLeft: '8px', backgroundColor: '#dc3545', color: '#fff', padding: '6px 12px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                      >
+                        🗑️ Eliminar
                       </button>
                     )}
                   </td>
