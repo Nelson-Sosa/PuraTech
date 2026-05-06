@@ -88,45 +88,42 @@ const Cart = () => {
     }
   };
 
-  // Generar mensaje profesional para WhatsApp
+// Generar mensaje profesional para WhatsApp
   const generateWhatsAppMessage = (cart, customerInfo, orderId) => {
-    const items = cart.map((item, index) => 
-      `${index + 1}. ${item.nombre}\n   Marca: ${item.marca} | Cantidad: ${item.quantity}\n   Precio: ${Number(item.precio).toLocaleString("es-PY")} Gs.`
+    const items = cart.map((item) => 
+      `- ${item.nombre}\n  ${item.marca} | Cantidad: ${item.quantity} | ${Number(item.precio).toLocaleString("es-PY")} Gs.`
     ).join('\n\n');
 
     const total = getTotal().toLocaleString("es-PY");
     
     const customerText = customerInfo.name || customerInfo.phone 
-      ? `👤 *DATOS DEL CLIENTE*\n━━━━━━━━━━━━━━━━━━━━\n📝 Nombre: ${customerInfo.name || 'No proporcionado'}\n📱 Teléfono: ${customerInfo.phone || 'No proporcionado'}\n📍 Dirección: ${customerInfo.address || 'Retiro en tienda'}\n`
+      ? `CLIENTE:\nNombre: ${customerInfo.name || 'No proporcionado'}\nTelefono: ${customerInfo.phone || 'No proporcionado'}\nDireccion: ${customerInfo.address || 'Retiro en tienda'}\n\n`
       : '';
 
-    return `🛒💻 *NUEVO PEDIDO - GameMasters*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    const date = new Date();
+    const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 
-🔖 *Pedido #: ${orderId.substring(0, 8).toUpperCase()}*
+    return `NUEVO PEDIDO - GameMasters
+================================
 
-📦 *PRODUCTOS:*
+Pedido #: ${orderId.substring(0, 8).toUpperCase()}
+
+PRODUCTOS:
 ${items}
 
-💵 *RESUMEN:*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RESUMEN:
 Subtotal: ${total} Gs.
-Envío: Incluido
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 *TOTAL A PAGAR: ${total} Gs.*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Envio: Incluido
+================================
+TOTAL: ${total} Gs.
+================================
 
-${customerText}⌛ *Fecha: ${new Date().toLocaleDateString('es-PY', { 
-  day: '2-digit', 
-  month: 'long', 
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-})}
+${customerText}Fecha: ${formattedDate}
 
-✅ ¡Gracias por tu compra! 
-🏪 *GameMasters - Tu tienda de tecnología*
-📞 ¿Dudas? Escribenos aquí`;
+================================
+Gracias por tu compra!
+GameMasters - Tu tienda de tecnologia
+Dudas? Escribenos aqui`;
   };
 
   const handleCustomerInfoChange = (e) => {
