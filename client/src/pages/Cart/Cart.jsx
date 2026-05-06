@@ -47,6 +47,24 @@ const Cart = () => {
       const savedOrder = orderResponse.data;
       console.log("✅ [handleWhatsApp] Pedido guardado:", savedOrder._id);
 
+      // Reducir stock automáticamente
+      console.log("🔵 [handleWhatsApp] Reduciendo stock...");
+      try {
+        const itemsToReduce = cart.map(item => ({
+          productId: item._id,
+          quantity: item.quantity
+        }));
+        
+        await axios.post(
+          `${API_URL}/api/orders/reduce-stock`,
+          { items: itemsToReduce },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        console.log("✅ [handleWhatsApp] Stock reducido exitosamente");
+      } catch (stockError) {
+        console.warn("⚠️ [handleWhatsApp] Error al reducir stock:", stockError);
+      }
+
       // Generar mensaje de WhatsApp
       const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
       console.log("📱 [handleWhatsApp] Mensaje generado:", message.substring(0, 100) + "...");

@@ -50,6 +50,9 @@ module.exports = (app) => {
     // Crear pedido (público - desde el checkout)
     app.post('/api/orders', OrderController.createOrder);
     
+    // Reducir stock al crear pedido (público)
+    app.post('/api/orders/reduce-stock', OrderController.reduceStock);
+    
     // Obtener todos los pedidos (admin)
     app.get('/api/orders', validarToken, verificarRol('admin'), OrderController.getAllOrders);
     

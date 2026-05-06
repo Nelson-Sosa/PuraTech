@@ -104,6 +104,34 @@ module.exports.deleteOrder = async (req, res) => {
   }
 };
 
+// Reducir stock al crear pedido
+module.exports.reduceStock = async (req, res) => {
+  try {
+    const Product = require('../models/product.models');
+    const { items } = req.body;
+    
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ error: 'Items inválidos' });
+    }
+
+    const results = [];
+    for (const item of items) {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        const newStock = Math.max(0, product.stock - item.quantity);
+        await Product.findByIdAndUpdate(item.productId, { stock: newStock });
+        results.push({ productId: item.productId, oldStock: product.stock, newStock });
+        console.log(`✅ Stock reducido: ${product.nombre} (${product.stock} -> ${newStock})`);
+      }
+    }
+
+    res.json({ message: 'Stock reducido correctamente', results });
+  } catch (error) {
+    console.error("🔴 Error reduciendo stock:", error);
+    res.status(500).json({ error: 'Error al reducir stock' });
+  }
+};
+
 // Obtener pedidos por estado
 module.exports.getOrdersByStatus = async (req, res) => {
   try {
