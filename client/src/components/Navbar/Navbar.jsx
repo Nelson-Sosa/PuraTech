@@ -17,20 +17,20 @@ const Navbar = () => {
     setIsAdmin(role === 'admin');
   }, []);
 
-  // Verificar meta de ventas solo para admin
-  useEffect(() => {
-    if (isAdmin) {
-      const checkMeta = async () => {
-        try {
-          const res = await axios.get(`${API_URL}/api/sales-meta`);
-          setSalesMeta(res.data);
-        } catch (err) {
-          console.error("Error checking sales meta:", err);
-        }
-      };
-      checkMeta();
-    }
-  }, [isAdmin]);
+  // Verificar meta de ventas solo para admin (TEMPORALMENTE DESACTIVADO)
+  // useEffect(() => {
+  //   if (isAdmin) {
+  //     const checkMeta = async () => {
+  //       try {
+  //         const res = await axios.get(`${API_URL}/api/sales-meta`);
+  //         setSalesMeta(res.data);
+  //       } catch (err) {
+  //         console.error("Error checking sales meta:", err);
+  //       }
+  //     };
+  //     checkMeta();
+  //   }
+  // }, [isAdmin]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
