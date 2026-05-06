@@ -193,10 +193,6 @@ const ProductDetail = () => {
             >
               {addingToCart ? '✓ Agregado' : '🛒 Agregar al carrito'}
             </button>
-            
-            <Link to="/cart" className="buy-now-btn">
-              Comprar ahora
-            </Link>
           </div>
 
           <div className="meta-info">

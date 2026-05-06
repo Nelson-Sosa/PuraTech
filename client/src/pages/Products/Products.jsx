@@ -230,9 +230,7 @@ export const Products = () => {
                                             </>
                                         )}
 
-                                        <Link to="/create-payment-intent">
-                                            <button className="btn-buy">Comprar ahora</button>
-                                        </Link>
+                                        
                                     </div>
                                 </div>
                             ))}
