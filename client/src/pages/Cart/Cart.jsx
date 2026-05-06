@@ -47,14 +47,19 @@ const Cart = () => {
 
       // Generar mensaje de WhatsApp
       const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
+      console.log("📱 Mensaje WhatsApp:", message);
       
-      // Abrir WhatsApp
+      // Abrir WhatsApp PRIMERO (antes del alert)
       const whatsappUrl = `https://wa.me/595983986775?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
+      const whatsappWindow = window.open(whatsappUrl, '_blank');
       
-      // Limpiar carrito
+      // Limpiar carrito DESPUÉS de abrir WhatsApp
       clearCart();
-      alert("¡Pedido guardado! Serás redirigido a WhatsApp para confirmar.");
+      
+      // Alert final
+      setTimeout(() => {
+        alert("✅ ¡Pedido guardado exitosamente! Tu pedido #" + savedOrder._id.substring(0, 8) + " ha sido creado.");
+      }, 500);
       
     } catch (error) {
       console.error("Error al guardar pedido:", error);
