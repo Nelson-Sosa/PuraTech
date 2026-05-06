@@ -25,13 +25,27 @@ export const Products = () => {
         try {
             let url = `${API_URL}/api/products/public`;
             if (decodedCategory) {
-                url += `?category=${decodedCategory}`;
+                // Si la categoría no coincide exactamente, usar búsqueda global
+                url = `${API_URL}/api/search-products?category=${encodeURIComponent(decodedCategory)}`;
             }
             const res = await axios.get(url);
             setProducts(res.data);
             setFilteredProducts(res.data);
         } catch (err) {
             console.error(err);
+            // Fallback: buscar todos los productos
+            try {
+                const fallback = await axios.get(`${API_URL}/api/products/public`);
+                const filtered = fallback.data.filter(p => 
+                    p.nombre?.toLowerCase().includes(decodedCategory.toLowerCase()) ||
+                    p.marca?.toLowerCase().includes(decodedCategory.toLowerCase()) ||
+                    p.category?.toLowerCase().includes(decodedCategory.toLowerCase())
+                );
+                setProducts(filtered);
+                setFilteredProducts(filtered);
+            } catch (fallbackErr) {
+                console.error(fallbackErr);
+            }
         }
     }, [decodedCategory]);
 

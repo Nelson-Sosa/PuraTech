@@ -201,33 +201,33 @@ img {
   bottom: 28px !important;
   right: 28px !important;
   left: auto !important;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  width: 60px;
+  height: 60px;
+  background-color: #25D366; /* Verde Oficial WhatsApp */
   border: none;
   border-radius: 50%;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   text-decoration: none;
-  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0.4);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
   z-index: 1000 !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  animation: pulse-whatsapp 2.5s ease-in-out infinite;
+  animation: pulse-whatsapp 2s infinite;
 }
 
 .whatsapp-float img {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  display: block;
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.15);
-  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5), 0 0 0 8px rgba(37, 211, 102, 0.1);
-  animation-play-state: paused;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+  background-color: #20ba5a;
 }
 
 @keyframes pulse-whatsapp {
