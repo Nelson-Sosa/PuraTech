@@ -15,6 +15,7 @@ const FormProduct = () => {
   const [imageUrlText, setImageUrlText] = useState("");
   const [additionalImages, setAdditionalImages] = useState([]);
   const [additionalImagesText, setAdditionalImagesText] = useState("");
+  const [stockMinimo, setStockMinimo] = useState("5");
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -104,6 +105,7 @@ const FormProduct = () => {
     formData.append("marca", marca);
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
+    formData.append("lowStockThreshold", stockMinimo || "5");
     
     // Main image
     if (imageUrl) {
@@ -222,6 +224,18 @@ const FormProduct = () => {
               placeholder="Ej: 4500000"
             />
             {errors.precio && <span className="error-message">{errors.precio}</span>}
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Stock mínimo</label>
+            <input
+              type="number"
+              value={stockMinimo}
+              onChange={(e) => setStockMinimo(e.target.value)}
+              className="form-input"
+              placeholder="Ej: 5"
+            />
+            <span className="help-text">Alerta cuando el stock baje de este número</span>
           </div>
 
           <div className="form-group">
