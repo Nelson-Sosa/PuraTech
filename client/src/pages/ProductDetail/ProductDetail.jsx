@@ -33,42 +33,20 @@ const ProductDetail = () => {
     if (!product) return [];
     const images = [];
     
-    // Helper to check if URL is VALID - ONLY allow perfect URLs
+    // Helper simple - aceptar cualquier URL válida de imagen
     const isValidImageUrl = (url) => {
       if (!url || typeof url !== 'string') return false;
-      
-      // Must be a string starting with proper protocol or path
-      // ONLY allow Cloudinary URLs
-      if (url.includes('res.cloudinary.com')) return true;
-      
-      // ONLY allow /uploads/ paths
-      if (url.startsWith('/uploads/') && url.includes('.')) return true;
-      
-      // ONLY allow specific trusted domains with proper HTTP/HTTPS
-      if (url.match(/^https?:\/\/.+/)) {
-        const trustedDomains = [
-          'res.cloudinary.com',
-          'imgur.com',
-          'i.imgur.com',
-          'images.unsplash.com',
-          'via.placeholder.com',
-          'gamemasters-aqha.onrender.com'
-        ];
-        return trustedDomains.some(domain => url.includes(domain));
-      }
-      
-      // EVERYTHING else is invalid
+      // Aceptar URLs que empiezan con / (uploads locales)
+      if (url.startsWith('/uploads/')) return true;
+      // Aceptar cualquier URL https/http que parezca imagen
+      if (url.match(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i)) return true;
+      if (url.match(/^https?:\/\/.+/i)) return true;
       return false;
     };
     
     // Process imageUrl
-    if (product.imageUrl) {
-      if (isValidImageUrl(product.imageUrl)) {
-        images.push(product.imageUrl);
-      } else {
-        // Invalid URL - use placeholder
-        images.push("/img/placeholder.png");
-      }
+    if (product.imageUrl && isValidImageUrl(product.imageUrl)) {
+      images.push(product.imageUrl);
     }
     
     // Process images array
@@ -137,16 +115,12 @@ const ProductDetail = () => {
         {/* Image Gallery */}
         <div className="gallery-section">
            <div className="main-image-container">
-             <img 
-               src={images[currentImageIndex] && typeof images[currentImageIndex] === 'string' && 
-                    (images[currentImageIndex].includes('cloudinary.com') || 
-                     images[currentImageIndex].startsWith('/uploads/') || 
-                     images[currentImageIndex].match(/^https?:\/\/[a-z0-9-]+\.(imgur|unsplash|placeholder|onrender)\./)) 
-                    ? images[currentImageIndex] : '/img/placeholder.png'} 
-               alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
-               className="main-image"
-               onError={(e) => { e.target.src = '/img/placeholder.png'; }}
-             />
+<img 
+                src={images[currentImageIndex] || '/img/placeholder.png'} 
+                alt={`${product.nombre} - Imagen ${currentImageIndex + 1}`}
+                className="main-image"
+                onError={(e) => { e.target.src = '/img/placeholder.png'; }}
+              />
             
             {images.length > 1 && (
               <>
