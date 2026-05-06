@@ -124,6 +124,8 @@ const UpdateProduct = () => {
         } else if (replaceImageUrl) {
             setDeletedImages(prev => [...prev, oldImage]);
             newImages[replaceImageIndex] = replaceImageUrl;
+            // Also add to newAdditionalImagesText to send to server
+            setNewAdditionalImagesText(prev => prev ? prev + ',' + replaceImageUrl : replaceImageUrl);
         }
         
         setCurrentImages(newImages);
