@@ -29,6 +29,12 @@ const OrderSchema = new mongoose.Schema({
     default: 'pending'
   },
   
+  // Flag para controlar si el stock ya fue reducido
+  stockReduced: {
+    type: Boolean,
+    default: false
+  },
+  
   // Información adicional
   notes: { type: String },
   paymentMethod: { type: String, default: 'whatsapp' },
