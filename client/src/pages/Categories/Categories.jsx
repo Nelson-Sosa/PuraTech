@@ -99,7 +99,7 @@ const Categories = () => {
                   ) : (
                     <>
                       <div className="category-info">
-                        <span className="category-name">{cat.name}</span>
+                        <span className="category-name" title={cat.name}>{cat.name}</span>
                         <span className="category-count">Disponibles</span>
                       </div>
                       {userRole === "admin" && (
