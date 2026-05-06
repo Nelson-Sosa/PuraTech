@@ -246,19 +246,21 @@ const Inventory = () => {
                         </button>
                       </div>
                     ) : (
-                      <button
-                        className="btn-edit"
-                        onClick={() => handleEditClick(product)}
-                      >
-                        ✏️ Editar
-                      </button>
-                      <button
-                        className="btn-delete-inventory"
-                        onClick={() => handleDeleteProduct(product._id, product.name)}
-                        style={{ marginLeft: '8px', backgroundColor: '#dc3545', color: '#fff', padding: '6px 12px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                      >
-                        🗑️ Eliminar
-                      </button>
+                      <>
+                        <button
+                          className="btn-edit"
+                          onClick={() => handleEditClick(product)}
+                        >
+                          ✏️ Editar
+                        </button>
+                        <button
+                          className="btn-delete-inventory"
+                          onClick={() => handleDeleteProduct(product._id, product.name)}
+                          style={{ marginLeft: '8px', backgroundColor: '#dc3545', color: '#fff', padding: '6px 12px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                        >
+                          🗑️ Eliminar
+                        </button>
+                      </>
                     )}
                   </td>
                 </tr>
