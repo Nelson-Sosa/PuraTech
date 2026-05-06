@@ -72,16 +72,41 @@ export const Products = () => {
 
     // 🔥 Delete profesional con refresh automático
     const deleteProduct = async (productID) => {
+        const token = localStorage.getItem("token");
+        console.log("🟡 [DELETE] Token:", token ? "EXISTS" : "NULL");
+        console.log("🟡 [DELETE] ProductID:", productID);
+        
+        if (!token) {
+            console.error("🔴 [DELETE] No hay token!");
+            alert("No hay sesión activa. Por favor inicia sesión.");
+            return;
+        }
+
         try {
-            await axios.delete(
+            console.log("🟡 [DELETE] Enviando solicitud...");
+            const res = await axios.delete(
                 `${API_URL}/api/remover/product/${productID}`,
                 {
-                    headers: { token_usuario: localStorage.getItem("token") }
+                    headers: { 
+                        token_usuario: token,
+                        'Content-Type': 'application/json'
+                    }
                 }
             );
+            console.log("✅ [DELETE] Respuesta:", res.data);
             getProducts();
         } catch (error) {
-            console.error('Error al eliminar producto', error);
+            console.error('🔴 [DELETE] Error completo:', error);
+            console.error('🔴 [DELETE] Response:', error.response);
+            if (error.response) {
+                console.error('🔴 [DELETE] Status:', error.response.status);
+                console.error('🔴 [DELETE] Data:', error.response.data);
+                alert(`Error: ${error.response.status} - ${JSON.stringify(error.response.data)}`);
+            } else if (error.request) {
+                alert("No se recibió respuesta del servidor");
+            } else {
+                alert("Error de configuración: " + error.message);
+            }
             if (error.response && error.response.status === 401) {
                 navigate('/login');
             }

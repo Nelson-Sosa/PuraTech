@@ -135,6 +135,16 @@ const UpdateProduct = () => {
     const actualizarProducto = async (e) => {
         e.preventDefault();
 
+        const token = localStorage.getItem("token");
+        console.log("🟡 [UPDATE] Token:", token ? "EXISTS" : "NULL");
+        console.log("🟡 [UPDATE] Product ID:", id);
+
+        if (!token) {
+            console.error("🔴 [UPDATE] No hay token!");
+            alert("No hay sesión activa. Por favor inicia sesión.");
+            return;
+        }
+
         try {
             const formData = new FormData();
             formData.append("category", category);
@@ -154,22 +164,27 @@ const UpdateProduct = () => {
                 formData.append("images", newAdditionalImagesText);
             }
 
-            await axios.put(
+            console.log("🟡 [UPDATE] Enviando solicitud...");
+            const res = await axios.put(
                 `${API_URL}/api/actualizar/product/${id}`,
                 formData,
                 {
                     headers: {
-                        token_usuario: localStorage.getItem("token"),
+                        token_usuario: token,
                         "Content-Type": "multipart/form-data"
                     }
                 }
             );
 
-            // 🔥 Redirige correctamente a la categoría
+            console.log("✅ [UPDATE] Respuesta:", res.data);
             navigate(`/category/${encodeURIComponent(category)}`);
 
         } catch (err) {
-            console.error("Error al actualizar producto", err);
+            console.error("🔴 [UPDATE] Error completo:", err);
+            console.error("🔴 [UPDATE] Response:", err.response);
+            if (err.response) {
+                alert(`Error: ${err.response.status} - ${JSON.stringify(err.response.data)}`);
+            }
             if (err.response && err.response.status === 401) {
                 navigate('/login');
             }
