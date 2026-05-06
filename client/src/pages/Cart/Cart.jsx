@@ -89,6 +89,7 @@ const Cart = () => {
     }
   };
 
+  // Generar mensaje profesional para WhatsApp
   const generateWhatsAppMessage = (cart, customerInfo, orderId) => {
     const items = cart.map((item, index) => 
       `${index + 1}. ${item.nombre}\n   Marca: ${item.marca} | Cantidad: ${item.quantity}\n   Precio: ${Number(item.precio).toLocaleString("es-PY")} Gs.`
