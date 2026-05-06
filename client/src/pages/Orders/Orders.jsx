@@ -163,7 +163,7 @@ const Orders = () => {
             <div key={order._id} className="order-card">
               <div className="order-header">
                 <div className="order-id">
-                  <strong>Pedido #{order._id.substring(0, 8)}</strong>
+                  <strong>ID: #{order._id.substring(0, 8).toUpperCase()}</strong>
                   <span className="order-date">{formatDate(order.createdAt)}</span>
                 </div>
                 <span 
@@ -176,55 +176,57 @@ const Orders = () => {
 
               <div className="order-customer">
                 <div className="customer-info">
-                  <span className="label">👤 Cliente:</span>
+                  <span className="label">Cliente</span>
                   <span>{order.customerName}</span>
                 </div>
                 <div className="customer-info">
-                  <span className="label">📱 Tel:</span>
+                  <span className="label">Contacto</span>
                   <span>{order.customerPhone}</span>
                 </div>
                 {order.deliveryAddress && (
                   <div className="customer-info">
-                    <span className="label">📍 Dirección:</span>
+                    <span className="label">Dirección de Entrega</span>
                     <span>{order.deliveryAddress}</span>
                   </div>
                 )}
               </div>
 
               <div className="order-products">
-                <span className="label">🛒 Productos ({order.products?.length || 0}):</span>
+                <span className="label">Detalle de Productos</span>
                 <ul className="products-list">
                   {order.products?.map((product, idx) => (
                     <li key={idx}>
-                      {product.nombre} ({product.marca}) x{product.quantity} - 
-                      {Number(product.precio).toLocaleString("es-PY")} Gs.
+                      <span className="product-name">{product.nombre} <small>({product.marca})</small></span>
+                      <span className="product-qty-price">x{product.quantity} — {Number(product.precio).toLocaleString("es-PY")} Gs.</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div className="order-total">
-                <strong>Total: {Number(order.total).toLocaleString("es-PY")} Gs.</strong>
+                <span>Total Pedido: <strong>{Number(order.total).toLocaleString("es-PY")} Gs.</strong></span>
               </div>
 
               <div className="order-actions">
-                <select 
-                  value={order.status}
-                  onChange={(e) => updateStatus(order._id, e.target.value)}
-                  className="status-select"
-                >
-                  <option value="pending">Pendiente</option>
-                  <option value="confirmed">Confirmado</option>
-                  <option value="preparing">Preparando</option>
-                  <option value="shipped">Enviado</option>
-                  <option value="delivered">Entregado</option>
-                  <option value="cancelled">Cancelado</option>
-                </select>
+                <div className="status-control">
+                  <select 
+                    value={order.status}
+                    onChange={(e) => updateStatus(order._id, e.target.value)}
+                    className="status-select"
+                  >
+                    <option value="pending">Pendiente</option>
+                    <option value="confirmed">Confirmado</option>
+                    <option value="preparing">Preparando</option>
+                    <option value="shipped">Enviado</option>
+                    <option value="delivered">Entregado</option>
+                    <option value="cancelled">Cancelado</option>
+                  </select>
+                </div>
                 <button 
                   className="delete-btn"
                   onClick={() => deleteOrder(order._id)}
                 >
-                  🗑️ Eliminar
+                  Eliminar Registro
                 </button>
               </div>
             </div>
