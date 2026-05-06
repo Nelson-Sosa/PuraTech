@@ -22,7 +22,7 @@ module.exports = (app) => {
 
     // ===== RUTAS ADMIN (con token) =====
     app.post("/api/agregar/producto", validarToken, verificarRol('admin'), upload.single('imageUrl'), ProductController.agregarProducto);
-    app.put("/api/actualizar/product/:id", validarToken, verificarRol('admin'), ProductController.updateProduct);
+    app.put("/api/actualizar/product/:id", validarToken, verificarRol('admin'), upload.single('imageUrl'), ProductController.updateProduct);
     app.delete("/api/remover/product/:id", validarToken, verificarRol('admin'), ProductController.removerProducto);
     app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.deleteCategory);
     app.post('/api/categories', validarToken, verificarRol('admin'), CategoryController.addCategory);
