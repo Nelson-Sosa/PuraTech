@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal/Modal';
+import Modal from '../components/Modal/Modal';
 import './Inventory.css';
 
 const Inventory = () => {
