@@ -129,7 +129,12 @@ const Home = () => {
 
       {/* CATEGORÍAS PRINCIPALES */}
       <section className="categories-section">
-        <h2>🎮 Categorías</h2>
+        <div className="section-header">
+          <div className="section-tag">Explora</div>
+          <h2>Categorías Principales</h2>
+          <p>Encuentra lo mejor en hardware, periféricos y gaming</p>
+        </div>
+        
         <div className="categories-grid">
           {categories.length > 0 ? (
             categories.map((cat) => (
@@ -138,11 +143,21 @@ const Home = () => {
                 to={`/category/${encodeURIComponent(cat.name)}`} 
                 className="category-card"
               >
-                {getCategoryIcon(cat.name)} {cat.name}
+                <div className="card-bg-glow"></div>
+                <div className="icon-wrapper">
+                  <span className="cat-icon">{getCategoryIcon(cat.name)}</span>
+                </div>
+                <div className="cat-info">
+                  <span className="cat-label">{cat.name}</span>
+                  <span className="cat-explore">Explorar ahora</span>
+                </div>
               </Link>
             ))
           ) : (
-            <p>Cargando categorías...</p>
+            <div className="loading-categories">
+              <div className="spinner"></div>
+              <p>Cargando categorías...</p>
+            </div>
           )}
         </div>
       </section>
