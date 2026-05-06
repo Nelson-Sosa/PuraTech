@@ -79,7 +79,7 @@ const Cart = () => {
       
       // Limpiar carrito
       clearCart();
-      console.log("✅ [handleWhatsApp] Carrito limpiado");
+      console.log("✅ [handleWhatsApp] Carrito limpiado - WhatsApp message updated!");
       
     } catch (error) {
       console.error("🔴 [handleWhatsApp] Error:", error);
