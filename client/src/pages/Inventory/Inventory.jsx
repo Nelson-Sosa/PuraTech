@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../Modal/Modal';
 import './Inventory.css';
 
 const Inventory = () => {
@@ -12,6 +13,8 @@ const Inventory = () => {
   const [editStock, setEditStock] = useState('');
   const [editThreshold, setEditThreshold] = useState('');
   const [filter, setFilter] = useState('all'); // all, low, out, in
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,23 +45,32 @@ const Inventory = () => {
     setEditThreshold(product.lowStockThreshold?.toString() || '5');
   };
 
-  const handleDeleteProduct = async (productId, productName) => {
-    if (!window.confirm(`¿Estás seguro de eliminar el producto "${productName}"? Esta acción no se puede deshacer.`)) {
-      return;
-    }
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!productToDelete) return;
     
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `${API_URL}/api/remover/product/${productId}`,
+        `${API_URL}/api/remover/product/${productToDelete._id}`,
         { headers: { token_usuario: token } }
       );
-      alert("Producto eliminado correctamente");
+      setShowDeleteModal(false);
+      setProductToDelete(null);
       fetchInventory();
     } catch (err) {
       console.error("Error deleting product:", err);
       alert("Error al eliminar el producto");
     }
+  };
+
+  const handleDeleteProduct = (productId, productName) => {
+    setProductToDelete({ _id: productId, name: productName });
+    setShowDeleteModal(true);
   };
 
   const handleSaveEdit = async (id) => {
@@ -269,6 +281,16 @@ const Inventory = () => {
           </tbody>
         </table>
       </div>
+
+      <Modal
+        show={showDeleteModal}
+        onClose={() => { setShowDeleteModal(false); setProductToDelete(null); }}
+        onConfirm={confirmDelete}
+      >
+        <h3>Confirmar eliminación</h3>
+        <p>¿Estás seguro de eliminar el producto <strong>"{productToDelete?.name}"</strong>?</p>
+        <p style={{ color: '#dc3545', fontSize: '14px' }}>Esta acción no se puede deshacer.</p>
+      </Modal>
     </div>
   );
 };
