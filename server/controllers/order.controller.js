@@ -74,18 +74,41 @@ module.exports.updateOrderStatus = async (req, res) => {
       return res.status(400).json({ error: 'Estado inválido' });
     }
 
-    const order = await Order.findByIdAndUpdate(
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: 'Pedido no encontrado' });
+    }
+
+    const previousStatus = order.status;
+    const Product = require('../models/product.models');
+
+    // Si el pedido cambia a "confirmed" o "preparing", reducir stock
+    if ((status === 'confirmed' || status === 'preparing') && previousStatus === 'pending') {
+      console.log("📦 [updateOrderStatus] Reduciendo stock por confirmación...");
+      for (const item of order.products) {
+        if (item.productId) {
+          const product = await Product.findById(item.productId);
+          if (product) {
+            const newStock = Math.max(0, product.stock - item.quantity);
+            await Product.findByIdAndUpdate(item.productId, { stock: newStock });
+            console.log(`✅ Stock reducido: ${product.nombre} (${product.stock} -> ${newStock})`);
+          }
+        }
+      }
+    }
+
+    // Si el pedido se cancela, NO se restaura el stock (política de la tienda)
+    // Si necesitas restaurar, puedes agregar lógica aquí
+    
+    // Actualizar estado
+    const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
       { status, updatedAt: Date.now() },
       { new: true }
     );
 
-    if (!order) {
-      return res.status(404).json({ error: 'Pedido no encontrado' });
-    }
-
-    console.log("✅ [updateOrderStatus] Pedido actualizado:", order._id, "Nuevo estado:", status);
-    res.json(order);
+    console.log("✅ [updateOrderStatus] Pedido actualizado:", updatedOrder._id, "Nuevo estado:", status);
+    res.json(updatedOrder);
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar el pedido' });
   }

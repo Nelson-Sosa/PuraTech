@@ -45,25 +45,10 @@ const Cart = () => {
       console.log("🔵 [handleWhatsApp] Guardando pedido...");
       const orderResponse = await axios.post(`${API_URL}/api/orders`, orderData);
       const savedOrder = orderResponse.data;
-      console.log("✅ [handleWhatsApp] Pedido guardado:", savedOrder._id);
+      console.log("✅ [handleWhatsApp] Pedido guardado - Estado: Pendiente (stock no se descuenta aún)");
 
-      // Reducir stock automáticamente
-      console.log("🔵 [handleWhatsApp] Reduciendo stock...");
-      try {
-        const itemsToReduce = cart.map(item => ({
-          productId: item._id,
-          quantity: item.quantity
-        }));
-        
-        await axios.post(
-          `${API_URL}/api/orders/reduce-stock`,
-          { items: itemsToReduce },
-          { headers: { 'Content-Type': 'application/json' } }
-        );
-        console.log("✅ [handleWhatsApp] Stock reducido exitosamente");
-      } catch (stockError) {
-        console.warn("⚠️ [handleWhatsApp] Error al reducir stock:", stockError);
-      }
+      // NOTA: El stock se reducirá SOLO cuando el admin confirme el pedido
+      // Esto evita problemas si el cliente cancela o no paga
 
       // Generar mensaje de WhatsApp
       const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
