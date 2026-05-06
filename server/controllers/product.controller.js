@@ -215,12 +215,34 @@ module.exports.agregarProducto = async (req, res) => {
 
     // Procesar múltiples imágenes
     if (req.files && req.files.additionalImages) {
-      // Archivos subidos → Subir a Cloudinary
+      // Archivos subidos → Guardar localmente
       for (const file of req.files.additionalImages) {
-        const result = await uploadToCloudinary(file.path);
-        if (result) {
-          imagesArray.push(result.url);
+        imagesArray.push('/uploads/' + file.filename);
+      }
+    }
+    
+    // Agregar nuevas imágenes de URLs
+    if (imagesJson) {
+      try {
+        const parsed = JSON.parse(imagesJson);
+        let urlImages = [];
+        
+        if (Array.isArray(parsed)) {
+          urlImages = parsed.map(url => url.trim()).filter(url => url);
+        } else if (typeof parsed === 'string' && parsed.trim()) {
+          urlImages = [parsed.trim()];
         }
+        
+        // Guardar URLs directamente (sin Cloudinary por ahora)
+        imagesArray.push(...urlImages);
+      } catch (e) {
+        // Si no es JSON, verificar si es string
+        if (typeof imagesJson === 'string' && imagesJson.trim()) {
+          const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
+          imagesArray.push(...urls);
+        }
+      }
+    }
       }
     } else if (imagesJson) {
       try {
