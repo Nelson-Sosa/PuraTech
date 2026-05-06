@@ -56,101 +56,131 @@ export const SupplierForm = ()=>{
                 }
             })
             }
-        return(
-            <div className="contenedor">
+        return (
+          <div className="supplier-container">
+            <div className="form-wrapper">
+              <Link to="/suppliers" className="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                <span>Ver Proveedores</span>
+              </Link>
 
-  <Link to="/suppliers" className="btn-rgb" style={{ marginBottom: "20px", textDecoration: "none", textAlign: "center" }}>
-    Lista de Proveedores
-  </Link>
+              <form className="supplier-form" onSubmit={fetchSupplier}>
+                <div className="form-header">
+                  <div className="icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <h2 className="form-title">Nuevo Proveedor</h2>
+                  <p className="form-subtitle">Registra la información de contacto de tu proveedor</p>
+                </div>
 
-  <h2 className="titulo-rgb">Agregar Proveedor</h2>
+                <div className="form-grid">
+                  <div className="input-group">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input
+                      id="nombre"
+                      type="text"
+                      placeholder="Nombre del contacto"
+                      value={nombre}
+                      onChange={(e) => setNombre(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-  <form onSubmit={fetchSupplier}>
+                  <div className="input-group">
+                    <label htmlFor="apellido">Apellido</label>
+                    <input
+                      id="apellido"
+                      type="text"
+                      placeholder="Apellido del contacto"
+                      value={apellido}
+                      onChange={(e) => setApellido(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-    <div className="form-group">
-      <label>Nombre:</label>
-      <input
-        type="text"
-        name="nombre"
-        onChange={(e) => setNombre(e.target.value)}
-        value={nombre}
-        required
-      />
-    </div>
+                  <div className="input-group">
+                    <label htmlFor="ruc">RUC / Identificación</label>
+                    <input
+                      id="ruc"
+                      type="text"
+                      placeholder="Ej: 80012345-6"
+                      value={ruc}
+                      onChange={(e) => setRuc(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-    <div className="form-group">
-      <label>Apellido:</label>
-      <input
-        type="text"
-        name="apellido"
-        onChange={(e) => setApellido(e.target.value)}
-        value={apellido}
-        required
-      />
-    </div>
+                  <div className="input-group">
+                    <label htmlFor="telefono">Teléfono</label>
+                    <input
+                      id="telefono"
+                      type="number"
+                      placeholder="Número de contacto"
+                      value={telefono}
+                      onChange={(e) => setTelefono(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-    <div className="form-group">
-      <label>RUC:</label>
-      <input
-        type="text"
-        name="ruc"
-        onChange={(e) => setRuc(e.target.value)}
-        value={ruc}
-        required
-      />
-    </div>
+                  <div className="input-group full-width">
+                    <label htmlFor="correo">Correo Electrónico</label>
+                    <input
+                      id="correo"
+                      type="email"
+                      placeholder="ejemplo@correo.com"
+                      value={correo}
+                      onChange={(e) => setCorreo(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-    <div className="form-group">
-      <label>Teléfono:</label>
-      <input
-        type="number"
-        name="telefono"
-        onChange={(e) => setTelefono(e.target.value)}
-        value={telefono}
-        required
-      />
-    </div>
+                  <div className="input-group">
+                    <label htmlFor="ciudad">Ciudad</label>
+                    <input
+                      id="ciudad"
+                      type="text"
+                      placeholder="Ciudad base"
+                      value={ciudad}
+                      onChange={(e) => setCiudad(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
 
-    <div className="form-group">
-      <label>Correo:</label>
-      <input
-        type="email"
-        name="correo"
-        onChange={(e) => setCorreo(e.target.value)}
-        value={correo}
-        required
-      />
-    </div>
+                  <div className="input-group">
+                    <label htmlFor="codigoPostal">Código Postal</label>
+                    <input
+                      id="codigoPostal"
+                      type="number"
+                      placeholder="C.P."
+                      value={codigoPostal}
+                      onChange={(e) => setCodigoPostal(e.target.value)}
+                      required
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
 
-    <div className="form-group">
-      <label>Ciudad:</label>
-      <input
-        type="text"
-        name="ciudad"
-        onChange={(e) => setCiudad(e.target.value)}
-        value={ciudad}
-        required
-      />
-    </div>
-
-    <div className="form-group">
-      <label>Código Postal:</label>
-      <input
-        type="number"
-        name="codigoPostal"
-        onChange={(e) => setCodigoPostal(e.target.value)}
-        value={codigoPostal}
-        required
-      />
-    </div>
-
-    <button type="submit" className="btn-rgb">
-      Guardar
-    </button>
-
-  </form>
-</div>
-
-        )
-            
-        }
+                <button type="submit" className="submit-button">
+                  <span>Registrar Proveedor</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </div>
+        );
+      };
