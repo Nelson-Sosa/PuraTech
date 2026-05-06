@@ -149,6 +149,108 @@
   border: 2px dashed var(--border-color);
 }
 
+/* ── EDIT MODE ── */
+.category-item.editing {
+  background: var(--bg-primary);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-bright);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btnsave {
+  background: var(--gradient-accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btnsave:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btncancel {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btncancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-bright);
+}
+
+/* ── ACTIONS ── */
+.category-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btnedit {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btnedit svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btnedit:hover {
+  background: var(--accent-blue);
+  color: white;
+  border-color: var(--accent-blue);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .categories-list {
@@ -157,5 +259,15 @@
   
   .category-item {
     padding: 20px;
+  }
+
+  .category-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btnedit, .btndelete {
+    width: 100%;
+    justify-content: center;
   }
 }

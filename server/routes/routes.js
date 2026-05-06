@@ -27,6 +27,7 @@ module.exports = (app) => {
     app.delete("/api/remover/product/:id", validarToken, verificarRol('admin'), ProductController.removerProducto);
     app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.deleteCategory);
     app.post('/api/categories', validarToken, verificarRol('admin'), CategoryController.addCategory);
+    app.put('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.updateCategory);
     
     // Rutas solo accesibles para admin
     app.get("/api/usuarios", validarToken, verificarRol('admin'), UserController.todosLosUsuarios);

@@ -90,26 +90,43 @@ const Cart = () => {
   };
 
   const generateWhatsAppMessage = (cart, customerInfo, orderId) => {
-    const items = cart.map(item => 
-      `• ${item.nombre} (${item.marca}) x${item.quantity} - ${Number(item.precio).toLocaleString("es-PY")} Gs.`
-    ).join('\n');
+    const items = cart.map((item, index) => 
+      `${index + 1}. ${item.nombre}\n   Marca: ${item.marca} | Cantidad: ${item.quantity}\n   Precio: ${Number(item.precio).toLocaleString("es-PY")} Gs.`
+    ).join('\n\n');
 
     const total = getTotal().toLocaleString("es-PY");
     
     const customerText = customerInfo.name || customerInfo.phone 
-      ? `\n📋 *Datos del cliente:*\n👤 Nombre: ${customerInfo.name || 'No especificado'}\n📱 Teléfono: ${customerInfo.phone || 'No especificado'}\n📍 Dirección: ${customerInfo.address || 'No especificada'}`
+      ? `👤 *DATOS DEL CLIENTE*\n━━━━━━━━━━━━━━━━━━━━\n📝 Nombre: ${customerInfo.name || 'No proporcionado'}\n📱 Teléfono: ${customerInfo.phone || 'No proporcionado'}\n📍 Dirección: ${customerInfo.address || 'Retiro en tienda'}\n`
       : '';
 
-    return `🛒 *NUEVO PEDIDO #${orderId}*
+    return `🛒💻 *NUEVO PEDIDO - GameMasters*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-*Productos:*
+🔖 *Pedido #: ${orderId.substring(0, 8).toUpperCase()}*
+
+📦 *PRODUCTOS:*
 ${items}
 
-*Total: ${total} Gs.*
-${customerText}
+💵 *RESUMEN:*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Subtotal: ${total} Gs.
+Envío: Incluido
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 *TOTAL A PAGAR: ${total} Gs.*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-⏰ Pedido realizado desde la tienda online GameMasters`;
-  };
+${customerText}⌛ *Fecha: ${new Date().toLocaleDateString('es-PY', { 
+  day: '2-digit', 
+  month: 'long', 
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+})}
+
+✅ ¡Gracias por tu compra! 
+🏪 *GameMasters - Tu tienda de tecnología*
+📞 ¿Dudas? Escribenos aquí`;
 
   const handleCustomerInfoChange = (e) => {
     setCustomerInfo({

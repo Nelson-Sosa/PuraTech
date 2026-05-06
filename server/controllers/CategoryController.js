@@ -27,11 +27,18 @@ const addCategory = async (req, res) => {
   }
 };
 
-// Eliminar categoría
-const deleteCategory = async (req, res) => {
+// Actualizar categoría
+const updateCategory = async (req, res) => {
   try {
-    await Category.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: "Categoría eliminada" });
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ mensaje: "El nombre es requerido" });
+
+    const updatedCategory = await Category.findByIdAndUpdate(
+      req.params.id,
+      { name },
+      { new: true }
+    );
+    res.json(updatedCategory);
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
@@ -40,5 +47,6 @@ const deleteCategory = async (req, res) => {
 module.exports = {
   getCategories,
   addCategory,
-  deleteCategory
+  deleteCategory,
+  updateCategory
 };
