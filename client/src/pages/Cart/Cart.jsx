@@ -95,15 +95,6 @@ const Cart = () => {
       setLoading(false);
     }
   };
-      
-    } catch (error) {
-      console.error("Error al guardar pedido:", error);
-      // Si falla, aún así intentar enviar por WhatsApp
-      sendWhatsAppOrder(cart, customerInfo.name || customerInfo.phone ? customerInfo : null);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const generateWhatsAppMessage = (cart, customerInfo, orderId) => {
     const items = cart.map(item => 
