@@ -79,22 +79,40 @@ module.exports.updateOrderStatus = async (req, res) => {
       return res.status(404).json({ error: 'Pedido no encontrado' });
     }
 
+    console.log("🔍 [updateOrderStatus] Estado anterior:", order.status);
+    console.log("🔍 [updateOrderStatus] Nuevo estado:", status);
+    console.log("🔍 [updateOrderStatus] Productos:", JSON.stringify(order.products));
+
     const previousStatus = order.status;
     const Product = require('../models/product.models');
 
     // Si el pedido cambia a "confirmed" o "preparing", reducir stock
     if ((status === 'confirmed' || status === 'preparing') && previousStatus === 'pending') {
       console.log("📦 [updateOrderStatus] Reduciendo stock por confirmación...");
+      
       for (const item of order.products) {
-        if (item.productId) {
-          const product = await Product.findById(item.productId);
+        console.log("🔍 [updateOrderStatus] Procesando item:", item);
+        
+        // Intentar con el ID como string o como ObjectId
+        const productId = item.productId;
+        
+        if (productId) {
+          const product = await Product.findById(productId);
+          console.log("🔍 [updateOrderStatus] Producto encontrado:", product ? product.nombre : "NO ENCONTRADO");
+          
           if (product) {
             const newStock = Math.max(0, product.stock - item.quantity);
-            await Product.findByIdAndUpdate(item.productId, { stock: newStock });
+            await Product.findByIdAndUpdate(productId, { stock: newStock });
             console.log(`✅ Stock reducido: ${product.nombre} (${product.stock} -> ${newStock})`);
+          } else {
+            console.log("⚠️ Producto no encontrado con ID:", productId);
           }
+        } else {
+          console.log("⚠️ Item sin productId:", item);
         }
       }
+    } else {
+      console.log("⚠️ [updateOrderStatus] No se reduce stock - previousStatus:", previousStatus, "status:", status);
     }
 
     // Si el pedido se cancela, NO se restaura el stock (política de la tienda)
