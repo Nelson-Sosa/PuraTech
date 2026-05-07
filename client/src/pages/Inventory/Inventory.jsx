@@ -85,6 +85,10 @@ const Inventory = () => {
     const stockValue = parseInt(editStock);
     const thresholdValue = parseInt(editThreshold);
     
+    console.log("🔍 [Save Edit] editStock value:", editStock);
+    console.log("🔍 [Save Edit] stockValue:", stockValue);
+    console.log("🔍 [Save Edit] thresholdValue:", thresholdValue);
+    
     if (isNaN(stockValue) || stockValue < 0) {
       alert("Stock inválido. Ingrese un número válido.");
       return;
@@ -92,7 +96,7 @@ const Inventory = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.put(
+      const response = await axios.put(
         `${API_URL}/api/inventory/${id}`,
         { 
           stock: stockValue,
@@ -101,10 +105,12 @@ const Inventory = () => {
         },
         { headers: { token_usuario: token } }
       );
+      console.log("✅ [Save Edit] Response:", response.data);
       setEditingId(null);
       fetchInventory();
     } catch (err) {
       console.error("Error updating stock:", err);
+      console.error("Error response:", err.response?.data);
       alert("Error al actualizar stock");
     }
   };
