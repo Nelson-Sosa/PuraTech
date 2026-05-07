@@ -279,9 +279,11 @@ module.exports.updateProduct = async (req, res) => {
     }
     
     // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
-    if (req.files && req.files.additionalImages) {
-      for (const file of req.files.additionalImages) {
-        updatedImages.push('/uploads/' + file.filename);
+    if (req.files) {
+      if (req.files.additionalImages) {
+        for (const file of req.files.additionalImages) {
+          updatedImages.push(file.path);
+        }
       }
     }
     
@@ -309,8 +311,9 @@ module.exports.updateProduct = async (req, res) => {
     
     // Actualizar imagen principal si se proporciona
     let updatedImageUrl = currentProduct.imageUrl;
-    if (req.files && req.files.imageUrl) {
-      updatedImageUrl = '/uploads/' + req.files.imageUrl[0].filename;
+    if (req.file) {
+      // Nueva imagen desde archivo → URL de Cloudinary
+      updatedImageUrl = req.file.path;
     } else if (req.body.imageUrlText) {
       updatedImageUrl = req.body.imageUrlText.trim();
     }
