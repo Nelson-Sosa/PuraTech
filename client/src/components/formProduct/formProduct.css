@@ -429,3 +429,20 @@
 .preview-container img[src*="placeholder"] {
   opacity: 0.5;
 }
+
+.btn-convert-bullets {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-convert-bullets:hover {
+  background: #5a6268;
+}

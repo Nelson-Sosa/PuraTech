@@ -265,27 +265,50 @@ const FormProduct = () => {
                   const cursorPos = e.target.selectionStart;
                   const textBefore = descripcion.substring(0, cursorPos);
                   const textAfter = descripcion.substring(cursorPos);
-                  const currentLine = textBefore.split('\n').pop();
-                  if (currentLine.trim() === '' || currentLine.startsWith('• ')) {
-                    setDescripcion(textBefore + '• ' + textAfter);
-                    setTimeout(() => {
-                      const textarea = document.getElementById('descripcion');
-                      textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
-                    }, 0);
-                  } else {
-                    setDescripcion(textBefore + '\n• ' + textAfter);
-                    setTimeout(() => {
-                      const textarea = document.getElementById('descripcion');
-                      textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
-                    }, 0);
-                  }
+                  setDescripcion(textBefore + '\n• ' + textAfter);
+                  setTimeout(() => {
+                    const textarea = document.getElementById('descripcion');
+                    textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
+                  }, 0);
                 }
+              }}
+              onFocus={() => {
+                if (!descripcion) {
+                  setDescripcion('• ');
+                }
+              }}
+              onPaste={(e) => {
+                e.preventDefault();
+                const pastedText = e.clipboardData.getData('text');
+                const lines = pastedText.split('\n').map(line => line.trim() ? '• ' + line : '').join('\n');
+                const cursorPos = e.target.selectionStart;
+                const textBefore = descripcion.substring(0, cursorPos);
+                const textAfter = descripcion.substring(cursorPos);
+                setDescripcion(textBefore + lines + textAfter);
               }}
               className="form-textarea"
               placeholder={"Diseño ergonómico y compacto\n• Mouse inalámbrico\n• Resolución ajustable\n• Tiempo de respuesta de 1 ms"}
               rows={8}
             />
             <span className="help-text">Enter añade automáticamente • para viñetas</span>
+            {descripcion && (
+              <button 
+                type="button" 
+                className="btn-convert-bullets"
+                onClick={() => {
+                  const lines = descripcion.split('\n').map(line => {
+                    const trimmed = line.trim();
+                    if (trimmed && !trimmed.startsWith('•')) {
+                      return '• ' + trimmed;
+                    }
+                    return line;
+                  }).join('\n');
+                  setDescripcion(lines);
+                }}
+              >
+                Convertir todo a viñetas
+              </button>
+            )}
             {errors.descripcion && <span className="error-message">{errors.descripcion}</span>}
           </div>
 
