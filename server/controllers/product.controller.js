@@ -272,22 +272,36 @@ module.exports.updateProduct = async (req, res) => {
     // Procesar imágenes eliminadas
     let updatedImages = [];
     try {
-      updatedImages = currentProduct.images ? [...currentProduct.images] : [];
+      const currentImages = currentProduct.images || [];
+      // Combinar imageUrl con images para tener todas las imágenes actuales
+      const allCurrentImages = currentProduct.imageUrl 
+        ? [currentProduct.imageUrl, ...currentImages] 
+        : currentImages;
+      
+      console.log("🔍 [updateProduct] allCurrentImages:", allCurrentImages);
+      
+      updatedImages = [...currentImages];
       if (deletedImagesJson) {
         const deletedImages = JSON.parse(deletedImagesJson);
+        console.log("🔍 [updateProduct] deletedImages to process:", deletedImages);
+        
         if (Array.isArray(deletedImages)) {
           updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
+          console.log("🔍 [updateProduct] after filter:", updatedImages);
         }
       }
     } catch (e) {
-      console.error("Error processing deletedImages:", e);
+      console.error("🔴 Error processing deletedImages:", e);
       updatedImages = currentProduct.images || [];
     }
     
     // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
+    console.log("🔍 [updateProduct] Checking req.files:", req.files);
     if (req.files && req.files.additionalImages) {
+      console.log("🔍 [updateProduct] additionalImages files:", req.files.additionalImages.length);
       for (const file of req.files.additionalImages) {
         if (file && file.path) {
+          console.log("🔍 [updateProduct] Adding file path:", file.path);
           updatedImages.push(file.path);
         }
       }
