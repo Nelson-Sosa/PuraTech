@@ -183,6 +183,7 @@ const Inventory = () => {
           <thead>
             <tr>
               <th>Producto</th>
+              <th>SKU</th>
               <th>Categoría</th>
               <th>Stock Actual</th>
               <th>Stock mínimo</th>
@@ -192,11 +193,11 @@ const Inventory = () => {
           </thead>
           <tbody>
             {filteredInventory.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="no-data">
-                  No hay productos
-                </td>
-              </tr>
+<tr>
+                  <td colSpan="7" className="no-data">
+                    No hay productos
+                  </td>
+                </tr>
             ) : (
               filteredInventory.map(product => (
                 <tr key={product._id} className={product.isLowStock ? 'low-stock-row' : ''}>
@@ -213,6 +214,7 @@ const Inventory = () => {
                       </div>
                     </div>
                   </td>
+                  <td>{product.sku || '-'}</td>
                   <td>{product.category}</td>
                   <td>
                     {editingId === product._id ? (

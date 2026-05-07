@@ -16,6 +16,7 @@ const FormProduct = () => {
   const [additionalImages, setAdditionalImages] = useState([]);
   const [additionalImagesText, setAdditionalImagesText] = useState("");
   const [stockMinimo, setStockMinimo] = useState("5");
+  const [sku, setSku] = useState("");
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -106,6 +107,7 @@ const FormProduct = () => {
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
     formData.append("lowStockThreshold", stockMinimo || "5");
+    if (sku) formData.append("sku", sku);
     
     // Main image
     if (imageUrl) {
@@ -236,6 +238,18 @@ const FormProduct = () => {
               placeholder="Ej: 5"
             />
             <span className="help-text">Alerta cuando el stock baje de este número</span>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">SKU (Código único)</label>
+            <input
+              type="text"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+              className="form-input"
+              placeholder="Ej: PS5-DIGITAL-001"
+            />
+            <span className="help-text">Código único para identificar el producto</span>
           </div>
 
           <div className="form-group">

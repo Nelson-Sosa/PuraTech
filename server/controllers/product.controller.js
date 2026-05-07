@@ -132,7 +132,7 @@ module.exports.getPublicProducts = async (req, res) => {
 // Endpoints ADMIN (requieren token)
 module.exports.agregarProducto = async (req, res) => {
   try {
-    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText, images: imagesJson, lowStockThreshold } = req.body;
+    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText, images: imagesJson, lowStockThreshold, sku } = req.body;
 
     let finalImageUrl = "";
     let imagesArray = [];
@@ -202,7 +202,8 @@ module.exports.agregarProducto = async (req, res) => {
       isOffer: isOffer || false,
       isNew: isNew !== false,
       stock: stock || 10,
-      lowStockThreshold: lowStockThreshold || 5
+      lowStockThreshold: lowStockThreshold || 5,
+      sku: sku || null
     });
 
     console.log("New Product:", newProduct);
