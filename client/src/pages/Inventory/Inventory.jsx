@@ -82,13 +82,21 @@ const Inventory = () => {
   };
 
   const handleSaveEdit = async (id) => {
+    const stockValue = parseInt(editStock);
+    const thresholdValue = parseInt(editThreshold);
+    
+    if (isNaN(stockValue) || stockValue < 0) {
+      alert("Stock inválido. Ingrese un número válido.");
+      return;
+    }
+    
     try {
       const token = localStorage.getItem('token');
       await axios.put(
         `${API_URL}/api/inventory/${id}`,
         { 
-          stock: parseInt(editStock),
-          lowStockThreshold: parseInt(editThreshold),
+          stock: stockValue,
+          lowStockThreshold: isNaN(thresholdValue) ? 5 : thresholdValue,
           sku: editSku || null
         },
         { headers: { token_usuario: token } }

@@ -16,6 +16,7 @@ const FormProduct = () => {
   const [additionalImages, setAdditionalImages] = useState([]);
   const [additionalImagesText, setAdditionalImagesText] = useState("");
   const [stockMinimo, setStockMinimo] = useState("5");
+  const [stock, setStock] = useState("");
   const [sku, setSku] = useState("");
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
@@ -120,6 +121,7 @@ const FormProduct = () => {
     formData.append("precio", precio);
     formData.append("descripcion", descripcion);
     formData.append("lowStockThreshold", stockMinimo || "5");
+    if (stock) formData.append("stock", stock);
     if (sku) formData.append("sku", sku);
     
     // Main image
@@ -239,6 +241,18 @@ const FormProduct = () => {
               placeholder="Ej: 4500000"
             />
             {errors.precio && <span className="error-message">{errors.precio}</span>}
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Stock (Cantidad disponible)</label>
+            <input
+              type="number"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              className="form-input"
+              placeholder="Ej: 20"
+            />
+            <span className="help-text">Cantidad de unidades disponibles para venta</span>
           </div>
 
           <div className="form-group">
