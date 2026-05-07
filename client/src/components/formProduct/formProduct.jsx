@@ -260,9 +260,10 @@ const FormProduct = () => {
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
               className="form-textarea"
-              placeholder="Ej: Tipo de pantalla: VA LCD de 23.8&quot;. Resolución: Full HD..."
-              rows={6}
+              placeholder={"Diseño ergonómico y compacto\n• Mouse inalámbrico con conectividad Lightspeed\n• Resolución ajustable de 100 a 44,000 DPI\n• Tiempo de respuesta de 1 ms"}
+              rows={8}
             />
+            <span className="help-text">Usá Enter para salto de línea. Podés usar • para viñetas.</span>
             {errors.descripcion && <span className="error-message">{errors.descripcion}</span>}
           </div>
 

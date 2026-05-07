@@ -182,7 +182,15 @@ const ProductDetail = () => {
 
           <div className="description-section">
             <h3>Descripción</h3>
-            <p>{product.descripcion}</p>
+            <div className="formatted-description">
+              {product.descripcion?.split('\n').map((line, index) => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*')) {
+                  return <li key={index}>{trimmed.replace(/^[•\-*]\s*/, '')}</li>;
+                }
+                return trimmed ? <p key={index}>{trimmed}</p> : <br key={index} />;
+              })}
+            </div>
           </div>
 
           <div className="actions-section">

@@ -356,6 +356,33 @@
   color: var(--text-secondary);
   line-height: 1.8;
   font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+.formatted-description {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.formatted-description p {
+  margin-bottom: 10px;
+}
+
+.formatted-description li {
+  list-style: none;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.formatted-description li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 /* Actions */
