@@ -5,6 +5,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import './Inventory.css';
 
+const truncateText = (text, maxLength = 35) => {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+};
+
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
   const [stats, setStats] = useState(null);
@@ -213,8 +219,8 @@ const Inventory = () => {
                         className="product-thumb"
                       />
                       <div>
-                        <strong>{product.nombre}</strong>
-                        <span>{product.marca}</span>
+                        <strong title={product.nombre}>{truncateText(product.nombre, 35)}</strong>
+                        <span title={product.marca}>{truncateText(product.marca, 20)}</span>
                       </div>
                     </div>
                   </td>
