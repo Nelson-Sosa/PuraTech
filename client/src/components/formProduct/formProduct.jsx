@@ -259,11 +259,29 @@ const FormProduct = () => {
               name="descripcion"
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const cursorPos = e.target.selectionStart;
+                  const textBefore = descripcion.substring(0, cursorPos);
+                  const textAfter = descripcion.substring(cursorPos);
+                  const lastChar = textBefore.slice(-1);
+                  if (lastChar === '\n' || textBefore === '') {
+                    setDescripcion(textBefore + '• ' + textAfter);
+                    setTimeout(() => {
+                      const textarea = document.getElementById('descripcion');
+                      textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
+                    }, 0);
+                  } else {
+                    setDescripcion(textBefore + '\n' + textAfter);
+                  }
+                }
+              }}
               className="form-textarea"
-              placeholder={"Diseño ergonómico y compacto\n• Mouse inalámbrico con conectividad Lightspeed\n• Resolución ajustable de 100 a 44,000 DPI\n• Tiempo de respuesta de 1 ms"}
+              placeholder={"Diseño ergonómico y compacto\n• Mouse inalámbrico\n• Resolución ajustable\n• Tiempo de respuesta de 1 ms"}
               rows={8}
             />
-            <span className="help-text">Usá Enter para salto de línea. Podés usar • para viñetas.</span>
+            <span className="help-text">Enter añade automáticamente • para viñetas</span>
             {errors.descripcion && <span className="error-message">{errors.descripcion}</span>}
           </div>
 
