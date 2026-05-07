@@ -22,6 +22,7 @@ const UpdateProduct = () => {
     const [newImageUrlText, setNewImageUrlText] = useState("");
     const [newAdditionalImages, setNewAdditionalImages] = useState([]);
     const [newAdditionalImagesText, setNewAdditionalImagesText] = useState("");
+    const [mainImageFile, setMainImageFile] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -115,17 +116,28 @@ const UpdateProduct = () => {
         const newImages = [...currentImages];
         const oldImage = newImages[replaceImageIndex];
         
-        if (replaceImageFile) {
-            // For now, we'll handle file replacement on the server
-            // Mark this image for replacement
+// Si es la imagen principal (índice 0), usar req.file o imageUrlText
+        if (replaceImageIndex === 0) {
             setDeletedImages(prev => [...prev, oldImage]);
-            setNewAdditionalImages(prev => [...prev, replaceImageFile]);
-            newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
-        } else if (replaceImageUrl) {
-            setDeletedImages(prev => [...prev, oldImage]);
-            newImages[replaceImageIndex] = replaceImageUrl;
-            // Also add to newAdditionalImagesText to send to server
-            setNewAdditionalImagesText(prev => prev ? prev + ',' + replaceImageUrl : replaceImageUrl);
+            
+            if (replaceImageFile) {
+                setMainImageFile(replaceImageFile);
+                newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
+            } else if (replaceImageUrl) {
+                setNewImageUrlText(replaceImageUrl);
+                newImages[replaceImageIndex] = replaceImageUrl;
+            }
+        } else {
+            // Imágenes adicionales (índice > 0)
+            if (replaceImageFile) {
+                setDeletedImages(prev => [...prev, oldImage]);
+                setNewAdditionalImages(prev => [...prev, replaceImageFile]);
+                newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
+            } else if (replaceImageUrl) {
+                setDeletedImages(prev => [...prev, oldImage]);
+                newImages[replaceImageIndex] = replaceImageUrl;
+                setNewAdditionalImagesText(prev => prev ? prev + ',' + replaceImageUrl : replaceImageUrl);
+            }
         }
         
         setCurrentImages(newImages);
@@ -184,6 +196,12 @@ const UpdateProduct = () => {
             if (newImageUrlText) {
                 formData.append("imageUrlText", newImageUrlText);
                 console.log("🟡 [UPDATE] imageUrlText:", newImageUrlText);
+            }
+            
+            // Nueva imagen principal por archivo (para req.file)
+            if (mainImageFile) {
+                formData.append("imageUrl", mainImageFile);
+                console.log("🟡 [UPDATE] mainImageFile:", mainImageFile.name);
             }
 
             console.log("🟡 [UPDATE] Enviando solicitud...");
