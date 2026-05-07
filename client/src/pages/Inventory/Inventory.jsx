@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import './Inventory.css';
 
@@ -289,6 +289,13 @@ const Inventory = () => {
                         >
                           🗑️ Eliminar
                         </button>
+                        <Link 
+                          to={`/actualizar/product/${product._id}`}
+                          className="btn-edit-full"
+                          style={{ marginLeft: '8px', display: 'inline-block', padding: '6px 12px', background: '#6c757d', color: 'white', borderRadius: '5px', textDecoration: 'none', fontSize: '13px' }}
+                        >
+                          📝 Editar todo
+                        </Link>
                       </>
                     )}
                   </td>
