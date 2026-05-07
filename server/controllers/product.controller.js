@@ -370,8 +370,13 @@ module.exports.updateProduct = async (req, res) => {
     res.json(updatedProduct);
     console.log("✅ [updateProduct] Updated product:", updatedProduct);
   } catch (error) {
-    console.error("🔴 [updateProduct] Error:", error);
-    res.status(400).json(error);
+    console.error("🔴 [updateProduct] Error completo:", error);
+    console.error("🔴 [updateProduct] Stack:", error.stack);
+    res.status(500).json({ 
+      error: "Error al actualizar producto", 
+      message: error.message,
+      details: error.stack 
+    });
   }
 };
 
