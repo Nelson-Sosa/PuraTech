@@ -248,7 +248,7 @@
   display: block;
   padding: 14px 18px;
   text-decoration: none;
-  color: var(--text-primary);
+  color: #ffffff;
   border: none;
   background: none;
   width: 100%;
@@ -265,8 +265,8 @@
 
 .dropdown-content a:hover,
 .dropdown-content button:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-bright);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
   padding-left: 22px;
 }
 
