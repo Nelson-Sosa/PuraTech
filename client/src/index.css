@@ -8,48 +8,52 @@
 /* ── CSS Variables ── */
 :root {
   /* Backgrounds */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #1a2236;
-  --bg-card-hover: #1f2a40;
-  --bg-input: #151d2e;
-  --bg-overlay: rgba(0, 0, 0, 0.6);
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-input: #f8fafc;
+  --bg-overlay: rgba(0, 0, 0, 0.5);
   
   /* Accent Colors */
-  --accent-blue: #3b82f6;
-  --accent-violet: #8b5cf6;
+  --accent-blue: #2563eb;
+  --accent-violet: #7c3aed;
   --accent-cyan: #06b6d4;
   --accent-green: #10b981;
   --accent-red: #ef4444;
   --accent-yellow: #f59e0b;
   --accent-pink: #ec4899;
   
+  /* Primary Color */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  
   /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
   --text-bright: #ffffff;
   
   /* Borders */
-  --border-color: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(139, 92, 246, 0.4);
-  --border-focus: rgba(59, 130, 246, 0.5);
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: rgba(37, 99, 235, 0.5);
   
   /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #0a0e1a 0%, #1a1b4b 50%, #0a0e1a 100%);
-  --gradient-accent: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --gradient-accent: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  --gradient-dark: linear-gradient(180deg, rgba(26, 34, 54, 0) 0%, rgba(26, 34, 54, 0.95) 100%);
+  --gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 100%);
   
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
-  --shadow-glow-violet: 0 0 20px rgba(139, 92, 246, 0.3);
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-card-hover: 0 8px 40px rgba(139, 92, 246, 0.25);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.15);
+  --shadow-glow-blue: 0 0 20px rgba(37, 99, 235, 0.2);
+  --shadow-glow-violet: 0 0 20px rgba(124, 58, 237, 0.2);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 40px rgba(124, 58, 237, 0.15);
   
   /* Border Radius */
   --radius-sm: 6px;
