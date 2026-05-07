@@ -139,8 +139,8 @@ module.exports.agregarProducto = async (req, res) => {
 
     // Procesar imagen principal (imageUrl)
     if (req.file) {
-      // Archivo subido → Guardar path local  
-      finalImageUrl = '/uploads/' + req.file.filename;
+      // Archivo subido → obtener URL de Cloudinary
+      finalImageUrl = req.file.path;
     } else if (imageUrlText) {
       // URL externa → Guardar directo (confiar en el usuario)
       finalImageUrl = imageUrlText.trim();
@@ -149,9 +149,9 @@ module.exports.agregarProducto = async (req, res) => {
     // Procesar múltiples imágenes - usando req.files
     if (req.files) {
       if (req.files.additionalImages) {
-        // Archivos subidos → Guardar localmente
+        // Archivos subidos → obtener URL de Cloudinary
         for (const file of req.files.additionalImages) {
-          imagesArray.push('/uploads/' + file.filename);
+          imagesArray.push(file.path);
         }
       }
     }
