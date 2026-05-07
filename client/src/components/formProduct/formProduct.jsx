@@ -265,15 +265,19 @@ const FormProduct = () => {
                   const cursorPos = e.target.selectionStart;
                   const textBefore = descripcion.substring(0, cursorPos);
                   const textAfter = descripcion.substring(cursorPos);
-                  const lastChar = textBefore.slice(-1);
-                  if (lastChar === '\n' || textBefore === '') {
+                  const currentLine = textBefore.split('\n').pop();
+                  if (currentLine.trim() === '' || currentLine.startsWith('• ')) {
                     setDescripcion(textBefore + '• ' + textAfter);
                     setTimeout(() => {
                       const textarea = document.getElementById('descripcion');
                       textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
                     }, 0);
                   } else {
-                    setDescripcion(textBefore + '\n' + textAfter);
+                    setDescripcion(textBefore + '\n• ' + textAfter);
+                    setTimeout(() => {
+                      const textarea = document.getElementById('descripcion');
+                      textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
+                    }, 0);
                   }
                 }
               }}
