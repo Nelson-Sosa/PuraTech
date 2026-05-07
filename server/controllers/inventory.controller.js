@@ -15,7 +15,8 @@ module.exports.getInventory = async (req, res) => {
       isLowStock: p.stock <= p.lowStockThreshold,
       isOutOfStock: p.stock <= 0,
       precio: p.precio,
-      imageUrl: p.imageUrl
+      imageUrl: p.imageUrl,
+      sku: p.sku
     }));
 
     // Estadísticas
@@ -38,11 +39,12 @@ module.exports.getInventory = async (req, res) => {
 module.exports.updateStock = async (req, res) => {
   try {
     const { id } = req.params;
-    const { stock, lowStockThreshold } = req.body;
+    const { stock, lowStockThreshold, sku } = req.body;
 
     const updates = {};
     if (stock !== undefined) updates.stock = stock;
     if (lowStockThreshold !== undefined) updates.lowStockThreshold = lowStockThreshold;
+    if (sku !== undefined) updates.sku = sku;
 
     const product = await Product.findByIdAndUpdate(
       id,

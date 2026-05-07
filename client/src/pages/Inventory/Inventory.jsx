@@ -12,6 +12,7 @@ const Inventory = () => {
   const [editingId, setEditingId] = useState(null);
   const [editStock, setEditStock] = useState('');
   const [editThreshold, setEditThreshold] = useState('');
+  const [editSku, setEditSku] = useState('');
   const [filter, setFilter] = useState('all'); // all, low, out, in
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
@@ -43,6 +44,7 @@ const Inventory = () => {
     setEditingId(product._id);
     setEditStock(product.stock.toString());
     setEditThreshold(product.lowStockThreshold?.toString() || '5');
+    setEditSku(product.sku || '');
   };
 
   const handleDeleteClick = (product) => {
@@ -80,7 +82,8 @@ const Inventory = () => {
         `${API_URL}/api/inventory/${id}`,
         { 
           stock: parseInt(editStock),
-          lowStockThreshold: parseInt(editThreshold)
+          lowStockThreshold: parseInt(editThreshold),
+          sku: editSku || null
         },
         { headers: { token_usuario: token } }
       );
@@ -96,6 +99,7 @@ const Inventory = () => {
     setEditingId(null);
     setEditStock('');
     setEditThreshold('');
+    setEditSku('');
   };
 
   const getStockBadge = (product) => {
@@ -214,7 +218,19 @@ const Inventory = () => {
                       </div>
                     </div>
                   </td>
-                  <td>{product.sku || '-'}</td>
+                  <td>
+                    {editingId === product._id ? (
+                      <input
+                        type="text"
+                        value={editSku}
+                        onChange={(e) => setEditSku(e.target.value)}
+                        className="stock-input"
+                        placeholder="SKU"
+                      />
+                    ) : (
+                      product.sku || '-'
+                    )}
+                  </td>
                   <td>{product.category}</td>
                   <td>
                     {editingId === product._id ? (
