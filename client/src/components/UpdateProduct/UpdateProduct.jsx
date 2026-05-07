@@ -179,6 +179,12 @@ const UpdateProduct = () => {
                 formData.append("images", newAdditionalImagesText);
                 console.log("🟡 [UPDATE] images text:", newAdditionalImagesText);
             }
+            
+            // Nueva imagen principal por URL
+            if (newImageUrlText) {
+                formData.append("imageUrlText", newImageUrlText);
+                console.log("🟡 [UPDATE] imageUrlText:", newImageUrlText);
+            }
 
             console.log("🟡 [UPDATE] Enviando solicitud...");
             const res = await axios.put(

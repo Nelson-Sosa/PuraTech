@@ -254,9 +254,11 @@ module.exports.updateProduct = async (req, res) => {
   try {
     console.log("🔍 [updateProduct] req.body:", req.body);
     console.log("🔍 [updateProduct] req.params:", req.params);
+    console.log("🔍 [updateProduct] req.file:", req.file);
+    console.log("🔍 [updateProduct] req.files:", req.files);
     console.log("🔍 [updateProduct] req.infoUsuario:", req.infoUsuario);
     
-    const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson } = req.body;
+    const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson, imageUrlText } = req.body;
     
     // Obtener producto actual
     const currentProduct = await Product.findById(req.params.id);
@@ -268,40 +270,53 @@ module.exports.updateProduct = async (req, res) => {
     console.log("🔍 [updateProduct] New values - category:", category, "nombre:", nombre, "marca:", marca, "precio:", precio);
 
     // Procesar imágenes eliminadas
-    let updatedImages = currentProduct.images || [];
-    if (deletedImagesJson) {
-      try {
+    let updatedImages = [];
+    try {
+      updatedImages = currentProduct.images ? [...currentProduct.images] : [];
+      if (deletedImagesJson) {
         const deletedImages = JSON.parse(deletedImagesJson);
-        updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
-      } catch (e) {
-        console.error("Error parsing deletedImages:", e);
+        if (Array.isArray(deletedImages)) {
+          updatedImages = updatedImages.filter(img => !deletedImages.includes(img));
+        }
       }
+    } catch (e) {
+      console.error("Error processing deletedImages:", e);
+      updatedImages = currentProduct.images || [];
     }
     
     // Agregar nuevas imágenes de archivos (reemplazos o nuevas)
-    if (req.files) {
-      if (req.files.additionalImages) {
-        for (const file of req.files.additionalImages) {
+    if (req.files && req.files.additionalImages) {
+      for (const file of req.files.additionalImages) {
+        if (file && file.path) {
           updatedImages.push(file.path);
         }
       }
     }
     
     // Agregar nuevas imágenes de URLs
-    if (imagesJson) {
+    if (imagesJson && typeof imagesJson === 'string' && imagesJson.trim()) {
       try {
-        const parsed = JSON.parse(imagesJson);
+        const isJson = imagesJson.startsWith('[') || imagesJson.startsWith('{');
         let urlImages = [];
         
-        if (Array.isArray(parsed)) {
-          urlImages = parsed.map(url => url.trim()).filter(url => url);
-        } else if (typeof parsed === 'string' && parsed.trim()) {
-          urlImages = [parsed.trim()];
+        if (isJson) {
+          const parsed = JSON.parse(imagesJson);
+          if (Array.isArray(parsed)) {
+            urlImages = parsed.map(url => url.trim()).filter(url => url);
+          } else if (typeof parsed === 'string') {
+            urlImages = [parsed.trim()];
+          }
+        } else {
+          // Comma separated
+          urlImages = imagesJson.split(',').map(url => url.trim()).filter(url => url);
         }
         
-        updatedImages.push(...urlImages);
+        if (urlImages.length > 0) {
+          updatedImages.push(...urlImages);
+        }
       } catch (e) {
-        // Si no es JSON, verificar si es string
+        console.error("Error parsing imagesJson:", e);
+        // Si falla el parseo, intentar como string simple
         if (typeof imagesJson === 'string' && imagesJson.trim()) {
           const urls = imagesJson.split(',').map(url => url.trim()).filter(url => url);
           updatedImages.push(...urls);
@@ -314,8 +329,8 @@ module.exports.updateProduct = async (req, res) => {
     if (req.file) {
       // Nueva imagen desde archivo → URL de Cloudinary
       updatedImageUrl = req.file.path;
-    } else if (req.body.imageUrlText) {
-      updatedImageUrl = req.body.imageUrlText.trim();
+    } else if (imageUrlText) {
+      updatedImageUrl = imageUrlText.trim();
     }
     
     // Si imageUrl fue eliminada, usar la primera de images
