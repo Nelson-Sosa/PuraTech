@@ -20,6 +20,7 @@ const FormProduct = () => {
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState(null);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -60,14 +61,26 @@ const FormProduct = () => {
   }, []);
 
   const handleImageChange = (e) => {
-    setImageUrl(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageUrl(file);
     setImageUrlText(""); // Si sube archivo, limpiamos el link
+    setPreviewUrl("");
+    setPreviewLoading(false);
+    
+    // Generate preview for uploaded file
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setFilePreview(objectUrl);
+    } else {
+      setFilePreview(null);
+    }
   };
 
   const handleImageUrlChange = (e) => {
     const url = e.target.value;
     setImageUrlText(url);
     setImageUrl(null); // Si pone link, limpiamos el archivo
+    setFilePreview(null);
     
     // Preview logic - only preview if looks like a URL
     if (url && url.match(/^https?:\/\/.+/)) {
@@ -368,6 +381,28 @@ const FormProduct = () => {
                           borderRadius: '8px',
                           border: '2px solid #10b981',
                           display: previewLoading ? 'none' : 'block'
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Preview for file upload */}
+                {filePreview && (
+                  <div className="image-preview-box">
+                    <p style={{ fontSize: '12px', color: '#10b981', marginBottom: '8px' }}>
+                      ✓ Vista previa del archivo:
+                    </p>
+                    <div className="preview-container">
+                      <img 
+                        src={filePreview} 
+                        alt="Vista previa"
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '200px', 
+                          objectFit: 'contain',
+                          borderRadius: '8px',
+                          border: '2px solid #10b981'
                         }}
                       />
                     </div>
