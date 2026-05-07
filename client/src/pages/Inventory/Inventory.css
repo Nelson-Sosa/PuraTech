@@ -194,19 +194,86 @@
   background: #1976d2;
 }
 
+/* Action buttons group */
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-buttons button,
+.action-buttons a {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-quick-edit {
+  background: #2196f3;
+  color: white;
+}
+
+.btn-quick-edit:hover {
+  background: #1976d2;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+}
+
+.btn-edit-full {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-edit-full:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.4);
+}
+
+.btn-view {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-view:hover {
+  background: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(23, 162, 184, 0.4);
+}
+
 .btn-delete-inventory {
-  padding: 6px 12px;
   background: #dc3545;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 13px;
-  margin-left: 8px;
 }
 
 .btn-delete-inventory:hover {
   background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .action-buttons {
+    gap: 4px;
+  }
+  
+  .action-buttons button,
+  .action-buttons a {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
 }
 
 .edit-actions {

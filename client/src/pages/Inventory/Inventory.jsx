@@ -276,27 +276,37 @@ const Inventory = () => {
                         </button>
                       </div>
                     ) : (
-                      <>
+                      <div className="action-buttons">
                         <button
-                          className="btn-edit"
+                          className="btn-quick-edit"
                           onClick={() => handleEditClick(product)}
+                          title="Editar stock, SKU"
                         >
-                          ✏️ Editar
-                        </button>
-                        <button
-                          className="btn-delete-inventory"
-                          onClick={() => handleDeleteProduct(product._id, product.name)}
-                        >
-                          🗑️ Eliminar
+                          ✏️
                         </button>
                         <Link 
                           to={`/actualizar/product/${product._id}`}
                           className="btn-edit-full"
-                          style={{ marginLeft: '8px', display: 'inline-block', padding: '6px 12px', background: '#6c757d', color: 'white', borderRadius: '5px', textDecoration: 'none', fontSize: '13px' }}
+                          title="Editar todo el producto"
                         >
-                          📝 Editar todo
+                          📝
                         </Link>
-                      </>
+                        <Link 
+                          to={`/product/${product._id}`}
+                          className="btn-view"
+                          target="_blank"
+                          title="Ver producto en tienda"
+                        >
+                          👁️
+                        </Link>
+                        <button
+                          className="btn-delete-inventory"
+                          onClick={() => handleDeleteProduct(product._id, product.name)}
+                          title="Eliminar producto"
+                        >
+                          🗑️
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>
