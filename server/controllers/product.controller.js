@@ -138,10 +138,7 @@ module.exports.agregarProducto = async (req, res) => {
     let imagesArray = [];
 
     // Procesar imagen principal (imageUrl)
-    if (req.files && req.files.imageUrl) {
-      // Archivo subido → Guardar path local
-      finalImageUrl = '/uploads/' + req.files.imageUrl[0].filename;
-    } else if (req.file) {
+    if (req.file) {
       // Archivo subido → Guardar path local  
       finalImageUrl = '/uploads/' + req.file.filename;
     } else if (imageUrlText) {
@@ -149,11 +146,13 @@ module.exports.agregarProducto = async (req, res) => {
       finalImageUrl = imageUrlText.trim();
     }
 
-    // Procesar múltiples imágenes
-    if (req.files && req.files.additionalImages) {
-      // Archivos subidos → Guardar localmente
-      for (const file of req.files.additionalImages) {
-        imagesArray.push('/uploads/' + file.filename);
+    // Procesar múltiples imágenes - usando req.files
+    if (req.files) {
+      if (req.files.additionalImages) {
+        // Archivos subidos → Guardar localmente
+        for (const file of req.files.additionalImages) {
+          imagesArray.push('/uploads/' + file.filename);
+        }
       }
     }
     
