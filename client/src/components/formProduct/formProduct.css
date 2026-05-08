@@ -26,7 +26,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 12px;
   letter-spacing: -0.02em;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 .form-subtitle {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -91,7 +91,7 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -115,7 +115,7 @@
   background: var(--bg-input);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: #0f172a;
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
   transition: var(--transition);
@@ -170,7 +170,7 @@
 .image-section-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;

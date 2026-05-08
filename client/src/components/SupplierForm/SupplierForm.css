@@ -109,7 +109,7 @@
 }
 
 .form-title {
-  color: var(--text-bright);
+  color: var(--text-primary);
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.5px;
