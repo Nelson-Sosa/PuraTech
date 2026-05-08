@@ -343,8 +343,15 @@
   color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 700;
-  line-height: 1.4; /* Mejorado para evitar que se encimen */
-  padding: 2px 0; /* Aumenta el área de clic */
+  line-height: 1.4;
+  padding: 2px 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.login-btn-nav:hover {
+  color: var(--accent-blue);
+  transform: translateX(2px);
 }
 
 .register-btn-nav {
@@ -352,12 +359,14 @@
   color: var(--text-secondary);
   font-size: 0.75rem;
   font-weight: 600;
-  line-height: 1.4; /* Mejorado para evitar que se encimen */
-  padding: 2px 0; /* Aumenta el área de clic */
+  line-height: 1.4;
+  padding: 2px 0;
+  transition: all 0.2s ease;
 }
 
 .register-btn-nav:hover {
-  color: var(--accent-blue);
+  color: var(--accent-violet);
+  transform: translateX(2px);
 }
 
 /* Meta Notification */
