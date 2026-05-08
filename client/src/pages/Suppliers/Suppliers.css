@@ -1,127 +1,158 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+/* ============================================================
+   SUPPLIERS — GameMasters Light Premium Design
+   ============================================================ */
 
 /* CONTENEDOR PRINCIPAL */
 .cont-supplier {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
-    padding: 20px;
-    margin: 0;
-    background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
-    box-shadow: 0 0 20px rgba(255,0,255,0.5), 0 0 30px rgba(0,255,255,0.3);
-    font-family: 'Orbitron', sans-serif;
-    color: #fff;
+    min-height: 100vh;
+    padding: 40px;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
     box-sizing: border-box;
 }
 
 /* BOTÓN AGREGAR */
 .cont-supplier .btn-proveedor {
-    display: inline-block;
-    padding: 12px 25px;
-    margin-bottom: 15px;
-    background-color: #00ffff;
-    color: #000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    margin-bottom: 32px;
+    background: var(--gradient-accent);
+    color: #ffffff;
     text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
-    transition: 0.3s;
-    width: 25%;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    width: fit-content;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
 }
 
 .btn-proveedor:hover {
-    background-color: #0ff;
-    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    filter: brightness(1.1);
 }
 
 /* TABLE WRAPPER */
 .table-wrapper {
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    flex: 1; /* Ocupa todo el espacio disponible */
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
 }
 
 /* TABLA */
 .cont-supplier table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(0,0,0,0.5);
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,255,255,0.3);
 }
 
-.cont-supplier th,
-.cont-supplier td {
-    padding: 12px 16px;
+.cont-supplier thead {
+    background: #f8fafc;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.04);
+}
+
+.cont-supplier th {
+    padding: 18px 20px;
     text-align: left;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    white-space: nowrap;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.cont-supplier td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    vertical-align: middle;
 }
 
 /* Hover fila */
 .cont-supplier tr:hover td {
-    background: rgba(255,0,255,0.1);
-    color: #ff00ff;
+    background: rgba(37, 99, 235, 0.02);
+}
+
+.cont-supplier tr:last-child td {
+    border-bottom: none;
 }
 
 /* BOTONES ACCIONES */
 .actions {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap; /* Para que se acomoden en móvil */
-    justify-content: flex-start;
-}
-/* Botón eliminar */
-.btn-delete {
-    flex: 1 1 45%;
-    padding: 10px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #ff007f;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    transition: 0.3s;
+    gap: 8px;
+    align-items: center;
 }
 
-/* Hover eliminar */
-.btn-delete:hover {
-    background-color: #e60073;
-}
-/* Botón editar (ahora sobre el Link) */
+.btn-delete,
 .btn-edit {
-    flex: 1 1 45%;
-    padding: 10px 0;
-    border: none;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
     cursor: pointer;
-    background-color: #00ffff;
-    color: #000;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none; /* Importante para Link */
-    display: inline-block;
-    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+/* Botón eliminar */
+.btn-delete {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+.btn-delete:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+/* Botón editar */
+.btn-edit {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border-color: #bae6fd;
 }
 
 .btn-edit:hover {
-    background-color: #0ff;
+    background-color: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
 }
-/* ================= MOBILE ================= */
-@media screen and (max-width: 768px) {
-  .cont-supplier {
-      padding: 10px;
-      border-radius: 0;
-  }
 
+/* ================= MOBILE ================= */
+@media screen and (max-width: 1024px) {
+    .cont-supplier {
+        padding: 20px;
+    }
+    
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .cont-supplier td, 
+    .cont-supplier th {
+        padding: 14px 16px;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (max-width: 768px) {
   .cont-supplier .btn-proveedor {
-      width: 45%;
-      padding: 12px 0;
-      margin-bottom: 10px;
-    overflow-x: auto; /* Permite scroll si algo se sale */
+      width: 100%;
   }
 
   .cont-supplier table, 
@@ -138,36 +169,50 @@
       display: none;
   }
 
+  .cont-supplier tr {
+      margin-bottom: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  }
+
   .cont-supplier td {
       position: relative;
-      padding-left: 50%;
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding-left: 45%;
+      padding-top: 12px;
+      padding-bottom: 12px;
       text-align: left;
-      white-space: normal;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      margin-bottom: 10px;
-      box-sizing: border-box; /* Evita overflow */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .cont-supplier td:last-child {
+      border-bottom: none;
+      padding-left: 0;
+      padding-top: 20px;
   }
 
   .cont-supplier td::before {
       content: attr(data-label);
       position: absolute;
-      left: 16px;
-      top: 10px;
-      width: 45%;
-      font-weight: bold;
-      color: #00ffff;
+      left: 0;
+      top: 12px;
+      width: 40%;
+      font-weight: 700;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
       text-transform: uppercase;
   }
+  
   .actions {
-        flex-direction: row;
-    }
-      .btn-delete,
-    .btn-edit {
-        width: 45%;
-        flex: unset;
-    }
-
-
+      justify-content: center;
+      width: 100%;
+  }
+  
+  .btn-delete,
+  .btn-edit {
+      flex: 1;
+      text-align: center;
+  }
 }
