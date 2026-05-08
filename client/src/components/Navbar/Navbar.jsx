@@ -130,7 +130,18 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <Link to="/login" className="login-link">Iniciá sesión</Link>
+          <div className="auth-actions-wrapper">
+            <div className="user-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div className="auth-actions">
+              <Link to="/login" className="login-btn-nav">Iniciá sesión</Link>
+              <Link to="/register" className="register-btn-nav">Creá tu cuenta</Link>
+            </div>
+          </div>
         )}
       </div>
     </header>
