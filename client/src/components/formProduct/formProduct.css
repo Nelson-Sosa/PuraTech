@@ -26,7 +26,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: var(--text-bright);
+  color: #ffffff;
   margin-bottom: 12px;
   letter-spacing: -0.02em;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 .form-subtitle {
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -53,7 +53,7 @@
   padding: 12px 24px;
   background: transparent;
   border: 2px solid var(--border-color);
-  color: var(--text-secondary);
+  color: #64748b;
   border-radius: var(--radius-full);
   font-size: 0.95rem;
   font-weight: 600;
@@ -91,7 +91,7 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #0f172a;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -115,7 +115,7 @@
   background: var(--bg-input);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: #0f172a;
   font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
   transition: var(--transition);
@@ -132,7 +132,7 @@
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: var(--text-muted);
+  color: #94a3b8;
 }
 
 .form-textarea {
@@ -152,7 +152,7 @@
 
 .form-select option {
   background: var(--bg-secondary);
-  color: var(--text-primary);
+  color: #0f172a;
   padding: 8px;
 }
 
@@ -170,7 +170,7 @@
 .image-section-title {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #0f172a;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -195,7 +195,7 @@
 
 .image-option-label {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: #64748b;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -214,7 +214,7 @@
   background: var(--bg-input);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: #0f172a;
   font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
@@ -243,7 +243,7 @@
 
 .divider {
   text-align: center;
-  color: var(--text-muted);
+  color: #94a3b8;
   font-size: 0.85rem;
   font-weight: 600;
   position: relative;
@@ -311,7 +311,7 @@
   width: 100%;
   padding: 16px 32px;
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: #ffffff;
   border: none;
   border-radius: var(--radius-lg);
   font-size: 1.05rem;
