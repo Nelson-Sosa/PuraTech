@@ -21,6 +21,12 @@ module.exports = (app) => {
     // ===== LOGIN Y USUARIOS =====
     app.post("/api/login", UserController.login);
     app.post("/api/agregar/usuario", UserController.agregarUsuario);
+    app.get("/api/verify-token", validarToken, (req, res) => {
+      res.json({ 
+        valid: true, 
+        user: req.infoUsuario 
+      });
+    });
 
     // ===== RUTAS ADMIN (con token) =====
     app.post("/api/agregar/producto", validarToken, verificarRol('admin'), upload.single('imageUrl'), ProductController.agregarProducto);

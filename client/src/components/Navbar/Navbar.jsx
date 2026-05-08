@@ -6,15 +6,38 @@ import { API_URL } from '../../config';
 import './Navbar.css';
 
 const Navbar = () => {
-  const [userRole, setUserRole] = useState(localStorage.getItem('rol'));
-  const [isAdmin, setIsAdmin] = useState(userRole === 'admin');
+  const [userRole, setUserRole] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [salesMeta, setSalesMeta] = useState(null);
   const { getCount } = useCart();
 
   useEffect(() => {
-    const role = localStorage.getItem('rol');
-    setUserRole(role);
-    setIsAdmin(role === 'admin');
+    const validateAndSetRole = async () => {
+      const token = localStorage.getItem('token');
+      const storedRole = localStorage.getItem('rol');
+      
+      if (!token) {
+        setUserRole(null);
+        setIsAdmin(false);
+        return;
+      }
+      
+      try {
+        const res = await axios.get(`${API_URL}/api/verify-token`, {
+          headers: { token_usuario: token }
+        });
+        setUserRole(res.data.user?.rol || storedRole);
+        setIsAdmin(res.data.user?.rol === 'admin' || storedRole === 'admin');
+      } catch (err) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('rol');
+        localStorage.removeItem('user');
+        setUserRole(null);
+        setIsAdmin(false);
+      }
+    };
+    
+    validateAndSetRole();
   }, []);
 
   // Verificar meta de ventas solo para admin (TEMPORALMENTE DESACTIVADO)
@@ -35,6 +58,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
+    localStorage.removeItem('user');
     localStorage.removeItem('usuario');
     setUserRole(null);
     setIsAdmin(false);
