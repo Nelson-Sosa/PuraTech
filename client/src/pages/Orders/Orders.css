@@ -24,7 +24,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 800;
-  color: var(--text-bright);
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
@@ -149,7 +149,7 @@
 
 .order-id strong {
   font-size: 1.1rem;
-  color: var(--text-bright);
+  color: var(--text-primary);
   letter-spacing: 0.05em;
 }
 
@@ -232,7 +232,7 @@
 /* ── TOTAL ── */
 .order-total {
   font-size: 1.25rem;
-  color: var(--text-bright);
+  color: var(--text-primary);
   margin-bottom: 24px;
   padding: 16px 0;
   border-top: 1px solid var(--border-color);
@@ -256,7 +256,7 @@
   padding: 10px 16px;
   background: var(--bg-input);
   border: 1px solid var(--border-color);
-  color: var(--text-bright);
+  color: var(--text-primary);
   border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;

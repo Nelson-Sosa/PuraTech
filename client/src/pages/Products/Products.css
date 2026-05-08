@@ -338,7 +338,7 @@
 }
 
 .product-card:hover .product-info h4 {
-  color: var(--text-bright);
+  color: var(--accent-violet);
 }
 
 .price {
