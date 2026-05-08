@@ -305,28 +305,39 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 48px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 24px;
 }
+
+.title-with-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pill {
+  width: 4px;
+  height: 48px;
+  border-radius: var(--radius-full);
+}
+
+.pill.hot { background: linear-gradient(to bottom, #f87171, #ef4444); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+.pill.deal { background: linear-gradient(to bottom, #4ade80, #10b981); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+.pill.new { background: linear-gradient(to bottom, #a78bfa, #8b5cf6); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
 
 .product-section-header h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 1.8rem;
   font-weight: 800;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  color: #0f172a;
+  margin: 0;
   letter-spacing: -0.02em;
 }
 
-.product-section-header h2::before {
-  content: '';
-  width: 4px;
-  height: 32px;
-  background: var(--gradient-accent);
-  border-radius: 2px;
-  display: inline-block;
+.section-subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 4px 0 0;
+  font-weight: 500;
 }
 
 .view-all-link {

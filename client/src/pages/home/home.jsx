@@ -35,10 +35,17 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const ProductSection = ({ title, products, icon }) => (
+  const ProductSection = ({ title, subtitle, products, iconColor }) => (
     <section className="product-section">
       <div className="product-section-header">
-        <h2>{icon} {title}</h2>
+        <div className="title-with-pill">
+          <span className={`pill ${iconColor}`}></span>
+          <div>
+            <h2>{title}</h2>
+            <p className="section-subtitle">{subtitle}</p>
+          </div>
+        </div>
+        <Link to="/products" className="view-all-link">Ver todo →</Link>
       </div>
       {products.length === 0 ? (
         <p className="no-products">No hay productos en esta sección</p>
@@ -159,12 +166,30 @@ const Home = () => {
 
       {/* PRODUCTOS DESTACADOS */}
       {loading ? (
-        <div className="loading">Cargando productos...</div>
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Cargando productos seleccionados...</p>
+        </div>
       ) : (
         <>
-          <ProductSection title="Más vendidos" products={bestsellers} icon="🔥" />
-          <ProductSection title="Ofertas" products={offers} icon="💰" />
-          <ProductSection title="Nuevos" products={newProducts} icon="✨" />
+          <ProductSection 
+            title="Más vendidos" 
+            subtitle="Los favoritos de nuestra comunidad gamer" 
+            products={bestsellers} 
+            iconColor="hot"
+          />
+          <ProductSection 
+            title="Ofertas Increíbles" 
+            subtitle="Precios especiales por tiempo limitado" 
+            products={offers} 
+            iconColor="deal"
+          />
+          <ProductSection 
+            title="Novedades" 
+            subtitle="Lo último en tecnología y periféricos" 
+            products={newProducts} 
+            iconColor="new"
+          />
         </>
       )}
 
