@@ -55,52 +55,63 @@ const FormRegistro = () => {
 
   return (
     <div className="contRegistro">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nombre:</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-          {error.nombre && <div className="error">{error.nombre}</div>}
-        </div>
+      <div className="registro-card">
+        <h1>Crea tu cuenta</h1>
+        <p className="registro-subtitle">Únete a la mayor comunidad gamer</p>
+        
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Nombre</label>
+              <input type="text" placeholder="Ej. Juan" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+              {error.nombre && <div className="error-text">{error.nombre}</div>}
+            </div>
 
-        <div>
-          <label>Apellido:</label>
-          <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
-          {error.apellido && <div className="error">{error.apellido}</div>}
-        </div>
+            <div className="form-group">
+              <label>Apellido</label>
+              <input type="text" placeholder="Ej. Pérez" value={apellido} onChange={(e) => setApellido(e.target.value)} />
+              {error.apellido && <div className="error-text">{error.apellido}</div>}
+            </div>
+          </div>
 
-        <div>
-          <label>Edad:</label>
-          <input type="number" value={edad} onChange={(e) => setEdad(e.target.value)} />
-        </div>
+          <div className="form-group">
+            <label>Edad</label>
+            <input type="number" placeholder="Tu edad" value={edad} onChange={(e) => setEdad(e.target.value)} />
+          </div>
 
-        <div>
-          <label>Correo:</label>
-          <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-          {error.correo && <div className="error">{error.correo}</div>}
-        </div>
+          <div className="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" placeholder="nombre@ejemplo.com" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+            {error.correo && <div className="error-text">{error.correo}</div>}
+          </div>
 
-        <div>
-          <label>Contraseña:</label>
-          <input type="password" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
-          {error.contraseña && <div className="error">{error.contraseña}</div>}
-        </div>
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input type="password" placeholder="Mínimo 5 caracteres" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
+            {error.contraseña && <div className="error-text">{error.contraseña}</div>}
+          </div>
 
-        <div>
-          <label>Confirmar Contraseña:</label>
-          <input type="password" value={confirContraseña} onChange={(e) => setConfirContraseña(e.target.value)} />
-          {error.confirContraseña && <div className="error">{error.confirContraseña}</div>}
-        </div>
+          <div className="form-group">
+            <label>Confirmar Contraseña</label>
+            <input type="password" placeholder="Repite tu contraseña" value={confirContraseña} onChange={(e) => setConfirContraseña(e.target.value)} />
+            {error.confirContraseña && <div className="error-text">{error.confirContraseña}</div>}
+          </div>
 
-        <div>
-          <label>Rol:</label>
-          <select value={rol} onChange={(e) => setRol(e.target.value)}>
-            <option value="usuario">Usuario</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
+          <div className="form-group">
+            <label>Rol</label>
+            <select value={rol} onChange={(e) => setRol(e.target.value)}>
+              <option value="usuario">Usuario Estándar</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
 
-        <button className="btn-registro" type="submit">Registro</button>
-      </form>
+          <button className="btn-registro" type="submit">Registrarse Ahora</button>
+          
+          <div className="form-footer">
+            ¿Ya tienes una cuenta? <span onClick={() => navegar('/login')}>Inicia sesión</span>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
