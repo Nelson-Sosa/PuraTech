@@ -335,6 +335,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 4px; /* Mayor separación entre links */
 }
 
 .login-btn-nav {
@@ -342,15 +343,17 @@
   color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.4; /* Mejorado para evitar que se encimen */
+  padding: 2px 0; /* Aumenta el área de clic */
 }
 
 .register-btn-nav {
   text-decoration: none;
   color: var(--text-secondary);
   font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: 1.4; /* Mejorado para evitar que se encimen */
+  padding: 2px 0; /* Aumenta el área de clic */
 }
 
 .register-btn-nav:hover {
