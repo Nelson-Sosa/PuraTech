@@ -14,7 +14,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: clamp(1.6rem, 3.5vw, 2.2rem);
   font-weight: 800;
-  color: var(--text-bright);
+  color: var(--text-primary);
   margin-bottom: 40px;
   display: flex;
   align-items: center;
@@ -150,7 +150,7 @@
 }
 
 .cart-item:hover .cart-item-info h3 {
-  color: var(--text-bright);
+  color: var(--accent-violet);
 }
 
 .cart-item-info .brand {
@@ -217,7 +217,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-bright);
+  color: var(--text-primary);
   margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 2px solid var(--border-color);
@@ -243,7 +243,7 @@
 .summary-row.total {
   font-weight: 800;
   font-size: 1.3rem;
-  color: var(--text-bright);
+  color: var(--text-primary);
   border-top: 2px solid var(--border-color);
   padding-top: 16px;
   margin-top: 16px;

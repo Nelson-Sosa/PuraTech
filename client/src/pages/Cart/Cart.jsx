@@ -154,7 +154,7 @@ Dudas? Escribenos aqui`;
   return (
     <>
     <div className="cart-page">
-      <h2>Tu Carrito ({getCount()} productos)</h2>
+      <h2>Mi Carrito de Compras ({getCount()} productos)</h2>
 
       <div className="cart-layout">
         <div className="cart-items">
