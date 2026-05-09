@@ -104,6 +104,58 @@
   padding: 8px;
 }
 
+/* Price Range Filter */
+.price-range-filter {
+  margin-bottom: 24px;
+}
+
+.price-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  outline: none;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.price-input:focus {
+  border-color: var(--accent-blue);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.price-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.price-dash {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* Remove Arrows from number input */
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.price-input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .active-filters {
   margin-top: 12px;
   padding-top: 20px;

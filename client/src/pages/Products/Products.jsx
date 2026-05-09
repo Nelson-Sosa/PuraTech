@@ -17,7 +17,8 @@ export const Products = () => {
     const [currentProductID, setCurrentProduct] = useState(null);
     const [userRole, setUserRole] = useState(null);
     const [sortBy, setSortBy] = useState('relevance');
-    const [priceFilter, setPriceFilter] = useState('all');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [availableBrands, setAvailableBrands] = useState([]);
     const { addToCart } = useCart();
@@ -75,13 +76,12 @@ export const Products = () => {
     useEffect(() => {
         let result = [...products];
 
-        // Filtro por precio
-        if (priceFilter === 'low') {
-            result = result.filter(p => Number(p.precio) < 500000);
-        } else if (priceFilter === 'mid') {
-            result = result.filter(p => Number(p.precio) >= 500000 && Number(p.precio) < 1500000);
-        } else if (priceFilter === 'high') {
-            result = result.filter(p => Number(p.precio) >= 1500000);
+        // Filtro por precio (Min - Max)
+        if (minPrice !== '') {
+            result = result.filter(p => Number(p.precio) >= Number(minPrice));
+        }
+        if (maxPrice !== '') {
+            result = result.filter(p => Number(p.precio) <= Number(maxPrice));
         }
 
         // Filtro por marca
@@ -99,7 +99,7 @@ export const Products = () => {
         }
 
         setFilteredProducts(result);
-    }, [products, priceFilter, sortBy, selectedBrands]);
+    }, [products, minPrice, maxPrice, sortBy, selectedBrands]);
 
     const toggleBrand = (brand) => {
         setSelectedBrands(prev => 
@@ -179,17 +179,26 @@ export const Products = () => {
             <div className="products-layout">
                 {/* FILTERS SIDEBAR */}
                 <aside className="filters-sidebar">
-                    <h3>Filtrar por precio</h3>
-                    <select 
-                        value={priceFilter} 
-                        onChange={(e) => setPriceFilter(e.target.value)}
-                        className="filter-select"
-                    >
-                        <option value="all">Todos los precios</option>
-                        <option value="low">Menos de 500.000 Gs.</option>
-                        <option value="mid">500.000 - 1.500.000 Gs.</option>
-                        <option value="high">Más de 1.500.000 Gs.</option>
-                    </select>
+                    <h3>Rango de precio (Gs.)</h3>
+                    <div className="price-range-filter">
+                        <div className="price-input-group">
+                            <input 
+                                type="number" 
+                                placeholder="Min" 
+                                value={minPrice} 
+                                onChange={(e) => setMinPrice(e.target.value)}
+                                className="price-input"
+                            />
+                            <span className="price-dash">-</span>
+                            <input 
+                                type="number" 
+                                placeholder="Max" 
+                                value={maxPrice} 
+                                onChange={(e) => setMaxPrice(e.target.value)}
+                                className="price-input"
+                            />
+                        </div>
+                    </div>
 
                     <h3>Ordenar por</h3>
                     <select 
