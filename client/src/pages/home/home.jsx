@@ -107,12 +107,15 @@ const Home = () => {
 
   const getCategoryIcon = (name) => {
     const lowerName = name.toLowerCase();
-    if (lowerName.includes('consolas')) return '🎮';
-    if (lowerName.includes('pc') || lowerName.includes('notebook')) return '💻';
-    if (lowerName.includes('componentes') || lowerName.includes('hardware')) return '🖥️';
-    if (lowerName.includes('accesorios') || lowerName.includes('perifericos')) return '🖱️';
-    if (lowerName.includes('juegos')) return '🎲';
-    return '📁';
+    if (lowerName.includes('consolas') || lowerName.includes('playstation') || lowerName.includes('xbox')) return '🎮';
+    if (lowerName.includes('pc') || lowerName.includes('notebook') || lowerName.includes('laptop')) return '💻';
+    if (lowerName.includes('componentes') || lowerName.includes('hardware') || lowerName.includes('placa')) return '🖥️';
+    if (lowerName.includes('accesorios') || lowerName.includes('perifericos') || lowerName.includes('mouse') || lowerName.includes('teclado')) return '🖱️';
+    if (lowerName.includes('juegos') || lowerName.includes('digital')) return '🎲';
+    if (lowerName.includes('monitores') || lowerName.includes('pantallas')) return '📺';
+    if (lowerName.includes('audio') || lowerName.includes('parlantes') || lowerName.includes('auriculares')) return '🔊';
+    if (lowerName.includes('sillas') || lowerName.includes('butacas')) return '💺';
+    return '🚀';
   };
 
   return (
@@ -149,6 +152,9 @@ const Home = () => {
                 to={`/category/${encodeURIComponent(cat.name)}`} 
                 className="category-card"
               >
+                <div className="cat-icon-wrapper">
+                  <span className="cat-icon">{getCategoryIcon(cat.name)}</span>
+                </div>
                 <div className="cat-content">
                   <span className="cat-label">{cat.name}</span>
                   <span className="cat-explore">Ver productos</span>
