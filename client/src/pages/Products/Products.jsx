@@ -18,6 +18,8 @@ export const Products = () => {
     const [userRole, setUserRole] = useState(null);
     const [sortBy, setSortBy] = useState('relevance');
     const [priceFilter, setPriceFilter] = useState('all');
+    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [availableBrands, setAvailableBrands] = useState([]);
     const { addToCart } = useCart();
 
     // 🔥 Función central para traer productos (PÚBLICO)
@@ -61,6 +63,14 @@ export const Products = () => {
         }
     }, [decodedCategory, searchActive, getProducts]);
 
+    // 🔥 Extraer marcas únicas de los productos
+    useEffect(() => {
+        if (products.length > 0) {
+            const brands = [...new Set(products.map(p => p.marca).filter(Boolean))].sort();
+            setAvailableBrands(brands);
+        }
+    }, [products]);
+
     // 🔥 Filtrar y ordenar productos
     useEffect(() => {
         let result = [...products];
@@ -74,6 +84,11 @@ export const Products = () => {
             result = result.filter(p => Number(p.precio) >= 1500000);
         }
 
+        // Filtro por marca
+        if (selectedBrands.length > 0) {
+            result = result.filter(p => selectedBrands.includes(p.marca));
+        }
+
         // Ordenamiento
         if (sortBy === 'price-asc') {
             result.sort((a, b) => Number(a.precio) - Number(b.precio));
@@ -84,7 +99,15 @@ export const Products = () => {
         }
 
         setFilteredProducts(result);
-    }, [products, priceFilter, sortBy]);
+    }, [products, priceFilter, sortBy, selectedBrands]);
+
+    const toggleBrand = (brand) => {
+        setSelectedBrands(prev => 
+            prev.includes(brand) 
+                ? prev.filter(b => b !== brand) 
+                : [...prev, brand]
+        );
+    };
 
     // 🔥 Delete profesional con refresh automático
     const deleteProduct = async (productID) => {
@@ -179,6 +202,24 @@ export const Products = () => {
                         <option value="price-desc">Precio: Mayor a Menor</option>
                         <option value="name">Nombre A-Z</option>
                     </select>
+
+                    {availableBrands.length > 0 && (
+                        <>
+                            <h3>Filtrar por marca</h3>
+                            <div className="brand-filters">
+                                {availableBrands.map(brand => (
+                                    <label key={brand} className="brand-checkbox-label">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={selectedBrands.includes(brand)}
+                                            onChange={() => toggleBrand(brand)}
+                                        />
+                                        <span>{brand}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </>
+                    )}
 
                     <div className="active-filters">
                         <p>{filteredProducts.length} producto(s) encontrado(s)</p>

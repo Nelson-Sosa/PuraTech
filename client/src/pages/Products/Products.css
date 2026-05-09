@@ -110,6 +110,54 @@
   border-top: 1px solid var(--border-color);
 }
 
+.brand-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Custom Scrollbar for brands */
+.brand-filters::-webkit-scrollbar {
+  width: 4px;
+}
+
+.brand-filters::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+
+.brand-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+  padding: 4px 0;
+}
+
+.brand-checkbox-label:hover {
+  color: var(--accent-violet);
+  transform: translateX(4px);
+}
+
+.brand-checkbox-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-violet);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.brand-checkbox-label span {
+  font-weight: 500;
+}
+
 .active-filters p {
   color: var(--text-muted);
   font-size: 12px;
