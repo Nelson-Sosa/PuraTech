@@ -148,47 +148,75 @@
 .cart-link {
   position: relative;
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-primary);
-  transition: var(--transition);
+  transition: var(--transition-slow);
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  background: #f1f5f9;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: var(--radius-full);
+  gap: 12px;
+  padding: 8px 18px;
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .cart-link:hover {
-  background: #fff;
+  background: var(--bg-secondary);
   border-color: var(--accent-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  color: var(--accent-blue);
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon {
+  width: 22px;
+  height: 22px;
+  transition: var(--transition);
+  stroke: currentColor;
+}
+
+.cart-link:hover .cart-icon {
+  transform: rotate(-5deg) scale(1.1);
+}
+
+.cart-text {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .cart-badge {
   position: absolute;
-  top: -10px;
+  top: -8px;
   right: -10px;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: var(--gradient-accent);
   color: #ffffff;
   border-radius: 50%;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
+  padding: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-  animation: pulse-badge 2s ease-in-out infinite;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  border: 2px solid var(--bg-secondary);
+  animation: bounce-badge 2.4s cubic-bezier(0.36, 0, 0.66, -0.56) infinite;
 }
 
-@keyframes pulse-badge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+@keyframes bounce-badge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* Admin Badge */
