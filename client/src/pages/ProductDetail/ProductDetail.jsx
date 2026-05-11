@@ -14,6 +14,7 @@ const ProductDetail = () => {
   const [loading, setLoading]               = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [addingToCart, setAddingToCart]     = useState(false);
+  const [userRole, setUserRole]             = useState(null);
 
   // ── Image zoom follow-mouse state ──
   const [isZoomed, setIsZoomed]             = useState(false);
@@ -35,6 +36,11 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const role = localStorage.getItem('rol');
+    setUserRole(role);
+  }, []);
 
   /* ── Image helpers ── */
   const getAllImages = useCallback(() => {
@@ -271,10 +277,12 @@ const ProductDetail = () => {
                 {product.category}
               </Link>
             </div>
-            <div className="meta-item">
-              <span className="meta-label">Ventas:</span>
-              <span className="meta-value">{product.ventas || 0} unidades vendidas</span>
-            </div>
+            {userRole === 'admin' && (
+              <div className="meta-item">
+                <span className="meta-label">Ventas:</span>
+                <span className="meta-value">{product.ventas || 0} unidades vendidas</span>
+              </div>
+            )}
             {product.sku && (
               <div className="meta-item">
                 <span className="meta-label">SKU:</span>
