@@ -247,13 +247,16 @@ const ProductDetail = () => {
 
           {/* Add to Cart — Premium */}
           <div className="actions-section">
+            {product.stock <= 0 && <div className="out-of-stock-notice">⚠️ Temporalmente sin stock</div>}
             <div className="cart-btn-wrapper">
               <button
-                className={`add-to-cart-detail-btn ${addingToCart ? 'added' : ''}`}
+                className={`add-to-cart-detail-btn ${addingToCart ? 'added' : ''} ${product.stock <= 0 ? 'out-of-stock' : ''}`}
                 onClick={handleAddToCart}
-                disabled={addingToCart}
+                disabled={addingToCart || product.stock <= 0}
               >
-                {addingToCart ? (
+                {product.stock <= 0 ? (
+                  <><span>✖</span> Sin Stock</>
+                ) : addingToCart ? (
                   <><span>✓</span> ¡Agregado al carrito!</>
                 ) : (
                   <><span>🛒</span> Agregar al carrito</>
