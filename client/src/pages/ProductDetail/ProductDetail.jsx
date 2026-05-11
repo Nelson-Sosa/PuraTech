@@ -210,6 +210,7 @@ const ProductDetail = () => {
                     src={img}
                     alt={`${product.nombre} — ${index + 1}`}
                     onError={(e) => { e.target.src = '/img/placeholder.png'; }}
+                    loading="lazy"
                   />
                 </div>
               ))}

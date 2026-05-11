@@ -308,6 +308,7 @@ export const Products = () => {
                                                 src={(producto.images && producto.images[0]) || producto.imageUrl || "/img/placeholder.png"} 
                                                 alt={producto.nombre}
                                                 className="product-image"
+                                                loading="lazy"
                                             />
                                             <span className="category-badge">{producto.category}</span>
                                             {producto.isOffer && <span className="badge offer">OFERTA</span>}
