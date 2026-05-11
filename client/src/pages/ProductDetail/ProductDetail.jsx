@@ -108,9 +108,17 @@ const ProductDetail = () => {
   /* ── States ── */
   if (loading) {
     return (
-      <div className="detail-loading">
-        <div className="loading-spinner"></div>
-        <p>Cargando producto...</p>
+      <div className="detail-container">
+        <div className="detail-layout">
+          <div className="gallery-section">
+            <div className="skeleton-detail-img skeleton"></div>
+          </div>
+          <div className="product-info-section">
+            <div className="skeleton-detail-title skeleton"></div>
+            <div className="skeleton-detail-price skeleton"></div>
+            <div className="skeleton-detail-desc skeleton"></div>
+          </div>
+        </div>
       </div>
     );
   }

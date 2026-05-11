@@ -26,7 +26,8 @@ export const Products = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [activeSubFilter, setActiveSubFilter] = useState('all');
-    const [searchActive, setSearchActive] = useState(false); 
+    const [searchActive, setSearchActive] = useState(false);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [currentProductID, setCurrentProduct] = useState(null);
@@ -43,6 +44,7 @@ export const Products = () => {
 
     // 🔥 Función central para traer productos (PÚBLICO)
     const getProducts = useCallback(async () => {
+        setLoading(true);
         try {
             let url = `${API_URL}/api/products/public`;
             
@@ -87,6 +89,8 @@ export const Products = () => {
             } catch (fallbackErr) {
                 console.error(fallbackErr);
             }
+        } finally {
+            setLoading(false);
         }
     }, [decodedCategory, isPeripheralHub]);
 
@@ -277,8 +281,20 @@ export const Products = () => {
                 </aside>
 
                 {/* PRODUCTS GRID */}
-                <div className="products-content">
-                    {filteredProducts.length === 0 ? (
+                <main className="products-content">
+                    {loading ? (
+                        <div className="products-grid">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                <div key={i} className="skeleton-card">
+                                    <div className="skeleton-img skeleton"></div>
+                                    <div className="skeleton-text skeleton"></div>
+                                    <div className="skeleton-text skeleton" style={{ width: '60%' }}></div>
+                                    <div className="skeleton-price skeleton"></div>
+                                    <div className="skeleton-btn skeleton"></div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filteredProducts.length === 0 ? (
                         <div className="no-products">
                             <p>No hay productos en esta categoría</p>
                         </div>

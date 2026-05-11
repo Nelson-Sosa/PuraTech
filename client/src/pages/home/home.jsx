@@ -56,7 +56,7 @@ const getCategoryIcon = (name) => {
 };
 
 // ── Sub-component: Product Section ──────────────────────────
-const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart }) => (
+const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart, loading }) => (
   <section className="product-section">
     <div className="product-section-header">
       <div className="title-with-pill">
@@ -69,7 +69,19 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
       <Link to="/products" className="view-all-link">Ver todo →</Link>
     </div>
     
-    {(!products || products.length === 0) ? (
+    {loading ? (
+      <div className="products-grid">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="skeleton-card">
+            <div className="skeleton-img skeleton"></div>
+            <div className="skeleton-text skeleton"></div>
+            <div className="skeleton-text skeleton" style={{ width: '60%' }}></div>
+            <div className="skeleton-price skeleton"></div>
+            <div className="skeleton-btn skeleton"></div>
+          </div>
+        ))}
+      </div>
+    ) : (!products || products.length === 0) ? (
       <div className="no-products-container">
         <p className="no-products">No hay productos disponibles en esta sección actualmente.</p>
       </div>
@@ -345,6 +357,7 @@ const Home = () => {
             addToCart={addToCart}
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
+            loading={loading}
           />
           <ProductSection 
             title="Ofertas Increíbles" 
@@ -354,6 +367,7 @@ const Home = () => {
             addToCart={addToCart}
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
+            loading={loading}
           />
           <ProductSection 
             title="Novedades" 
@@ -363,6 +377,7 @@ const Home = () => {
             addToCart={addToCart}
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
+            loading={loading}
           />
         </>
       )}
