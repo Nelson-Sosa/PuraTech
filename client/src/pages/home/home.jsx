@@ -44,6 +44,100 @@ const HERO_SLIDES = [
 
 const SLIDE_DURATION = 5500; // ms por slide
 
+// ── Helper: Get Category Icon ──────────────────────────────
+const getCategoryIcon = (name) => {
+  const lowerName = name.toLowerCase();
+  if (lowerName.includes('consolas')) return '🎮';
+  if (lowerName.includes('pc') || lowerName.includes('notebook')) return '💻';
+  if (lowerName.includes('componentes') || lowerName.includes('hardware')) return '🖥️';
+  if (lowerName.includes('accesorios') || lowerName.includes('perifericos')) return '🖱️';
+  if (lowerName.includes('juegos')) return '🎲';
+  return '📁';
+};
+
+// ── Sub-component: Product Section ──────────────────────────
+const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart }) => (
+  <section className="product-section">
+    <div className="product-section-header">
+      <div className="title-with-pill">
+        <span className={`pill ${iconColor}`}></span>
+        <div>
+          <h2>{title}</h2>
+          <p className="section-subtitle">{subtitle}</p>
+        </div>
+      </div>
+      <Link to="/products" className="view-all-link">Ver todo →</Link>
+    </div>
+    
+    {(!products || products.length === 0) ? (
+      <div className="no-products-container">
+        <p className="no-products">No hay productos disponibles en esta sección actualmente.</p>
+      </div>
+    ) : (
+      <div className="products-grid">
+        {products.map((product) => {
+          if (!product) return null;
+          const productId = product._id || product.id;
+          
+          return (
+            <div key={productId} className="product-card">
+              <Link to={`/product/${productId}`} className="product-link">
+                <div className="product-image-container">
+                  <img 
+                    src={(product.images && product.images[0]) || product.imageUrl || "/img/placeholder.png"} 
+                    alt={product.nombre || "Producto"}
+                    className="product-image"
+                    loading="lazy"
+                  />
+                  {product.isOffer && <span className="badge offer">OFERTA</span>}
+                  {product.isNew && <span className="badge new">NUEVO</span>}
+                </div>
+                <div className="product-info">
+                  <p className="product-brand">{product.marca || "Marca"}</p>
+                  <h3>{product.nombre || "Producto sin nombre"}</h3>
+                  <div className="product-price">
+                    {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
+                  </div>
+                  <p className="stock">✓ Stock: {product.stock || 0} unidades</p>
+                </div>
+              </Link>
+              {product.images && product.images.length > 1 && (
+                <span className="image-count">+{product.images.length - 1}</span>
+              )}
+              <button 
+                className={`add-to-cart-btn ${addingToCart[productId] ? 'added' : ''}`}
+                disabled={addingToCart[productId] === 'adding'}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setAddingToCart(prev => ({...prev, [productId]: 'adding'}));
+                  addToCart(product);
+                  setAddingToCart(prev => ({...prev, [productId]: 'added'}));
+                  setTimeout(() => {
+                    setAddingToCart(prev => {
+                      const newState = {...prev};
+                      delete newState[productId];
+                      return newState;
+                    });
+                  }, 1500);
+                }}
+              >
+                {addingToCart[productId] === 'added' ? (
+                  <>✓ ¡Listo!</>
+                ) : addingToCart[productId] === 'adding' ? (
+                  <>Agregando...</>
+                ) : (
+                  <>🛒 Agregar</>
+                )}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    )}
+  </section>
+);
+
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
   const [offers, setOffers] = useState([]);
@@ -118,86 +212,6 @@ const Home = () => {
     };
     fetchData();
   }, []);
-
-  const ProductSection = ({ title, subtitle, products, iconColor }) => (
-    <section className="product-section">
-      <div className="product-section-header">
-        <div className="title-with-pill">
-          <span className={`pill ${iconColor}`}></span>
-          <div>
-            <h2>{title}</h2>
-            <p className="section-subtitle">{subtitle}</p>
-          </div>
-        </div>
-        <Link to="/products" className="view-all-link">Ver todo →</Link>
-      </div>
-      {products.length === 0 ? (
-        <p className="no-products">No hay productos en esta sección</p>
-      ) : (
-        <div className="products-grid">
-          {products.map((product) => (
-            <div key={product._id} className="product-card">
-              <Link to={`/product/${product._id}`} className="product-link">
-                <div className="product-image-container">
-                  <img 
-                    src={(product.images && product.images[0]) || product.imageUrl || "/img/placeholder.png"} 
-                    alt={product.nombre}
-                    className="product-image"
-                  />
-                  {product.isOffer && <span className="badge offer">OFERTA</span>}
-                  {product.isNew && <span className="badge new">NUEVO</span>}
-                  {product.images && product.images.length > 1 && (
-                    <span className="image-count">+{product.images.length - 1}</span>
-                  )}
-                </div>
-                <div className="product-info">
-                  <p className="product-brand">{product.marca}</p>
-                  <h3>{product.nombre}</h3>
-                  <p className="product-price">
-                    {Number(product.precio).toLocaleString("es-PY")} Gs.
-                  </p>
-                  <p className="stock">✓ Stock: {product.stock || 10} unidades</p>
-                </div>
-              </Link>
-              <button 
-                className={`add-to-cart-btn ${addingToCart[product._id] ? 'added' : ''}`}
-                onClick={() => {
-                  setAddingToCart(prev => ({...prev, [product._id]: 'adding'}));
-                  addToCart(product);
-                  setAddingToCart(prev => ({...prev, [product._id]: 'added'}));
-                  setTimeout(() => {
-                    setAddingToCart(prev => {
-                      const newState = {...prev};
-                      delete newState[product._id];
-                      return newState;
-                    });
-                  }, 1500);
-                }}
-              >
-                {addingToCart[product._id] === 'added' ? (
-                  <>✓ Agregado</>
-                ) : addingToCart[product._id] === 'adding' ? (
-                  <>Agregando...</>
-                ) : (
-                  <>🛒 Agregar</>
-                )}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-
-  const getCategoryIcon = (name) => {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('consolas')) return '🎮';
-    if (lowerName.includes('pc') || lowerName.includes('notebook')) return '💻';
-    if (lowerName.includes('componentes') || lowerName.includes('hardware')) return '🖥️';
-    if (lowerName.includes('accesorios') || lowerName.includes('perifericos')) return '🖱️';
-    if (lowerName.includes('juegos')) return '🎲';
-    return '📁';
-  };
 
   return (
     <div className="home-container">
@@ -328,18 +342,27 @@ const Home = () => {
             subtitle="Los favoritos de nuestra comunidad gamer" 
             products={bestsellers} 
             iconColor="hot"
+            addToCart={addToCart}
+            addingToCart={addingToCart}
+            setAddingToCart={setAddingToCart}
           />
           <ProductSection 
             title="Ofertas Increíbles" 
             subtitle="Precios especiales por tiempo limitado" 
             products={offers} 
             iconColor="deal"
+            addToCart={addToCart}
+            addingToCart={addingToCart}
+            setAddingToCart={setAddingToCart}
           />
           <ProductSection 
             title="Novedades" 
             subtitle="Lo último en tecnología y periféricos" 
             products={newProducts} 
             iconColor="new"
+            addToCart={addToCart}
+            addingToCart={addingToCart}
+            setAddingToCart={setAddingToCart}
           />
         </>
       )}
