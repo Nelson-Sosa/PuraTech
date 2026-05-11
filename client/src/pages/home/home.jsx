@@ -36,7 +36,7 @@ const HERO_SLIDES = [
     title: "Los mejores",
     titleHighlight: "periféricos gamer",
     subtitle: "Teclados mecánicos, mouses gaming y headsets de alta fidelidad. Jugá sin límites.",
-    cta: { text: "Ver periféricos", to: "/category/Accesorios" },
+    cta: { text: "Ver periféricos", to: "/category/perifericos" },
     ctaSecondary: { text: "Ver novedades", to: "/products" },
     accentColor: "#0891b2",
   },
