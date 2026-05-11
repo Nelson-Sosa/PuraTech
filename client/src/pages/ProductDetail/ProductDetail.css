@@ -554,33 +554,51 @@
   line-height: 1.7;
 }
 
-/* Actions Section — Shimmer Button */
+/* ── Actions Section — Premium Layout ── */
 .actions-section {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  gap: 10px;
   animation: fadeSlideUp 0.5s ease 0.4s both;
 }
 
+/* Animated gradient border wrapper */
+.cart-btn-wrapper {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb, #7c3aed);
+  background-size: 200% 200%;
+  animation: gradient-border 3s ease infinite;
+}
+
+@keyframes gradient-border {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .add-to-cart-detail-btn {
-  flex: 1;
-  padding: 13px 22px;
-  background: var(--gradient-accent);
+  width: 100%;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #4f1dab 0%, #1d4ed8 100%);
   color: #fff;
   border: none;
-  border-radius: var(--radius-lg);
-  font-size: 0.92rem;
+  border-radius: calc(var(--radius-lg) - 2px);
+  font-size: 1.02rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  letter-spacing: 0.03em;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
+  min-height: 54px;
 }
 
 /* Auto-shimmer sweep on idle */
@@ -604,26 +622,35 @@
 }
 
 .add-to-cart-detail-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 36px rgba(139, 92, 246, 0.45);
-  filter: brightness(1.08);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #6d28d9 0%, #1e40af 100%);
+  box-shadow:
+    0 12px 40px rgba(109, 40, 217, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .add-to-cart-detail-btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+  transform: translateY(0) scale(0.99);
+  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.3);
 }
 
 .add-to-cart-detail-btn.added {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.45);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 6px 28px rgba(5, 150, 105, 0.5);
   animation: cart-added 0.5s ease;
+  letter-spacing: 0.06em;
+}
+
+/* Wrapper turns green when added */
+.cart-btn-wrapper:has(.added) {
+  background: linear-gradient(135deg, #10b981, #059669, #10b981);
 }
 
 .add-to-cart-detail-btn:disabled {
-  opacity: 0.85;
+  opacity: 0.9;
   cursor: not-allowed;
   transform: none !important;
+  filter: none !important;
 }
 
 /* WhatsApp Buy Now Button */
@@ -657,6 +684,32 @@
 
 .buy-now-btn:active {
   transform: translateY(0) scale(0.98);
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.trust-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.trust-badge:hover {
+  color: var(--text-secondary);
 }
 
 /* Meta Info */

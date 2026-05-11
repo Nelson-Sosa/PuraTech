@@ -239,15 +239,28 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Add to Cart */}
+          {/* Add to Cart — Premium */}
           <div className="actions-section">
-            <button
-              className={`add-to-cart-detail-btn ${addingToCart ? 'added' : ''}`}
-              onClick={handleAddToCart}
-              disabled={addingToCart}
-            >
-              {addingToCart ? '✓ ¡Agregado!' : '🛒 Agregar al carrito'}
-            </button>
+            <div className="cart-btn-wrapper">
+              <button
+                className={`add-to-cart-detail-btn ${addingToCart ? 'added' : ''}`}
+                onClick={handleAddToCart}
+                disabled={addingToCart}
+              >
+                {addingToCart ? (
+                  <><span>✓</span> ¡Agregado al carrito!</>
+                ) : (
+                  <><span>🛒</span> Agregar al carrito</>
+                )}
+              </button>
+            </div>
+
+            {/* Trust badges */}
+            <div className="trust-badges">
+              <span className="trust-badge">🔒 Compra segura</span>
+              <span className="trust-badge">🚚 Envío a todo PY</span>
+              <span className="trust-badge">💬 Soporte WhatsApp</span>
+            </div>
           </div>
 
           {/* Meta info */}
