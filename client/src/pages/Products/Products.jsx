@@ -1,3 +1,11 @@
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import '../Products/Products.css';
+import Modal from "../../components/Modal/Modal";
+import { API_URL } from '../../config';
+import { useCart } from '../../context/CartContext';
+
 // ── Macro-Categoría Periféricos ──
 const PERIPHERAL_MAPPING = {
     'perifericos': ['mouse', 'teclado', 'auricular', 'headset', 'mousepad', 'alfombrilla', 'parlante', 'periféricos'],
