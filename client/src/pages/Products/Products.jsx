@@ -339,7 +339,7 @@ export const Products = () => {
                             ))}
                         </div>
                     )}
-                </div>
+                </main>
             </div>
 
             <Modal
