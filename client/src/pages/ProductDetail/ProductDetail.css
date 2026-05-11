@@ -570,6 +570,8 @@
   background: linear-gradient(135deg, #7c3aed, #2563eb, #7c3aed);
   background-size: 200% 200%;
   animation: gradient-border 3s ease infinite;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 @keyframes gradient-border {
@@ -579,13 +581,13 @@
 }
 
 .add-to-cart-detail-btn {
-  width: 100%;
-  padding: 16px 28px;
+  width: 280px;
+  padding: 14px 28px;
   background: linear-gradient(135deg, #4f1dab 0%, #1d4ed8 100%);
   color: #fff;
   border: none;
   border-radius: calc(var(--radius-lg) - 2px);
-  font-size: 1.02rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
