@@ -15,7 +15,7 @@ const HERO_SLIDES = [
     titleHighlight: "al siguiente nivel",
     subtitle: "Equipos premium para gamers exigentes. Rendimiento real, precios accesibles.",
     cta: { text: "Ver productos", to: "/products" },
-    ctaSecondary: { text: "Ver categorías", to: "/categories" },
+    ctaSecondary: { text: "Ver categorías", to: "#categories" },
     accentColor: "#2563eb",
   },
   {
@@ -235,9 +235,15 @@ const Home = () => {
                 <Link to={slide.cta.to} className="hero-btn-primary">
                   {slide.cta.text} →
                 </Link>
-                <Link to={slide.ctaSecondary.to} className="hero-btn-secondary">
-                  {slide.ctaSecondary.text}
-                </Link>
+                {slide.ctaSecondary.to.startsWith('#') ? (
+                  <a href={slide.ctaSecondary.to} className="hero-btn-secondary">
+                    {slide.ctaSecondary.text}
+                  </a>
+                ) : (
+                  <Link to={slide.ctaSecondary.to} className="hero-btn-secondary">
+                    {slide.ctaSecondary.text}
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -280,7 +286,7 @@ const Home = () => {
       </section>
 
       {/* CATEGORÍAS PRINCIPALES */}
-      <section className="categories-section">
+      <section className="categories-section" id="categories">
         <div className="section-header">
           <h2>Categorías</h2>
           <p>Explora nuestra selección por categorías</p>
