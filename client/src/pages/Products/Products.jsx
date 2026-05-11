@@ -36,6 +36,7 @@ export const Products = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [availableBrands, setAvailableBrands] = useState([]);
+    const [onlyWithStock, setOnlyWithStock] = useState(false);
     const { addToCart } = useCart();
 
     const isPeripheralHub = decodedCategory === 'perifericos' || decodedCategory === 'periféricos';
@@ -129,13 +130,18 @@ export const Products = () => {
         // Filtro por marca
         if (selectedBrands.length > 0) result = result.filter(p => selectedBrands.includes(p.marca));
 
+        // Filtro por disponibilidad de stock
+        if (onlyWithStock) {
+            result = result.filter(p => Number(p.stock) > 0);
+        }
+
         // Ordenamiento
         if (sortBy === 'price-asc') result.sort((a, b) => Number(a.precio) - Number(b.precio));
         else if (sortBy === 'price-desc') result.sort((a, b) => Number(b.precio) - Number(a.precio));
         else if (sortBy === 'name') result.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
         setFilteredProducts(result);
-    }, [products, minPrice, maxPrice, sortBy, selectedBrands, activeSubFilter, isPeripheralHub]);
+    }, [products, minPrice, maxPrice, sortBy, selectedBrands, activeSubFilter, isPeripheralHub, onlyWithStock]);
 
     const toggleBrand = (brand) => {
         setSelectedBrands(prev => 
@@ -220,6 +226,19 @@ export const Products = () => {
                                 className="price-input"
                             />
                         </div>
+                    </div>
+
+                    <div className="filter-group">
+                        <h3>Disponibilidad</h3>
+                        <label className="checkbox-container">
+                            <input 
+                                type="checkbox" 
+                                checked={onlyWithStock}
+                                onChange={(e) => setOnlyWithStock(e.target.checked)}
+                            />
+                            <span className="checkmark"></span>
+                            Solo productos con stock
+                        </label>
                     </div>
 
                     <h3>Ordenar por</h3>
