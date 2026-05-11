@@ -1,9 +1,48 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { API_URL } from '../../config';
 import './home.css';
 import { useCart } from '../../context/CartContext';
+
+// ── Hero Slides Data ──────────────────────────────────────────
+const HERO_SLIDES = [
+  {
+    id: 0,
+    image: "/img/hero_setup.png",
+    badge: "🔥 Setup Gamer Pro",
+    title: "Tu setup gamer",
+    titleHighlight: "al siguiente nivel",
+    subtitle: "Equipos premium para gamers exigentes. Rendimiento real, precios accesibles.",
+    cta: { text: "Ver productos", to: "/products" },
+    ctaSecondary: { text: "Ver categorías", to: "/categories" },
+    accentColor: "#2563eb",
+  },
+  {
+    id: 1,
+    image: "/img/hero_silla.png",
+    badge: "💺 Confort Extremo",
+    title: "Jugá más cómodo",
+    titleHighlight: "y mejor",
+    subtitle: "Sillas gamer ergonómicas diseñadas para sesiones largas. Soporte lumbar real.",
+    cta: { text: "Ver sillas", to: "/category/Sillas" },
+    ctaSecondary: { text: "Ver ofertas", to: "/products" },
+    accentColor: "#7c3aed",
+  },
+  {
+    id: 2,
+    image: "/img/hero_perifericos.png",
+    badge: "🖱️ Periféricos Top",
+    title: "Los mejores",
+    titleHighlight: "periféricos gamer",
+    subtitle: "Teclados mecánicos, mouses gaming y headsets de alta fidelidad. Jugá sin límites.",
+    cta: { text: "Ver periféricos", to: "/category/Accesorios" },
+    ctaSecondary: { text: "Ver novedades", to: "/products" },
+    accentColor: "#0891b2",
+  },
+];
+
+const SLIDE_DURATION = 5500; // ms por slide
 
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);
@@ -13,6 +52,51 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
   const [addingToCart, setAddingToCart] = useState({});
+
+  // ── Slider State ──
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
+  const progressRef = useRef(null);
+
+  const goToSlide = useCallback((index) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setProgress(0);
+    setTimeout(() => {
+      setCurrentSlide(index);
+      setIsTransitioning(false);
+    }, 600);
+  }, [isTransitioning]);
+
+  const nextSlide = useCallback(() => {
+    goToSlide((currentSlide + 1) % HERO_SLIDES.length);
+  }, [currentSlide, goToSlide]);
+
+  // ── Auto-play ──
+  useEffect(() => {
+    if (isPaused) return;
+    intervalRef.current = setInterval(nextSlide, SLIDE_DURATION);
+    return () => clearInterval(intervalRef.current);
+  }, [isPaused, nextSlide]);
+
+  // ── Progress bar ──
+  useEffect(() => {
+    if (isPaused) return;
+    setProgress(0);
+    const start = performance.now();
+    const tick = (now) => {
+      const elapsed = now - start;
+      setProgress(Math.min((elapsed / SLIDE_DURATION) * 100, 100));
+      if (elapsed < SLIDE_DURATION) {
+        progressRef.current = requestAnimationFrame(tick);
+      }
+    };
+    progressRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(progressRef.current);
+  }, [currentSlide, isPaused]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,21 +201,82 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* HERO SECTION */}
-      <section className="hero-slider">
-        <div className="hero-orb-left" />
-        <div className="slide active">
-          <div className="slide-content">
-            <h1>
-              Tu tienda gamer<br />
-              <span>al mejor precio</span>
-            </h1>
-            <p>🚀 Equipos, consolas y accesorios premium. Comprá fácil y rápido desde tu casa.</p>
-            <Link to="/products" className="hero-btn">
-              Ver productos →
-            </Link>
+      {/* ── HERO SLIDER (Cinematic) ── */}
+      <section
+        className="hero-slider"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {/* Slides */}
+        {HERO_SLIDES.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`hero-slide ${index === currentSlide ? 'hero-slide--active' : ''} ${isTransitioning && index === currentSlide ? 'hero-slide--exit' : ''}`}
+          >
+            {/* Background Image with Ken Burns */}
+            <div
+              className={`hero-bg ${index === currentSlide ? 'hero-bg--zoom' : ''}`}
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
+            {/* Dark Overlay Gradient */}
+            <div className="hero-overlay" />
+
+            {/* Content — staggered text entrance */}
+            <div className={`hero-content ${index === currentSlide && !isTransitioning ? 'hero-content--visible' : ''}`}>
+              <span className="hero-badge">{slide.badge}</span>
+              <h1 className="hero-title">
+                {slide.title}<br />
+                <span className="hero-title-highlight" style={{ '--slide-accent': slide.accentColor }}>
+                  {slide.titleHighlight}
+                </span>
+              </h1>
+              <p className="hero-subtitle">{slide.subtitle}</p>
+              <div className="hero-cta-group">
+                <Link to={slide.cta.to} className="hero-btn-primary">
+                  {slide.cta.text} →
+                </Link>
+                <Link to={slide.ctaSecondary.to} className="hero-btn-secondary">
+                  {slide.ctaSecondary.text}
+                </Link>
+              </div>
+            </div>
           </div>
+        ))}
+
+        {/* Dot Navigation + Progress */}
+        <div className="hero-nav">
+          {HERO_SLIDES.map((slide, index) => (
+            <button
+              key={slide.id}
+              className={`hero-dot ${index === currentSlide ? 'hero-dot--active' : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Ir al slide ${index + 1}`}
+            >
+              {index === currentSlide && (
+                <span
+                  className="hero-dot-progress"
+                  style={{ transform: `scaleX(${progress / 100})` }}
+                />
+              )}
+            </button>
+          ))}
         </div>
+
+        {/* Arrow Navigation */}
+        <button
+          className="hero-arrow hero-arrow--prev"
+          onClick={() => goToSlide((currentSlide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+          aria-label="Slide anterior"
+        >
+          ‹
+        </button>
+        <button
+          className="hero-arrow hero-arrow--next"
+          onClick={() => nextSlide()}
+          aria-label="Siguiente slide"
+        >
+          ›
+        </button>
       </section>
 
       {/* CATEGORÍAS PRINCIPALES */}
