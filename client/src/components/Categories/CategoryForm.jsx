@@ -186,11 +186,24 @@ const CategoryForm = ({ onCategoryAdded, editingCategory, onCancelEdit }) => {
               {loading ? (
                 <option disabled>Cargando...</option>
               ) : (
-                getParentOptions().map(cat => (
-                  <option key={cat._id} value={cat._id}>
-                    {getIndentText(cat.nivel)}{"└ "}{cat.name} {cat.nivel === 1 ? "🔹" : cat.nivel === 2 ? "🔸" : ""}
-                  </option>
-                ))
+                (() => {
+                  const opts = getParentOptions();
+                  let sepShown = false;
+                  const items = [];
+                  for (const cat of opts) {
+                    const prev = opts[opts.indexOf(cat) - 1];
+                    if (!sepShown && prev && prev.nivel === 1 && cat.nivel === 2) {
+                      items.push(<option key="sep" disabled>──────── Subcategorías ────────</option>);
+                      sepShown = true;
+                    }
+                    items.push(
+                      <option key={cat._id} value={cat._id}>
+                        {getIndentText(cat.nivel)}{"└ "}{cat.name} {cat.nivel === 1 ? "🔹" : "🔸"}
+                      </option>
+                    );
+                  }
+                  return items;
+                })()
               )}
             </select>
             <span className="input-hint">
