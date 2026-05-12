@@ -460,6 +460,21 @@
   border-top: 1px solid var(--border-color) !important;
 }
 
+.dropdown-item-primary {
+  background: var(--gradient-accent) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-md) !important;
+  margin: 8px !important;
+  padding: 10px 16px !important;
+  justify-content: center !important;
+}
+
+.dropdown-item-primary:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-1px) !important;
+}
+
 .logout-btn:hover {
   background: rgba(239, 68, 68, 0.08) !important;
 }
