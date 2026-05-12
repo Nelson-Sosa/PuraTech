@@ -64,9 +64,9 @@
 /* ── HERO SLIDER (Cinematic) ── */
 .hero-slider {
   position: relative;
-  height: 90vh;
-  min-height: 620px;
-  max-height: 900px;
+  height: 65vh;
+  min-height: 480px;
+  max-height: 700px;
   overflow: hidden;
   background: #050a14;
 }
@@ -345,8 +345,8 @@
 /* ── Responsive Hero ── */
 @media (max-width: 768px) {
   .hero-slider {
-    height: 80vh;
-    min-height: 520px;
+    height: 55vh;
+    min-height: 400px;
   }
 
   .hero-content {
