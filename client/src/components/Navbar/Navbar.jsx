@@ -5,70 +5,17 @@ import axios from "axios";
 import { API_URL } from '../../config';
 import './Navbar.css';
 
-// ── Category navigation config ────────────────────────────────
-const CATEGORY_NAV = [
-  {
-    id: 'perifericos',
-    label: 'Periféricos',
-    icon: '🖱️',
-    href: '/category/perifericos',
-    children: [
-      { label: 'Mice & Mousepad', href: '/category/mouse', icon: '🖱️' },
-      { label: 'Teclados', href: '/category/teclado', icon: '⌨️' },
-      { label: 'Auriculares', href: '/category/headset', icon: '🎧' },
-      { label: 'Sillas Gamer', href: '/category/silla', icon: '🪑' },
-    ],
-  },
-  {
-    id: 'pc',
-    label: 'PC Gaming',
-    icon: '🖥️',
-    href: '/category/computadora',
-    children: [
-      { label: 'Computadoras', href: '/category/computadora', icon: '🖥️' },
-      { label: 'Gabinetes', href: '/category/gabinete', icon: '📦' },
-      { label: 'Placas de Video', href: '/category/gpu', icon: '🎮' },
-    ],
-  },
-  {
-    id: 'monitores',
-    label: 'Monitores',
-    icon: '🖥️',
-    href: '/category/monitor',
-    children: [],
-  },
-  {
-    id: 'consolas',
-    label: 'Consolas',
-    icon: '🕹️',
-    href: '/category/consola',
-    children: [
-      { label: 'PlayStation', href: '/category/playstation', icon: '🎮' },
-      { label: 'Xbox', href: '/category/xbox', icon: '🎮' },
-      { label: 'Nintendo', href: '/category/nintendo', icon: '🎮' },
-    ],
-  },
-  {
-    id: 'accesorios',
-    label: 'Accesorios',
-    icon: '🔌',
-    href: '/category/accesorios',
-    children: [],
-  },
-  {
-    id: 'ofertas',
-    label: '🔥 Ofertas',
-    icon: '',
-    href: '/products',
-    highlight: true,
-    children: [],
-  },
-];
+// ── Category icons map ──────────────────────────────────────
+const ICONS = {
+  1: '📂',
+  2: '📁',
+  3: '📄',
+  default: '📦'
+};
 
 // ── CategoryItem sub-component ────────────────────────────────
 const CategoryItem = ({ cat }) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef(null);
   const timerRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -82,30 +29,37 @@ const CategoryItem = ({ cat }) => {
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
+  const hasChildren = cat.children && cat.children.length > 0;
+  const icon = ICONS[cat.nivel] || ICONS.default;
+  const href = `/category/${encodeURIComponent(cat.slug || cat.name)}`;
+
   return (
     <div
       className={`cat-nav-item ${cat.highlight ? 'cat-nav-highlight' : ''}`}
-      ref={ref}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link to={cat.href} className="cat-nav-link">
-        {cat.icon && <span className="cat-nav-icon">{cat.icon}</span>}
-        {cat.label}
-        {cat.children.length > 0 && (
+      <Link to={href} className="cat-nav-link">
+        <span className="cat-nav-icon">{icon}</span>
+        <span className="cat-nav-label">{cat.name}</span>
+        {hasChildren && (
           <svg className={`cat-nav-chevron ${open ? 'rotated' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         )}
       </Link>
 
-      {cat.children.length > 0 && open && (
+      {hasChildren && open && (
         <div className="cat-dropdown">
           <div className="cat-dropdown-grid">
             {cat.children.map((child) => (
-              <Link key={child.href} to={child.href} className="cat-dropdown-item">
-                <span className="cat-dd-icon">{child.icon}</span>
-                <span>{child.label}</span>
+              <Link 
+                key={child._id} 
+                to={`/category/${encodeURIComponent(child.slug || child.name)}`} 
+                className="cat-dropdown-item"
+              >
+                <span className="cat-dd-icon">{ICONS[child.nivel] || ICONS.default}</span>
+                <span>{child.name}</span>
               </Link>
             ))}
           </div>
@@ -120,7 +74,22 @@ const Navbar = () => {
   const [userRole, setUserRole] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [salesMeta, setSalesMeta] = useState(null);
+  const [categories, setCategories] = useState([]);
   const { getCount } = useCart();
+
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/categories/tree`);
+        setCategories(res.data || []);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        setCategories([]);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const validateAndSetRole = async () => {
@@ -268,8 +237,8 @@ const Navbar = () => {
       {/* ── CATEGORY NAV BAR ── */}
       <nav className="cat-navbar">
         <div className="cat-navbar-inner">
-          {CATEGORY_NAV.map((cat) => (
-            <CategoryItem key={cat.id} cat={cat} />
+          {categories.map((cat) => (
+            <CategoryItem key={cat._id} cat={cat} />
           ))}
         </div>
       </nav>
