@@ -15,8 +15,14 @@ module.exports = (app) => {
     // RUTAS PÚBLICAS (sin token)
     app.get('/api/products/public/home', ProductController.getPublicHome);
     app.get('/api/products/public', ProductController.getPublicProducts);
-    app.get('/api/search-products', ProductController.searchGlobal); // Ya no requiere token
-    app.get('/api/categories', CategoryController.getCategories); // Pública
+    app.get('/api/search-products', ProductController.searchGlobal);
+    
+    // ===== CATEGORÍAS PÚBLICAS =====
+    app.get('/api/categories', CategoryController.getCategories); // Lista plana
+    app.get('/api/categories/tree', CategoryController.getCategoryTree); // Árbol jerárquico
+    app.get('/api/categories/main', CategoryController.getMainCategories); // Solo principales
+    app.get('/api/categories/parent/:parentId', CategoryController.getSubcategories); // Subcategorías
+    app.get('/api/categories/:id', CategoryController.getCategoryById); // Por ID con hijos
 
     // ===== LOGIN Y USUARIOS =====
     app.post("/api/login", UserController.login);
@@ -28,13 +34,21 @@ module.exports = (app) => {
       });
     });
 
-    // ===== RUTAS ADMIN (con token) =====
+    // ===== PRODUCTOS (públicos y admin) =====
+    app.get('/api/product/:id', ProductController.getProduct); // Pública
+    app.get('/api/productos', ProductController.todosLosProductos); // Pública
+    app.get('/api/products', ProductController.categoriaProductos); // Pública
+
+    // ===== PRODUCTOS ADMIN (con token) =====
     app.post("/api/agregar/producto", validarToken, verificarRol('admin'), upload.single('imageUrl'), ProductController.agregarProducto);
     app.put("/api/actualizar/product/:id", validarToken, verificarRol('admin'), upload.fields([{ name: 'imageUrl', maxCount: 1 }, { name: 'additionalImages', maxCount: 10 }]), ProductController.updateProduct);
     app.delete("/api/remover/product/:id", validarToken, verificarRol('admin'), ProductController.removerProducto);
-    app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.deleteCategory);
+
+    // ===== CATEGORÍAS ADMIN (con token) =====
     app.post('/api/categories', validarToken, verificarRol('admin'), CategoryController.addCategory);
     app.put('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.updateCategory);
+    app.delete('/api/categories/:id', validarToken, verificarRol('admin'), CategoryController.deleteCategory);
+    app.delete('/api/categories/:id/reassign', validarToken, verificarRol('admin'), CategoryController.deleteCategoryAndReassign);
     
     // Rutas solo accesibles para admin
     app.get("/api/usuarios", validarToken, verificarRol('admin'), UserController.todosLosUsuarios);

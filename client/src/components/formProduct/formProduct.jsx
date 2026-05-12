@@ -195,11 +195,14 @@ const FormProduct = () => {
               className="form-select"
             >
               {categories.length > 0 ? (
-                categories.map((cat) => (
-                  <option key={cat._id} value={cat.name}>
-                    {cat.name}
-                  </option>
-                ))
+                categories.map((cat) => {
+                  const indent = cat.nivel > 1 ? "\u00A0\u00A0".repeat(cat.nivel - 1) + "└ " : "";
+                  return (
+                    <option key={cat._id} value={cat.name}>
+                      {indent}{cat.name}
+                    </option>
+                  );
+                })
               ) : (
                 <option>Cargando categorías...</option>
               )}
