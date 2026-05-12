@@ -133,18 +133,32 @@ const Navbar = () => {
         return;
       }
 
+      // Check localStorage first for immediate display
+      if (storedRole === 'admin') {
+        setUserRole('admin');
+        setIsAdmin(true);
+      }
+
+      // Then validate with server
       try {
         const res = await axios.get(`${API_URL}/api/verify-token`, {
           headers: { token_usuario: token }
         });
-        setUserRole(res.data.user?.rol || storedRole);
-        setIsAdmin(res.data.user?.rol === 'admin' || storedRole === 'admin');
+        const serverRole = res.data.user?.rol;
+        if (serverRole) {
+          setUserRole(serverRole);
+          setIsAdmin(serverRole === 'admin');
+          localStorage.setItem('rol', serverRole);
+        }
       } catch (err) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
-        localStorage.removeItem('user');
-        setUserRole(null);
-        setIsAdmin(false);
+        // If server validation fails but localStorage says admin, keep admin
+        if (storedRole !== 'admin') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('rol');
+          localStorage.removeItem('user');
+          setUserRole(null);
+          setIsAdmin(false);
+        }
       }
     };
 
