@@ -1,14 +1,15 @@
-/* ============================================================
-   NAVBAR — GameMasters Premium Ecommerce Design
-   ============================================================ */
-
-.navbar {
+/* ── Wrapper (sticky for both bars) ── */
+.navbar-wrapper {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.8);
+}
+
+.navbar {
+  width: 100%;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -16,15 +17,151 @@
   align-items: center;
   padding: 0 40px;
   gap: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar.scrolled {
-  height: 70px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  height: 64px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
+
+/* ── CATEGORY NAV BAR ── */
+.cat-navbar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.cat-navbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Category Item ── */
+.cat-nav-item {
+  position: relative;
+}
+
+.cat-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 11px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.cat-nav-link:hover {
+  color: var(--accent-blue);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.cat-nav-item.cat-nav-highlight .cat-nav-link {
+  color: #e53e3e;
+  font-weight: 700;
+}
+
+.cat-nav-item.cat-nav-highlight .cat-nav-link:hover {
+  background: rgba(229, 62, 62, 0.07);
+  color: #c53030;
+}
+
+.cat-nav-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cat-nav-chevron {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  transition: transform 0.25s ease;
+  opacity: 0.6;
+}
+
+.cat-nav-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* ── Category Dropdown ── */
+.cat-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 240px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+  z-index: 999;
+  animation: dropdownIn 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cat-dropdown-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cat-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.cat-dropdown-item:hover {
+  background: rgba(37, 99, 235, 0.07);
+  color: var(--accent-blue);
+  transform: translateX(4px);
+}
+
+.cat-dd-icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
 
 /* ── Brand ── */
 .navbar-brand {
