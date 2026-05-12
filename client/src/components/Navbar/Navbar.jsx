@@ -200,7 +200,7 @@ const Navbar = () => {
                 </span>
               )}
               <div className="dropdown-content">
-                <Link to="/agregar/product" className="dropdown-item-primary">➕ Agregar Producto</Link>
+                <Link to="/agregar/product">➕ Agregar Producto</Link>
                 <Link to="/add/suppliers">Agregar Proveedor</Link>
                 <Link to="/add/category">Agregar Categoría</Link>
                 <Link to="/categories">Ver Categorías</Link>
