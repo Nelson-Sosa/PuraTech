@@ -51,12 +51,9 @@ const CategoryForm = ({ onCategoryAdded, editingCategory, onCancelEdit }) => {
   };
 
   const getParentOptions = () => {
-    // Filter out current category if editing (can't be own parent)
-    // and limit depth to 2 levels (so only show level 1 as parents for new level 2)
-    const maxNivel = editingCategory ? editingCategory.nivel : 1;
     return categories.filter(cat => {
       if (editingCategory && cat._id === editingCategory._id) return false;
-      return cat.nivel < 3 && (!maxNivel || cat.nivel < maxNivel);
+      return cat.nivel < 3;
     });
   };
 
