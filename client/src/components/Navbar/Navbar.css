@@ -168,6 +168,40 @@
   border-radius: 8px;
 }
 
+.cat-dd-item-wrapper {
+  position: relative;
+}
+
+.cat-dd-arrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.cat-dd-item-wrapper:hover .cat-dd-arrow {
+  color: var(--accent-blue);
+}
+
+.cat-sub-dropdown {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 200px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 6px;
+  z-index: 1003;
+  animation: catDropDown 0.18s ease-out;
+}
+
+.cat-sub-item {
+  font-size: 0.85rem;
+  padding: 9px 12px;
+}
+
 
 /* ── Brand ── */
 .navbar-brand {

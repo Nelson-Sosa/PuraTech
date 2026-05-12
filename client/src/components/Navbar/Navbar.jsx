@@ -13,6 +13,46 @@ const ICONS = {
   default: '📦'
 };
 
+// ── SubItem (level 2 item with level 3 children) ─────────────
+const SubItem = ({ child }) => {
+  const [subOpen, setSubOpen] = useState(false);
+  const timerRef = useRef(null);
+
+  const hasSubChildren = child.children && child.children.length > 0;
+
+  return (
+    <div
+      className="cat-dd-item-wrapper"
+      onMouseEnter={() => { clearTimeout(timerRef.current); setSubOpen(true); }}
+      onMouseLeave={() => { timerRef.current = setTimeout(() => setSubOpen(false), 120); }}
+    >
+      <Link
+        to={`/category/${encodeURIComponent(child.slug || child.name)}`}
+        className="cat-dropdown-item"
+      >
+        <span className="cat-dd-icon">{ICONS[child.nivel] || ICONS.default}</span>
+        <span>{child.name}</span>
+        {hasSubChildren && <span className="cat-dd-arrow">›</span>}
+      </Link>
+
+      {hasSubChildren && subOpen && (
+        <div className="cat-sub-dropdown">
+          {child.children.map((subChild) => (
+            <Link
+              key={subChild._id}
+              to={`/category/${encodeURIComponent(subChild.slug || subChild.name)}`}
+              className="cat-dropdown-item cat-sub-item"
+            >
+              <span className="cat-dd-icon">{ICONS[subChild.nivel] || ICONS.default}</span>
+              <span>{subChild.name}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ── CategoryItem sub-component ────────────────────────────────
 const CategoryItem = ({ cat }) => {
   const [open, setOpen] = useState(false);
@@ -53,14 +93,7 @@ const CategoryItem = ({ cat }) => {
         <div className="cat-dropdown">
           <div className="cat-dropdown-grid">
             {cat.children.map((child) => (
-              <Link 
-                key={child._id} 
-                to={`/category/${encodeURIComponent(child.slug || child.name)}`} 
-                className="cat-dropdown-item"
-              >
-                <span className="cat-dd-icon">{ICONS[child.nivel] || ICONS.default}</span>
-                <span>{child.name}</span>
-              </Link>
+              <SubItem key={child._id} child={child} />
             ))}
           </div>
         </div>
