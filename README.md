@@ -1,4 +1,4 @@
-# 🎮 GameMasters — E-commerce Full Stack MERN
+# ⚡ PuraTech — E-commerce Full Stack MERN
 
 <p align="center">
   <img src="https://img.shields.io/badge/Stack-MERN-4caf50?style=for-the-badge&logo=mongodb&logoColor=47A248&logoWidth=20" alt="Stack: MERN">
@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License: MIT">
 </p>
 
-> 🛒 Tienda online profesional de tecnología y gaming, desarrollada con arquitectura moderna lista para producción.
+> 🛒 Tienda online profesional de tecnología y electrónica general, desarrollada con arquitectura moderna lista para producción.
 
 ## 🚀 Demo en Producción
 
@@ -18,7 +18,7 @@
 
 ## 📋 Descripción del Proyecto
 
-**GameMasters** es una aplicación web full-stack de comercio electrónico especializada en productos de tecnología y gaming. El proyecto implementa patrones de arquitectura empresarial incluyendo autenticación segura, control de acceso basado en roles, gestión de inventario, y un sistema de categorías jerárquico de 3 niveles.
+**PuraTech** es una aplicación web full-stack de comercio electrónico especializada en productos de tecnología y electrónica general (computación, gaming, audio, smartphones, periféricos y más). El proyecto implementa patrones de arquitectura empresarial incluyendo autenticación segura, control de acceso basado en roles, gestión de inventario, y un sistema de categorías jerárquico de 3 niveles estilo grandes plataformas como Amazon y MercadoLibre.
 
 ### ✨ Características Principales
 
@@ -68,7 +68,7 @@ Imágenes: Cloudinary CDN
 ## 🏗️ Arquitectura del Proyecto
 
 ```
-GameMasters/
+PuraTech/
 ├── 📁 client/                 # Frontend React
 │   ├── src/
 │   │   ├── components/        # Componentes reutilizables
@@ -154,22 +154,28 @@ GameMasters/
 
 ## 🎨 Sistema de Categorías Jerárquico
 
-El proyecto implementa un sistema de categorías de 3 niveles inspirado en grandes plataformas:
+El proyecto implementa un sistema de categorías de 3 niveles inspirado en grandes plataformas como Amazon y MercadoLibre:
 
 ```
-📂 Electrónica      (Nivel 1 - Categoría Principal)
-├── 📁 Televisores  (Nivel 2 - Subcategoría)
-└── 📁 Monitores   (Nivel 2 - Subcategoría)
+📂 Electrónica      (Nivel 1)
+├── 📁 Televisores
+├── 📁 Monitores
+└── 📁 Proyectores
 
 📂 Computación      (Nivel 1)
 ├── 📁 Notebooks
-│   ├── 📄 Notebooks Gamer      (Nivel 3)
+│   ├── 📄 Notebooks Gamer
 │   └── 📄 Notebooks Tradicionales
+├── 📁 PC de Escritorio
+│   ├── 📄 PC Gamer
+│   └── 📄 PC Tradicional
 ├── 📁 Componentes
 │   ├── 📄 Procesadores
 │   ├── 📄 Tarjetas Gráficas
-│   └── 📄 Memorias RAM
-└── 📁 Monitores
+│   ├── 📄 Memorias RAM
+│   └── 📄 Gabinetes
+├── 📁 Monitores
+└── 📁 Impresoras
 
 📂 Gaming           (Nivel 1)
 ├── 📁 Consolas
@@ -177,17 +183,39 @@ El proyecto implementa un sistema de categorías de 3 niveles inspirado en grand
 │   ├── 📄 Xbox
 │   └── 📄 Nintendo
 ├── 📁 Sillas Gamer
+├── 📁 Mesas Gamer
 └── 📁 Accesorios Gaming
+
+📂 Audio            (Nivel 1)
+├── 📁 Auriculares
+├── 📁 Parlantes
+├── 📁 Micrófonos
+└── 📁 Soundbars
 
 📂 Periféricos      (Nivel 1)
 ├── 📁 Mouse
 │   ├── 📄 Mouse Gamer
 │   ├── 📄 Mouse Inalámbrico
 │   └── 📄 Mouse Ergonómico
-└── 📁 Teclados
-    ├── 📄 Teclado Mecánico
-    ├── 📄 Teclado Membrana
-    └── 📄 Teclado Inalámbrico
+├── 📁 Teclados
+│   ├── 📄 Teclado Mecánico
+│   └── 📄 Teclado Inalámbrico
+├── 📁 Mousepads
+└── 📁 Webcams
+
+📂 Smartphones     (Nivel 1)
+├── 📁 Celulares
+│   ├── 📄 Samsung
+│   ├── 📄 iPhone
+│   └── 📄 Xiaomi
+├── 📁 Tablets
+└── 📁 Smartwatches
+
+📂 Accesorios      (Nivel 1)
+├── 📁 Cargadores
+├── 📁 Cables
+├── 📁 Fundas y Cases
+└── 📁 Baterías Externas
 ```
 
 ---
@@ -214,8 +242,8 @@ El proyecto implementa un sistema de categorías de 3 niveles inspirado en grand
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/Nelson-Sosa/GameMasters.git
-cd GameMasters
+git clone https://github.com/Nelson-Sosa/PuraTech.git
+cd PuraTech
 
 # 2. Instalar dependencias del root
 npm install
