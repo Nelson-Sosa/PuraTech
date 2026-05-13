@@ -44,32 +44,68 @@ const HERO_SLIDES = [
 
 const SLIDE_DURATION = 5500; // ms por slide
 
-// ── Category card config (gradient + icon) ───────────────────
-const CAT_CONFIG = {
-  'Electrónica':     { icon: '📺', bg: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',  emoji: '📺' },
-  'Computación':     { icon: '🖥️', bg: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',  emoji: '🖥️' },
-  'Gaming':          { icon: '🎮', bg: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',  emoji: '🎮' },
-  'Audio':           { icon: '🔊', bg: 'linear-gradient(135deg, #0891b2 0%, #22d3ee 100%)',  emoji: '🔊' },
-  'Periféricos':     { icon: '🖱️', bg: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', emoji: '🖱️' },
-  'Perifericos':     { icon: '🖱️', bg: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', emoji: '🖱️' },
-  'Smartphones':     { icon: '📱', bg: 'linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)', emoji: '📱' },
-  'Accesorios':      { icon: '⚡', bg: 'linear-gradient(135deg, #d97706 0%, #fbbf24 100%)',  emoji: '⚡' },
-  'Consolas':        { icon: '🎮', bg: 'linear-gradient(135deg, #dc2626 0%, #f87171 100%)', emoji: '🎮' },
+// ── Premium SVG Icons ──
+const SVG_ICONS = {
+  electronica: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+      <polyline points="17 2 12 7 7 2"></polyline>
+    </svg>
+  ),
+  computacion: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+      <line x1="8" y1="21" x2="16" y2="21"></line>
+      <line x1="12" y1="17" x2="12" y2="21"></line>
+    </svg>
+  ),
+  gaming: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 12h4m-2-2v4m4-4h.01M16 12h.01M2 12c0-4.4 3.6-8 8-8h4c4.4 0 8 3.6 8 8 0 1.5-.5 3-1.5 4.1L19 18H5l-1.5-1.9C2.5 15 2 13.5 2 12z"></path>
+    </svg>
+  ),
+  audio: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+    </svg>
+  ),
+  perifericos: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+      <line x1="12" y1="6" x2="12" y2="10"></line>
+    </svg>
+  ),
+  smartphones: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18"></line>
+    </svg>
+  ),
+  accesorios: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+  ),
+  default: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+      <line x1="9" y1="3" x2="9" y2="21"></line>
+    </svg>
+  )
 };
 
 const getCatConfig = (name) => {
-  const match = CAT_CONFIG[name];
-  if (match) return match;
   const lower = name.toLowerCase();
-  if (lower.includes('electronica')) return CAT_CONFIG['Electrónica'];
-  if (lower.includes('computacion') || lower.includes('comput')) return CAT_CONFIG['Computación'];
-  if (lower.includes('gaming') || lower.includes('juego')) return CAT_CONFIG['Gaming'];
-  if (lower.includes('audio') || lower.includes('sonido')) return CAT_CONFIG['Audio'];
-  if (lower.includes('periferic')) return CAT_CONFIG['Periféricos'];
-  if (lower.includes('smart') || lower.includes('phone') || lower.includes('celul')) return CAT_CONFIG['Smartphones'];
-  if (lower.includes('accesori') || lower.includes('cable') || lower.includes('cargad')) return CAT_CONFIG['Accesorios'];
-  if (lower.includes('consola')) return CAT_CONFIG['Consolas'];
-  return { icon: '📁', bg: 'linear-gradient(135deg, #475569 0%, #64748b 100%)', emoji: '📁' };
+  if (lower.includes('electronica')) return { svg: SVG_ICONS.electronica, gradient: 'var(--gradient-accent)' };
+  if (lower.includes('computacion') || lower.includes('comput')) return { svg: SVG_ICONS.computacion, gradient: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)' };
+  if (lower.includes('gaming') || lower.includes('juego') || lower.includes('consola')) return { svg: SVG_ICONS.gaming, gradient: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)' };
+  if (lower.includes('audio') || lower.includes('sonido')) return { svg: SVG_ICONS.audio, gradient: 'linear-gradient(135deg, #0891b2 0%, #22d3ee 100%)' };
+  if (lower.includes('periferic')) return { svg: SVG_ICONS.perifericos, gradient: 'linear-gradient(135deg, #059669 0%, #10b981 100%)' };
+  if (lower.includes('smart') || lower.includes('phone') || lower.includes('celul')) return { svg: SVG_ICONS.smartphones, gradient: 'linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)' };
+  if (lower.includes('accesori') || lower.includes('cable') || lower.includes('cargad')) return { svg: SVG_ICONS.accesorios, gradient: 'linear-gradient(135deg, #d97706 0%, #fbbf24 100%)' };
+  return { svg: SVG_ICONS.default, gradient: 'linear-gradient(135deg, #475569 0%, #64748b 100%)' };
 };
 
 const CategoryCard = ({ cat }) => {
@@ -78,8 +114,10 @@ const CategoryCard = ({ cat }) => {
 
   return (
     <Link to={href} className="cat-featured-card">
-      <div className="cat-icon-wrapper" style={{ background: cfg.bg }}>
-        <span className="cat-emoji">{cfg.emoji}</span>
+      <div className="cat-icon-wrapper">
+        <div className="cat-svg-icon" style={{ '--icon-gradient': cfg.gradient }}>
+          {cfg.svg}
+        </div>
       </div>
       <div className="cat-info-clean">
         <h3 className="cat-name-clean">{cat.name}</h3>
