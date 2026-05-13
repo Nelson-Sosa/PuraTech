@@ -25,7 +25,7 @@ const HERO_SLIDES = [
     title: "Llevá la diversión",
     titleHighlight: "al siguiente nivel",
     subtitle: "Las mejores consolas y equipos de sonido para vivir la mejor experiencia en casa.",
-    cta: { text: "Ver consolas", to: "/category/Consolas" },
+    cta: { text: "Ver consolas", to: "/category/consolas" },
     ctaSecondary: { text: "Ver ofertas", to: "/products" },
     accentColor: "#7c3aed",
   },
@@ -36,7 +36,7 @@ const HERO_SLIDES = [
     title: "Sonido envolvente",
     titleHighlight: "y accesorios top",
     subtitle: "Auriculares inalámbricos, parlantes bluetooth y todos los accesorios para tus dispositivos.",
-    cta: { text: "Ver audio", to: "/category/Audio" },
+    cta: { text: "Ver audio", to: "/category/audio" },
     ctaSecondary: { text: "Ver novedades", to: "/products" },
     accentColor: "#0891b2",
   },
@@ -44,15 +44,60 @@ const HERO_SLIDES = [
 
 const SLIDE_DURATION = 5500; // ms por slide
 
-// ── Helper: Get Category Icon ──────────────────────────────
-const getCategoryIcon = (name) => {
-  const lowerName = name.toLowerCase();
-  if (lowerName.includes('consolas')) return '🎮';
-  if (lowerName.includes('pc') || lowerName.includes('notebook')) return '💻';
-  if (lowerName.includes('componentes') || lowerName.includes('hardware')) return '🖥️';
-  if (lowerName.includes('accesorios') || lowerName.includes('perifericos')) return '🖱️';
-  if (lowerName.includes('juegos')) return '🎲';
-  return '📁';
+// ── Category card config (gradient + icon) ───────────────────
+const CAT_CONFIG = {
+  'Electrónica':     { icon: '📺', bg: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',  emoji: '📺' },
+  'Computación':     { icon: '🖥️', bg: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',  emoji: '🖥️' },
+  'Gaming':          { icon: '🎮', bg: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',  emoji: '🎮' },
+  'Audio':           { icon: '🔊', bg: 'linear-gradient(135deg, #0891b2 0%, #22d3ee 100%)',  emoji: '🔊' },
+  'Periféricos':     { icon: '🖱️', bg: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', emoji: '🖱️' },
+  'Perifericos':     { icon: '🖱️', bg: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', emoji: '🖱️' },
+  'Smartphones':     { icon: '📱', bg: 'linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)', emoji: '📱' },
+  'Accesorios':      { icon: '⚡', bg: 'linear-gradient(135deg, #d97706 0%, #fbbf24 100%)',  emoji: '⚡' },
+  'Consolas':        { icon: '🎮', bg: 'linear-gradient(135deg, #dc2626 0%, #f87171 100%)', emoji: '🎮' },
+};
+
+const getCatConfig = (name) => {
+  const match = CAT_CONFIG[name];
+  if (match) return match;
+  const lower = name.toLowerCase();
+  if (lower.includes('electronica')) return CAT_CONFIG['Electrónica'];
+  if (lower.includes('computacion') || lower.includes('comput')) return CAT_CONFIG['Computación'];
+  if (lower.includes('gaming') || lower.includes('juego')) return CAT_CONFIG['Gaming'];
+  if (lower.includes('audio') || lower.includes('sonido')) return CAT_CONFIG['Audio'];
+  if (lower.includes('periferic')) return CAT_CONFIG['Periféricos'];
+  if (lower.includes('smart') || lower.includes('phone') || lower.includes('celul')) return CAT_CONFIG['Smartphones'];
+  if (lower.includes('accesori') || lower.includes('cable') || lower.includes('cargad')) return CAT_CONFIG['Accesorios'];
+  if (lower.includes('consola')) return CAT_CONFIG['Consolas'];
+  return { icon: '📁', bg: 'linear-gradient(135deg, #475569 0%, #64748b 100%)', emoji: '📁' };
+};
+
+// ── Category Card ──────────────────────────────────────────
+const CategoryCard = ({ cat }) => {
+  const cfg = getCatConfig(cat.name);
+  const href = `/category/${encodeURIComponent(cat.slug || cat.name)}`;
+  const childCount = cat.children?.length || 0;
+
+  return (
+    <Link to={href} className="cat-featured-card">
+      <div className="cat-featured-bg" style={{ background: cfg.bg }}>
+        <div className="cat-featured-icon">{cfg.emoji}</div>
+        <div className="cat-featured-pattern"></div>
+      </div>
+      <div className="cat-featured-info">
+        <h3 className="cat-featured-name">{cat.name}</h3>
+        {childCount > 0 && (
+          <span className="cat-featured-count">{childCount} subcategorías</span>
+        )}
+        <span className="cat-featured-cta">
+          Explorar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </Link>
+  );
 };
 
 // ── Sub-component: Product Section ──────────────────────────
@@ -209,13 +254,13 @@ const Home = () => {
       try {
         const [productsRes, categoriesRes] = await Promise.all([
           axios.get(`${API_URL}/api/products/public/home`),
-          axios.get(`${API_URL}/api/categories`)
+          axios.get(`${API_URL}/api/categories/tree`)
         ]);
         
         setBestsellers(productsRes.data.bestsellers);
         setOffers(productsRes.data.offers);
         setNewProducts(productsRes.data.newProducts);
-        setCategories(categoriesRes.data);
+        setCategories(categoriesRes.data || []);
       } catch (err) {
         console.error("Error cargando datos de inicio", err);
       } finally {
@@ -311,33 +356,43 @@ const Home = () => {
         </button>
       </section>
 
-      {/* CATEGORÍAS PRINCIPALES */}
-      <section className="categories-section" id="categories">
-        <div className="section-header">
-          <h2>Categorías</h2>
-          <p>Explora nuestra selección por categorías</p>
-        </div>
-        
-        <div className="categories-grid">
-          {categories.length > 0 ? (
-            categories.map((cat) => (
-              <Link 
-                key={cat._id} 
-                to={`/category/${encodeURIComponent(cat.name)}`} 
-                className="category-card"
-              >
-                <div className="cat-content">
-                  <span className="cat-label">{cat.name}</span>
-                  <span className="cat-explore">Ver productos</span>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div className="loading-categories">
-              <div className="spinner"></div>
-              <p>Cargando categorías...</p>
+      {/* ── CATEGORÍAS DESTACADAS ── */}
+      <section className="cat-featured-section" id="categories">
+        <div className="cat-featured-container">
+          <div className="cat-featured-header">
+            <div className="cat-featured-title-wrap">
+              <span className="cat-featured-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+                </svg>
+                Navegá rápido
+              </span>
+              <h2>Explorá por categoría</h2>
+              <p>Encontrá todo lo que necesitás organizado por secciones</p>
             </div>
-          )}
+            <Link to="/products" className="cat-featured-viewall">
+              Ver todo el catálogo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
+          <div className="cat-featured-grid">
+            {categories.filter(c => c.nivel === 1).length > 0 ? (
+              categories
+                .filter(c => c.nivel === 1)
+                .sort((a, b) => (a.orden || 0) - (b.orden || 0))
+                .map((cat) => (
+                  <CategoryCard key={cat._id} cat={cat} />
+                ))
+            ) : (
+              <div className="loading-categories">
+                <div className="spinner"></div>
+                <p>Cargando categorías...</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
