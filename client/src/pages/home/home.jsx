@@ -36,7 +36,7 @@ const HERO_SLIDES = [
     title: "Sonido envolvente",
     titleHighlight: "y accesorios top",
     subtitle: "Auriculares inalámbricos, parlantes bluetooth y todos los accesorios para tus dispositivos.",
-    cta: { text: "Ver accesorios", to: "/category/Accesorios" },
+    cta: { text: "Ver audio", to: "/category/Audio" },
     ctaSecondary: { text: "Ver novedades", to: "/products" },
     accentColor: "#0891b2",
   },
