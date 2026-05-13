@@ -268,7 +268,6 @@ cd client && npm start
 
 ## 🔮 Funcionalidades Futuras
 
-- [ ] Sistema de pagos completo con Stripe
 - [ ] Dashboard de análisis de ventas (admin)
 - [ ] Reseñas y calificaciones de productos
 - [ ] Lista de deseos / favoritos
