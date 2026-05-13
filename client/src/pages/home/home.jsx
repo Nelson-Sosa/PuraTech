@@ -72,21 +72,19 @@ const getCatConfig = (name) => {
   return { icon: '📁', bg: 'linear-gradient(135deg, #475569 0%, #64748b 100%)', emoji: '📁' };
 };
 
-// ── Category Card ──────────────────────────────────────────
 const CategoryCard = ({ cat }) => {
   const cfg = getCatConfig(cat.name);
   const href = `/category/${encodeURIComponent(cat.slug || cat.name)}`;
 
   return (
     <Link to={href} className="cat-featured-card">
-      <div className="cat-featured-bg" style={{ background: cfg.bg }}>
-        <div className="cat-featured-icon">{cfg.emoji}</div>
-        <div className="cat-featured-pattern"></div>
+      <div className="cat-icon-wrapper" style={{ background: cfg.bg }}>
+        <span className="cat-emoji">{cfg.emoji}</span>
       </div>
-      <div className="cat-featured-info">
-        <h3 className="cat-featured-name">{cat.name}</h3>
-        <span className="cat-featured-cta">
-          Explorar
+      <div className="cat-info-clean">
+        <h3 className="cat-name-clean">{cat.name}</h3>
+        <span className="cat-explore-clean">
+          Ver productos
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
