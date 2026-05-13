@@ -76,7 +76,6 @@ const getCatConfig = (name) => {
 const CategoryCard = ({ cat }) => {
   const cfg = getCatConfig(cat.name);
   const href = `/category/${encodeURIComponent(cat.slug || cat.name)}`;
-  const childCount = cat.children?.length || 0;
 
   return (
     <Link to={href} className="cat-featured-card">
@@ -86,9 +85,6 @@ const CategoryCard = ({ cat }) => {
       </div>
       <div className="cat-featured-info">
         <h3 className="cat-featured-name">{cat.name}</h3>
-        {childCount > 0 && (
-          <span className="cat-featured-count">{childCount} subcategorías</span>
-        )}
         <span className="cat-featured-cta">
           Explorar
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -554,11 +554,7 @@
   text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
-.cat-featured-count {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.75);
-  font-weight: 500;
-}
+
 
 .cat-featured-cta {
   display: inline-flex;
@@ -676,9 +672,6 @@
     font-size: 0.9rem;
   }
 
-  .cat-featured-count {
-    display: none;
-  }
 }
 
 .section-header {
