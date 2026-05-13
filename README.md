@@ -1,123 +1,300 @@
-🎮 GameMasters – Aplicación Full Stack MERN
+# 🎮 GameMasters — E-commerce Full Stack MERN
 
-🌐 Demo en producción: https://game-masters-nine.vercel.app/
+<p align="center">
+  <img src="https://img.shields.io/badge/Stack-MERN-4caf50?style=for-the-badge&logo=mongodb&logoColor=47A248&logoWidth=20" alt="Stack: MERN">
+  <img src="https://img.shields.io/badge/Status-Production-2196F3?style=for-the-badge" alt="Status: Production">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License: MIT">
+</p>
 
-📌 Descripción
+> 🛒 Tienda online profesional de tecnología y gaming, desarrollada con arquitectura moderna lista para producción.
 
-GameMasters es una aplicación web Full Stack tipo e-commerce desarrollada con el stack MERN (MongoDB, Express, React, Node.js).
+## 🚀 Demo en Producción
 
-Implementa autenticación segura con JWT, autorización basada en roles (RBAC), integración con servicios externos (Cloudinary y Stripe) y una arquitectura modular preparada para entorno de producción.
+| Frontend (Vercel) | Backend (Render) |
+|-------------------|------------------|
+| [`game-masters-nine.vercel.app`](https://game-masters-nine.vercel.app) | [`gamemasters-aqha.onrender.com`](https://gamemasters-aqha.onrender.com) |
 
-🚀 Funcionalidades
+---
 
-🔐 Autenticación con JWT
+## 📋 Descripción del Proyecto
 
-👥 Control de acceso basado en roles (Admin / Usuario)
+**GameMasters** es una aplicación web full-stack de comercio electrónico especializada en productos de tecnología y gaming. El proyecto implementa patrones de arquitectura empresarial incluyendo autenticación segura, control de acceso basado en roles, gestión de inventario, y un sistema de categorías jerárquico de 3 niveles.
 
-🛍 CRUD completo de productos
+### ✨ Características Principales
 
-🏷 Gestión de categorías
+| Categoría | Funcionalidades |
+|-----------|-----------------|
+| **🛍️ E-commerce** | Catálogo de productos, búsqueda avanzada, filtros por categoría, carrito de compras |
+| **👥 Autenticación** | JWT con refresh token, login/registro, recuperación de contraseña |
+| **⚙️ Administración** | Panel admin completo: productos, categorías, pedidos, clientes, inventario |
+| **📁 Categorías** | Sistema jerárquico de 3 niveles (padre → hijo → nieto) estilo Amazon/MercadoLibre |
+| **📱 UX/UI** | Diseño responsive, tema claro profesional, animaciones fluidas |
+| **📦 Pedidos** | Integración con WhatsApp para pedidos, gestión de estado de órdenes |
+| **🖼️ Imágenes** | Cloudinary para almacenamiento y optimización de imágenes |
+| **💳 Pagos** | Integración Stripe (preparada para producción) |
 
-🚚 Gestión de proveedores
+---
 
-🖼 Subida de imágenes con Cloudinary
+## 🛠️ Stack Tecnológico
 
-💳 Integración de pagos con Stripe
-
-🔎 Búsqueda global de productos
-
-📦 Backend sirviendo build de React en producción
-
-🛠 Stack Tecnológico
-
-🔹 Frontend
-
-React.js
-
-React Router DOM
-
-Axios
-
-Hooks (useState, useEffect)
-
-Manejo de FormData (multipart/form-data)
-
-Arquitectura basada en componentes
-
-UI responsive
-
-🔹 Backend
-
-Node.js
-
-Express.js
-
-MongoDB
-
-Mongoose (ODM)
-
-Diseño de API RESTful
-
-JWT Authentication
-
-Middleware personalizado
-
-Role-Based Access Control (RBAC)
-
-Cloudinary (gestión de imágenes)
-
-Stripe API (procesamiento de pagos)
-
-Variables de entorno (.env)
-
-Manejo de errores HTTP (400, 401, 403)
-
-## 🏗 Arquitectura del Proyecto
-
-```text
-GameMasters/
-├── server/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── models/
-│   ├── configuration/
-│   └── server.js
-│
-├── client/
-│   ├── components/
-│   ├── pages/
-│   ├── config/
-│   └── App.js
-│
-└── README.md
+### Frontend
 ```
-🔐 Seguridad
+React 18 + React Router 6
+├── Axios (HTTP client)
+├── JWT Decode (token handling)
+├── Framer Motion (animaciones)
+└── Tailwind CSS + NextUI (UI components)
+```
 
-Autenticación con JSON Web Tokens
+### Backend
+```
+Node.js + Express.js
+├── MongoDB + Mongoose (base de datos)
+├── JWT + bcryptjs (autenticación)
+├── Cloudinary + Multer (imágenes)
+└── Stripe API (pagos)
+```
 
-Protección de rutas mediante middleware
+### Infraestructura & Despliegue
+```
+Frontend:  Vercel (CDN global)
+Backend:  Render (Node.js server)
+Database: MongoDB Atlas (cloud)
+Imágenes: Cloudinary CDN
+```
 
-Role-Based Access Control (RBAC)
+---
 
-Manejo seguro de variables de entorno
+## 🏗️ Arquitectura del Proyecto
 
-Control de errores HTTP estructurado
+```
+GameMasters/
+├── 📁 client/                 # Frontend React
+│   ├── src/
+│   │   ├── components/        # Componentes reutilizables
+│   │   │   ├── Navbar/       # Navegación con dropdown categorías
+│   │   │   ├── ProductCard/  # Tarjetas de producto
+│   │   │   ├── ProtectedRoute/
+│   │   │   └── ...
+│   │   ├── pages/            # Páginas principales
+│   │   │   ├── Home/        # Homepage con hero y categorías
+│   │   │   ├── Products/    # Catálogo de productos
+│   │   │   ├── Product/     # Detalle de producto
+│   │   │   ├── Cart/        # Carrito de compras
+│   │   │   ├── Login/       # Autenticación
+│   │   │   ├── Admin/       # Panel de administración
+│   │   │   └── ...
+│   │   ├── context/         # React Context (Carrito, Auth)
+│   │   ├── config/          # Configuración API
+│   │   └── App.jsx          # Router principal
+│   └── package.json
+│
+├── 📁 server/                # Backend Express
+│   ├── controllers/          # Lógica de negocio
+│   │   ├── ProductController.js
+│   │   ├── CategoryController.js
+│   │   ├── UserController.js
+│   │   ├── OrderController.js
+│   │   └── SuppliersController.js
+│   ├── routes/              # Definición de endpoints
+│   ├── models/              # Modelos Mongoose
+│   │   ├── Product.js
+│   │   ├── Category.js
+│   │   ├── User.js
+│   │   ├── Order.js
+│   │   └── Supplier.js
+│   ├── middlewares/         # Autenticación y validación
+│   │   └── authMiddleware.js
+│   ├── config/              # Configuración (Cloudinary, DB)
+│   ├── server.js            # Punto de entrada
+│   └── package.json
+│
+└── README.md                # Este archivo
+```
 
-☁️ Integraciones Externas
+---
 
-🖼 Cloudinary
+## 🔌 Endpoints de la API
 
-Almacenamiento escalable
+### Autenticación
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/register` | Registro de usuario |
+| POST | `/api/login` | Inicio de sesión |
+| GET | `/api/verify-token` | Validar token JWT |
 
-Optimización automática de imágenes
+### Productos
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/products` | Listar productos (público) |
+| GET | `/api/products/:categoria` | Filtrar por categoría |
+| GET | `/api/product/:id` | Detalle de producto |
+| POST | `/api/agregar/product` | Crear producto (admin) |
+| PUT | `/api/actualizar/product/:id` | Actualizar producto (admin) |
+| DELETE | `/api/remover/product/:id` | Eliminar producto (admin) |
 
-Independencia del servidor físico
+### Categorías
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/categories` | Listar todas (plano) |
+| GET | `/api/categories/tree` | Árbol jerárquico |
+| GET | `/api/categories/main` | Solo categorías principales |
+| POST | `/api/categories` | Crear categoría (admin) |
+| PUT | `/api/categories/:id` | Actualizar categoría (admin) |
+| DELETE | `/api/categories/:id` | Eliminar categoría (admin) |
 
-💳 Stripe
+### Órdenes
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/orders` | Listar pedidos (admin) |
+| POST | `/api/orders` | Crear pedido |
+| PUT | `/api/orders/:id/status` | Actualizar estado (admin) |
 
-Creación de Payment Intents
+---
 
-Comunicación segura backend → Stripe
+## 🎨 Sistema de Categorías Jerárquico
 
-Preparado para entorno real
+El proyecto implementa un sistema de categorías de 3 niveles inspirado en grandes plataformas:
+
+```
+📂 Electrónica      (Nivel 1 - Categoría Principal)
+├── 📁 Televisores  (Nivel 2 - Subcategoría)
+└── 📁 Monitores   (Nivel 2 - Subcategoría)
+
+📂 Computación      (Nivel 1)
+├── 📁 Notebooks
+│   ├── 📄 Notebooks Gamer      (Nivel 3)
+│   └── 📄 Notebooks Tradicionales
+├── 📁 Componentes
+│   ├── 📄 Procesadores
+│   ├── 📄 Tarjetas Gráficas
+│   └── 📄 Memorias RAM
+└── 📁 Monitores
+
+📂 Gaming           (Nivel 1)
+├── 📁 Consolas
+│   ├── 📄 PlayStation
+│   ├── 📄 Xbox
+│   └── 📄 Nintendo
+├── 📁 Sillas Gamer
+└── 📁 Accesorios Gaming
+
+📂 Periféricos      (Nivel 1)
+├── 📁 Mouse
+│   ├── 📄 Mouse Gamer
+│   ├── 📄 Mouse Inalámbrico
+│   └── 📄 Mouse Ergonómico
+└── 📁 Teclados
+    ├── 📄 Teclado Mecánico
+    ├── 📄 Teclado Membrana
+    └── 📄 Teclado Inalámbrico
+```
+
+---
+
+## 🚦 Control de Acceso (RBAC)
+
+| Rol | Permisos |
+|-----|----------|
+| **Usuario** | Ver productos, agregar al carrito, realizar pedidos |
+| **Admin** | CRUD completo de productos, categorías, pedidos, clientes, inventario |
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm o yarn
+- Cuenta MongoDB Atlas
+- Cuenta Cloudinary
+- Cuenta Stripe (dev)
+
+### Instalación
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Nelson-Sosa/GameMasters.git
+cd GameMasters
+
+# 2. Instalar dependencias del root
+npm install
+
+# 3. Instalar frontend
+cd client && npm install
+
+# 4. Instalar backend
+cd ../server && npm install
+```
+
+### Configuración
+
+Crear archivo `.env` en `/server/`:
+```env
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=tu_jwt_secret
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+STRIPE_SECRET_KEY=sk_test_...
+FRONTEND_URL=http://localhost:3000
+PORT=5000
+```
+
+### Ejecutar en desarrollo
+
+```bash
+# Terminal 1 - Backend (puerto 5000)
+cd server && npm start
+
+# Terminal 2 - Frontend (puerto 3000)
+cd client && npm start
+```
+
+---
+
+## 📊 Métricas del Proyecto
+
+| Métrica | Valor |
+|---------|-------|
+| Commits | 30+ |
+| Ramas | main + feature branches |
+| Frameworks | 5 (React, Express, MongoDB, Tailwind, NextUI) |
+| Endpoints API | 20+ |
+| Componentes React | 25+ |
+| Páginas | 15+ |
+
+---
+
+## 🔮 Funcionalidades Futuras
+
+- [ ] Sistema de pagos completo con Stripe
+- [ ] Dashboard de análisis de ventas (admin)
+- [ ] Reseñas y calificaciones de productos
+- [ ] Lista de deseos / favoritos
+- [ ] Comparador de productos
+- [ ] Chat de soporte con IA
+- [ ] Programa de puntos/rewards
+- [ ] Multi-idioma (ES/EN)
+
+---
+
+## 📝 Licencia
+
+Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
+
+---
+
+## 👨‍💻 Autor
+
+**Nelson Sosa** — Desarrollador Full Stack
+
+[![GitHub](https://img.shields.io/badge/GitHub-nelsonsosa-black?style=flat&logo=github)](https://github.com/Nelson-Sosa)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nelson_Sosa-blue?style=flat&logo=linkedin)](https://linkedin.com/in/nelsonsosa)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Contact-green?style=flat&logo=whatsapp)](https://wa.me/595983986775)
+
+---
+
+<p align="center">
+  <sub>Construido con ❤️ usando MERN Stack</sub>
+</p>
