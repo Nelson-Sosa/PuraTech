@@ -5,7 +5,7 @@ const PHONE = '595983986775';
 const WhatsAppFloat = () => {
   const handleClick = () => {
     const message = encodeURIComponent(
-      "Hola! 👋\n\nVi su tienda GameMasters y quisiera hacer una consulta."
+      "Hola! 👋\n\nVi su tienda PuraTech y quisiera hacer una consulta."
     );
 
     const url = `https://wa.me/${PHONE}?text=${message}`;

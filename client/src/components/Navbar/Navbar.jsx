@@ -182,7 +182,7 @@ const Navbar = () => {
       {/* ── TOP BAR ── */}
       <div className="navbar">
         <div className="navbar-brand">
-          <Link to="/" className="logo">🎮 GameMasters</Link>
+          <Link to="/" className="logo">🎮 PuraTech</Link>
         </div>
 
         <div className="navbar-search">

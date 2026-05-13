@@ -511,7 +511,7 @@ const Home = () => {
       <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-section">
-            <div className="footer-brand-logo">🎮 GameMasters</div>
+            <div className="footer-brand-logo">🎮 PuraTech</div>
             <p>Tu tienda gamer de confianza en Paraguay.</p>
           </div>
           <div className="footer-section">
@@ -523,11 +523,11 @@ const Home = () => {
           <div className="footer-section">
             <h4>Contacto</h4>
             <p>📱 WhatsApp: +595 983 986 775</p>
-            <p>📧 email@gamemasters.com</p>
+            <p>📧 email@puratech.com</p>
             <p>📍 Asunción, Paraguay</p>
           </div>
         </div>
-        <p className="footer-bottom">© 2026 GameMasters — Todos los derechos reservados</p>
+        <p className="footer-bottom">© 2026 PuraTech — Todos los derechos reservados</p>
       </footer>
     </div>
   );

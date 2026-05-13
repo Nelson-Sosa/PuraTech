@@ -1,5 +1,5 @@
 /**
- * Utilidades de WhatsApp para GameMasters
+ * Utilidades de WhatsApp para PuraTech
  * Número de la tienda: +595 983 986 775 (Paraguay)
  */
 
@@ -15,7 +15,7 @@ export const sendWhatsAppOrder = (products, customerInfo) => {
     return sum + (p.precio * (p.quantity || 1));
   }, 0);
 
-  let message = `🛒 *NUEVO PEDIDO - GameMasters*\n`;
+  let message = `🛒 *NUEVO PEDIDO - PuraTech*\n`;
   message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   // Datos del cliente
@@ -76,7 +76,7 @@ export const sendWhatsAppProductInquiry = (product) => {
  */
 export const sendWhatsAppContact = (message) => {
   var defaultMessage = message || 'Hola! \n\n' +
-    'Vi su tienda online GameMasters y quisiera hacer una consulta.\n\n' +
+    'Vi su tienda online PuraTech y quisiera hacer una consulta.\n\n' +
     'Muchas gracias!';
 
   var encodedMessage = encodeURIComponent(defaultMessage);
