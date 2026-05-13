@@ -31,7 +31,7 @@
 | **📱 UX/UI** | Diseño responsive, tema claro profesional, animaciones fluidas |
 | **📦 Pedidos** | Integración con WhatsApp para pedidos, gestión de estado de órdenes |
 | **🖼️ Imágenes** | Cloudinary para almacenamiento y optimización de imágenes |
-| **💳 Pagos** | Integración Stripe (preparada para producción) |
+
 
 ---
 
@@ -52,7 +52,7 @@ Node.js + Express.js
 ├── MongoDB + Mongoose (base de datos)
 ├── JWT + bcryptjs (autenticación)
 ├── Cloudinary + Multer (imágenes)
-└── Stripe API (pagos)
+
 ```
 
 ### Infraestructura & Despliegue
