@@ -317,7 +317,7 @@ Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
 **Nelson Sosa** — Desarrollador Full Stack
 
 [![GitHub](https://img.shields.io/badge/GitHub-nelsonsosa-black?style=flat&logo=github)](https://github.com/Nelson-Sosa)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nelson_Sosa-blue?style=flat&logo=linkedin)](https://linkedin.com/in/nelsonsosa)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nelson_Sosa-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/nelson-sosa-b9b901398/?skipRedirect=true)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-Contact-green?style=flat&logo=whatsapp)](https://wa.me/595983986775)
 
 ---
