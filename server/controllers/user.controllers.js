@@ -104,9 +104,14 @@ module.exports.agregarUsuario = async (req, res) => {
 
 
 module.exports.removerUsuario = (req, res) =>{
-    return Usuario.deleteOne({correo: req.infoUsuario.correo})
+    const idUsuario = req.body.id;
+    if (!idUsuario) {
+        return res.status(400).json({mensaje: "ID de usuario es requerido"});
+    }
+    
+    return Usuario.deleteOne({_id: idUsuario})
         .then((usuarioRemovido) =>{
-            console.log(usuarioRemovido)
+            console.log("Usuario removido:", usuarioRemovido)
             return res.status(204).end();
         })
         .catch((error) =>{
