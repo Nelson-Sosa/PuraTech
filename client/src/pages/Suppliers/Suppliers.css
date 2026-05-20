@@ -9,7 +9,7 @@
     width: 100%;
     min-height: 100vh;
     padding: 40px;
-    background: #ffffff;
+    background: var(--bg-primary);
     font-family: 'Inter', sans-serif;
     color: var(--text-primary);
     box-sizing: border-box;
@@ -42,10 +42,10 @@
 /* TABLE WRAPPER */
 .table-wrapper {
     width: 100%;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
 }
 
@@ -138,12 +138,12 @@
     .cont-supplier {
         padding: 20px;
     }
-    
+
     .table-wrapper {
         overflow-x: auto;
     }
-    
-    .cont-supplier td, 
+
+    .cont-supplier td,
     .cont-supplier th {
         padding: 14px 16px;
         white-space: nowrap;
@@ -151,68 +151,140 @@
 }
 
 @media screen and (max-width: 768px) {
-  .cont-supplier .btn-proveedor {
-      width: 100%;
+  .cont-supplier {
+    padding: 16px;
   }
 
-  .cont-supplier table, 
-  .cont-supplier thead, 
-  .cont-supplier tbody, 
-  .cont-supplier th, 
-  .cont-supplier td, 
+  .cont-supplier .btn-proveedor {
+    width: 100%;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+  }
+
+  .cont-supplier table,
+  .cont-supplier thead,
+  .cont-supplier tbody,
+  .cont-supplier th,
+  .cont-supplier td,
   .cont-supplier tr {
-      display: block;
-      width: 100%;
+    display: block;
+    width: 100%;
   }
 
   .cont-supplier thead {
-      display: none;
+    display: none;
+  }
+
+  .table-wrapper {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
   }
 
   .cont-supplier tr {
-      margin-bottom: 24px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cont-supplier tr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-accent);
+    opacity: 0.3;
   }
 
   .cont-supplier td {
-      position: relative;
-      padding-left: 45%;
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    position: relative;
+    padding: 10px 0 10px 40%;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
   }
 
   .cont-supplier td:last-child {
-      border-bottom: none;
-      padding-left: 0;
-      padding-top: 20px;
+    border-bottom: none;
+    padding-left: 0;
+    padding-top: 16px;
   }
 
   .cont-supplier td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0;
-      top: 12px;
-      width: 40%;
-      font-weight: 700;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      text-transform: uppercase;
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 38%;
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
-  
+
   .actions {
-      justify-content: center;
-      width: 100%;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
   }
-  
+
   .btn-delete,
   .btn-edit {
-      flex: 1;
-      text-align: center;
+    flex: 1;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cont-supplier {
+    padding: 10px;
+  }
+
+  .cont-supplier .btn-proveedor {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+
+  .cont-supplier tr {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+  }
+
+  .cont-supplier td {
+    padding: 8px 0 8px 38%;
+    font-size: 0.85rem;
+  }
+
+  .cont-supplier td::before {
+    top: 8px;
+    font-size: 0.7rem;
+    width: 36%;
+  }
+
+  .cont-supplier td:last-child {
+    padding-top: 12px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .btn-delete,
+  .btn-edit {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }
