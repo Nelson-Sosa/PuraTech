@@ -948,6 +948,18 @@
   .register-btn-nav {
     display: none;
   }
+
+  /* Hide desktop dropdowns on mobile */
+  .admin-dropdown .dropdown-content,
+  .user-dropdown .dropdown-content {
+    display: none !important;
+  }
+
+  .admin-dropdown,
+  .user-dropdown,
+  .auth-actions-wrapper {
+    cursor: pointer;
+  }
 }
 
 /* ── Small Mobile: below 480px ── */
