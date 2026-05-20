@@ -20,7 +20,7 @@ const HERO_SLIDES = [
   },
   {
     id: 1,
-    image: "/img/hero_entertainment.png",
+    image: "/img/hero_gaming_consoles.png",
     badge: "🎮 Entretenimiento Total",
     title: "Llevá la diversión",
     titleHighlight: "al siguiente nivel",
