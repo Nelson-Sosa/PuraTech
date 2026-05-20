@@ -836,15 +836,36 @@
 
 @media (max-width: 600px) {
   .section-header {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   
   .section-header h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+  }
+
+  .section-header p {
+    font-size: 0.9rem;
   }
   
   .categories-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .category-card {
+    padding: 18px;
+  }
+
+  .cat-label {
+    font-size: 0.95rem;
+  }
+
+  .cat-explore {
+    font-size: 0.75rem;
+  }
+
+  .category-card::after {
+    font-size: 1rem;
   }
 }
 
@@ -1524,6 +1545,33 @@
 
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .category-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .category-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .category-card::after {
+    font-size: 0.9rem;
+  }
+
+  .cat-content {
+    gap: 2px;
+  }
+
+  .cat-label {
+    font-size: 0.85rem;
+  }
+
+  .cat-explore {
+    font-size: 0.7rem;
   }
 
   .hero-btn {
@@ -1533,6 +1581,23 @@
 
   .testimonials-grid {
     grid-template-columns: 1fr;
+  }
+
+  .categories-section {
+    padding: 40px 12px;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+    padding-left: 6px;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .section-header p {
+    font-size: 0.85rem;
   }
 }
 
