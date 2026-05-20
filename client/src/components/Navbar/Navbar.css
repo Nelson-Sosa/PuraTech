@@ -1226,3 +1226,144 @@
     font-size: 0.68rem;
   }
 }
+
+/* ── Mobile Bottom Sheet Menu ── */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10002;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-menu-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 16px 20px 32px;
+  max-height: 75vh;
+  overflow-y: auto;
+  animation: slideUpMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-menu-handle {
+  width: 40px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+.mobile-menu-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-menu-links a,
+.mobile-menu-links button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+  text-decoration: none;
+  background: #f8fafc;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-links a:hover,
+.mobile-menu-links button:hover {
+  background: #e0e7ff;
+  color: #1e3a8a;
+}
+
+.mobile-menu-links .menu-icon {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e7ff;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.mobile-menu-links a:hover .menu-icon,
+.mobile-menu-links button:hover .menu-icon {
+  background: #c7d2fe;
+}
+
+.mobile-logout {
+  background: #fef2f2 !important;
+  color: #dc2626 !important;
+  margin-top: 8px;
+}
+
+.mobile-logout:hover {
+  background: #fee2e2 !important;
+}
+
+.mobile-logout .menu-icon {
+  background: #fecaca !important;
+}
+
+.mobile-login-btn {
+  background: #1e3a8a !important;
+  color: #ffffff !important;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.mobile-login-btn .menu-icon {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.mobile-login-btn:hover {
+  background: #1e40af !important;
+}
+
+.mobile-register-btn {
+  background: #ffffff !important;
+  border: 2px solid #1e3a8a !important;
+  color: #1e3a8a !important;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.mobile-register-btn .menu-icon {
+  background: #e0e7ff !important;
+}
+
+.mobile-register-btn:hover {
+  background: #eff6ff !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

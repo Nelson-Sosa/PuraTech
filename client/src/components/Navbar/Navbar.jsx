@@ -128,6 +128,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [salesMeta, setSalesMeta] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { getCount } = useCart();
 
   // Fetch categories from API
@@ -258,7 +259,7 @@ const Navbar = () => {
           </Link>
 
           {isAdmin ? (
-            <div className="admin-dropdown">
+            <div className="admin-dropdown" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               <span className="admin-badge">ADMIN</span>
               {salesMeta && salesMeta.achieved && (
                 <span className="meta-notification" title={`Meta: ${salesMeta.percentage.toFixed(1)}%`}>
@@ -277,14 +278,14 @@ const Navbar = () => {
               </div>
             </div>
           ) : userRole ? (
-            <div className="user-dropdown">
+            <div className="user-dropdown" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               <span className="user-badge">{userRole}</span>
               <div className="dropdown-content">
                 <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
               </div>
             </div>
           ) : (
-            <div className="auth-actions-wrapper">
+            <div className="auth-actions-wrapper" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               <div className="user-icon-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -308,6 +309,62 @@ const Navbar = () => {
           ))}
         </div>
       </nav>
+
+      {/* ── MOBILE BOTTOM SHEET MENU ── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-handle"></div>
+            <h3 className="mobile-menu-title">
+              {isAdmin ? 'Panel de Administración' : userRole ? 'Mi Cuenta' : 'Mi Cuenta'}
+            </h3>
+            
+            {isAdmin ? (
+              <div className="mobile-menu-links">
+                <Link to="/agregar/product" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">➕</span> Agregar Producto
+                </Link>
+                <Link to="/add/suppliers" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">🏢</span> Agregar Proveedor
+                </Link>
+                <Link to="/add/category" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">📂</span> Agregar Categoría
+                </Link>
+                <Link to="/categories" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">📋</span> Ver Categorías
+                </Link>
+                <Link to="/orders" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">📦</span> Ver Pedidos
+                </Link>
+                <Link to="/clients" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">👥</span> Ver Clientes
+                </Link>
+                <Link to="/inventory" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">📊</span> Inventario
+                </Link>
+                <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
+                  <span className="menu-icon">🚪</span> Cerrar Sesión
+                </button>
+              </div>
+            ) : userRole ? (
+              <div className="mobile-menu-links">
+                <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
+                  <span className="menu-icon">🚪</span> Cerrar Sesión
+                </button>
+              </div>
+            ) : (
+              <div className="mobile-menu-links">
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mobile-login-btn">
+                  <span className="menu-icon">🔑</span> Iniciar Sesión
+                </Link>
+                <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="mobile-register-btn">
+                  <span className="menu-icon">📝</span> Crear Cuenta
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
