@@ -31,7 +31,7 @@
 | **📱 UX/UI** | Diseño responsive, tema claro profesional, animaciones fluidas |
 | **📦 Pedidos** | Integración con WhatsApp para pedidos, gestión de estado de órdenes |
 | **🖼️ Imágenes** | Cloudinary para almacenamiento y optimización de imágenes |
-
+| **💳 Pagos** | Integración Stripe (preparada para producción) |
 
 ---
 
@@ -52,7 +52,7 @@ Node.js + Express.js
 ├── MongoDB + Mongoose (base de datos)
 ├── JWT + bcryptjs (autenticación)
 ├── Cloudinary + Multer (imágenes)
-
+└── Stripe API (pagos)
 ```
 
 ### Infraestructura & Despliegue
@@ -317,7 +317,7 @@ Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
 **Nelson Sosa** — Desarrollador Full Stack
 
 [![GitHub](https://img.shields.io/badge/GitHub-nelsonsosa-black?style=flat&logo=github)](https://github.com/Nelson-Sosa)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nelson_Sosa-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/nelson-sosa-b9b901398/?skipRedirect=true)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nelson_Sosa-blue?style=flat&logo=linkedin)](https://linkedin.com/in/nelsonsosa)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-Contact-green?style=flat&logo=whatsapp)](https://wa.me/595983986775)
 
 ---
