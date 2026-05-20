@@ -130,6 +130,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const toggleMobileMenu = () => { if (window.innerWidth <= 768) setMobileMenuOpen(prev => !prev); };
   const { getCount } = useCart();
 
   // Fetch categories from API
@@ -293,7 +294,7 @@ const Navbar = () => {
           </Link>
 
           {isAdmin ? (
-            <div className="admin-dropdown" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <div className="admin-dropdown" onClick={toggleMobileMenu}>
               <span className="admin-badge">ADMIN</span>
               {salesMeta && salesMeta.achieved && (
                 <span className="meta-notification" title={`Meta: ${salesMeta.percentage.toFixed(1)}%`}>
@@ -312,14 +313,14 @@ const Navbar = () => {
               </div>
             </div>
           ) : userRole ? (
-            <div className="user-dropdown" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <div className="user-dropdown" onClick={toggleMobileMenu}>
               <span className="user-badge">{userRole}</span>
               <div className="dropdown-content">
                 <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
               </div>
             </div>
           ) : (
-            <div className="auth-actions-wrapper" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <div className="auth-actions-wrapper" onClick={toggleMobileMenu}>
               <div className="user-icon-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
