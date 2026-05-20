@@ -1379,3 +1379,129 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ── Mobile Search Bar ── */
+.mobile-search-btn {
+  display: none;
+  padding: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-search-btn svg {
+  width: 20px;
+  height: 20px;
+  color: #475569;
+}
+
+.mobile-search-btn:hover {
+  background: #e0e7ff;
+  border-color: #1e3a8a;
+}
+
+.mobile-search-btn:hover svg {
+  color: #1e3a8a;
+}
+
+.mobile-search-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 12px 16px;
+  z-index: 10003;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease;
+}
+
+.mobile-search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.mobile-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+  outline: none;
+}
+
+.mobile-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.mobile-search-submit {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mobile-search-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.mobile-search-close:hover {
+  color: #475569;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Show mobile search button on mobile */
+@media (max-width: 768px) {
+  .mobile-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-search-bar {
+    display: block;
+  }
+
+  /* Hide regular search bar completely on mobile */
+  .navbar-search {
+    display: none !important;
+  }
+
+  /* Adjust navbar layout for mobile search */
+  .navbar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .navbar-actions {
+    flex-shrink: 0;
+  }
+}

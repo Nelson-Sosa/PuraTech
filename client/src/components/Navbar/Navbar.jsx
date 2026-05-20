@@ -129,6 +129,7 @@ const Navbar = () => {
   const [salesMeta, setSalesMeta] = useState(null);
   const [categories, setCategories] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { getCount } = useCart();
 
   // Fetch categories from API
@@ -246,6 +247,39 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-actions">
+          {/* Mobile Search Toggle */}
+          <button className="mobile-search-btn" onClick={() => setMobileSearchOpen(!mobileSearchOpen)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </button>
+
+          {/* Mobile Search Bar (Toggle) */}
+          {mobileSearchOpen && (
+            <div className="mobile-search-bar">
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                const query = e.target.search.value;
+                if (query.trim()) {
+                  window.location.href = `/category/${encodeURIComponent(query)}`;
+                }
+              }} className="mobile-search-form">
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Buscar productos..."
+                  className="mobile-search-input"
+                  autoFocus
+                />
+                <button type="submit" className="mobile-search-submit">Buscar</button>
+                <button type="button" className="mobile-search-close" onClick={() => setMobileSearchOpen(false)}>
+                  ✕
+                </button>
+              </form>
+            </div>
+          )}
+
           <Link to="/cart" className="cart-link">
             <div className="cart-icon-wrapper">
               <svg className="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
