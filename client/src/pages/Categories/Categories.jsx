@@ -196,7 +196,7 @@ const Categories = () => {
           )}
 
           <span className="category-icon">
-            {category.nivel === 1 ? "📂" : category.nivel === 2 ? "📁" : "📄"}
+            {category.nivel === 1 ? "📂" : category.nivel === 2 ? "📁" : "🏷️"}
           </span>
 
           <div className="category-details">
@@ -396,7 +396,7 @@ const Categories = () => {
                 </div>
               </div>
               <div className="level-item">
-                <span className="level-icon">📄</span>
+                <span className="level-icon">🏷️</span>
                 <div>
                   <strong>Nivel 3</strong>
                   <small>Subcategoría final</small>
