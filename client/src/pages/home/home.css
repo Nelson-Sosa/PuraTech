@@ -849,15 +849,21 @@
   
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   .category-card {
-    padding: 18px;
+    padding: 16px 14px;
+    min-height: 72px;
+    border-radius: 12px;
+  }
+
+  .cat-content {
+    gap: 2px;
   }
 
   .cat-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .cat-explore {
@@ -865,7 +871,7 @@
   }
 
   .category-card::after {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -1549,8 +1555,9 @@
   }
 
   .category-card {
-    padding: 14px;
-    border-radius: 12px;
+    padding: 12px 10px;
+    min-height: 64px;
+    border-radius: 10px;
   }
 
   .category-card:hover {
@@ -1559,19 +1566,19 @@
   }
 
   .category-card::after {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .cat-content {
-    gap: 2px;
+    gap: 1px;
   }
 
   .cat-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .cat-explore {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 
   .hero-btn {
