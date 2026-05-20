@@ -206,8 +206,19 @@
 
 /* 📱 RESPONSIVE */
 @media (max-width: 768px) {
+  .supplier-container {
+    padding: 20px 12px;
+    align-items: flex-start;
+    min-height: calc(100vh - 70px);
+  }
+
+  .form-wrapper {
+    gap: 16px;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .input-group.full-width {
@@ -215,10 +226,75 @@
   }
 
   .supplier-form {
-    padding: 32px 24px;
+    padding: 24px 16px;
+    gap: 28px;
+    border-radius: 16px;
   }
 
   .form-title {
-    font-size: 26px;
+    font-size: 22px;
+  }
+
+  .form-subtitle {
+    font-size: 13px;
+  }
+
+  .icon-badge {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0;
+  }
+
+  .icon-badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .supplier-form input {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .input-group label {
+    font-size: 13px;
+  }
+
+  .submit-button {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  .submit-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .back-link {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .supplier-container {
+    padding: 12px 8px;
+  }
+
+  .supplier-form {
+    padding: 20px 12px;
+    gap: 24px;
+    border-radius: 12px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
+
+  .submit-button {
+    padding: 12px 20px;
+    font-size: 14px;
   }
 }
