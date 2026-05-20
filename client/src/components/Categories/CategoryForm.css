@@ -285,25 +285,172 @@
 /* 📱 Responsive */
 @media (max-width: 600px) {
   .category-container {
-    padding: 20px 16px;
+    padding: 16px 12px;
+    min-height: auto;
+    align-items: stretch;
+  }
+
+  .category-form {
+    max-width: 100%;
+    border-radius: 16px;
+    gap: 20px;
   }
 
   .form-header {
-    padding: 24px 24px 0;
+    padding: 20px 20px 0;
   }
 
-  .form-body,
-  .form-actions {
-    padding-left: 24px;
-    padding-right: 24px;
+  .icon-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .icon-badge svg {
+    width: 24px;
+    height: 24px;
   }
 
   .form-title {
-    font-size: 20px;
+    font-size: 1.3rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .form-body {
+    padding: 0 20px;
+    gap: 16px;
+  }
+
+  .form-actions {
+    padding: 0 20px 24px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-actions .submit-button,
+  .form-actions .cancel-button {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.95rem;
   }
 
   .error-container,
   .success-container {
-    margin: 0 24px;
+    margin: 0 20px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+
+  .category-form input,
+  .category-form textarea,
+  .category-form select {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  .input-group label {
+    font-size: 0.85rem;
+  }
+
+  .input-hint {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── Tablet: 601px - 768px ── */
+@media (min-width: 601px) and (max-width: 768px) {
+  .category-container {
+    padding: 32px 24px;
+  }
+
+  .category-form {
+    max-width: 480px;
+  }
+
+  .form-header {
+    padding: 28px 28px 0;
+  }
+
+  .form-body {
+    padding: 0 28px;
+  }
+
+  .form-actions {
+    padding: 0 28px 28px;
+  }
+
+  .form-title {
+    font-size: 1.4rem;
+  }
+
+  .error-container,
+  .success-container {
+    margin: 0 28px;
+  }
+}
+
+/* ── Very small phones: below 400px ── */
+@media (max-width: 400px) {
+  .category-container {
+    padding: 12px 8px;
+  }
+
+  .category-form {
+    border-radius: 12px;
+    gap: 16px;
+  }
+
+  .form-header {
+    padding: 16px 16px 0;
+  }
+
+  .icon-badge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .icon-badge svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .form-title {
+    font-size: 1.15rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .form-body {
+    padding: 0 16px;
+    gap: 14px;
+  }
+
+  .form-actions {
+    padding: 0 16px 20px;
+  }
+
+  .error-container,
+  .success-container {
+    margin: 0 16px;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+
+  .category-form input,
+  .category-form textarea,
+  .category-form select {
+    padding: 11px 12px;
+    font-size: 0.9rem;
+  }
+
+  .submit-button svg,
+  .cancel-button {
+    font-size: 0.85rem;
   }
 }
