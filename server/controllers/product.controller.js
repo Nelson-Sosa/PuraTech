@@ -423,16 +423,51 @@ module.exports.searchGlobal = async (req, res) => {
     
     if (!term) return res.status(400).json({ error: "Missing search term" });
 
-    // Búsqueda avanzada con regex
+    const Category = require('../models/Category');
+
+    // 1. Check if the term matches a category name or slug
     const regex = new RegExp(term, "i");
+    const matchedCategory = await Category.findOne({
+      $or: [
+        { name: { $regex: regex } },
+        { slug: { $regex: regex } }
+      ],
+      isActive: true
+    });
+
+    let categoryNames = [term]; // default: just the search term
+
+    if (matchedCategory) {
+      // 2. Collect all descendant category names recursively
+      const collectDescendantNames = async (parentId) => {
+        const children = await Category.find({ parentId, isActive: true });
+        let names = [];
+        for (const child of children) {
+          names.push(child.name);
+          const grandChildNames = await collectDescendantNames(child._id);
+          names = names.concat(grandChildNames);
+        }
+        return names;
+      };
+
+      const descendantNames = await collectDescendantNames(matchedCategory._id);
+      categoryNames = [matchedCategory.name, ...descendantNames];
+      console.log("🔍 [searchGlobal] Categoría encontrada:", matchedCategory.name, "| Descendientes:", descendantNames);
+    }
+
+    // 3. Build regex patterns for all category names
+    const categoryRegexes = categoryNames.map(n => new RegExp(n, "i"));
+
+    // 4. Search products matching any of those category names OR the original term
     const results = await Product.find({
       $or: [
+        { category: { $in: categoryRegexes } },
         { nombre: { $regex: regex } },
         { marca: { $regex: regex } },
         { category: { $regex: regex } },
         { descripcion: { $regex: regex } }
       ]
-    }).limit(50);
+    }).limit(100);
 
     console.log("🔍 [searchGlobal] Resultados encontrados:", results.length);
     res.json(results);
