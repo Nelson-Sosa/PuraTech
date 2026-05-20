@@ -6,26 +6,11 @@ import Modal from "../../components/Modal/Modal";
 import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
 
-// ── Macro-Categoría Periféricos ──
-const PERIPHERAL_MAPPING = {
-    'perifericos': ['mouse', 'teclado', 'auricular', 'headset', 'mousepad', 'alfombrilla', 'parlante', 'periféricos'],
-    'periféricos': ['mouse', 'teclado', 'auricular', 'headset', 'mousepad', 'alfombrilla', 'parlante', 'periféricos']
-};
-
-const SUB_CATEGORY_ICONS = [
-    { id: 'all', label: 'Todo', icon: '🎮', categories: [] },
-    { id: 'mouse', label: 'Mouses', icon: '🖱️', categories: ['mouse'] },
-    { id: 'teclado', label: 'Teclados', icon: '⌨️', categories: ['teclado'] },
-    { id: 'auricular', label: 'Audio', icon: '🎧', categories: ['auricular', 'headset', 'parlante'] },
-    { id: 'mousepad', label: 'Pads', icon: '🟦', categories: ['mousepad', 'alfombrilla'] },
-];
-
 export const Products = () => {
     const { category } = useParams();
     const decodedCategory = decodeURIComponent(category || '').toLowerCase();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [activeSubFilter, setActiveSubFilter] = useState('all');
     const [searchActive, setSearchActive] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -40,8 +25,6 @@ export const Products = () => {
     const [onlyWithStock, setOnlyWithStock] = useState(false);
     const { addToCart } = useCart();
 
-    const isPeripheralHub = decodedCategory === 'perifericos' || decodedCategory === 'periféricos';
-
     // 🔥 Función central para traer productos (PÚBLICO)
     const getProducts = useCallback(async () => {
         setLoading(true);
@@ -49,33 +32,16 @@ export const Products = () => {
             let url = `${API_URL}/api/products/public`;
             
             if (decodedCategory) {
-                if (isPeripheralHub) {
-                    // Si es el HUB, traer todo y luego filtramos localmente o por búsqueda múltiple
-                    url = `${API_URL}/api/products/public`;
-                } else {
-                    url = `${API_URL}/api/search-products?category=${encodeURIComponent(decodedCategory)}`;
-                }
+                url = `${API_URL}/api/search-products?category=${encodeURIComponent(decodedCategory)}`;
             }
 
             const res = await axios.get(url);
-            let data = res.data;
-
-            // Lógica específica para el Hub de Periféricos
-            if (isPeripheralHub) {
-                const peripheralTerms = PERIPHERAL_MAPPING['perifericos'];
-                data = data.filter(p => 
-                    peripheralTerms.some(term => 
-                        p.category?.toLowerCase().includes(term) || 
-                        p.nombre?.toLowerCase().includes(term)
-                    )
-                );
-            }
+            const data = res.data;
 
             setProducts(data);
             setFilteredProducts(data);
         } catch (err) {
             console.error(err);
-            // Fallback
             try {
                 const fallback = await axios.get(`${API_URL}/api/products/public`);
                 const term = decodedCategory;
@@ -92,7 +58,7 @@ export const Products = () => {
         } finally {
             setLoading(false);
         }
-    }, [decodedCategory, isPeripheralHub]);
+    }, [decodedCategory]);
 
     // 🔥 Se ejecuta al montar y cuando cambia categoría
     useEffect(() => {
@@ -101,7 +67,6 @@ export const Products = () => {
         if (!searchActive) {
             getProducts();
         }
-        setActiveSubFilter('all'); // Reset sub-filter when category changes
     }, [decodedCategory, searchActive, getProducts]);
 
     // 🔥 Extraer marcas únicas
@@ -115,17 +80,6 @@ export const Products = () => {
     // 🔥 Filtrar y ordenar productos
     useEffect(() => {
         let result = [...products];
-
-        // Sub-filtro de Hub (si aplica)
-        if (isPeripheralHub && activeSubFilter !== 'all') {
-            const targetCategories = SUB_CATEGORY_ICONS.find(i => i.id === activeSubFilter)?.categories || [];
-            result = result.filter(p => 
-                targetCategories.some(cat => 
-                    p.category?.toLowerCase().includes(cat) || 
-                    p.nombre?.toLowerCase().includes(cat)
-                )
-            );
-        }
 
         // Filtro por precio
         if (minPrice !== '') result = result.filter(p => Number(p.precio) >= Number(minPrice));
@@ -145,7 +99,7 @@ export const Products = () => {
         else if (sortBy === 'name') result.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
         setFilteredProducts(result);
-    }, [products, minPrice, maxPrice, sortBy, selectedBrands, activeSubFilter, isPeripheralHub, onlyWithStock]);
+    }, [products, minPrice, maxPrice, sortBy, selectedBrands, onlyWithStock]);
 
     const toggleBrand = (brand) => {
         setSelectedBrands(prev => 
@@ -182,30 +136,8 @@ export const Products = () => {
             {/* BREADCRUMBS */}
             <div className="breadcrumbs">
                 <Link to="/">Inicio</Link> <span className="separator">/</span> 
-                <span>{isPeripheralHub ? 'Mundo Periféricos' : (decodedCategory || 'Todos los productos')}</span>
+                <span>{decodedCategory || 'Todos los productos'}</span>
             </div>
-
-            {/* CATEGORY HUB RIBBON (Only for Peripherals) */}
-            {isPeripheralHub && (
-                <div className="category-hub-ribbon">
-                    <div className="hub-header">
-                        <h2>Explora por Categoría</h2>
-                        <p>Los mejores complementos para tu setup</p>
-                    </div>
-                    <div className="sub-category-grid">
-                        {SUB_CATEGORY_ICONS.map(item => (
-                            <button 
-                                key={item.id}
-                                className={`sub-cat-pill ${activeSubFilter === item.id ? 'active' : ''}`}
-                                onClick={() => setActiveSubFilter(item.id)}
-                            >
-                                <span className="sub-cat-icon">{item.icon}</span>
-                                <span className="sub-cat-label">{item.label}</span>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
 
             <div className="products-layout">
 
