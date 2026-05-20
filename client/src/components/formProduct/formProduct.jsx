@@ -47,12 +47,26 @@ const FormProduct = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          `${API_URL}/api/categories`,
+          `${API_URL}/api/categories/tree`,
           token ? { headers: { token_usuario: token } } : {}
         );
-        setCategories(res.data);
-        if (res.data.length > 0) {
-          setCategory(res.data[0].name);
+        
+        // Flatten the tree hierarchically
+        const flattenTree = (nodes, result = []) => {
+          nodes.forEach(node => {
+            result.push(node);
+            if (node.children && node.children.length > 0) {
+              flattenTree(node.children, result);
+            }
+          });
+          return result;
+        };
+        
+        const flattenedCategories = flattenTree(res.data);
+        setCategories(flattenedCategories);
+        
+        if (flattenedCategories.length > 0) {
+          setCategory(flattenedCategories[0].name);
         }
       } catch (error) {
         console.error("Error cargando categorías", error);
