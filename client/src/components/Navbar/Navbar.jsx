@@ -182,7 +182,47 @@ const Navbar = () => {
       {/* ── TOP BAR ── */}
       <div className="navbar">
         <div className="navbar-brand">
-          <Link to="/" className="logo">🎮 PuraTech</Link>
+          <Link to="/" className="logo">
+            {/* ── PuraTech Professional Logo ── */}
+            <span className="logo-icon-wrapper">
+              <svg
+                className="logo-icon-svg"
+                viewBox="0 0 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                {/* Outer hexagon background */}
+                <rect width="36" height="36" rx="10" fill="url(#logoGradient)" />
+                {/* Circuit board dot grid */}
+                <circle cx="7" cy="7" r="1.5" fill="rgba(255,255,255,0.35)" />
+                <circle cx="29" cy="7" r="1.5" fill="rgba(255,255,255,0.35)" />
+                <circle cx="7" cy="29" r="1.5" fill="rgba(255,255,255,0.35)" />
+                <circle cx="29" cy="29" r="1.5" fill="rgba(255,255,255,0.35)" />
+                {/* Circuit lines */}
+                <line x1="7" y1="7" x2="7" y2="14" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="29" y1="7" x2="29" y2="14" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="7" y1="22" x2="7" y2="29" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="29" y1="22" x2="29" y2="29" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
+                {/* Central bolt / energy symbol */}
+                <path
+                  d="M21 5L13 19h7l-3 12 10-15h-7L21 5z"
+                  fill="white"
+                  stroke="rgba(255,255,255,0.2)"
+                  strokeWidth="0.5"
+                />
+                <defs>
+                  <linearGradient id="logoGradient" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#2563EB" />
+                    <stop offset="100%" stopColor="#7C3AED" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span className="logo-wordmark">
+              <span className="logo-pura">Pura</span><span className="logo-tech">Tech</span>
+            </span>
+          </Link>
         </div>
 
         <div className="navbar-search">
