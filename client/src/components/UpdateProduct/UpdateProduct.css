@@ -394,7 +394,11 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .form-container {
-    padding: 24px 16px 60px;
+    padding: 20px 16px 60px;
+  }
+
+  .form-header {
+    margin-bottom: 28px;
   }
 
   .product-form {
@@ -406,15 +410,50 @@
     font-size: 1.6rem;
   }
 
+  .form-subtitle {
+    font-size: 0.9rem;
+  }
+
   .image-section {
     padding: 20px;
+    gap: 12px;
+  }
+
+  .image-options {
+    gap: 16px;
+  }
+
+  .thumbnail-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 8px;
   }
 }
 
 @media (max-width: 480px) {
+  .form-container {
+    padding: 12px 8px 40px;
+  }
+
+  .form-header {
+    margin-bottom: 20px;
+  }
+
   .product-form {
-    padding: 24px 20px;
-    gap: 20px;
+    padding: 20px 16px;
+    gap: 18px;
+    border-radius: 16px;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .form-title::before {
+    font-size: 1.2rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.85rem;
   }
 
   .form-input,
@@ -424,8 +463,60 @@
     font-size: 0.9rem;
   }
 
+  .form-label {
+    font-size: 0.85rem;
+  }
+
   .btn-submit {
     padding: 14px 24px;
     font-size: 1rem;
+  }
+
+  .image-section {
+    padding: 16px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .image-section-title {
+    font-size: 0.9rem;
+  }
+
+  .image-options {
+    gap: 12px;
+  }
+
+  .image-option-label {
+    font-size: 0.8rem;
+  }
+
+  .thumbnail-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 6px;
+  }
+
+  .thumbnail {
+    padding: 4px;
+  }
+
+  .image-action-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .divider {
+    font-size: 0.8rem;
+    margin: 4px 0;
+  }
+
+  .form-file-input {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .form-file-input::file-selector-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }
