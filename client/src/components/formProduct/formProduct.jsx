@@ -202,24 +202,36 @@ const FormProduct = () => {
 
           {/* Información Básica */}
           <div className="form-group">
-            <label className="form-label">Categoría</label>
+            <label className="form-label">
+              Categoría
+              <span className="label-hint">Seleccioná la categoría más específica posible</span>
+            </label>
             <select 
               value={category} 
               onChange={(e) => setCategory(e.target.value)}
-              className="form-select"
+              className="form-select category-select"
             >
-              {categories.length > 0 ? (
-                categories.map((cat) => {
-                  const indent = cat.nivel > 1 ? "\u00A0\u00A0".repeat(cat.nivel - 1) + "└ " : "";
-                  return (
-                    <option key={cat._id} value={cat.name}>
-                      {indent}{cat.name}
-                    </option>
-                  );
-                })
-              ) : (
-                <option>Cargando categorías...</option>
-              )}
+              <optgroup label="📂 Nivel 1 - Categorías Principales" className="optgroup-level-1">
+                {categories.filter(c => c.nivel === 1).map((cat) => (
+                  <option key={cat._id} value={cat.name} className="option-level-1">
+                    📂 {cat.name}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="📁 Nivel 2 - Subcategorías" className="optgroup-level-2">
+                {categories.filter(c => c.nivel === 2).map((cat) => (
+                  <option key={cat._id} value={cat.name} className="option-level-2">
+                    📁 {cat.name}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="🏷️ Nivel 3 - Subcategoría Final" className="optgroup-level-3">
+                {categories.filter(c => c.nivel === 3).map((cat) => (
+                  <option key={cat._id} value={cat.name} className="option-level-3">
+                    🏷️ {cat.name}
+                  </option>
+                ))}
+              </optgroup>
             </select>
             {errors.category && <span className="error-message">{errors.category}</span>}
           </div>

@@ -156,6 +156,76 @@
   padding: 8px;
 }
 
+.form-label .label-hint {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.category-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"),
+                    linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  background-repeat: no-repeat;
+  background-position: right 12px center, center;
+  padding-right: 44px;
+}
+
+.category-select optgroup {
+  font-weight: 700;
+  color: #1e293b;
+  background: #f1f5f9;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin: 4px 0;
+}
+
+.category-select option {
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.15s ease;
+}
+
+.category-select option:hover {
+  background: #f8fafc;
+}
+
+.option-level-1 {
+  font-weight: 600;
+  color: #1e3a8a;
+  background: #eff6ff;
+  padding-left: 12px !important;
+}
+
+.option-level-1::before {
+  content: '📂 ';
+}
+
+.option-level-2 {
+  font-weight: 500;
+  color: #475569;
+  padding-left: 24px !important;
+  background: #fefefe;
+}
+
+.option-level-2::before {
+  content: '📁 ';
+}
+
+.option-level-3 {
+  font-weight: 400;
+  color: #64748b;
+  padding-left: 36px !important;
+  font-size: 0.85rem !important;
+  background: #fefefe;
+}
+
+.option-level-3::before {
+  content: '🏷️ ';
+}
+
 /* ── Image Upload Section ── */
 .image-section {
   display: flex;
