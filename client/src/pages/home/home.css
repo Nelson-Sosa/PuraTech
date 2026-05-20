@@ -1535,3 +1535,416 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── COMPREHENSIVE RESPONSIVE FOR HOME ── */
+
+/* Tablet: 768px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Hero */
+  .hero-slider {
+    height: 55vh;
+    min-height: 420px;
+  }
+
+  .hero-content {
+    max-width: 600px;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Featured Categories */
+  .cat-featured-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .cat-featured-card {
+    height: 180px;
+  }
+
+  .cat-featured-icon {
+    font-size: 2.8rem;
+  }
+
+  .cat-featured-name {
+    font-size: 1rem;
+  }
+
+  /* Product Sections */
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .product-card {
+    padding: 14px;
+  }
+
+  .product-image {
+    height: 160px;
+  }
+
+  /* Benefits */
+  .benefits-section {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .benefit-item {
+    flex: 0 0 calc(50% - 8px);
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Mobile: below 768px */
+@media (max-width: 768px) {
+  /* Hero Slider */
+  .hero-slider {
+    height: 50vh;
+    min-height: 380px;
+    max-height: 450px;
+  }
+
+  .hero-bg {
+    background-position: center right 30%;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+  }
+
+  .hero-content {
+    padding: 0 20px 60px;
+    max-width: 100%;
+    justify-content: flex-end;
+    padding-top: 60px;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .hero-title-highlight {
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-arrow {
+    display: none;
+  }
+
+  .hero-nav {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 16px;
+  }
+
+  .hero-dot {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  /* Featured Categories */
+  .cat-featured-section {
+    padding: 48px 0;
+  }
+
+  .cat-featured-container {
+    padding: 0 16px;
+  }
+
+  .cat-featured-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .cat-featured-title-wrap h2 {
+    font-size: 1.5rem;
+  }
+
+  .cat-featured-title-wrap p {
+    font-size: 0.9rem;
+  }
+
+  .cat-featured-viewall {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+
+  .cat-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .cat-featured-card {
+    height: 140px;
+    border-radius: 16px;
+  }
+
+  .cat-featured-icon {
+    font-size: 2.2rem;
+  }
+
+  .cat-featured-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .cat-featured-cta {
+    display: none;
+  }
+
+  .cat-featured-info {
+    padding: 12px;
+  }
+
+  /* Product Sections */
+  .product-section {
+    padding: 40px 16px;
+  }
+
+  .product-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .title-with-pill h2 {
+    font-size: 1.3rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .view-all-link {
+    font-size: 0.85rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-card {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .product-image-container {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .product-image {
+    height: 130px;
+    object-fit: cover;
+  }
+
+  .product-info h3 {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-brand {
+    font-size: 0.7rem;
+  }
+
+  .product-price {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .stock {
+    font-size: 0.7rem;
+  }
+
+  .add-to-cart-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* Benefits Section */
+  .benefits-section {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 16px;
+    margin: 0 16px 40px;
+    border-radius: 16px;
+  }
+
+  .benefit-item {
+    flex-direction: row;
+    gap: 12px;
+    font-size: 0.85rem;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+  }
+
+  .benefit-icon {
+    font-size: 1.4rem;
+  }
+
+  /* Testimonials */
+  .testimonials-section {
+    padding: 40px 16px;
+  }
+
+  .testimonials-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .testimonial-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .stars {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .testimonial-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .home-footer {
+    padding: 40px 16px 24px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .footer-section {
+    padding: 0;
+  }
+
+  .footer-brand-logo {
+    font-size: 1.5rem;
+    justify-content: center;
+  }
+
+  .footer-section h4 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .footer-section a,
+  .footer-section p {
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+    margin-top: 24px;
+    text-align: center;
+  }
+}
+
+/* Small Mobile: below 400px */
+@media (max-width: 400px) {
+  .hero-slider {
+    height: 45vh;
+    min-height: 340px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.65rem;
+  }
+
+  .cat-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .cat-featured-card {
+    height: 120px;
+    border-radius: 12px;
+  }
+
+  .cat-featured-icon {
+    font-size: 1.8rem;
+  }
+
+  .cat-featured-name {
+    font-size: 0.75rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .product-image {
+    height: 150px;
+  }
+
+  .benefit-item {
+    font-size: 0.8rem;
+  }
+}
