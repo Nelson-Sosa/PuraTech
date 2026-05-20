@@ -184,21 +184,16 @@
 }
 
 .cat-dd-icon {
-  font-size: 1rem;
+  font-size: 1.15rem;
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f0f7ff, #e8eeff);
-  border-radius: 7px;
-  transition: background 0.15s ease, transform 0.15s ease;
+  width: 24px;
+  text-align: center;
+  display: inline-block;
+  transition: transform 0.15s ease;
 }
 
 .cat-dropdown-item:hover .cat-dd-icon {
-  background: linear-gradient(135deg, #dbeafe, #c7d2fe);
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .cat-dd-item-wrapper {
