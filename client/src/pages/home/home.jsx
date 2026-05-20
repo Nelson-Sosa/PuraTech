@@ -511,8 +511,21 @@ const Home = () => {
       <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-section">
-            <div className="footer-brand-logo">🎮 PuraTech</div>
-            <p>Tu tienda gamer de confianza en Paraguay.</p>
+            <div className="footer-brand-logo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="url(#footer-logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="brand-logo-icon" style={{marginRight: '8px', verticalAlign: 'middle'}}>
+                <defs>
+                  <linearGradient id="footer-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#2563eb" />
+                    <stop offset="100%" stopColor="#7c3aed" />
+                  </linearGradient>
+                </defs>
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              PuraTech
+            </div>
+            <p>Tu tienda de tecnología y electrónica de confianza en Paraguay.</p>
           </div>
           <div className="footer-section">
             <h4>Enlaces rápidos</h4>

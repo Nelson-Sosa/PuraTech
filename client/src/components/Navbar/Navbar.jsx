@@ -202,7 +202,20 @@ const Navbar = () => {
       {/* ── TOP BAR ── */}
       <div className="navbar">
         <div className="navbar-brand">
-          <Link to="/" className="logo">🎮 PuraTech</Link>
+          <Link to="/" className="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="url(#nav-logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="brand-logo-icon">
+              <defs>
+                <linearGradient id="nav-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#2563eb" />
+                  <stop offset="100%" stopColor="#7c3aed" />
+                </linearGradient>
+              </defs>
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            PuraTech
+          </Link>
         </div>
 
         <div className="navbar-search">
