@@ -613,29 +613,29 @@
 }
 
 .add-to-cart-detail-btn {
-  width: 280px;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, #4f1dab 0%, #1d4ed8 100%);
+  min-width: 200px;
+  max-width: 320px;
+  padding: 0 28px;
+  height: 48px;
+  background: #2563eb;
   color: #fff;
   border: none;
-  border-radius: calc(var(--radius-lg) - 2px);
+  border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.03em;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   font-family: 'Inter', sans-serif;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
-  min-height: 54px;
 }
 
-/* Auto-shimmer sweep on idle */
+/* Subtle shimmer sweep */
 .add-to-cart-detail-btn::before {
   content: '';
   position: absolute;
@@ -643,11 +643,8 @@
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(255, 255, 255, 0.22),
-    transparent);
-  animation: shimmer-btn 3s ease-in-out infinite 1.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  animation: shimmer-btn 4s ease-in-out infinite 2s;
 }
 
 /* Override on hover with faster sweep */
@@ -657,20 +654,17 @@
 
 .add-to-cart-detail-btn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #6d28d9 0%, #1e40af 100%);
-  box-shadow:
-    0 12px 40px rgba(109, 40, 217, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 28px rgba(37, 99, 235, 0.45);
 }
 
 .add-to-cart-detail-btn:active {
-  transform: translateY(0) scale(0.99);
-  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.3);
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .add-to-cart-detail-btn.added {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  box-shadow: 0 6px 28px rgba(5, 150, 105, 0.5);
+  background: #10b981;
+  box-shadow: 0 6px 28px rgba(16, 185, 129, 0.5);
   animation: cart-added 0.5s ease;
   letter-spacing: 0.06em;
 }
@@ -684,12 +678,11 @@
   opacity: 0.9;
   cursor: not-allowed;
   transform: none !important;
-  filter: none !important;
+  box-shadow: none !important;
 }
 
 .add-to-cart-detail-btn.out-of-stock {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-  box-shadow: none;
+  background: #475569;
   opacity: 0.7;
 }
 
