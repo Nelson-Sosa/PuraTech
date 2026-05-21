@@ -61,12 +61,12 @@
   margin-top: auto;
 }
 
-/* ── HERO SLIDER (Cinematic) ── */
+/* ── Hero Slider Container ── */
 .hero-slider {
   position: relative;
-  height: 75vh;
-  min-height: 560px;
-  max-height: 750px;
+  height: 85vh;
+  min-height: 600px;
+  max-height: 800px;
   overflow: hidden;
   background: #050a14;
 }
@@ -92,16 +92,16 @@
 /* ── Background with Ken Burns ── */
 .hero-bg {
   position: absolute;
-  inset: -8%;
+  inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   transform: scale(1);
   transition: transform 12s ease-out;
   will-change: transform;
 }
 
 .hero-bg--zoom {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 /* ── Cinematic Dark Overlay ── */
@@ -120,12 +120,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 8% 80px;
-  max-width: 780px;
+  align-items: flex-start;
+  padding: 0 10%;
+  max-width: 100%;
   /* Hidden by default — staggered animation on active */
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.hero-content > * {
+  max-width: 640px;
 }
 
 .hero-content--visible {
