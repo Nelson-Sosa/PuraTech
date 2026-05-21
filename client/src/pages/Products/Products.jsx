@@ -264,7 +264,7 @@ export const Products = () => {
                                             className="add-to-cart-btn"
                                             onClick={() => addToCart(producto)}
                                         >
-                                            Agregar al carrito
+                                            🛒 Agregar
                                         </button>
                                         
                                     </div>
