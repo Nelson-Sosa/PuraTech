@@ -1763,6 +1763,7 @@
 
   .hero-cta-group {
     flex-direction: column;
+    align-items: center;
     gap: 10px;
     width: 100%;
   }
@@ -1771,8 +1772,10 @@
   .hero-btn-secondary {
     padding: 12px 20px;
     font-size: 0.85rem;
-    width: 100%;
+    width: auto;
+    min-width: 140px;
     text-align: center;
+    align-self: center;
   }
 
   .hero-arrow {
@@ -1816,10 +1819,12 @@
   }
 
   .cat-featured-viewall {
-    width: 100%;
+    width: auto;
+    min-width: 160px;
     justify-content: center;
     padding: 12px 20px;
     font-size: 0.85rem;
+    align-self: center;
   }
 
   .cat-featured-grid {
