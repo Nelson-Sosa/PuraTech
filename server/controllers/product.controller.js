@@ -24,9 +24,10 @@ const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
     const result = await cloudinary.uploader.upload(imagePathOrUrl, {
       folder: 'gamemasters/products',
       transformation: [
-        { width: 1000, height: 1000, crop: 'limit' },
-        { quality: 'auto' },
-        { fetch_format: 'auto' }
+        { width: 1200, height: 1200, crop: 'limit' },
+        { background_removal: "cloudinary_ai" },
+        { quality: "auto", fetch_format: "auto" },
+        { flags: "lossy" }
       ],
       ...options
     });
@@ -139,12 +140,21 @@ module.exports.agregarProducto = async (req, res) => {
 
     // Procesar imagen principal (imageUrl)
     if (req.file) {
-      // Archivo subido → obtener URL de Cloudinary
-      finalImageUrl = req.file.path;
+      // Subir imagen principal desde archivo a Cloudinary con eliminación de fondo
+      const uploadResult = await uploadToCloudinary(req.file.path);
+      finalImageUrl = uploadResult ? uploadResult.url : null;
+      if (!finalImageUrl) {
+        return res.status(500).json({ error: 'Error al subir la imagen principal desde archivo' });
+      }
     } else if (imageUrlText) {
-      // URL externa → Guardar directo (confiar en el usuario)
-      finalImageUrl = imageUrlText.trim();
+      // Subir imagen principal desde URL a Cloudinary con eliminación de fondo
+      const uploadResult = await uploadToCloudinary(imageUrlText.trim());
+      finalImageUrl = uploadResult ? uploadResult.url : null;
+      if (!finalImageUrl) {
+        return res.status(500).json({ error: 'Error al subir la imagen principal desde URL' });
+      }
     }
+
 
     // Procesar múltiples imágenes - usando req.files
     if (req.files) {
@@ -341,10 +351,19 @@ module.exports.updateProduct = async (req, res) => {
     // Actualizar imagen principal si se proporciona
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.file) {
-      // Nueva imagen desde archivo → URL de Cloudinary
-      updatedImageUrl = req.file.path;
+      // Nueva imagen desde archivo → subir a Cloudinary con eliminación de fondo
+      const uploadResult = await uploadToCloudinary(req.file.path);
+      updatedImageUrl = uploadResult ? uploadResult.url : null;
+      if (!updatedImageUrl) {
+        return res.status(500).json({ error: 'Error al subir la imagen principal desde archivo' });
+      }
     } else if (imageUrlText) {
-      updatedImageUrl = imageUrlText.trim();
+      // Nueva imagen desde URL → subir a Cloudinary con eliminación de fondo
+      const uploadResult = await uploadToCloudinary(imageUrlText.trim());
+      updatedImageUrl = uploadResult ? uploadResult.url : null;
+      if (!updatedImageUrl) {
+        return res.status(500).json({ error: 'Error al subir la imagen principal desde URL' });
+      }
     }
     
     // Si imageUrl fue eliminada, usar la primera de images
