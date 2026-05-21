@@ -17,11 +17,11 @@ const isValidImageUrl = (url) => {
 };
 
 // Helper function to upload image to Cloudinary
-const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
+const uploadToCloudinary = async (source, options = {}) => {
   try {
-    console.log('☁️ Uploading to Cloudinary:', typeof imagePathOrUrl === 'string' ? imagePathOrUrl.substring(0, 80) : 'file');
-    
-    const result = await cloudinary.uploader.upload(imagePathOrUrl, {
+    console.log('☁️ Uploading to Cloudinary:', typeof source === 'string' ? source.substring(0, 80) : 'buffer');
+
+    const uploadOptions = {
       folder: 'gamemasters/products',
       transformation: [
         { width: 1200, height: 1200, crop: 'limit' },
@@ -30,8 +30,23 @@ const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
         { flags: "lossy" }
       ],
       ...options
-    });
-    
+    };
+
+    let result;
+    if (Buffer.isBuffer(source)) {
+      // Upload from buffer (memory storage)
+      result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        });
+        stream.end(source);
+      });
+    } else {
+      // Upload from URL or file path
+      result = await cloudinary.uploader.upload(source, uploadOptions);
+    }
+
     console.log('✅ Cloudinary upload success:', result.secure_url);
     return {
       url: result.secure_url,
@@ -39,6 +54,41 @@ const uploadToCloudinary = async (imagePathOrUrl, options = {}) => {
     };
   } catch (error) {
     console.error('❌ Cloudinary upload failed:', error.message);
+    // If background removal add-on is not enabled, try without it
+    if (error.message && error.message.includes('add-on')) {
+      console.log('⚠️ Background removal add-on not enabled, retrying without it...');
+      try {
+        const retryOptions = {
+          folder: 'gamemasters/products',
+          transformation: [
+            { width: 1200, height: 1200, crop: 'limit' },
+            { quality: "auto", fetch_format: "auto" },
+            { flags: "lossy" }
+          ],
+          ...options
+        };
+        let retryResult;
+        if (Buffer.isBuffer(source)) {
+          retryResult = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(retryOptions, (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            });
+            stream.end(source);
+          });
+        } else {
+          retryResult = await cloudinary.uploader.upload(source, retryOptions);
+        }
+        console.log('✅ Cloudinary upload success (without bg removal):', retryResult.secure_url);
+        return {
+          url: retryResult.secure_url,
+          public_id: retryResult.public_id
+        };
+      } catch (retryError) {
+        console.error('❌ Cloudinary retry also failed:', retryError.message);
+        return null;
+      }
+    }
     return null;
   }
 };
@@ -141,7 +191,7 @@ module.exports.agregarProducto = async (req, res) => {
     // Procesar imagen principal (imageUrl)
     if (req.file) {
       // Subir imagen principal desde archivo a Cloudinary con eliminación de fondo
-      const uploadResult = await uploadToCloudinary(req.file.path);
+      const uploadResult = await uploadToCloudinary(req.file.buffer);
       finalImageUrl = uploadResult ? uploadResult.url : null;
       if (!finalImageUrl) {
         return res.status(500).json({ error: 'Error al subir la imagen principal desde archivo' });
@@ -159,9 +209,22 @@ module.exports.agregarProducto = async (req, res) => {
     // Procesar múltiples imágenes - usando req.files
     if (req.files) {
       if (req.files.additionalImages) {
-        // Archivos subidos → obtener URL de Cloudinary
+        // Archivos subidos → subir a Cloudinary (sin eliminación de fondo para ahorrar créditos)
         for (const file of req.files.additionalImages) {
-          imagesArray.push(file.path);
+          if (file && file.buffer) {
+            const uploadResult = await uploadToCloudinary(file.buffer, {
+              transformation: [
+                { width: 1200, height: 1200, crop: 'limit' },
+                { quality: "auto", fetch_format: "auto" },
+                { flags: "lossy" }
+              ]
+            });
+            if (uploadResult) {
+              imagesArray.push(uploadResult.url);
+            } else {
+              console.warn('⚠️ [agregarProducto] Error al subir imagen adicional a Cloudinary');
+            }
+          }
         }
       }
     }
@@ -310,9 +373,20 @@ module.exports.updateProduct = async (req, res) => {
     if (req.files && req.files.additionalImages) {
       console.log("🔍 [updateProduct] additionalImages files:", req.files.additionalImages.length);
       for (const file of req.files.additionalImages) {
-        if (file && file.path) {
-          console.log("🔍 [updateProduct] Adding file path:", file.path);
-          updatedImages.push(file.path);
+        if (file && file.buffer) {
+          console.log("🔍 [updateProduct] Processing additional image");
+          const uploadResult = await uploadToCloudinary(file.buffer, {
+            transformation: [
+              { width: 1200, height: 1200, crop: 'limit' },
+              { quality: "auto", fetch_format: "auto" },
+              { flags: "lossy" }
+            ]
+          });
+          if (uploadResult) {
+            updatedImages.push(uploadResult.url);
+          } else {
+            console.warn('⚠️ [updateProduct] Error al subir imagen adicional a Cloudinary');
+          }
         }
       }
     }
@@ -352,7 +426,7 @@ module.exports.updateProduct = async (req, res) => {
     let updatedImageUrl = currentProduct.imageUrl;
     if (req.file) {
       // Nueva imagen desde archivo → subir a Cloudinary con eliminación de fondo
-      const uploadResult = await uploadToCloudinary(req.file.path);
+      const uploadResult = await uploadToCloudinary(req.file.buffer);
       updatedImageUrl = uploadResult ? uploadResult.url : null;
       if (!updatedImageUrl) {
         return res.status(500).json({ error: 'Error al subir la imagen principal desde archivo' });
