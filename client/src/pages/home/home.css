@@ -93,8 +93,9 @@
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center center;
+  background-size: contain;
+  background-position: right 10% center;
+  background-repeat: no-repeat;
   transform: scale(1);
   transition: transform 12s ease-out;
   will-change: transform;
@@ -349,11 +350,19 @@
 
 /* ── Responsive Hero ── */
 
-/* Notebook / large tablet (769px – 1280px): center perfectly */
+/* Desktop large (≥ 1281px) */
+@media (min-width: 1281px) {
+  .hero-bg {
+    background-position: right 10% center;
+    background-size: contain;
+  }
+}
+
+/* Notebook / large tablet (769px – 1280px) */
 @media (min-width: 769px) and (max-width: 1280px) {
   .hero-bg {
-    background-position: center center;
-    background-size: cover;
+    background-position: right 5% center;
+    background-size: contain;
   }
 
   .hero-slider {
