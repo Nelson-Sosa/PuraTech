@@ -1067,134 +1067,9 @@
     display: none;
   }
 
-  /* Bottom sheet style dropdown */
-  .cat-dropdown {
-    position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-height: 75vh;
-    border-radius: 24px 24px 0 0;
-    padding: 20px;
-    z-index: 9999;
-    animation: slideUpMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-  }
-
-  .cat-dropdown::before {
-    display: none;
-  }
-
-  /* Drag handle indicator */
-  .cat-dropdown::after {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 4px;
-    background: #e2e8f0;
-    border-radius: 2px;
-  }
-
-  .cat-dropdown-grid {
-    max-height: 55vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-top: 8px;
-  }
-
-  .cat-dropdown-item {
-    padding: 14px 16px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #334155;
-    background: #f8fafc;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .cat-dropdown-item:hover {
-    background: #e0e7ff;
-    color: #1e3a8a;
-    transform: none;
-  }
-
-  .cat-dropdown-item:hover::before {
-    display: none;
-  }
-
-  .cat-dd-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
-    background: #e0e7ff;
-    border-radius: 10px;
-  }
-
-  .cat-dd-item-wrapper {
-    position: relative;
-    background: transparent;
-    border-radius: 12px;
-  }
-
-  .cat-dd-arrow {
-    font-size: 1.2rem;
-    color: #94a3b8;
-  }
-
-  .cat-sub-dropdown {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: auto;
-    width: 100%;
-    max-height: 65vh;
-    border-radius: 24px 24px 0 0;
-    padding: 20px;
-    z-index: 10000;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
-    animation: slideUpMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .cat-sub-dropdown::before {
-    display: none;
-  }
-
-  .cat-sub-dropdown::after {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 4px;
-    background: #e2e8f0;
-    border-radius: 2px;
-  }
-
-  .cat-sub-item {
-    padding: 12px 16px;
-    font-size: 0.9rem;
-    background: #ffffff;
-    border: 1px solid #f1f5f9;
-    border-radius: 10px;
-    margin-bottom: 6px;
-  }
-
-  .cat-sub-item:hover {
-    background: #f0fdf4;
-    border-color: #22c55e;
-    color: #15803d;
+  /* Deshabilitar dropdowns de escritorio en móvil para evitar conflictos */
+  .cat-dropdown, .cat-sub-dropdown {
+    display: none !important;
   }
 }
 
@@ -1641,178 +1516,175 @@
   flex: 1;
 }
 
-/* ── Level 1 ── */
-.mob-cat-l1-wrapper {
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid #f1f5f9;
-  background: #f8fafc;
-}
-
-.mob-cat-l1-row {
+/* Header row with Back Button support */
+.mob-cat-header {
   display: flex;
   align-items: center;
-}
-
-.mob-cat-l1-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 12px 14px 16px;
-  text-decoration: none;
-  color: #0f172a;
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s ease;
-}
-
-.mob-cat-l1-link:active {
-  color: #1e3a8a;
-}
-
-.mob-cat-l1-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  background: #e0e7ff;
-  border-radius: 10px;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid #f1f5f9;
   flex-shrink: 0;
 }
 
-.mob-cat-l1-icon svg {
-  width: 16px;
-  height: 16px;
-  color: #1e3a8a;
-}
-
-/* ── Level 2 ── */
-.mob-cat-l2-list {
-  padding: 4px 12px 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-top: 1px solid #e2e8f0;
-  background: #ffffff;
-}
-
-.mob-cat-l2-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #f1f5f9;
-}
-
-.mob-cat-l2-row {
-  display: flex;
-  align-items: center;
-  background: #f8fafc;
-}
-
-.mob-cat-l2-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 10px 11px 12px;
-  text-decoration: none;
-  color: #334155;
-  font-size: 0.88rem;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s ease;
-}
-
-.mob-cat-l2-link:active {
-  color: #1e3a8a;
-}
-
-.mob-cat-l2-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: #eff6ff;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.mob-cat-l2-icon svg {
-  width: 14px;
-  height: 14px;
-  color: #3b82f6;
-}
-
-/* ── Level 3 ── */
-.mob-cat-l3-list {
-  padding: 4px 10px 8px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  background: #ffffff;
-  border-top: 1px solid #f1f5f9;
-}
-
-.mob-cat-l3-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 10px;
-  text-decoration: none;
-  color: #475569;
-  font-size: 0.84rem;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.mob-cat-l3-item:active {
-  background: #eff6ff;
-  color: #1e3a8a;
-}
-
-.mob-cat-l3-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #94a3b8;
-  flex-shrink: 0;
-}
-
-/* ── Expand / Collapse button ── */
-.mob-cat-expand-btn {
-  width: 40px;
-  height: 40px;
+.mob-cat-back-btn {
+  width: 36px;
+  height: 36px;
   border: none;
   background: transparent;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex-shrink: 0;
-  border-radius: 8px;
+  color: #1e3a8a;
   transition: background 0.2s ease;
-  margin-right: 8px;
+  flex-shrink: 0;
+  margin-left: -8px;
 }
 
-.mob-cat-expand-btn:active {
+.mob-cat-back-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mob-cat-back-btn:active {
+  background: #eff6ff;
+}
+
+.mob-cat-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-align: center;
+  flex: 1;
+}
+
+.mob-cat-close-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+  margin-right: -8px;
+}
+
+.mob-cat-close-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #475569;
+}
+
+.mob-cat-close-btn:active {
   background: #e0e7ff;
 }
 
-/* ── Chevron icon ── */
-.mob-cat-chevron {
-  width: 18px;
-  height: 18px;
-  color: #94a3b8;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+.mob-cat-close-btn:active svg {
+  color: #1e3a8a;
 }
 
-.mob-cat-chevron--open {
-  transform: rotate(180deg);
-  color: #1e3a8a;
+/* Scrollable list */
+.mob-cat-list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Drill-down Items ── */
+.mob-drill-item-wrapper {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mob-drill-item-wrapper:last-child {
+  border-bottom: none;
+}
+
+.mob-drill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 12px;
+  text-decoration: none;
+  color: #0f172a;
+  transition: background 0.2s ease;
+  border-radius: 12px;
+}
+
+.mob-drill-item:active {
+  background: #f8fafc;
+}
+
+.mob-drill-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mob-drill-icon {
+  width: 38px;
+  height: 38px;
+  background: #eff6ff;
+  color: #3b82f6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mob-drill-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mob-drill-dot {
+  width: 6px;
+  height: 6px;
+  background: #94a3b8;
+  border-radius: 50%;
+  margin: 0 16px;
+  flex-shrink: 0;
+}
+
+.mob-drill-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.mob-drill-arrow {
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+}
+
+.mob-drill-arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mob-drill-view-all {
+  color: #2563eb;
+  font-weight: 600;
+  background: #eff6ff;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  justify-content: center;
+  padding: 14px;
+}
+
+.mob-drill-view-all:active {
+  background: #dbeafe;
 }
 

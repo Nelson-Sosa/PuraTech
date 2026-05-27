@@ -33,125 +33,99 @@ const ICONS = {
   )
 };
 
-// ── ChevronIcon ──
-const ChevronIcon = ({ open }) => (
-  <svg
-    className={`mob-cat-chevron ${open ? 'mob-cat-chevron--open' : ''}`}
-    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
+// ── Full Mobile Categories Panel (Drill-down Bottom Sheet) ──
+const MobileCategoryMenu = ({ categories, onClose }) => {
+  const [viewStack, setViewStack] = useState([{ title: 'Todas las Categorías', items: categories, parent: null }]);
+  
+  const currentView = viewStack[viewStack.length - 1];
 
-// ── Mobile Level-3 accordion item ──
-const MobLevel3Item = ({ sub, onClose }) => (
-  <Link
-    to={`/category/${encodeURIComponent(sub.slug || sub.name)}`}
-    className="mob-cat-l3-item"
-    onClick={onClose}
-  >
-    <span className="mob-cat-l3-dot" />
-    {sub.name}
-  </Link>
-);
+  const handleItemClick = (item) => {
+    if (item.children && item.children.length > 0) {
+      setViewStack([...viewStack, { title: item.name, items: item.children, parent: item }]);
+    }
+  };
 
-// ── Mobile Level-2 accordion item (with optional level-3 children) ──
-const MobLevel2Item = ({ child, onClose }) => {
-  const [open, setOpen] = useState(false);
-  const hasKids = child.children && child.children.length > 0;
+  const handleBack = () => {
+    if (viewStack.length > 1) {
+      setViewStack(viewStack.slice(0, -1));
+    }
+  };
 
   return (
-    <div className="mob-cat-l2-wrapper">
-      <div className="mob-cat-l2-row">
-        <Link
-          to={`/category/${encodeURIComponent(child.slug || child.name)}`}
-          className="mob-cat-l2-link"
-          onClick={onClose}
-        >
-          <span className="mob-cat-l2-icon">{ICONS[child.nivel] || ICONS.default}</span>
-          <span>{child.name}</span>
-        </Link>
-        {hasKids && (
-          <button
-            className="mob-cat-expand-btn"
-            onClick={() => setOpen(o => !o)}
-            aria-label={open ? 'Colapsar' : 'Expandir'}
-          >
-            <ChevronIcon open={open} />
+    <div className="mob-cat-overlay" onClick={onClose}>
+      <div className="mob-cat-sheet drill-down-sheet" onClick={e => e.stopPropagation()}>
+        <div className="mob-cat-handle" />
+        
+        <div className="mob-cat-header">
+          {viewStack.length > 1 ? (
+            <button className="mob-cat-back-btn" onClick={handleBack} aria-label="Volver">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+          ) : (
+            <div className="mob-cat-back-placeholder" style={{ width: '36px' }} />
+          )}
+          
+          <h3 className="mob-cat-title">{currentView.title}</h3>
+          
+          <button className="mob-cat-close-btn" onClick={onClose} aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
-        )}
-      </div>
-      {hasKids && open && (
-        <div className="mob-cat-l3-list">
-          {child.children.map(sub => (
-            <MobLevel3Item key={sub._id} sub={sub} onClose={onClose} />
-          ))}
         </div>
-      )}
+
+        <div className="mob-cat-list drill-down-list">
+          {/* Opción para ver todo en la categoría actual si estamos en un subnivel */}
+          {viewStack.length > 1 && currentView.parent && (
+            <Link 
+              to={`/category/${encodeURIComponent(currentView.parent.slug || currentView.parent.name)}`}
+              className="mob-drill-item mob-drill-view-all"
+              onClick={onClose}
+            >
+              <span>Ver todo en {currentView.title}</span>
+            </Link>
+          )}
+
+          {currentView.items.map(item => {
+            const hasKids = item.children && item.children.length > 0;
+            return (
+              <div key={item._id} className="mob-drill-item-wrapper">
+                <Link
+                  to={hasKids ? '#' : `/category/${encodeURIComponent(item.slug || item.name)}`}
+                  className="mob-drill-item"
+                  onClick={(e) => {
+                    if (hasKids) {
+                      e.preventDefault();
+                      handleItemClick(item);
+                    } else {
+                      onClose();
+                    }
+                  }}
+                >
+                  <div className="mob-drill-content">
+                    {item.nivel < 3 && <span className="mob-drill-icon">{ICONS[item.nivel] || ICONS.default}</span>}
+                    {item.nivel === 3 && <span className="mob-drill-dot" />}
+                    <span className="mob-drill-name">{item.name}</span>
+                  </div>
+                  {hasKids && (
+                    <span className="mob-drill-arrow">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                    </span>
+                  )}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
-
-// ── Mobile Level-1 accordion item ──
-const MobLevel1Item = ({ cat, onClose }) => {
-  const [open, setOpen] = useState(false);
-  const hasKids = cat.children && cat.children.length > 0;
-
-  return (
-    <div className="mob-cat-l1-wrapper">
-      <div className="mob-cat-l1-row">
-        <Link
-          to={`/category/${encodeURIComponent(cat.slug || cat.name)}`}
-          className="mob-cat-l1-link"
-          onClick={onClose}
-        >
-          <span className="mob-cat-l1-icon">{ICONS[cat.nivel] || ICONS.default}</span>
-          <span>{cat.name}</span>
-        </Link>
-        {hasKids && (
-          <button
-            className="mob-cat-expand-btn"
-            onClick={() => setOpen(o => !o)}
-            aria-label={open ? 'Colapsar' : 'Expandir'}
-          >
-            <ChevronIcon open={open} />
-          </button>
-        )}
-      </div>
-      {hasKids && open && (
-        <div className="mob-cat-l2-list">
-          {cat.children.map(child => (
-            <MobLevel2Item key={child._id} child={child} onClose={onClose} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ── Full Mobile Categories Panel (Bottom Sheet) ──
-const MobileCategoryMenu = ({ categories, onClose }) => (
-  <div className="mob-cat-overlay" onClick={onClose}>
-    <div className="mob-cat-sheet" onClick={e => e.stopPropagation()}>
-      <div className="mob-cat-handle" />
-      <div className="mob-cat-header">
-        <h3 className="mob-cat-title">📂 Categorías</h3>
-        <button className="mob-cat-close-btn" onClick={onClose} aria-label="Cerrar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      </div>
-      <div className="mob-cat-list">
-        {categories.map(cat => (
-          <MobLevel1Item key={cat._id} cat={cat} onClose={onClose} />
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 // ── SubItem (level 2 item with level 3 children) — DESKTOP ONLY ─────────────
 const SubItem = ({ child }) => {
