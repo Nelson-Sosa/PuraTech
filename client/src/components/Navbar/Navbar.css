@@ -1595,7 +1595,7 @@
 .mob-cat-list {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 16px 32px;
+  padding: 8px 16px 120px;
   display: flex;
   flex-direction: column;
   flex: 1;
