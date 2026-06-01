@@ -470,7 +470,8 @@
 .product-image-container {
   position: relative;
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,6 +480,7 @@
   flex-shrink: 0;
   border-bottom: 1px solid var(--border-color);
   border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
 }
 
 
