@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000;
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(",") 
-  : ["http://localhost:3000", "https://game-masters-nine.vercel.app", "https://gamemasters-aqha.onrender.com"];
+  : ["http://localhost:3000", "https://puratech-store.vercel.app", "https://gamemasters-aqha.onrender.com"];
 
 const corsOptions = {
   origin: function (origin, callback) {

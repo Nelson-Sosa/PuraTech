@@ -4,5 +4,11 @@
   "installCommand": "npm install",
   "env": {
     "CI": "false"
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

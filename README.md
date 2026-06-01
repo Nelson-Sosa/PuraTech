@@ -12,7 +12,7 @@
 
 | Frontend (Vercel) | Backend (Render) |
 |-------------------|------------------|
-| [`game-masters-nine.vercel.app`](https://game-masters-nine.vercel.app) | [`gamemasters-aqha.onrender.com`](https://gamemasters-aqha.onrender.com) |
+| [`puratech-store.vercel.app`](https://puratech-store.vercel.app) | [`gamemasters-aqha.onrender.com`](https://gamemasters-aqha.onrender.com) |
 
 ---
 
