@@ -83,7 +83,10 @@ const FormProduct = () => {
     setIsProcessingAI(true);
     setProgressText("Preparando IA...");
     try {
-      const blob = await imglyRemoveBackground(source, {
+      const isFile = typeof source !== 'string';
+      const imageSource = isFile ? URL.createObjectURL(source) : source;
+      const blob = await imglyRemoveBackground(imageSource, {
+        output: { format: 'image/png', quality: 1.0 },
         progress: (key, current, total) => {
           if (key.includes("fetch")) {
             setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
@@ -92,6 +95,7 @@ const FormProduct = () => {
           }
         }
       });
+      if (isFile) URL.revokeObjectURL(imageSource);
       
       const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
       const file = new File([blob], fileName, { type: "image/png" });

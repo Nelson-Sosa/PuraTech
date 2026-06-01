@@ -101,13 +101,16 @@ const UpdateProduct = () => {
             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
             try {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
-                const blob = await imglyRemoveBackground(files[i], {
+                const objectUrl = URL.createObjectURL(files[i]);
+                const blob = await imglyRemoveBackground(objectUrl, {
+                    output: { format: 'image/png', quality: 1.0 },
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
                         }
                     }
                 });
+                URL.revokeObjectURL(objectUrl);
                 console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${blob.size}`);
                 const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.png";
                 const file = new File([blob], fileName, { type: "image/png" });
@@ -155,6 +158,7 @@ const UpdateProduct = () => {
             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
             try {
                 const blob = await imglyRemoveBackground(urls[i], {
+                    output: { format: 'image/png', quality: 1.0 },
                     progress: (key) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
@@ -203,7 +207,10 @@ const UpdateProduct = () => {
         setProgressText("Preparando IA...");
         setProcessedImageFile(null);
         try {
-            const blob = await imglyRemoveBackground(source, {
+            const isFile = typeof source !== 'string';
+            const imageSource = isFile ? URL.createObjectURL(source) : source;
+            const blob = await imglyRemoveBackground(imageSource, {
+                output: { format: 'image/png', quality: 1.0 },
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
@@ -213,6 +220,7 @@ const UpdateProduct = () => {
                     }
                 }
             });
+            if (isFile) URL.revokeObjectURL(imageSource);
             console.log("AI Success: background removed, blob size:", blob.size);
 
             const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
