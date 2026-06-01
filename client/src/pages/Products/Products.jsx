@@ -237,7 +237,7 @@ export const Products = () => {
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
                                             <img 
-                                                src={(producto.images && producto.images[0]) || producto.imageUrl || "/img/placeholder.png"} 
+                                                src={producto.imageUrl || (producto.images && producto.images[0]) || "/img/placeholder.png"} 
                                                 alt={producto.nombre}
                                                 className="product-image"
                                                 loading="lazy"
