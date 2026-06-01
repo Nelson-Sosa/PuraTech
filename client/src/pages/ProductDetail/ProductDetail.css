@@ -203,12 +203,13 @@
   animation: fadeSlideUp 0.5s ease 0.1s both;
 }
 
-/* Main Image Container — Premium Transparent Background */
+/* Main Image Container — Premium Glass */
 .main-image-container {
   position: relative;
-  background: transparent;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
-  border: 1.5px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
@@ -217,11 +218,11 @@
   padding: 28px;
   min-height: 400px;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 8px 24px rgba(0, 0, 0, 0.2);
+    0 8px 32px rgba(124, 58, 237, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition: box-shadow 0.4s ease;
   cursor: zoom-in;
-  backdrop-filter: blur(10px);
 }
 
 .main-image-container:hover {

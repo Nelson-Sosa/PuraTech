@@ -8,11 +8,11 @@
 /* ── CSS Variables ── */
 :root {
   /* Backgrounds */
-  --bg-primary: #f0f4ff;
+  --bg-primary: #dbeafe;
   --bg-secondary: rgba(255, 255, 255, 0.85);
-  --bg-card: rgba(255, 255, 255, 0.6);
-  --bg-card-hover: rgba(255, 255, 255, 0.75);
-  --bg-input: rgba(248, 250, 252, 0.9);
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --bg-card-hover: rgba(255, 255, 255, 0.8);
+  --bg-input: rgba(255, 255, 255, 0.85);
   --bg-overlay: rgba(0, 0, 0, 0.5);
   
   /* Accent Colors */
@@ -86,7 +86,7 @@ html {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, #eef2ff 0%, #f0f4ff 30%, #faf5ff 60%, #f0fdf4 100%);
+  background: linear-gradient(135deg, #bfdbfe 0%, #c7d2fe 25%, #ddd6fe 55%, #a7f3d0 100%);
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
