@@ -173,7 +173,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
                   <img 
-                    src={(product.images && product.images[0]) || product.imageUrl || "/img/placeholder.png"} 
+                    src={product.imageUrl || (product.images && product.images[0]) || "/img/placeholder.png"} 
                     alt={product.nombre || "Producto"}
                     className="product-image"
                     loading="lazy"
