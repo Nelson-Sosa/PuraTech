@@ -102,14 +102,18 @@ const UpdateProduct = () => {
         setReplaceImageIndex(index);
         setReplaceImageFile(null);
         setReplaceImageUrl("");
+        setProcessedImageFile(null);
+        setIsProcessingAI(false);
     };
 
     const processImageAI = async (source) => {
         setIsProcessingAI(true);
         setProgressText("Preparando IA...");
+        setProcessedImageFile(null);
         try {
             const blob = await imglyRemoveBackground(source, {
                 progress: (key, current, total) => {
+                    console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
                         setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
                     } else if (key.includes("compute")) {
@@ -117,14 +121,17 @@ const UpdateProduct = () => {
                     }
                 }
             });
+            console.log("AI Success: background removed, blob size:", blob.size);
 
             const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
             const file = new File([blob], fileName, { type: "image/png" });
 
             setProcessedImageFile(file);
+            setProgressText("¡Fondo eliminado correctamente!");
         } catch (err) {
-            console.error("AI Error:", err);
-            alert("Error procesando imagen con IA: " + err.message);
+            console.error("AI Error - nombre:", err.name, "mensaje:", err.message, "stack:", err.stack);
+            setProgressText("Error al procesar con IA, se usará la imagen original");
+            // Fallback: processedImageFile queda null, confirmReplaceImage usará replaceImageFile
         } finally {
             setIsProcessingAI(false);
         }
@@ -436,6 +443,8 @@ const UpdateProduct = () => {
                                                 setReplaceImageIndex(null);
                                                 setReplaceImageFile(null);
                                                 setReplaceImageUrl("");
+                                                setProcessedImageFile(null);
+                                                setIsProcessingAI(false);
                                             }}
                                         >
                                             Cancelar
