@@ -88,6 +88,8 @@ const FormProduct = () => {
         ? URL.createObjectURL(source) 
         : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
       const blob = await imglyRemoveBackground(imageSource, {
+        model: "large",
+        output: { format: "image/webp", quality: 1.0 },
         progress: (key, current, total) => {
           if (key.includes("fetch")) {
             setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
@@ -98,8 +100,8 @@ const FormProduct = () => {
       });
       if (isFile) URL.revokeObjectURL(imageSource);
       
-      const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
-      const file = new File([blob], fileName, { type: "image/png" });
+      const fileName = isFile ? source.name.replace(/\.[^/.]+$/, "") + "_transparent.webp" : "transparent_image.webp";
+      const file = new File([blob], fileName, { type: "image/webp" });
       
       setImageUrl(file);
       setImageUrlText("");

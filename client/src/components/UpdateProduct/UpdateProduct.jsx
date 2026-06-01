@@ -103,6 +103,8 @@ const UpdateProduct = () => {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
                 const objectUrl = URL.createObjectURL(files[i]);
                 const blob = await imglyRemoveBackground(objectUrl, {
+                    model: "large",
+                    output: { format: "image/webp", quality: 1.0 },
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
@@ -110,9 +112,13 @@ const UpdateProduct = () => {
                     }
                 });
                 URL.revokeObjectURL(objectUrl);
+                
+                // Pequeña pausa para permitir que el Garbage Collector libere memoria WebGL
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
                 console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${blob.size}`);
-                const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.png";
-                const file = new File([blob], fileName, { type: "image/png" });
+                const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.webp";
+                const file = new File([blob], fileName, { type: "image/webp" });
                 processedFiles.push(file);
                 previews.push(URL.createObjectURL(blob));
             } catch (err) {
@@ -158,14 +164,19 @@ const UpdateProduct = () => {
             try {
                 const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(urls[i])}`;
                 const blob = await imglyRemoveBackground(proxyUrl, {
+                    model: "large",
+                    output: { format: "image/webp", quality: 1.0 },
                     progress: (key) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
                         }
                     }
                 });
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
                 console.log(`✅ [AI] URL ${i + 1} procesada, blob size: ${blob.size}`);
-                const file = new File([blob], `url_image_${i + 1}_transparent.png`, { type: "image/png" });
+                const file = new File([blob], `url_image_${i + 1}_transparent.webp`, { type: "image/webp" });
                 processedFiles.push(file);
                 previews.push(URL.createObjectURL(blob));
             } catch (err) {
@@ -212,6 +223,8 @@ const UpdateProduct = () => {
                 ? URL.createObjectURL(source) 
                 : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
             const blob = await imglyRemoveBackground(imageSource, {
+                model: "large",
+                output: { format: "image/webp", quality: 1.0 },
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
@@ -224,8 +237,8 @@ const UpdateProduct = () => {
             if (isFile) URL.revokeObjectURL(imageSource);
             console.log("AI Success: background removed, blob size:", blob.size);
 
-            const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
-            const file = new File([blob], fileName, { type: "image/png" });
+            const fileName = typeof source === 'string' ? "transparent_image.webp" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.webp";
+            const file = new File([blob], fileName, { type: "image/webp" });
 
             setProcessedImageFile(file);
             setProcessedPreviewUrl(URL.createObjectURL(blob));
