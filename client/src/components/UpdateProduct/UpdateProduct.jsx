@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../UpdateProduct/UpdateProduct.css';
 import { API_URL } from '../../config';
-import { removeBackground as imglyRemoveBackground } from "@imgly/background-removal";
+import imglyRemoveBackground from "@imgly/background-removal";
 
 const UpdateProduct = () => {
     const { id } = useParams();
@@ -89,6 +89,7 @@ const UpdateProduct = () => {
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
         
+        console.log(`🤖 [AI] Procesando ${files.length} archivo(s)...`);
         setIsProcessingNewImages(true);
         setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
         setNewImagesPreviews([]);
@@ -99,6 +100,7 @@ const UpdateProduct = () => {
         for (let i = 0; i < files.length; i++) {
             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
             try {
+                console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
                 const blob = await imglyRemoveBackground(files[i], {
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
@@ -106,12 +108,13 @@ const UpdateProduct = () => {
                         }
                     }
                 });
+                console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${blob.size}`);
                 const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.png";
                 const file = new File([blob], fileName, { type: "image/png" });
                 processedFiles.push(file);
                 previews.push(URL.createObjectURL(blob));
             } catch (err) {
-                console.error(`AI Error on file ${i + 1}:`, err);
+                console.error(`❌ [AI] Error en archivo ${i + 1}:`, err);
                 processedFiles.push(files[i]);
                 previews.push(URL.createObjectURL(files[i]));
             }
@@ -121,14 +124,65 @@ const UpdateProduct = () => {
         setNewImagesPreviews(previews);
         setNewImagesProgress(`✅ ${processedFiles.length} imagen(es) procesada(s)`);
         setIsProcessingNewImages(false);
+        console.log(`✅ [AI] Todas las imágenes procesadas:`, processedFiles.length);
     };
 
     const handleNewImageUrlChange = (e) => {
         setNewImageUrlText(e.target.value);
     };
 
-    const handleNewAdditionalImagesTextChange = (e) => {
-        setNewAdditionalImagesText(e.target.value);
+    const handleNewAdditionalImagesTextChange = async (e) => {
+        const text = e.target.value;
+        setNewAdditionalImagesText(text);
+        
+        // Procesar URLs con IA cuando se pegan (separadas por coma)
+        const urls = text.split(',').map(u => u.trim()).filter(u => u.match(/^https?:\/\/.+/));
+        if (urls.length === 0) {
+            setNewImagesPreviews([]);
+            return;
+        }
+        
+        console.log(`🤖 [AI] Procesando ${urls.length} URL(s)...`);
+        setIsProcessingNewImages(true);
+        setNewImagesProgress(`🤖 Procesando ${urls.length} URL(s)...`);
+        setNewImagesPreviews([]);
+        
+        const processedFiles = [];
+        const previews = [];
+        const processedUrls = [];
+        
+        for (let i = 0; i < urls.length; i++) {
+            setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
+            try {
+                const blob = await imglyRemoveBackground(urls[i], {
+                    progress: (key) => {
+                        if (key.includes("compute")) {
+                            setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
+                        }
+                    }
+                });
+                console.log(`✅ [AI] URL ${i + 1} procesada, blob size: ${blob.size}`);
+                const file = new File([blob], `url_image_${i + 1}_transparent.png`, { type: "image/png" });
+                processedFiles.push(file);
+                previews.push(URL.createObjectURL(blob));
+            } catch (err) {
+                console.error(`❌ [AI] Error en URL ${i + 1}:`, err);
+                // Fallback: dejar la URL original sin procesar
+                processedUrls.push(urls[i]);
+                previews.push(urls[i]);
+            }
+        }
+        
+        // Si hay archivos procesados, agregarlos como archivos
+        if (processedFiles.length > 0) {
+            setNewAdditionalImages(prev => [...prev, ...processedFiles]);
+            // Limpiar las URLs procesadas exitosamente del texto
+            setNewAdditionalImagesText(processedUrls.join(', '));
+        }
+        
+        setNewImagesPreviews(previews);
+        setNewImagesProgress(`✅ ${previews.length} imagen(es) procesada(s)`);
+        setIsProcessingNewImages(false);
     };
 
     const handleDeleteImage = (imageToDelete) => {
@@ -520,26 +574,6 @@ const UpdateProduct = () => {
                                         className="form-file-input"
                                         disabled={isProcessingNewImages}
                                     />
-                                    {isProcessingNewImages && (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '8px', marginTop: '8px' }}>
-                                            <div style={{ width: '20px', height: '20px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-                                            <span style={{ color: 'var(--text-primary)', fontSize: '0.85rem' }}>{newImagesProgress}</span>
-                                        </div>
-                                    )}
-                                    {newAdditionalImages.length > 0 && !isProcessingNewImages && (
-                                        <div className="image-preview" style={{ color: '#10b981', fontWeight: 'bold' }}>
-                                            ✅ {newAdditionalImages.length} imagen(es) procesada(s) sin fondo
-                                        </div>
-                                    )}
-                                    {newImagesPreviews.length > 0 && !isProcessingNewImages && (
-                                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
-                                            {newImagesPreviews.map((prev, idx) => (
-                                                <div key={idx} style={{ background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 12px 12px', borderRadius: '8px', border: '2px dashed #10b981', padding: '4px' }}>
-                                                    <img src={prev} alt={`Preview ${idx + 1}`} style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
 
                                 <div className="divider">O</div>
@@ -553,9 +587,39 @@ const UpdateProduct = () => {
                                         onChange={handleNewAdditionalImagesTextChange}
                                         placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg"
                                         className="form-input"
+                                        disabled={isProcessingNewImages}
                                     />
                                 </div>
                             </div>
+
+                            {/* AI Processing Status - shown for both files and URLs */}
+                            {isProcessingNewImages && (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '16px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '12px', marginTop: '16px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+                                    <div style={{ width: '24px', height: '24px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite', flexShrink: 0 }} />
+                                    <div>
+                                        <span style={{ color: '#8b5cf6', fontSize: '0.9rem', fontWeight: 'bold', display: 'block' }}>{newImagesProgress}</span>
+                                        <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>La primera vez puede tardar unos segundos</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Processed Images Preview */}
+                            {newAdditionalImages.length > 0 && !isProcessingNewImages && (
+                                <div style={{ marginTop: '16px' }}>
+                                    <p style={{ fontSize: '0.85rem', color: '#10b981', fontWeight: 'bold', marginBottom: '8px' }}>
+                                        ✅ {newAdditionalImages.length} imagen(es) procesada(s) sin fondo
+                                    </p>
+                                </div>
+                            )}
+                            {newImagesPreviews.length > 0 && !isProcessingNewImages && (
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
+                                    {newImagesPreviews.map((prev, idx) => (
+                                        <div key={idx} style={{ background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 12px 12px', borderRadius: '8px', border: '2px dashed #10b981', padding: '4px' }}>
+                                            <img src={prev} alt={`Preview ${idx + 1}`} style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <button type="submit" className="btn-submit">
