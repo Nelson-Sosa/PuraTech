@@ -156,7 +156,8 @@ const UpdateProduct = () => {
         for (let i = 0; i < urls.length; i++) {
             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
             try {
-                const blob = await imglyRemoveBackground(urls[i], {
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(urls[i])}`;
+                const blob = await imglyRemoveBackground(proxyUrl, {
                     progress: (key) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
@@ -207,7 +208,9 @@ const UpdateProduct = () => {
         setProcessedImageFile(null);
         try {
             const isFile = typeof source !== 'string';
-            const imageSource = isFile ? URL.createObjectURL(source) : source;
+            const imageSource = isFile 
+                ? URL.createObjectURL(source) 
+                : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
             const blob = await imglyRemoveBackground(imageSource, {
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);

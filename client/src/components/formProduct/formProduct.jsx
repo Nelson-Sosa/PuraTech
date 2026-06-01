@@ -84,7 +84,9 @@ const FormProduct = () => {
     setProgressText("Preparando IA...");
     try {
       const isFile = typeof source !== 'string';
-      const imageSource = isFile ? URL.createObjectURL(source) : source;
+      const imageSource = isFile 
+        ? URL.createObjectURL(source) 
+        : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
       const blob = await imglyRemoveBackground(imageSource, {
         progress: (key, current, total) => {
           if (key.includes("fetch")) {
