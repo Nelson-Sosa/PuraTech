@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../UpdateProduct/UpdateProduct.css';
 import { API_URL } from '../../config';
+import { removeBackground as imglyRemoveBackground } from "@imgly/background-removal";
 
 const UpdateProduct = () => {
     const { id } = useParams();
@@ -23,6 +24,9 @@ const UpdateProduct = () => {
     const [newAdditionalImages, setNewAdditionalImages] = useState([]);
     const [newAdditionalImagesText, setNewAdditionalImagesText] = useState("");
     const [mainImageFile, setMainImageFile] = useState(null);
+    const [isProcessingAI, setIsProcessingAI] = useState(false);
+    const [progressText, setProgressText] = useState("");
+    const [processedImageFile, setProcessedImageFile] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -100,14 +104,47 @@ const UpdateProduct = () => {
         setReplaceImageUrl("");
     };
 
+    const processImageAI = async (source) => {
+        setIsProcessingAI(true);
+        setProgressText("Preparando IA...");
+        try {
+            const blob = await imglyRemoveBackground(source, {
+                progress: (key, current, total) => {
+                    if (key.includes("fetch")) {
+                        setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
+                    } else if (key.includes("compute")) {
+                        setProgressText("Recortando fondo mágicamente...");
+                    }
+                }
+            });
+
+            const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
+            const file = new File([blob], fileName, { type: "image/png" });
+
+            setProcessedImageFile(file);
+        } catch (err) {
+            console.error("AI Error:", err);
+            alert("Error procesando imagen con IA: " + err.message);
+        } finally {
+            setIsProcessingAI(false);
+        }
+    };
+
     const handleReplaceImageChange = (e) => {
-        setReplaceImageFile(e.target.files[0]);
+        const file = e.target.files[0];
+        if (!file) return;
+        setReplaceImageFile(file);
         setReplaceImageUrl("");
+        processImageAI(file);
     };
 
     const handleReplaceImageUrlChange = (e) => {
-        setReplaceImageUrl(e.target.value);
+        const url = e.target.value;
+        setReplaceImageUrl(url);
         setReplaceImageFile(null);
+        if (url && url.match(/^https?:\/\/.+/)) {
+            processImageAI(url);
+        }
     };
 
     const confirmReplaceImage = () => {
@@ -115,24 +152,25 @@ const UpdateProduct = () => {
         
         const newImages = [...currentImages];
         const oldImage = newImages[replaceImageIndex];
+        const fileToUse = processedImageFile || replaceImageFile;
         
 // Si es la imagen principal (índice 0), usar req.file o imageUrlText
         if (replaceImageIndex === 0) {
             setDeletedImages(prev => [...prev, oldImage]);
             
-            if (replaceImageFile) {
-                setMainImageFile(replaceImageFile);
-                newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
+            if (fileToUse) {
+                setMainImageFile(fileToUse);
+                newImages[replaceImageIndex] = URL.createObjectURL(fileToUse);
             } else if (replaceImageUrl) {
                 setNewImageUrlText(replaceImageUrl);
                 newImages[replaceImageIndex] = replaceImageUrl;
             }
         } else {
             // Imágenes adicionales (índice > 0)
-            if (replaceImageFile) {
+            if (fileToUse) {
                 setDeletedImages(prev => [...prev, oldImage]);
-                setNewAdditionalImages(prev => [...prev, replaceImageFile]);
-                newImages[replaceImageIndex] = URL.createObjectURL(replaceImageFile);
+                setNewAdditionalImages(prev => [...prev, fileToUse]);
+                newImages[replaceImageIndex] = URL.createObjectURL(fileToUse);
             } else if (replaceImageUrl) {
                 setDeletedImages(prev => [...prev, oldImage]);
                 newImages[replaceImageIndex] = replaceImageUrl;
@@ -144,6 +182,7 @@ const UpdateProduct = () => {
         setReplaceImageIndex(null);
         setReplaceImageFile(null);
         setReplaceImageUrl("");
+        setProcessedImageFile(null);
     };
 
     const actualizarProducto = async (e) => {
@@ -354,6 +393,12 @@ const UpdateProduct = () => {
                                     <h4 style={{ fontSize: '0.95rem', marginBottom: '12px' }}>
                                         Reemplazando imagen {replaceImageIndex + 1}
                                     </h4>
+                                    {isProcessingAI && (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '8px', marginBottom: '12px' }}>
+                                            <span style={{ color: 'var(--accent-violet)', fontSize: '1.2rem' }}>⚡</span>
+                                            <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{progressText}</span>
+                                        </div>
+                                    )}
                                     <div className="image-options">
                                         <div className="image-option">
                                             <label className="image-option-label">Seleccionar nuevo archivo</label>
