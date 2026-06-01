@@ -86,7 +86,6 @@ const FormProduct = () => {
       const isFile = typeof source !== 'string';
       const imageSource = isFile ? URL.createObjectURL(source) : source;
       const blob = await imglyRemoveBackground(imageSource, {
-        output: { format: 'image/png', quality: 1.0 },
         progress: (key, current, total) => {
           if (key.includes("fetch")) {
             setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);

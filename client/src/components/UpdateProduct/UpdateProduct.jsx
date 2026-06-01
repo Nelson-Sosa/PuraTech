@@ -103,7 +103,6 @@ const UpdateProduct = () => {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
                 const objectUrl = URL.createObjectURL(files[i]);
                 const blob = await imglyRemoveBackground(objectUrl, {
-                    output: { format: 'image/png', quality: 1.0 },
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
@@ -158,7 +157,6 @@ const UpdateProduct = () => {
             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
             try {
                 const blob = await imglyRemoveBackground(urls[i], {
-                    output: { format: 'image/png', quality: 1.0 },
                     progress: (key) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo URL ${i + 1}/${urls.length}...`);
@@ -199,6 +197,7 @@ const UpdateProduct = () => {
         setReplaceImageFile(null);
         setReplaceImageUrl("");
         setProcessedImageFile(null);
+        setProcessedPreviewUrl(null);
         setIsProcessingAI(false);
     };
 
@@ -210,7 +209,6 @@ const UpdateProduct = () => {
             const isFile = typeof source !== 'string';
             const imageSource = isFile ? URL.createObjectURL(source) : source;
             const blob = await imglyRemoveBackground(imageSource, {
-                output: { format: 'image/png', quality: 1.0 },
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
