@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../UpdateProduct/UpdateProduct.css';
 import { API_URL } from '../../config';
-import imglyRemoveBackground from "@imgly/background-removal";
+import { removeBackground } from "@imgly/background-removal";
 
 const UpdateProduct = () => {
     const { id } = useParams();
