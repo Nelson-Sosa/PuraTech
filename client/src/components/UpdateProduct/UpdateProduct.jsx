@@ -113,8 +113,9 @@ const UpdateProduct = () => {
                 });
                 URL.revokeObjectURL(objectUrl);
                 
-                // Pequeña pausa para permitir que el Garbage Collector libere memoria WebGL
-                await new Promise(resolve => setTimeout(resolve, 300));
+                // Pausa más larga (1500ms) para garantizar que la GPU (WebGL) libere la VRAM 
+                // ya que los archivos locales se procesan instantáneamente a diferencia de las URLs.
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 
                 console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${blob.size}`);
                 const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.webp";
