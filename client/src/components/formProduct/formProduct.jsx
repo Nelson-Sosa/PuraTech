@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../formProduct/formProduct.css";
 import { API_URL } from '../../config';
+import imglyRemoveBackground from "@imgly/background-removal";
 
 const FormProduct = () => {
   const [category, setCategory] = useState("");
@@ -22,6 +23,8 @@ const FormProduct = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
+  const [isProcessingAI, setIsProcessingAI] = useState(false);
+  const [progressText, setProgressText] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -75,20 +78,57 @@ const FormProduct = () => {
     fetchCategories();
   }, []);
 
+  const processImageAI = async (source) => {
+    setPreviewLoading(true);
+    setIsProcessingAI(true);
+    setProgressText("Preparando IA...");
+    try {
+      const blob = await imglyRemoveBackground(source, {
+        progress: (key, current, total) => {
+          if (key.includes("fetch")) {
+            setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
+          } else if (key.includes("compute")) {
+            setProgressText("Recortando fondo mágicamente...");
+          }
+        }
+      });
+      
+      const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
+      const file = new File([blob], fileName, { type: "image/png" });
+      
+      setImageUrl(file);
+      setImageUrlText("");
+      setFilePreview(URL.createObjectURL(blob));
+      setPreviewUrl("");
+    } catch (err) {
+      console.error("AI Error:", err);
+      alert("Error procesando imagen con IA: " + err.message + (typeof source === 'string' ? ". Podría ser un bloqueo de seguridad (CORS). Intenta descargar la imagen y subirla como archivo." : ""));
+      // Fallback
+      if (typeof source !== 'string') {
+        setImageUrl(source);
+        setFilePreview(URL.createObjectURL(source));
+      } else {
+        setImageUrlText(source);
+        setPreviewUrl(source);
+      }
+    } finally {
+      setIsProcessingAI(false);
+      setPreviewLoading(false);
+    }
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImageUrl(file);
+    if (!file) {
+      setImageUrl(null);
+      setFilePreview(null);
+      return;
+    }
     setImageUrlText(""); // Si sube archivo, limpiamos el link
     setPreviewUrl("");
-    setPreviewLoading(false);
     
-    // Generate preview for uploaded file
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setFilePreview(objectUrl);
-    } else {
-      setFilePreview(null);
-    }
+    // Run AI Background Removal
+    processImageAI(file);
   };
 
   const handleImageUrlChange = (e) => {
@@ -96,14 +136,11 @@ const FormProduct = () => {
     setImageUrlText(url);
     setImageUrl(null); // Si pone link, limpiamos el archivo
     setFilePreview(null);
+    setPreviewUrl("");
     
-    // Preview logic - only preview if looks like a URL
     if (url && url.match(/^https?:\/\/.+/)) {
-      setPreviewUrl(url);
-      setPreviewLoading(true);
-    } else {
-      setPreviewUrl("");
-      setPreviewLoading(false);
+      // Run AI Background Removal
+      processImageAI(url);
     }
   };
 
@@ -394,25 +431,12 @@ const FormProduct = () => {
                 />
                 
                 {/* Preview for URL */}
-                {previewUrl && (
+                {previewUrl && !isProcessingAI && (
                   <div className="image-preview-box">
                     <p style={{ fontSize: '12px', color: previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
-                      {previewLoading ? '⏳ Cargando vista previa...' : '✓ Vista previa de la imagen:'}
+                      {previewLoading ? '⏳ Cargando vista previa original...' : '✓ Vista previa original:'}
                     </p>
                     <div className="preview-container">
-                      {previewLoading && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
-                          <div style={{ 
-                            width: '20px', 
-                            height: '20px', 
-                            border: '2px solid #e2e8f0',
-                            borderTop: '2px solid #8b5cf6',
-                            borderRadius: '50%',
-                            animation: 'spin 1s linear infinite'
-                          }} />
-                          <span style={{ fontSize: '12px' }}>Cargando...</span>
-                        </div>
-                      )}
                       <img 
                         src={previewUrl} 
                         alt="Vista previa"
@@ -430,22 +454,46 @@ const FormProduct = () => {
                   </div>
                 )}
 
-                {/* Preview for file upload */}
-                {filePreview && (
-                  <div className="image-preview-box">
-                    <p style={{ fontSize: '12px', color: '#10b981', marginBottom: '8px' }}>
-                      ✓ Vista previa del archivo:
-                    </p>
+                {/* AI Processing Status */}
+                {isProcessingAI && (
+                  <div className="image-preview-box" style={{ background: 'rgba(139, 92, 246, 0.05)', borderColor: '#8b5cf6' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '20px' }}>
+                      <div style={{ 
+                        width: '32px', 
+                        height: '32px', 
+                        border: '3px solid #e2e8f0',
+                        borderTop: '3px solid #8b5cf6',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite'
+                      }} />
+                      <p style={{ fontSize: '14px', color: '#8b5cf6', fontWeight: 'bold' }}>
+                        {progressText}
+                      </p>
+                      <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center' }}>
+                        La primera vez puede tardar unos segundos mientras descarga el modelo. Las siguientes serán instantáneas.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Preview for processed file */}
+                {filePreview && !isProcessingAI && (
+                  <div className="image-preview-box" style={{ background: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\'><rect width=\'10\' height=\'10\' fill=\'%23e2e8f0\'/><rect x=\'10\' y=\'10\' width=\'10\' height=\'10\' fill=\'%23e2e8f0\'/><rect x=\'10\' width=\'10\' height=\'10\' fill=\'%23f8fafc\'/><rect y=\'10\' width=\'10\' height=\'10\' fill=\'%23f8fafc\'/></svg>")' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.8)', padding: '4px', marginBottom: '8px', display: 'inline-block', borderRadius: '4px' }}>
+                      <p style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold', margin: 0 }}>
+                        ✓ Fondo eliminado mágicamente
+                      </p>
+                    </div>
                     <div className="preview-container">
                       <img 
                         src={filePreview} 
-                        alt="Vista previa"
+                        alt="Vista previa sin fondo"
                         style={{ 
                           maxWidth: '100%', 
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: '2px solid #10b981'
+                          border: '2px dashed #10b981'
                         }}
                       />
                     </div>
