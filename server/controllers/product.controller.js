@@ -25,8 +25,7 @@ const uploadToCloudinary = async (source, options = {}) => {
       folder: 'gamemasters/products',
       transformation: [
         { width: 1200, height: 1200, crop: 'limit' },
-        { quality: "auto", fetch_format: "auto" },
-        { flags: "lossy" }
+        { quality: "auto:good", fetch_format: "auto" }
       ],
       ...options
     };
@@ -61,8 +60,7 @@ const uploadToCloudinary = async (source, options = {}) => {
           folder: 'gamemasters/products',
           transformation: [
             { width: 1200, height: 1200, crop: 'limit' },
-            { quality: "auto", fetch_format: "auto" },
-            { flags: "lossy" }
+            { quality: "auto:good", fetch_format: "auto" }
           ],
           ...options
         };
@@ -377,8 +375,7 @@ module.exports.updateProduct = async (req, res) => {
           const uploadResult = await uploadToCloudinary(file.buffer, {
             transformation: [
               { width: 1200, height: 1200, crop: 'limit' },
-              { quality: "auto", fetch_format: "auto" },
-              { flags: "lossy" }
+              { quality: "auto:good", fetch_format: "auto" }
             ]
           });
           if (uploadResult) {
