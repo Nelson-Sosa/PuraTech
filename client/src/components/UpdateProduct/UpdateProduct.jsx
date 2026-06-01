@@ -27,6 +27,10 @@ const UpdateProduct = () => {
     const [isProcessingAI, setIsProcessingAI] = useState(false);
     const [progressText, setProgressText] = useState("");
     const [processedImageFile, setProcessedImageFile] = useState(null);
+    const [processedPreviewUrl, setProcessedPreviewUrl] = useState(null);
+    const [isProcessingNewImages, setIsProcessingNewImages] = useState(false);
+    const [newImagesProgress, setNewImagesProgress] = useState("");
+    const [newImagesPreviews, setNewImagesPreviews] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -81,8 +85,42 @@ const UpdateProduct = () => {
         fetchCategories();
     }, []);
 
-    const handleNewImageChange = (e) => {
-        setNewAdditionalImages(Array.from(e.target.files));
+    const handleNewImageChange = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+        
+        setIsProcessingNewImages(true);
+        setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
+        setNewImagesPreviews([]);
+        
+        const processedFiles = [];
+        const previews = [];
+        
+        for (let i = 0; i < files.length; i++) {
+            setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
+            try {
+                const blob = await imglyRemoveBackground(files[i], {
+                    progress: (key, current, total) => {
+                        if (key.includes("compute")) {
+                            setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
+                        }
+                    }
+                });
+                const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.png";
+                const file = new File([blob], fileName, { type: "image/png" });
+                processedFiles.push(file);
+                previews.push(URL.createObjectURL(blob));
+            } catch (err) {
+                console.error(`AI Error on file ${i + 1}:`, err);
+                processedFiles.push(files[i]);
+                previews.push(URL.createObjectURL(files[i]));
+            }
+        }
+        
+        setNewAdditionalImages(processedFiles);
+        setNewImagesPreviews(previews);
+        setNewImagesProgress(`✅ ${processedFiles.length} imagen(es) procesada(s)`);
+        setIsProcessingNewImages(false);
     };
 
     const handleNewImageUrlChange = (e) => {
@@ -127,7 +165,8 @@ const UpdateProduct = () => {
             const file = new File([blob], fileName, { type: "image/png" });
 
             setProcessedImageFile(file);
-            setProgressText("¡Fondo eliminado correctamente!");
+            setProcessedPreviewUrl(URL.createObjectURL(blob));
+            setProgressText("✅ ¡Fondo eliminado correctamente!");
         } catch (err) {
             console.error("AI Error - nombre:", err.name, "mensaje:", err.message, "stack:", err.stack);
             setProgressText("Error al procesar con IA, se usará la imagen original");
@@ -402,8 +441,15 @@ const UpdateProduct = () => {
                                     </h4>
                                     {isProcessingAI && (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '8px', marginBottom: '12px' }}>
-                                            <span style={{ color: 'var(--accent-violet)', fontSize: '1.2rem' }}>⚡</span>
+                                            <div style={{ width: '20px', height: '20px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                                             <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{progressText}</span>
+                                        </div>
+                                    )}
+                                    {/* Preview de imagen procesada */}
+                                    {processedPreviewUrl && !isProcessingAI && (
+                                        <div style={{ marginBottom: '12px', padding: '12px', background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 16px 16px', borderRadius: '8px', border: '2px dashed #10b981' }}>
+                                            <p style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold', marginBottom: '8px', background: 'rgba(255,255,255,0.85)', display: 'inline-block', padding: '2px 8px', borderRadius: '4px' }}>✅ Fondo eliminado</p>
+                                            <img src={processedPreviewUrl} alt="Preview sin fondo" style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain', display: 'block' }} />
                                         </div>
                                     )}
                                     <div className="image-options">
@@ -414,6 +460,7 @@ const UpdateProduct = () => {
                                                 onChange={handleReplaceImageChange}
                                                 accept="image/*"
                                                 className="form-file-input"
+                                                disabled={isProcessingAI}
                                             />
                                         </div>
                                         <div className="divider">O</div>
@@ -425,15 +472,17 @@ const UpdateProduct = () => {
                                                 onChange={handleReplaceImageUrlChange}
                                                 placeholder="https://ejemplo.com/nueva-imagen.jpg"
                                                 className="form-input"
+                                                disabled={isProcessingAI}
                                             />
                                         </div>
                                         <button
                                             type="button"
                                             className="btn-submit"
-                                            style={{ marginTop: '12px' }}
+                                            style={{ marginTop: '12px', opacity: isProcessingAI ? 0.5 : 1 }}
                                             onClick={confirmReplaceImage}
+                                            disabled={isProcessingAI}
                                         >
-                                            ✓ Confirmar Reemplazo
+                                            {isProcessingAI ? '⏳ Procesando...' : '✓ Confirmar Reemplazo'}
                                         </button>
                                         <button
                                             type="button"
@@ -444,6 +493,7 @@ const UpdateProduct = () => {
                                                 setReplaceImageFile(null);
                                                 setReplaceImageUrl("");
                                                 setProcessedImageFile(null);
+                                                setProcessedPreviewUrl(null);
                                                 setIsProcessingAI(false);
                                             }}
                                         >
@@ -468,10 +518,26 @@ const UpdateProduct = () => {
                                         accept="image/*"
                                         multiple
                                         className="form-file-input"
+                                        disabled={isProcessingNewImages}
                                     />
-                                    {newAdditionalImages.length > 0 && (
-                                        <div className="image-preview">
-                                            {newAdditionalImages.length} imagen(es) seleccionada(s)
+                                    {isProcessingNewImages && (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '8px', marginTop: '8px' }}>
+                                            <div style={{ width: '20px', height: '20px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                                            <span style={{ color: 'var(--text-primary)', fontSize: '0.85rem' }}>{newImagesProgress}</span>
+                                        </div>
+                                    )}
+                                    {newAdditionalImages.length > 0 && !isProcessingNewImages && (
+                                        <div className="image-preview" style={{ color: '#10b981', fontWeight: 'bold' }}>
+                                            ✅ {newAdditionalImages.length} imagen(es) procesada(s) sin fondo
+                                        </div>
+                                    )}
+                                    {newImagesPreviews.length > 0 && !isProcessingNewImages && (
+                                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
+                                            {newImagesPreviews.map((prev, idx) => (
+                                                <div key={idx} style={{ background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 12px 12px', borderRadius: '8px', border: '2px dashed #10b981', padding: '4px' }}>
+                                                    <img src={prev} alt={`Preview ${idx + 1}`} style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>
