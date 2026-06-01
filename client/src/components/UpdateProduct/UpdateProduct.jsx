@@ -85,13 +85,37 @@ const UpdateProduct = () => {
         fetchCategories();
     }, []);
 
+    // Helper: decodifica un File en un Canvas limpio y devuelve un Blob PNG fresco.
+    // Esto fuerza al navegador a crear un bitmap nuevo, evitando que la IA
+    // reutilice texturas GPU degradadas al procesar múltiples archivos seguidos.
+    const fileToFreshBlob = (file) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error('Canvas toBlob failed'));
+                }, 'image/png');
+                // Limpiar recursos del canvas
+                canvas.width = 0;
+                canvas.height = 0;
+            };
+            img.onerror = reject;
+            img.src = URL.createObjectURL(file);
+        });
+    };
+
     const handleNewImageChange = async (e) => {
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
         
         console.log(`🤖 [AI] Procesando ${files.length} archivo(s)...`);
         setIsProcessingNewImages(true);
-        setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
         setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
         
         const processedFiles = [];
@@ -101,27 +125,29 @@ const UpdateProduct = () => {
             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
             try {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
-                const objectUrl = URL.createObjectURL(files[i]);
-                const blob = await imglyRemoveBackground(objectUrl, {
-                    model: "large",
-                    output: { format: "image/webp", quality: 1.0 },
+                
+                // 1. Pre-decodificar el archivo en un Canvas limpio → Blob PNG fresco
+                const freshBlob = await fileToFreshBlob(files[i]);
+                const freshUrl = URL.createObjectURL(freshBlob);
+                
+                // 2. Pasar el bitmap fresco a la IA
+                const resultBlob = await imglyRemoveBackground(freshUrl, {
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
                         }
                     }
                 });
-                URL.revokeObjectURL(objectUrl);
+                URL.revokeObjectURL(freshUrl);
                 
-                // Pausa más larga (1500ms) para garantizar que la GPU (WebGL) libere la VRAM 
-                // ya que los archivos locales se procesan instantáneamente a diferencia de las URLs.
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                // 3. Esperar a que la GPU libere recursos antes de la siguiente imagen
+                await new Promise(resolve => setTimeout(resolve, 500));
                 
-                console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${blob.size}`);
-                const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.webp";
-                const file = new File([blob], fileName, { type: "image/webp" });
+                console.log(`✅ [AI] Archivo ${i + 1} procesado, blob size: ${resultBlob.size}`);
+                const fileName = files[i].name.replace(/\.[^/.]+$/, "") + "_transparent.png";
+                const file = new File([resultBlob], fileName, { type: "image/png" });
                 processedFiles.push(file);
-                previews.push(URL.createObjectURL(blob));
+                previews.push(URL.createObjectURL(resultBlob));
             } catch (err) {
                 console.error(`❌ [AI] Error en archivo ${i + 1}:`, err);
                 processedFiles.push(files[i]);
@@ -220,12 +246,14 @@ const UpdateProduct = () => {
         setProcessedImageFile(null);
         try {
             const isFile = typeof source !== 'string';
-            const imageSource = isFile 
-                ? URL.createObjectURL(source) 
-                : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
+            let imageSource;
+            if (isFile) {
+                const freshBlob = await fileToFreshBlob(source);
+                imageSource = URL.createObjectURL(freshBlob);
+            } else {
+                imageSource = `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
+            }
             const blob = await imglyRemoveBackground(imageSource, {
-                model: "large",
-                output: { format: "image/webp", quality: 1.0 },
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
@@ -238,8 +266,8 @@ const UpdateProduct = () => {
             if (isFile) URL.revokeObjectURL(imageSource);
             console.log("AI Success: background removed, blob size:", blob.size);
 
-            const fileName = typeof source === 'string' ? "transparent_image.webp" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.webp";
-            const file = new File([blob], fileName, { type: "image/webp" });
+            const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";
+            const file = new File([blob], fileName, { type: "image/png" });
 
             setProcessedImageFile(file);
             setProcessedPreviewUrl(URL.createObjectURL(blob));
