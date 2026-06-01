@@ -439,11 +439,25 @@ module.exports.updateProduct = async (req, res) => {
       }
     }
     
-    // Si imageUrl fue eliminada, usar la primera de images
-    if (updatedImageUrl && !updatedImages.includes(updatedImageUrl) && updatedImages.length > 0) {
-      updatedImageUrl = updatedImages[0];
+    // Comprobar si la imagen principal fue eliminada y no reemplazada
+    if (deletedImagesJson) {
+      try {
+        const deletedImages = JSON.parse(deletedImagesJson);
+        if (Array.isArray(deletedImages) && deletedImages.includes(currentProduct.imageUrl)) {
+          // Si la imagen original fue eliminada y no se subió una nueva
+          if (updatedImageUrl === currentProduct.imageUrl) {
+            updatedImageUrl = null;
+          }
+        }
+      } catch (e) {
+        console.error("Error parsing deletedImages for main image:", e);
+      }
     }
     
+    // Si no hay imagen principal, usar la primera de las adicionales
+    if (!updatedImageUrl && updatedImages.length > 0) {
+      updatedImageUrl = updatedImages.shift();
+    }
     // Actualizar producto
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: req.params.id },

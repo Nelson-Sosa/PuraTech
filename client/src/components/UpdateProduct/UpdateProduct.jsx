@@ -92,7 +92,7 @@ const UpdateProduct = () => {
         console.log(`🤖 [AI] Procesando ${files.length} archivo(s)...`);
         setIsProcessingNewImages(true);
         setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
-        setNewImagesPreviews([]);
+        setNewImagesProgress(`Procesando 0/${files.length} imágenes...`);
         
         const processedFiles = [];
         const previews = [];
@@ -122,8 +122,8 @@ const UpdateProduct = () => {
             }
         }
         
-        setNewAdditionalImages(processedFiles);
-        setNewImagesPreviews(previews);
+        setNewAdditionalImages(prev => [...prev, ...processedFiles]);
+        setNewImagesPreviews(prev => [...prev, ...previews]);
         setNewImagesProgress(`✅ ${processedFiles.length} imagen(es) procesada(s)`);
         setIsProcessingNewImages(false);
         console.log(`✅ [AI] Todas las imágenes procesadas:`, processedFiles.length);
@@ -147,7 +147,7 @@ const UpdateProduct = () => {
         console.log(`🤖 [AI] Procesando ${urls.length} URL(s)...`);
         setIsProcessingNewImages(true);
         setNewImagesProgress(`🤖 Procesando ${urls.length} URL(s)...`);
-        setNewImagesPreviews([]);
+        setNewImagesProgress(`🤖 Procesando ${urls.length} URL(s)...`);
         
         const processedFiles = [];
         const previews = [];
@@ -183,7 +183,7 @@ const UpdateProduct = () => {
             setNewAdditionalImagesText(processedUrls.join(', '));
         }
         
-        setNewImagesPreviews(previews);
+        setNewImagesPreviews(prev => [...prev, ...previews]);
         setNewImagesProgress(`✅ ${previews.length} imagen(es) procesada(s)`);
         setIsProcessingNewImages(false);
     };
