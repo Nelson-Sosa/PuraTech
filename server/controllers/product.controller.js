@@ -423,9 +423,9 @@ module.exports.updateProduct = async (req, res) => {
     
     // Actualizar imagen principal si se proporciona
     let updatedImageUrl = currentProduct.imageUrl;
-    if (req.file) {
+    if (req.files && req.files.imageUrl && req.files.imageUrl[0]) {
       // Nueva imagen desde archivo → subir a Cloudinary con eliminación de fondo
-      const uploadResult = await uploadToCloudinary(req.file.buffer);
+      const uploadResult = await uploadToCloudinary(req.files.imageUrl[0].buffer);
       updatedImageUrl = uploadResult ? uploadResult.url : null;
       if (!updatedImageUrl) {
         return res.status(500).json({ error: 'Error al subir la imagen principal desde archivo' });
