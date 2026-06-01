@@ -23,9 +23,9 @@ const uploadToCloudinary = async (source, options = {}) => {
 
     const uploadOptions = {
       folder: 'gamemasters/products',
+      background_removal: "pixelz", // IMPORTANTE: Mover aquí al nivel raíz (usar "pixelz" o "cloudinary_ai" según el add-on)
       transformation: [
         { width: 1200, height: 1200, crop: 'limit' },
-        { background_removal: "cloudinary_ai" },
         { quality: "auto", fetch_format: "auto" },
         { flags: "lossy" }
       ],
@@ -45,6 +45,10 @@ const uploadToCloudinary = async (source, options = {}) => {
     } else {
       // Upload from URL or file path
       result = await cloudinary.uploader.upload(source, uploadOptions);
+    }
+
+    if (result.info && result.info.background_removal) {
+      console.log('✨ Info de eliminación de fondo:', result.info.background_removal);
     }
 
     console.log('✅ Cloudinary upload success:', result.secure_url);
