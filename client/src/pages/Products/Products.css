@@ -100,10 +100,12 @@
 
 .skeleton-card {
   height: 400px;
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-lg);
   padding: 20px;
-  border: 1.5px solid var(--border-color);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -140,14 +142,17 @@
   align-items: center;
   gap: 12px;
   padding: 12px 24px;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: var(--radius-lg);
   color: var(--text-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .sub-cat-pill:hover {
@@ -173,14 +178,16 @@
 
 /* ── SIDEBAR FILTERS ── */
 .filters-sidebar {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   padding: 28px;
   border-radius: var(--radius-lg);
   height: fit-content;
   position: sticky;
   top: calc(var(--navbar-h, 72px) + 20px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .filters-sidebar h3 {
@@ -442,20 +449,24 @@
 
 /* ── PRODUCT CARD ── */
 .product-card {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
   position: relative;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .product-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(124, 58, 237, 0.25);
+  box-shadow: 0 16px 48px rgba(124, 58, 237, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 .product-link {
