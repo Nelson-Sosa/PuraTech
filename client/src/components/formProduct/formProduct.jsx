@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../formProduct/formProduct.css";
 import { API_URL } from '../../config';
-import imglyRemoveBackground from "@imgly/background-removal";
+import { removeBackground as imglyRemoveBackground } from "@imgly/background-removal";
 
 const FormProduct = () => {
   const [category, setCategory] = useState("");
