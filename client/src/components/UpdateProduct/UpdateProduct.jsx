@@ -554,6 +554,12 @@ const UpdateProduct = () => {
 
                         {isOffer && (
                             <div className="offer-fields" style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed #cbd5e1' }}>
+                                <div style={{ backgroundColor: '#e0f2fe', padding: '12px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #bae6fd' }}>
+                                    <p style={{ margin: 0, fontSize: '13px', color: '#0369a1' }}>
+                                        <strong>💡 Nota:</strong> El campo <strong>"Precio (Gs.)"</strong> de arriba será el precio final con descuento. Aquí abajo ingresa el precio original sin rebaja.
+                                    </p>
+                                </div>
+
                                 <div className="form-group">
                                     <label className="form-label">Precio Anterior (Gs.)</label>
                                     <input
