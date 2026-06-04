@@ -1316,8 +1316,11 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.premium-ranking .rank-icon {
-  font-size: 14px;
+.premium-ranking .rank-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .premium-ranking.rank-1 {
