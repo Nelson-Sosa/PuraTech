@@ -599,16 +599,39 @@ const Home = () => {
       {/* BENEFICIOS */}
       <section className="benefits-section">
         <div className="benefit-item">
-          <span className="benefit-icon">🚚</span>
-          Envíos a todo Paraguay
+          <div className="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+          <div className="benefit-text">
+            <h4>Envíos a todo Paraguay</h4>
+            <p>Entregas rápidas y seguras</p>
+          </div>
         </div>
+        
         <div className="benefit-item">
-          <span className="benefit-icon">💳</span>
-          Pagá por transferencia o QR
+          <div className="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+          </div>
+          <div className="benefit-text">
+            <h4>Pagos Flexibles</h4>
+            <p>Transferencia o código QR</p>
+          </div>
         </div>
+
         <div className="benefit-item">
-          <span className="benefit-icon">📱</span>
-          Atención por WhatsApp
+          <div className="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </div>
+          <div className="benefit-text">
+            <h4>Atención Personalizada</h4>
+            <p>Soporte directo vía WhatsApp</p>
+          </div>
         </div>
       </section>
 

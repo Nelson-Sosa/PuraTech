@@ -1523,11 +1523,11 @@
 }
 
 .benefit-item {
-  text-align: center;
-  font-size: 1.05rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   padding: 24px;
-  font-weight: 600;
-  color: var(--text-primary);
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
@@ -1538,10 +1538,43 @@
 }
 
 .benefit-item .benefit-icon {
-  display: block;
-  font-size: 2.5rem;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 50%;
+  color: var(--accent-violet);
+  margin-bottom: 0;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.benefit-item .benefit-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.benefit-item:hover .benefit-icon {
+  background: var(--gradient-accent);
+  color: white;
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+}
+
+.benefit-item .benefit-text h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.benefit-item .benefit-text p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* ── FOOTER ── */
