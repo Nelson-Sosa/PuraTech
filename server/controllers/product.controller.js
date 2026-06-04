@@ -190,7 +190,13 @@ module.exports.getPublicProducts = async (req, res) => {
 // Endpoints ADMIN (requieren token)
 module.exports.agregarProducto = async (req, res) => {
   try {
-    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText, images: imagesJson, lowStockThreshold, sku } = req.body;
+    const { category, nombre, marca, precio, descripcion, isOffer, isNew, stock, imageUrlText, images: imagesJson, lowStockThreshold, sku, precioAnterior, fechaInicioOferta, fechaFinOferta } = req.body;
+    
+    // Calcular porcentaje de descuento si corresponde
+    let porcentajeDescuento = 0;
+    if (precioAnterior && precio && Number(precioAnterior) > Number(precio)) {
+        porcentajeDescuento = Math.round(((Number(precioAnterior) - Number(precio)) / Number(precioAnterior)) * 100);
+    }
 
     let finalImageUrl = "";
     let imagesArray = [];
@@ -278,8 +284,12 @@ module.exports.agregarProducto = async (req, res) => {
       descripcion,
       imageUrl: finalImageUrl,
       images: imagesArray,
-      isOffer: isOffer || false,
-      isNew: isNew !== false,
+      isOffer: isOffer === 'true' || isOffer === true,
+      isNew: isNew === 'false' || isNew === false ? false : true,
+      precioAnterior: precioAnterior || null,
+      porcentajeDescuento,
+      fechaInicioOferta: fechaInicioOferta || null,
+      fechaFinOferta: fechaFinOferta || null,
       stock: stock || 10,
       lowStockThreshold: lowStockThreshold || 5,
       sku: sku || null
@@ -338,7 +348,7 @@ module.exports.updateProduct = async (req, res) => {
     console.log("🔍 [updateProduct] req.files:", req.files);
     console.log("🔍 [updateProduct] req.infoUsuario:", req.infoUsuario);
     
-    const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson, imageUrlText } = req.body;
+    const { category, nombre, marca, precio, descripcion, images: imagesJson, deletedImages: deletedImagesJson, imageUrlText, isOffer, isNew, precioAnterior, fechaInicioOferta, fechaFinOferta } = req.body;
     
     // Obtener producto actual
     const currentProduct = await Product.findById(req.params.id);
@@ -465,6 +475,17 @@ module.exports.updateProduct = async (req, res) => {
     if (!updatedImageUrl && updatedImages.length > 0) {
       updatedImageUrl = updatedImages.shift();
     }
+    // Calculate descuento if needed
+    let porcentajeDescuento = currentProduct.porcentajeDescuento || 0;
+    const nuevoPrecio = precio || currentProduct.precio;
+    const nuevoPrecioAnterior = precioAnterior !== undefined ? precioAnterior : currentProduct.precioAnterior;
+    
+    if (nuevoPrecioAnterior && nuevoPrecio && Number(nuevoPrecioAnterior) > Number(nuevoPrecio)) {
+        porcentajeDescuento = Math.round(((Number(nuevoPrecioAnterior) - Number(nuevoPrecio)) / Number(nuevoPrecioAnterior)) * 100);
+    } else if (!nuevoPrecioAnterior || Number(nuevoPrecioAnterior) <= Number(nuevoPrecio)) {
+        porcentajeDescuento = 0;
+    }
+
     // Actualizar producto
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: req.params.id },
@@ -474,6 +495,12 @@ module.exports.updateProduct = async (req, res) => {
         marca: marca || currentProduct.marca,
         precio: precio || currentProduct.precio,
         descripcion: descripcion || currentProduct.descripcion,
+        isOffer: isOffer !== undefined ? isOffer === 'true' || isOffer === true : currentProduct.isOffer,
+        isNew: isNew !== undefined ? isNew === 'true' || isNew === true : currentProduct.isNew,
+        precioAnterior: precioAnterior !== undefined ? (precioAnterior || null) : currentProduct.precioAnterior,
+        porcentajeDescuento,
+        fechaInicioOferta: fechaInicioOferta !== undefined ? (fechaInicioOferta || null) : currentProduct.fechaInicioOferta,
+        fechaFinOferta: fechaFinOferta !== undefined ? (fechaFinOferta || null) : currentProduct.fechaFinOferta,
         imageUrl: updatedImageUrl,
         images: updatedImages
       },

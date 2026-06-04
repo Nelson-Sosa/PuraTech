@@ -19,6 +19,11 @@ const FormProduct = () => {
   const [stockMinimo, setStockMinimo] = useState("5");
   const [stock, setStock] = useState("");
   const [sku, setSku] = useState("");
+  const [isOffer, setIsOffer] = useState(false);
+  const [isNew, setIsNew] = useState(true);
+  const [precioAnterior, setPrecioAnterior] = useState("");
+  const [fechaInicioOferta, setFechaInicioOferta] = useState("");
+  const [fechaFinOferta, setFechaFinOferta] = useState("");
   const [errors, setErrors] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -206,6 +211,11 @@ const FormProduct = () => {
     formData.append("lowStockThreshold", stockMinimo || "5");
     if (stock) formData.append("stock", stock);
     if (sku) formData.append("sku", sku);
+    formData.append("isOffer", isOffer);
+    formData.append("isNew", isNew);
+    if (precioAnterior) formData.append("precioAnterior", precioAnterior);
+    if (fechaInicioOferta) formData.append("fechaInicioOferta", fechaInicioOferta);
+    if (fechaFinOferta) formData.append("fechaFinOferta", fechaFinOferta);
     
     // Main image
     if (imageUrl) {
@@ -376,6 +386,71 @@ const FormProduct = () => {
             />
             <span className="help-text">Código único para identificar el producto</span>
           </div>
+
+          <div className="divider">ESTADO Y OFERTAS</div>
+
+          <div className="form-group checkbox-group">
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={isNew}
+                onChange={(e) => setIsNew(e.target.checked)}
+                style={{ width: '18px', height: '18px' }}
+              />
+              Marcar como Novedad (Nuevo)
+            </label>
+          </div>
+
+          <div className="form-group checkbox-group">
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={isOffer}
+                onChange={(e) => setIsOffer(e.target.checked)}
+                style={{ width: '18px', height: '18px' }}
+              />
+              Marcar como Oferta
+            </label>
+          </div>
+
+          {isOffer && (
+            <div className="offer-fields" style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed #cbd5e1' }}>
+              <div className="form-group">
+                <label className="form-label">Precio Anterior (Gs.)</label>
+                <input
+                  type="number"
+                  value={precioAnterior}
+                  onChange={(e) => setPrecioAnterior(e.target.value)}
+                  className="form-input"
+                  placeholder="Ej: 5000000"
+                />
+                <span className="help-text">El precio sin descuento para mostrar tachado</span>
+              </div>
+              
+              <div className="form-group" style={{ display: 'flex', gap: '16px', marginBottom: 0 }}>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Fecha Inicio (Opcional)</label>
+                  <input
+                    type="datetime-local"
+                    value={fechaInicioOferta}
+                    onChange={(e) => setFechaInicioOferta(e.target.value)}
+                    className="form-input"
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Fecha Fin (Opcional)</label>
+                  <input
+                    type="datetime-local"
+                    value={fechaFinOferta}
+                    onChange={(e) => setFechaFinOferta(e.target.value)}
+                    className="form-input"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="divider">DESCRIPCIÓN Y MULTIMEDIA</div>
 
           <div className="form-group">
             <label className="form-label" htmlFor="descripcion">Descripción del Producto</label>
