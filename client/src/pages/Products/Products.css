@@ -517,8 +517,12 @@
 }
 
 .product-card:hover .product-image.primary {
-  opacity: 0;
   transform: scale(1.05);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.2));
+}
+
+.product-card.has-multiple-images:hover .product-image.primary {
+  opacity: 0;
 }
 
 .product-card:hover .product-image.secondary {

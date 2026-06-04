@@ -233,7 +233,7 @@ export const Products = () => {
                     ) : (
                         <div className="products-grid">
                             {filteredProducts.map((producto) => (
-                                <div key={producto._id} className="product-card">
+                                <div key={producto._id} className={`product-card ${producto.images && producto.images.length > 1 ? 'has-multiple-images' : ''}`}>
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
                                             <img 

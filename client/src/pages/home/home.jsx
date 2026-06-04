@@ -225,7 +225,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
           const productId = product._id || product.id;
           
           return (
-            <div key={productId} className={`product-card ${sectionType}-card`}>
+            <div key={productId} className={`product-card ${sectionType}-card ${product.images && product.images.length > 1 ? 'has-multiple-images' : ''}`}>
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
                   {sectionType === 'bestsellers' && (
