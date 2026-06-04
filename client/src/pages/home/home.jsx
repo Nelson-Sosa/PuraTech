@@ -291,6 +291,37 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       NUEVO
                     </span>
                   ) : null}
+                  <button
+                    className={`add-to-cart-fab ${addingToCart[productId] === 'added' ? 'added' : ''}`}
+                    disabled={addingToCart[productId] === 'adding'}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setAddingToCart(prev => ({...prev, [productId]: 'adding'}));
+                      addToCart(product);
+                      setAddingToCart(prev => ({...prev, [productId]: 'added'}));
+                      setTimeout(() => {
+                        setAddingToCart(prev => {
+                          const newState = {...prev};
+                          delete newState[productId];
+                          return newState;
+                        });
+                      }, 1500);
+                    }}
+                    title="Agregar al carrito"
+                  >
+                    {addingToCart[productId] === 'added' ? (
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                      </svg>
+                    )}
+                  </button>
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.marca || "Marca"}</p>
@@ -317,39 +348,6 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   )}
                 </div>
               </Link>
-              <button 
-                className={`add-to-cart-btn ${addingToCart[productId] ? 'added' : ''}`}
-                disabled={addingToCart[productId] === 'adding'}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setAddingToCart(prev => ({...prev, [productId]: 'adding'}));
-                  addToCart(product);
-                  setAddingToCart(prev => ({...prev, [productId]: 'added'}));
-                  setTimeout(() => {
-                    setAddingToCart(prev => {
-                      const newState = {...prev};
-                      delete newState[productId];
-                      return newState;
-                    });
-                  }, 1500);
-                }}
-              >
-                {addingToCart[productId] === 'added' ? (
-                  <>✅ ¡Agregado!</>
-                ) : addingToCart[productId] === 'adding' ? (
-                  <>⏳ Agregando...</>
-                ) : (
-                  <>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                      <line x1="3" y1="6" x2="21" y2="6"></line>
-                      <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
-                    Agregar al carrito
-                  </>
-                )}
-              </button>
             </div>
           );
         })}

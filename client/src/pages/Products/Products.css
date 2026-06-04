@@ -688,64 +688,56 @@
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
-/* ── PRODUCT ACTIONS ── */
-.product-actions {
-  padding: 16px;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
 
-.add-to-cart-btn {
-  flex: 1;
-  min-width: 140px;
-  padding: 0 20px;
-  height: 48px;
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Inter', sans-serif;
+
+/* Floating Add-to-Cart FAB */
+.add-to-cart-fab {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(139, 92, 246, 0.25);
+  color: var(--accent-violet);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  letter-spacing: 0.02em;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateY(6px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.add-to-cart-btn:hover {
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
-  transform: translateY(-2px);
+.product-card:hover .add-to-cart-fab {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.add-to-cart-btn:active {
-  transform: scale(0.98);
+.add-to-cart-fab:hover {
+  background: var(--gradient-accent);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  transform: scale(1.12);
 }
 
-.add-to-cart-btn.added {
+.add-to-cart-fab:active {
+  transform: scale(0.95);
+}
+
+.add-to-cart-fab.added {
   background: #10b981;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
-  animation: cart-added 0.5s ease;
-}
-
-.add-to-cart-btn.loading {
-  pointer-events: none;
-  opacity: 0.85;
-}
-
-.add-to-cart-btn.loading::after {
-  content: '';
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  opacity: 1;
+  transform: scale(1);
 }
 
 .btn_delete,

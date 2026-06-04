@@ -272,6 +272,17 @@ export const Products = () => {
                                                     NUEVO
                                                 </span>
                                             )}
+                                            <button 
+                                                className="add-to-cart-fab"
+                                                onClick={(e) => { e.preventDefault(); addToCart(producto); }}
+                                                title="Agregar al carrito"
+                                            >
+                                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                                </svg>
+                                            </button>
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>
@@ -282,21 +293,6 @@ export const Products = () => {
                                             <p className="stock">Stock disponible: {producto.stock || 10}</p>
                                         </div>
                                     </Link>
-
-<div className="product-actions">
-                                        <button 
-                                            className="add-to-cart-btn"
-                                            onClick={() => addToCart(producto)}
-                                        >
-                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                                <line x1="3" y1="6" x2="21" y2="6"></line>
-                                                <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                            </svg>
-                                            Agregar
-                                        </button>
-                                        
-                                    </div>
                                 </div>
                             )})}
                         </div>
