@@ -1296,27 +1296,47 @@
 
 /* ── SPECIALIZED CARD STYLES ── */
 /* --- Ranking Badge (Bestsellers) --- */
-.ranking-badge {
+.premium-ranking {
   position: absolute;
   top: 12px;
   left: 12px;
-  width: 32px;
-  height: 32px;
-  color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  padding: 4px 12px 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 800;
-  font-size: 14px;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  color: white;
   z-index: 5;
-  border: 2px solid white;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.rank-1 { background: linear-gradient(135deg, #fbbf24, #d97706); transform: scale(1.1); }
-.rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); }
-.rank-3 { background: linear-gradient(135deg, #b45309, #78350f); }
-.rank-4 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+
+.premium-ranking .rank-icon {
+  font-size: 14px;
+}
+
+.premium-ranking.rank-1 {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.95), rgba(217, 119, 6, 0.95));
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+.premium-ranking.rank-2 {
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.95), rgba(100, 116, 139, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.premium-ranking.rank-3 {
+  background: linear-gradient(135deg, rgba(180, 83, 9, 0.95), rgba(120, 53, 15, 0.95));
+  border: 1px solid rgba(217, 119, 6, 0.4);
+}
+.premium-ranking.rank-4 {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(29, 78, 216, 0.95));
+  border: 1px solid rgba(96, 165, 250, 0.4);
+}
 
 /* --- Offers Price Container --- */
 .price-container {

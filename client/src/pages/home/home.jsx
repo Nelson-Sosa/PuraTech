@@ -240,7 +240,10 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
                   {sectionType === 'bestsellers' && (
-                    <div className={`ranking-badge rank-${index + 1}`}>#{index + 1}</div>
+                    <div className={`premium-ranking rank-${index + 1}`}>
+                      {index === 0 ? <span className="rank-icon">👑</span> : <span className="rank-icon">🔥</span>}
+                      <span className="rank-text">Top {index + 1}</span>
+                    </div>
                   )}
                   <img 
                     src={primaryImg} 
