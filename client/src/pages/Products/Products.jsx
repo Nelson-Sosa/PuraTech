@@ -232,19 +232,31 @@ export const Products = () => {
                         </div>
                     ) : (
                         <div className="products-grid">
-                            {filteredProducts.map((producto) => (
-                                <div key={producto._id} className={`product-card ${producto.images && producto.images.length > 1 ? 'has-multiple-images' : ''}`}>
+                            {filteredProducts.map((producto) => {
+                                const allImages = [];
+                                if (producto.imageUrl) allImages.push(producto.imageUrl);
+                                if (producto.images && producto.images.length > 0) {
+                                    producto.images.forEach(img => {
+                                        if (!allImages.includes(img)) allImages.push(img);
+                                    });
+                                }
+                                const hasMultipleImages = allImages.length > 1;
+                                const primaryImg = allImages.length > 0 ? allImages[0] : "/img/placeholder.png";
+                                const secondaryImg = hasMultipleImages ? allImages[1] : null;
+
+                                return (
+                                <div key={producto._id} className={`product-card ${hasMultipleImages ? 'has-multiple-images' : ''}`}>
                                     <Link to={`/product/${producto._id}`} className="product-link">
                                         <div className="product-image-container">
                                             <img 
-                                                src={producto.imageUrl || (producto.images && producto.images[0]) || "/img/placeholder.png"} 
+                                                src={primaryImg} 
                                                 alt={producto.nombre}
                                                 className="product-image primary"
                                                 loading="lazy"
                                             />
-                                            {producto.images && producto.images.length > 1 && (
+                                            {hasMultipleImages && (
                                                 <img 
-                                                    src={producto.images[1]} 
+                                                    src={secondaryImg} 
                                                     alt={`${producto.nombre} vista alterna`}
                                                     className="product-image secondary"
                                                     loading="lazy"
@@ -274,7 +286,7 @@ export const Products = () => {
                                         
                                     </div>
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     )}
                 </main>

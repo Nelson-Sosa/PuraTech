@@ -224,22 +224,33 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
           if (!product) return null;
           const productId = product._id || product.id;
           
+          const allImages = [];
+          if (product.imageUrl) allImages.push(product.imageUrl);
+          if (product.images && product.images.length > 0) {
+            product.images.forEach(img => {
+              if (!allImages.includes(img)) allImages.push(img);
+            });
+          }
+          const hasMultipleImages = allImages.length > 1;
+          const primaryImg = allImages.length > 0 ? allImages[0] : "/img/placeholder.png";
+          const secondaryImg = hasMultipleImages ? allImages[1] : null;
+
           return (
-            <div key={productId} className={`product-card ${sectionType}-card ${product.images && product.images.length > 1 ? 'has-multiple-images' : ''}`}>
+            <div key={productId} className={`product-card ${sectionType}-card ${hasMultipleImages ? 'has-multiple-images' : ''}`}>
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
                   {sectionType === 'bestsellers' && (
                     <div className={`ranking-badge rank-${index + 1}`}>#{index + 1}</div>
                   )}
                   <img 
-                    src={product.imageUrl || (product.images && product.images[0]) || "/img/placeholder.png"} 
+                    src={primaryImg} 
                     alt={product.nombre || "Producto"}
                     className="product-image primary"
                     loading="lazy"
                   />
-                  {product.images && product.images.length > 1 && (
+                  {hasMultipleImages && (
                     <img 
-                      src={product.images[1]} 
+                      src={secondaryImg} 
                       alt={`${product.nombre} vista alterna`}
                       className="product-image secondary"
                       loading="lazy"
