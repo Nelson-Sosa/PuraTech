@@ -129,11 +129,68 @@ const CategoryCard = ({ cat }) => {
         </span>
       </div>
     </Link>
+    </Link>
   );
 };
 
+const CountdownTimer = ({ endDate }) => {
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    if (!endDate) return;
+    const end = new Date(endDate).getTime();
+    
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const distance = end - now;
+      
+      if (distance < 0) {
+        setTimeLeft("Oferta terminada");
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      
+      if (days > 0) {
+        setTimeLeft(`Termina en ${days}d ${hours}h`);
+      } else {
+        setTimeLeft(`Termina en ${hours}h ${minutes}m`);
+      }
+    };
+    
+    updateTimer();
+    const interval = setInterval(updateTimer, 60000);
+    return () => clearInterval(interval);
+  }, [endDate]);
+
+  if (!timeLeft) return null;
+
+  return (
+    <div className="countdown-timer">
+      <span className="timer-icon">⏰</span> {timeLeft}
+    </div>
+  );
+};
+
+const getTimeAgo = (dateString) => {
+  if (!dateString) return "Reciente";
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now - date);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) return "Nuevo hoy";
+  if (diffDays === 1) return "Ayer";
+  if (diffDays < 7) return `Hace ${diffDays} días`;
+  if (diffDays < 14) return "Hace 1 semana";
+  if (diffDays < 30) return `Hace ${Math.floor(diffDays/7)} semanas`;
+  return "Reciente";
+};
+
 // ── Sub-component: Product Section ──────────────────────────
-const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart, loading }) => (
+const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart, loading, sectionType = "default" }) => (
   <section className="product-section">
     <div className="product-section-header">
       <div className="title-with-pill">
@@ -164,30 +221,57 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
       </div>
     ) : (
       <div className="products-grid">
-        {products.map((product) => {
+        {products.map((product, index) => {
           if (!product) return null;
           const productId = product._id || product.id;
           
           return (
-            <div key={productId} className="product-card">
+            <div key={productId} className={`product-card ${sectionType}-card`}>
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
+                  {sectionType === 'bestsellers' && (
+                    <div className={`ranking-badge rank-${index + 1}`}>#{index + 1}</div>
+                  )}
                   <img 
                     src={product.imageUrl || (product.images && product.images[0]) || "/img/placeholder.png"} 
                     alt={product.nombre || "Producto"}
                     className="product-image"
                     loading="lazy"
                   />
-                  {product.isOffer && <span className="badge offer">OFERTA</span>}
-                  {product.isNew && <span className="badge new">NUEVO</span>}
+                  {sectionType === 'offers' ? (
+                    <span className="badge offer">-{product.porcentajeDescuento || 0}%</span>
+                  ) : product.isOffer ? (
+                    <span className="badge offer">OFERTA</span>
+                  ) : null}
+                  {sectionType === 'new' ? (
+                    <span className="badge new-time">✨ {getTimeAgo(product.createdAt)}</span>
+                  ) : product.isNew ? (
+                    <span className="badge new">NUEVO</span>
+                  ) : null}
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.marca || "Marca"}</p>
                   <h3>{product.nombre || "Producto sin nombre"}</h3>
-                  <div className="product-price">
-                    {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
-                  </div>
-                  <p className="stock">✓ Stock: {product.stock || 0} unidades</p>
+                  {sectionType === 'offers' && product.precioAnterior ? (
+                    <div className="price-container">
+                      <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
+                      <div className="product-price highlight-price">
+                        {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="product-price">
+                      {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
+                    </div>
+                  )}
+                  {sectionType === 'bestsellers' && product.ventas > 0 ? (
+                    <p className="stock sales-count">🔥 {product.ventas} vendidos</p>
+                  ) : (
+                    <p className="stock">✓ Stock: {product.stock || 0} unidades</p>
+                  )}
+                  {sectionType === 'offers' && product.fechaFinOferta && (
+                    <CountdownTimer endDate={product.fechaFinOferta} />
+                  )}
                 </div>
               </Link>
               {product.images && product.images.length > 1 && (
@@ -445,6 +529,7 @@ const Home = () => {
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
             loading={loading}
+            sectionType="bestsellers"
           />
           <ProductSection 
             title="Ofertas Increíbles" 
@@ -455,6 +540,7 @@ const Home = () => {
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
             loading={loading}
+            sectionType="offers"
           />
           <ProductSection 
             title="Novedades" 
@@ -465,6 +551,7 @@ const Home = () => {
             addingToCart={addingToCart}
             setAddingToCart={setAddingToCart}
             loading={loading}
+            sectionType="new"
           />
         </>
       )}

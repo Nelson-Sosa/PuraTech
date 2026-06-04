@@ -1298,6 +1298,97 @@
   to { transform: rotate(360deg); }
 }
 
+/* ── SPECIALIZED CARD STYLES ── */
+/* --- Ranking Badge (Bestsellers) --- */
+.ranking-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 32px;
+  height: 32px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 5;
+  border: 2px solid white;
+}
+.rank-1 { background: linear-gradient(135deg, #fbbf24, #d97706); transform: scale(1.1); }
+.rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); }
+.rank-3 { background: linear-gradient(135deg, #b45309, #78350f); }
+.rank-4 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+
+/* --- Offers Price Container --- */
+.price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.old-price {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.highlight-price {
+  color: #ef4444 !important;
+  margin-top: 0 !important;
+}
+
+/* --- Countdown Timer --- */
+.countdown-timer {
+  background: #fef2f2;
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  border: 1px dashed #fca5a5;
+  width: max-content;
+}
+.timer-icon {
+  font-size: 14px;
+}
+
+/* --- New Badges --- */
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  color: white;
+  z-index: 5;
+  letter-spacing: 0.05em;
+}
+
+.badge.new-time, .badge.new {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.badge.offer {
+  background: linear-gradient(to right, #ef4444, #f97316);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.sales-count {
+  color: #ea580c !important;
+}
+.sales-count::before {
+  display: none !important;
+}
+
 /* ── TESTIMONIALS ── */
 .testimonials-section {
   padding: 100px 24px;
