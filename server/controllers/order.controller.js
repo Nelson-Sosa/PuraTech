@@ -105,8 +105,11 @@ module.exports.updateOrderStatus = async (req, res) => {
           
           if (product) {
             const newStock = Math.max(0, product.stock - item.quantity);
-            await Product.findByIdAndUpdate(productId, { stock: newStock });
-            console.log(`✅ Stock reducido: ${product.nombre} (${product.stock} -> ${newStock})`);
+            await Product.findByIdAndUpdate(productId, { 
+              stock: newStock,
+              $inc: { ventas: item.quantity }
+            });
+            console.log(`✅ Stock reducido y ventas incrementadas: ${product.nombre} (Stock: ${product.stock} -> ${newStock}, Ventas +${item.quantity})`);
           }
         }
       }
@@ -167,9 +170,12 @@ module.exports.reduceStock = async (req, res) => {
       const product = await Product.findById(item.productId);
       if (product) {
         const newStock = Math.max(0, product.stock - item.quantity);
-        await Product.findByIdAndUpdate(item.productId, { stock: newStock });
+        await Product.findByIdAndUpdate(item.productId, { 
+          stock: newStock,
+          $inc: { ventas: item.quantity }
+        });
         results.push({ productId: item.productId, oldStock: product.stock, newStock });
-        console.log(`✅ Stock reducido: ${product.nombre} (${product.stock} -> ${newStock})`);
+        console.log(`✅ Stock reducido y ventas incrementadas: ${product.nombre} (Stock: ${product.stock} -> ${newStock}, Ventas +${item.quantity})`);
       }
     }
 

@@ -108,14 +108,24 @@ module.exports.getPublicHome = async (req, res) => {
   try {
     const allProducts = await Product.find({});
     
-    // Best sellers (ordenar por ventas)
+    // Best sellers (ordenar por ventas reales)
     const bestsellers = await Product.find({}).sort({ ventas: -1 }).limit(4);
     
-    // Ofertas
-    const offers = await Product.find({ isOffer: true }).limit(4);
+    // Ofertas activas por fecha
+    const now = new Date();
+    const offers = await Product.find({
+      isOffer: true,
+      $or: [
+        { fechaFinOferta: null },
+        { fechaFinOferta: { $gte: now } }
+      ]
+    }).limit(4);
     
-    // Nuevos
-    const newProducts = await Product.find({ isNew: true }).limit(4);
+    // Nuevos (creados en los últimos 30 días)
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const newProducts = await Product.find({ 
+      createdAt: { $gte: thirtyDaysAgo } 
+    }).sort({ createdAt: -1 }).limit(4);
     
     // Helper to check if URL is valid
     const isValidImageUrl = (url) => {

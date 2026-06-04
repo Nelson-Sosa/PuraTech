@@ -40,6 +40,22 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    precioAnterior: {
+        type: Number,
+        default: null
+    },
+    porcentajeDescuento: {
+        type: Number,
+        default: 0
+    },
+    fechaInicioOferta: {
+        type: Date,
+        default: null
+    },
+    fechaFinOferta: {
+        type: Date,
+        default: null
+    },
     stock: {
         type: Number,
         default: 10
