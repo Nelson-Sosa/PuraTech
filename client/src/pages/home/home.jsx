@@ -277,9 +277,19 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                     <span className="badge offer">OFERTA</span>
                   ) : null}
                   {sectionType === 'new' ? (
-                    <span className="badge new-time">✨ {getTimeAgo(product.createdAt)}</span>
+                    <span className="badge new-time">
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" />
+                      </svg>
+                      {getTimeAgo(product.createdAt)}
+                    </span>
                   ) : product.isNew ? (
-                    <span className="badge new">NUEVO</span>
+                    <span className="badge new">
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" />
+                      </svg>
+                      NUEVO
+                    </span>
                   ) : null}
                 </div>
                 <div className="product-info">

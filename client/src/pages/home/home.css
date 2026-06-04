@@ -1389,6 +1389,9 @@
   color: white;
   z-index: 5;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .badge.new-time, .badge.new {
