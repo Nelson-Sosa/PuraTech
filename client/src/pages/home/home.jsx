@@ -129,7 +129,6 @@ const CategoryCard = ({ cat }) => {
         </span>
       </div>
     </Link>
-    </Link>
   );
 };
 
