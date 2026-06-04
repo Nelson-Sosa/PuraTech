@@ -239,15 +239,20 @@ export const Products = () => {
                                             <img 
                                                 src={producto.imageUrl || (producto.images && producto.images[0]) || "/img/placeholder.png"} 
                                                 alt={producto.nombre}
-                                                className="product-image"
+                                                className="product-image primary"
                                                 loading="lazy"
                                             />
+                                            {producto.images && producto.images.length > 1 && (
+                                                <img 
+                                                    src={producto.images[1]} 
+                                                    alt={`${producto.nombre} vista alterna`}
+                                                    className="product-image secondary"
+                                                    loading="lazy"
+                                                />
+                                            )}
                                             <span className="category-badge">{producto.category}</span>
                                             {producto.isOffer && <span className="badge offer">OFERTA</span>}
                                             {producto.isNew && <span className="badge new">NUEVO</span>}
-                                            {producto.images && producto.images.length > 1 && (
-                                                <span className="image-count">+{producto.images.length - 1}</span>
-                                            )}
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>

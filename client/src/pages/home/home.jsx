@@ -234,9 +234,17 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   <img 
                     src={product.imageUrl || (product.images && product.images[0]) || "/img/placeholder.png"} 
                     alt={product.nombre || "Producto"}
-                    className="product-image"
+                    className="product-image primary"
                     loading="lazy"
                   />
+                  {product.images && product.images.length > 1 && (
+                    <img 
+                      src={product.images[1]} 
+                      alt={`${product.nombre} vista alterna`}
+                      className="product-image secondary"
+                      loading="lazy"
+                    />
+                  )}
                   {sectionType === 'offers' ? (
                     <span className="badge offer">-{product.porcentajeDescuento || 0}%</span>
                   ) : product.isOffer ? (
@@ -273,9 +281,6 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   )}
                 </div>
               </Link>
-              {product.images && product.images.length > 1 && (
-                <span className="image-count">+{product.images.length - 1}</span>
-              )}
               <button 
                 className={`add-to-cart-btn ${addingToCart[productId] ? 'added' : ''}`}
                 disabled={addingToCart[productId] === 'adding'}
