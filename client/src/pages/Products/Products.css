@@ -714,6 +714,66 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
+/* Custom Tooltip for FAB */
+.add-to-cart-fab::after {
+  content: 'Agregar al carrito';
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+  padding: 7px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 20;
+}
+
+/* Small arrow pointing right */
+.add-to-cart-fab::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  border: 5px solid transparent;
+  border-left-color: rgba(15, 23, 42, 0.92);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 20;
+}
+
+.add-to-cart-fab:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.add-to-cart-fab:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Hide tooltip when item was added (show checkmark state) */
+.add-to-cart-fab.added::after {
+  content: '¡Agregado!';
+  background: rgba(16, 185, 129, 0.92);
+}
+
+.add-to-cart-fab.added::before {
+  border-left-color: rgba(16, 185, 129, 0.92);
+}
+
 .product-card:hover .add-to-cart-fab {
   opacity: 1;
   transform: translateY(0) scale(1);
