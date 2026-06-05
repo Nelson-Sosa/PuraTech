@@ -344,7 +344,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                         <polyline points="17 6 23 6 23 12"></polyline>
                       </svg>
-                      {product.ventas} vendidos
+                      Súper Ventas
                     </div>
                   ) : (
                     <p className="stock">✓ Stock: {product.stock || 0} unidades</p>
