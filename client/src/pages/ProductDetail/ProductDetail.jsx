@@ -264,11 +264,30 @@ const ProductDetail = () => {
                 disabled={addingToCart || product.stock <= 0}
               >
                 {product.stock <= 0 ? (
-                  <><span>✖</span> Sin Stock</>
+                  <>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    Sin Stock
+                  </>
                 ) : addingToCart ? (
-                  <><span>✓</span> ¡Agregado al carrito!</>
+                  <>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    ¡Agregado al carrito!
+                  </>
                 ) : (
-                  <><span>🛒</span> Agregar al carrito</>
+                  <>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                      <line x1="3" y1="6" x2="21" y2="6"></line>
+                      <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Agregar al carrito
+                  </>
                 )}
               </button>
             </div>
