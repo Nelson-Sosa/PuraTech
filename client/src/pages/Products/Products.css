@@ -745,8 +745,9 @@
   content: attr(data-tooltip);
   position: absolute;
   bottom: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
+  right: 0;
+  left: auto;
+  transform: translateY(6px);
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(8px);
   color: #fff;
@@ -769,8 +770,9 @@
   content: '';
   position: absolute;
   bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
+  right: 15px;
+  left: auto;
+  transform: translateY(6px);
   border: 6px solid transparent;
   border-top-color: rgba(15, 23, 42, 0.95);
   opacity: 0;
@@ -784,7 +786,7 @@
 .add-to-cart-fab[data-tooltip]:hover::before {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .btn_delete,
