@@ -740,6 +740,53 @@
   transform: scale(1);
 }
 
+/* Custom Tooltip for FAB */
+.add-to-cart-fab[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm, 6px);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 20;
+}
+
+.add-to-cart-fab[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  border: 6px solid transparent;
+  border-top-color: rgba(15, 23, 42, 0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.add-to-cart-fab[data-tooltip]:hover::after,
+.add-to-cart-fab[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
 .btn_delete,
 .btn-update,
 .btn-buy {

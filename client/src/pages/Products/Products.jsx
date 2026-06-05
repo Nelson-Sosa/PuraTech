@@ -275,7 +275,7 @@ export const Products = () => {
                                             <button 
                                                 className="add-to-cart-fab"
                                                 onClick={(e) => { e.preventDefault(); addToCart(producto); }}
-                                                title="Agregar al carrito"
+                                                data-tooltip="Agregar al carrito"
                                             >
                                                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
