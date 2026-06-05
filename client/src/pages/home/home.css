@@ -1439,11 +1439,26 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-.sales-count {
-  color: #ea580c !important;
+.sales-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 20px;
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  width: max-content;
 }
-.sales-count::before {
-  display: none !important;
+
+.sales-count-badge svg {
+  color: #d97706;
+  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.2));
 }
 
 /* ── TESTIMONIALS ── */
