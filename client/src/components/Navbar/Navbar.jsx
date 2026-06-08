@@ -407,7 +407,11 @@ const Navbar = () => {
 
           {isAdmin ? (
             <div className="admin-dropdown" onClick={toggleMobileMenu}>
-              <span className="admin-badge">ADMIN</span>
+              {localStorage.getItem("photoURL") ? (
+                <img src={localStorage.getItem("photoURL")} alt="Admin" className="user-avatar" />
+              ) : (
+                <span className="admin-badge">ADMIN</span>
+              )}
               {salesMeta && salesMeta.achieved && (
                 <span className="meta-notification" title={`Meta: ${salesMeta.percentage.toFixed(1)}%`}>
                   🎯 Meta 50% alcanzada!
@@ -426,7 +430,11 @@ const Navbar = () => {
             </div>
           ) : userRole ? (
             <div className="user-dropdown" onClick={toggleMobileMenu}>
-              <span className="user-badge">{userRole}</span>
+              {localStorage.getItem("photoURL") ? (
+                <img src={localStorage.getItem("photoURL")} alt="User" className="user-avatar" />
+              ) : (
+                <span className="user-badge">{userRole}</span>
+              )}
               <div className="dropdown-content">
                 <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
               </div>

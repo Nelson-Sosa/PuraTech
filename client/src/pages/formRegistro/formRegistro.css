@@ -1,7 +1,3 @@
-/* ============================================================
-   REGISTER FORM — GameMasters Light Premium Design
-   ============================================================ */
-
 .contRegistro {
   width: 100%;
   min-height: 100vh;
@@ -18,38 +14,89 @@
   width: 100%;
   max-width: 500px;
   padding: 48px;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  animation: fade-in-up 0.6s ease-out;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  animation: fade-up 0.4s ease-out;
 }
 
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .registro-card h1 {
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #0f172a;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   letter-spacing: -0.02em;
 }
 
 .registro-subtitle {
   text-align: center;
   color: #64748b;
-  font-size: 1rem;
-  margin-bottom: 40px;
+  font-size: 0.95rem;
+  margin-bottom: 28px;
   font-weight: 500;
 }
 
-/* Form groups */
+.google-btn {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.google-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.google-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -57,17 +104,15 @@
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px;
   width: 100%;
 }
 
 .form-group label {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: #475569;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 6px;
 }
 
 .form-group input,
@@ -76,11 +121,13 @@
   padding: 12px 16px;
   background: #f1f5f9;
   border: 1.5px solid transparent;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
   color: #0f172a;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   outline: none;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
 .form-group input::placeholder {
@@ -90,76 +137,112 @@
 .form-group input:focus,
 .form-group select:focus {
   background: #ffffff;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-/* Error state */
 .error-text {
-  color: #ef4444;
+  color: #dc2626;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 6px;
 }
 
-/* Button */
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #dc2626;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success-message {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  color: #16a34a;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
 .btn-registro {
   width: 100%;
-  padding: 16px;
-  background: var(--gradient-accent);
+  height: 50px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
   color: #ffffff;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: var(--transition);
-  margin-top: 12px;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+  font-family: 'Inter', sans-serif;
 }
 
-.btn-registro:hover {
+.btn-registro:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-  filter: brightness(1.1);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+  filter: brightness(1.08);
 }
 
-.btn-registro:active {
+.btn-registro:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Footer */
+.btn-registro:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .form-footer {
-  margin-top: 32px;
+  margin-top: 28px;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #64748b;
 }
 
-.form-footer span {
-  color: var(--accent-blue);
+.form-footer a {
+  color: #2563eb;
   font-weight: 700;
-  cursor: pointer;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.form-footer span:hover {
-  color: var(--accent-violet);
+.form-footer a:hover {
+  color: #7c3aed;
   text-decoration: underline;
 }
 
-/* RESPONSIVE */
 @media (max-width: 600px) {
   .registro-card {
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  
+
   .registro-card h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+
+  .google-btn {
+    height: 46px;
+    font-size: 0.9rem;
+  }
+
+  .btn-registro {
+    height: 46px;
+    font-size: 0.95rem;
   }
 }

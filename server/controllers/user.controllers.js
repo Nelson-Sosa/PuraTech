@@ -55,6 +55,60 @@ module.exports.login =(req, res) =>{
     }   
 }
 
+module.exports.googleAuth = async (req, res) => {
+  try {
+    const { uid, nombre, apellido, email, photoURL } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ mensaje: "Correo electrónico requerido" });
+    }
+
+    let usuarioExistente = await Usuario.findOne({ correo: email });
+
+    if (usuarioExistente) {
+      const infoEnToken = {
+        nombre: usuarioExistente.nombre,
+        apellido: usuarioExistente.apellido,
+        correo: usuarioExistente.correo,
+        rol: usuarioExistente.rol
+      };
+
+      return jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+        if (error) {
+          return res.status(400).json({ mensaje: "Error al generar token" });
+        }
+        return res.status(200).json({ token, usuario: { ...infoEnToken, photoURL } });
+      });
+    }
+
+    const newUser = await Usuario.create({
+      nombre: nombre || "Usuario",
+      apellido: apellido || "",
+      correo: email,
+      contraseña: bcrypt.hashSync(uid + SECRETO, saltGenerado),
+      rol: "usuario"
+    });
+
+    const infoEnToken = {
+      nombre: newUser.nombre,
+      apellido: newUser.apellido,
+      correo: newUser.correo,
+      rol: newUser.rol
+    };
+
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+      if (error) {
+        return res.status(400).json({ mensaje: "Error al generar token" });
+      }
+      return res.status(201).json({ token, usuario: { ...infoEnToken, photoURL } });
+    });
+
+  } catch (err) {
+    console.error("Error en Google Auth:", err.message);
+    return res.status(500).json({ mensaje: "Error al autenticar con Google" });
+  }
+};
+
 module.exports.agregarUsuario = async (req, res) => {
   try {
     console.log("Body recibido:", req.body); // <<--- VER LO QUE LLEGA

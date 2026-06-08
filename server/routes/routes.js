@@ -27,6 +27,7 @@ module.exports = (app) => {
     // ===== LOGIN Y USUARIOS =====
     app.post("/api/login", UserController.login);
     app.post("/api/agregar/usuario", UserController.agregarUsuario);
+    app.post("/api/auth/google", UserController.googleAuth);
     app.get("/api/verify-token", validarToken, (req, res) => {
       res.json({ 
         valid: true, 
