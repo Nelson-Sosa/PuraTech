@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import './formRegistro.css';
 import { API_URL } from '../../config';
-import { signInWithGoogle, signInWithGoogleRedirect, getGoogleRedirectResult } from "../../services/firebaseAuth";
+import { signInWithGoogle, getGoogleRedirectResult } from "../../services/firebaseAuth";
 
 const FormRegistro = () => {
   const [nombre, setNombre] = useState('');
@@ -84,6 +84,7 @@ const FormRegistro = () => {
     setGoogleLoading(true);
     try {
       const userData = await signInWithGoogle();
+      if (!userData) return;
       const res = await axios.post(`${API_URL}/api/auth/google`, userData);
       const datos = res.data;
       localStorage.setItem("token", datos.token);
@@ -101,14 +102,6 @@ const FormRegistro = () => {
         setError({ general: "Ventana cerrada. Intenta de nuevo." });
       } else if (err.code === "auth/cancelled-popup-request") {
         setError({ general: "Solicitud cancelada." });
-      } else if (err.code === "auth/popup-blocked") {
-        try {
-          await signInWithGoogleRedirect();
-          return;
-        } catch (redirectErr) {
-          console.error("Google redirect fallback error:", redirectErr);
-          setError({ general: "El navegador bloqueó el acceso con Google. Permití popups para este sitio o desactivá el bloqueador." });
-        }
       } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid") || err.code === "auth/invalid-api-key") {
         setError({ general: "Servicio de Google no disponible en este momento." });
       } else if (err.code?.startsWith("auth/") || err.message?.includes("Firebase")) {
