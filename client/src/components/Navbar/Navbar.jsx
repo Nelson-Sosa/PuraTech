@@ -222,6 +222,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [salesMeta, setSalesMeta] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [mobileCatOpen, setMobileCatOpen] = useState(false);
@@ -237,6 +238,8 @@ const Navbar = () => {
       } catch (err) {
         console.error("Error fetching categories:", err);
         setCategories([]);
+      } finally {
+        setLoadingCategories(false);
       }
     };
     fetchCategories();
@@ -448,9 +451,20 @@ const Navbar = () => {
       {/* ── CATEGORY NAV BAR ── */}
       <nav className="cat-navbar">
         <div className="cat-navbar-inner">
-          {categories.map((cat) => (
-            <CategoryItem key={cat._id} cat={cat} />
-          ))}
+          {loadingCategories ? (
+            <>
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="skeleton-nav-item">
+                  <div className="skeleton-nav-icon skeleton"></div>
+                  <div className="skeleton-nav-text skeleton"></div>
+                </div>
+              ))}
+            </>
+          ) : (
+            categories.map((cat) => (
+              <CategoryItem key={cat._id} cat={cat} />
+            ))
+          )}
         </div>
       </nav>
 
