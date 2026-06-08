@@ -54,10 +54,13 @@ const FormularioLogin = ({ setLogin }) => {
       setLogin(true);
       window.location.href = "/";
     } catch (err) {
+      console.error("Google login error:", err);
       if (err.code === "auth/popup-closed-by-user") {
         setError("Ventana cerrada. Intenta de nuevo.");
       } else if (err.code === "auth/cancelled-popup-request") {
         setError("Solicitud cancelada.");
+      } else if (err.code === "auth/popup-blocked") {
+        setError("El navegador bloqueó la ventana emergente. Permití popups para este sitio e intentá de nuevo.");
       } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid") || err.code === "auth/invalid-api-key") {
         setError("Servicio de Google no disponible en este momento.");
       } else if (err.code?.startsWith("auth/") || err.message?.includes("Firebase")) {

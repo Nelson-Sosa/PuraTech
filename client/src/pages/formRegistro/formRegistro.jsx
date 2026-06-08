@@ -65,10 +65,13 @@ const FormRegistro = () => {
       setSuccessMsg("¡Cuenta creada con Google! Redirigiendo...");
       setTimeout(() => { window.location.href = "/"; }, 1200);
     } catch (err) {
+      console.error("Google register error:", err);
       if (err.code === "auth/popup-closed-by-user") {
         setError({ general: "Ventana cerrada. Intenta de nuevo." });
       } else if (err.code === "auth/cancelled-popup-request") {
         setError({ general: "Solicitud cancelada." });
+      } else if (err.code === "auth/popup-blocked") {
+        setError({ general: "El navegador bloqueó la ventana emergente. Permití popups para este sitio e intentá de nuevo." });
       } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid") || err.code === "auth/invalid-api-key") {
         setError({ general: "Servicio de Google no disponible en este momento." });
       } else if (err.code?.startsWith("auth/") || err.message?.includes("Firebase")) {
