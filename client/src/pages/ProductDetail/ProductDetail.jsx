@@ -229,9 +229,25 @@ const ProductDetail = () => {
 
           {/* Price + Stock + Urgency */}
           <div className="price-section">
-            <span className="product-price-detail">
-              {Number(product.precio).toLocaleString("es-PY")} Gs.
-            </span>
+            {product.isOffer && product.precioAnterior ? (
+              <div className="price-detail-container">
+                <div className="price-detail-row">
+                  <span className="old-price-detail">
+                    {Number(product.precioAnterior).toLocaleString("es-PY")} Gs.
+                  </span>
+                  {product.porcentajeDescuento && (
+                    <span className="discount-badge-detail">-{product.porcentajeDescuento}%</span>
+                  )}
+                </div>
+                <span className="product-price-detail">
+                  {Number(product.precio).toLocaleString("es-PY")} Gs.
+                </span>
+              </div>
+            ) : (
+              <span className="product-price-detail">
+                {Number(product.precio).toLocaleString("es-PY")} Gs.
+              </span>
+            )}
             <span className="stock-detail">
               Stock: {product.stock || 10} unidades
             </span>
