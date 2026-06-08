@@ -554,10 +554,15 @@ const Home = () => {
                   <CategoryCard key={cat._id} cat={cat} />
                 ))
             ) : (
-              <div className="loading-categories">
-                <div className="spinner"></div>
-                <p>Cargando categorías...</p>
-              </div>
+              <>
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="skeleton-cat-card">
+                    <div className="skeleton-cat-icon skeleton"></div>
+                    <div className="skeleton-cat-name skeleton"></div>
+                    <div className="skeleton-cat-link skeleton"></div>
+                  </div>
+                ))}
+              </>
             )}
           </div>
         </div>
@@ -565,10 +570,22 @@ const Home = () => {
 
       {/* PRODUCTOS DESTACADOS */}
       {loading ? (
-        <div className="loading">
-          <div className="spinner"></div>
-          <p>Cargando productos seleccionados...</p>
-        </div>
+        <>
+          {['Más vendidos', 'Ofertas Increíbles', 'Novedades'].map((title) => (
+            <ProductSection
+              key={title}
+              title={title}
+              subtitle=""
+              products={[]}
+              iconColor="hot"
+              addToCart={addToCart}
+              addingToCart={addingToCart}
+              setAddingToCart={setAddingToCart}
+              loading={true}
+              sectionType="default"
+            />
+          ))}
+        </>
       ) : (
         <>
           <ProductSection 

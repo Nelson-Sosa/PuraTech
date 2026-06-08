@@ -661,15 +661,37 @@
   opacity: 1;
 }
 
-/* Loading state */
-.loading-categories {
-  grid-column: 1 / -1;
+/* Loading state — Skeleton Category Cards */
+.skeleton-cat-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 40px;
-  color: var(--text-secondary);
+  justify-content: center;
+  height: 180px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  gap: 12px;
+}
+
+.skeleton-cat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.skeleton-cat-name {
+  height: 18px;
+  width: 80%;
+  border-radius: 8px;
+}
+
+.skeleton-cat-link {
+  height: 14px;
+  width: 55%;
+  border-radius: 8px;
 }
 
 .spinner {
@@ -711,7 +733,8 @@
     display: none; /* Chrome/Safari */
   }
 
-  .cat-featured-card {
+  .cat-featured-card,
+  .skeleton-cat-card {
     min-width: 140px;
     height: 160px;
     scroll-snap-align: start;
@@ -753,7 +776,8 @@
     gap: 10px;
   }
 
-  .cat-featured-card {
+  .cat-featured-card,
+  .skeleton-cat-card {
     height: 140px;
     padding: 18px 12px;
     border-radius: 14px;
