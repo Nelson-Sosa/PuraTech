@@ -1448,50 +1448,25 @@
 }
 
 /* ── SPECIALIZED CARD STYLES ── */
-/* --- Ranking Badge (Bestsellers) --- */
-.premium-ranking {
+/* --- Bestseller Badge --- */
+.bestseller-badge {
   position: absolute;
   top: 12px;
   left: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px 4px 8px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 800;
-  color: white;
-  z-index: 5;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.premium-ranking .rank-icon-svg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.premium-ranking.rank-1 {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.95), rgba(217, 119, 6, 0.95));
-  border: 1px solid rgba(255, 215, 0, 0.5);
-  transform: scale(1.05);
-}
-.premium-ranking.rank-2 {
-  background: linear-gradient(135deg, rgba(148, 163, 184, 0.95), rgba(100, 116, 139, 0.95));
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-.premium-ranking.rank-3 {
-  background: linear-gradient(135deg, rgba(180, 83, 9, 0.95), rgba(120, 53, 15, 0.95));
-  border: 1px solid rgba(217, 119, 6, 0.4);
-}
-.premium-ranking.rank-4 {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(29, 78, 216, 0.95));
-  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #2563EB;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  z-index: 5;
+  line-height: 1;
+  white-space: nowrap;
+  width: max-content;
+  pointer-events: none;
 }
 
 /* --- Price Container --- */

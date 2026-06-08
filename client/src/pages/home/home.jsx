@@ -247,24 +247,9 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
             <div key={productId} className={`product-card ${sectionType}-card ${hasMultipleImages ? 'has-multiple-images' : ''}`}>
               <Link to={`/product/${productId}`} className="product-link">
                 <div className="product-image-container">
-                  {sectionType === 'bestsellers' && (() => {
-                    const rankIcons = [
-                      // #1 — Trophy SVG
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M7 4H17L15.5 10.5C15 13 13.7 14 12 14C10.3 14 9 13 8.5 10.5L7 4ZM5 4H7L8.5 10.5C8.8 12 9.5 13.5 11 14.5L10 16H8L7 18H17L16 16H14L13 14.5C14.5 13.5 15.2 12 15.5 10.5L17 4H19L19.7 7H21V9H19.5L18.8 12H17.5L16 19L14 19V21H10V19H8L6.5 19L5 12H3.5L2.8 9H1V7H2.3L3 4H5Z"/></svg>,
-                      // #2 — Star SVG
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>,
-                      // #3 — Medal SVG
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20 2H4v6l8 4 8-4V2zM12 10L6 7V4h12v3l-6 3zM12 12a6 6 0 100 12 6 6 0 000-12zm0 10a4 4 0 110-8 4 4 0 010 8z"/></svg>,
-                      // #4 — Chart/Trending SVG
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6" fill="none" stroke="currentColor" strokeWidth="2"/></svg>,
-                    ];
-                    return (
-                      <div className={`premium-ranking rank-${index + 1}`}>
-                        <span className="rank-icon-svg">{rankIcons[index] || rankIcons[3]}</span>
-                        <span className="rank-text">Top {index + 1}</span>
-                      </div>
-                    );
-                  })()}
+                  {sectionType === 'bestsellers' && (
+                    <span className="bestseller-badge">TOP VENTAS</span>
+                  )}
                   <img 
                     src={primaryImg} 
                     alt={product.nombre || "Producto"}
