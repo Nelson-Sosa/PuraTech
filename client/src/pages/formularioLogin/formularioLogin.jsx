@@ -54,10 +54,14 @@ const FormularioLogin = ({ setLogin }) => {
       setLogin(true);
       window.location.href = "/";
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") {
+      if (err.message === "FIREBASE_NOT_CONFIGURED") {
+        setError("Google Login no está configurado. Contacta al administrador.");
+      } else if (err.code === "auth/popup-closed-by-user") {
         setError("Ventana cerrada. Intenta de nuevo.");
       } else if (err.code === "auth/cancelled-popup-request") {
         setError("Solicitud cancelada.");
+      } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid")) {
+        setError("Error de configuración de Google. Contacta al administrador.");
       } else {
         const msg = err.response?.data?.mensaje || "Error al autenticar con Google.";
         setError(msg);

@@ -65,10 +65,14 @@ const FormRegistro = () => {
       setSuccessMsg("¡Cuenta creada con Google! Redirigiendo...");
       setTimeout(() => { window.location.href = "/"; }, 1200);
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") {
+      if (err.message === "FIREBASE_NOT_CONFIGURED") {
+        setError({ general: "Google Login no está configurado. Contacta al administrador." });
+      } else if (err.code === "auth/popup-closed-by-user") {
         setError({ general: "Ventana cerrada. Intenta de nuevo." });
       } else if (err.code === "auth/cancelled-popup-request") {
         setError({ general: "Solicitud cancelada." });
+      } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid")) {
+        setError({ general: "Error de configuración de Google. Contacta al administrador." });
       } else {
         const msg = err.response?.data?.mensaje || "Error al autenticar con Google.";
         setError({ general: msg });
