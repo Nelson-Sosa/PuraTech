@@ -2,12 +2,15 @@ import { signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase
 import { auth, googleProvider } from "../firebase/config";
 
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+console.log("FirebaseAuth: hostname =", window.location.hostname, "isLocalhost =", isLocalhost);
 
 export const signInWithGoogle = async () => {
   if (isLocalhost) {
+    console.log("FirebaseAuth: usando redirect");
     await signInWithRedirect(auth, googleProvider);
     return null;
   }
+  console.log("FirebaseAuth: usando popup");
   const result = await signInWithPopup(auth, googleProvider);
   const user = result.user;
   return {
