@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import './formularioLogin.css';
 import jwtDecode from "jwt-decode";
 import { API_URL } from '../../config';
-import { signInWithGoogle } from "../../services/firebaseAuth";
+import { signInWithGoogleRedirect, getGoogleRedirectResult } from "../../services/firebaseAuth";
 
 const FormularioLogin = ({ setLogin }) => {
   const [correo, setCorreo] = useState("");
@@ -13,6 +13,36 @@ const FormularioLogin = ({ setLogin }) => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const navegacion = useNavigate();
+
+  useEffect(() => {
+    const checkRedirectResult = async () => {
+      setGoogleLoading(true);
+      try {
+        const userData = await getGoogleRedirectResult();
+        if (!userData) return;
+        const res = await axios.post(`${API_URL}/api/auth/google`, userData);
+        const datos = res.data;
+        localStorage.setItem("token", datos.token);
+        const decodificar = jwtDecode(datos.token);
+        localStorage.setItem("rol", decodificar.rol);
+        if (userData.photoURL) {
+          localStorage.setItem("photoURL", userData.photoURL);
+        }
+        setLogin(true);
+        window.location.href = "/";
+      } catch (err) {
+        console.error("Google redirect result error:", err);
+        if (err.code?.startsWith("auth/")) {
+          setError("Servicio de Google no disponible en este momento.");
+        } else {
+          setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
+        }
+      } finally {
+        setGoogleLoading(false);
+      }
+    };
+    checkRedirectResult();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const procesaLogin = async (e) => {
     e.preventDefault();
@@ -42,33 +72,10 @@ const FormularioLogin = ({ setLogin }) => {
     setError("");
     setGoogleLoading(true);
     try {
-      const userData = await signInWithGoogle();
-      const res = await axios.post(`${API_URL}/api/auth/google`, userData);
-      const datos = res.data;
-      localStorage.setItem("token", datos.token);
-      const decodificar = jwtDecode(datos.token);
-      localStorage.setItem("rol", decodificar.rol);
-      if (userData.photoURL) {
-        localStorage.setItem("photoURL", userData.photoURL);
-      }
-      setLogin(true);
-      window.location.href = "/";
+      await signInWithGoogleRedirect();
     } catch (err) {
-      console.error("Google login error:", err);
-      if (err.code === "auth/popup-closed-by-user") {
-        setError("Ventana cerrada. Intenta de nuevo.");
-      } else if (err.code === "auth/cancelled-popup-request") {
-        setError("Solicitud cancelada.");
-      } else if (err.code === "auth/popup-blocked") {
-        setError("El navegador bloqueó la ventana emergente. Permití popups para este sitio e intentá de nuevo.");
-      } else if (err.code === "auth/api-key-not-valid" || err.message?.includes("API key not valid") || err.code === "auth/invalid-api-key") {
-        setError("Servicio de Google no disponible en este momento.");
-      } else if (err.code?.startsWith("auth/") || err.message?.includes("Firebase")) {
-        setError("Servicio de Google no disponible en este momento.");
-      } else {
-        setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
-      }
-    } finally {
+      console.error("Google redirect error:", err);
+      setError("Error al iniciar sesión con Google.");
       setGoogleLoading(false);
     }
   };

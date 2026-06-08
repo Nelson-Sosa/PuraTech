@@ -1,8 +1,13 @@
-import { signInWithPopup } from "firebase/auth";
+import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { auth, googleProvider } from "../firebase/config";
 
-export const signInWithGoogle = async () => {
-  const result = await signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => {
+  return signInWithRedirect(auth, googleProvider);
+};
+
+export const getGoogleRedirectResult = async () => {
+  const result = await getRedirectResult(auth);
+  if (!result) return null;
   const user = result.user;
   return {
     uid: user.uid,
