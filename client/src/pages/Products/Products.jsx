@@ -5,6 +5,10 @@ import '../Products/Products.css';
 import Modal from "../../components/Modal/Modal";
 import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
+import QuickViewModal from '../../components/QuickViewModal/QuickViewModal';
+import { FiEye, FiShoppingBag } from 'react-icons/fi';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 export const Products = () => {
     const { category } = useParams();
@@ -24,6 +28,8 @@ export const Products = () => {
     const [availableBrands, setAvailableBrands] = useState([]);
     const [onlyWithStock, setOnlyWithStock] = useState(false);
     const { addToCart } = useCart();
+    const { isInWishlist, toggleWishlist } = useWishlist();
+    const [quickViewProduct, setQuickViewProduct] = useState(null);
 
     // 🔥 Función central para traer productos (PÚBLICO)
     const getProducts = useCallback(async () => {
@@ -272,17 +278,6 @@ export const Products = () => {
                                                     NUEVO
                                                 </span>
                                             )}
-                                            <button 
-                                                className="add-to-cart-fab"
-                                                onClick={(e) => { e.preventDefault(); addToCart(producto); }}
-                                                data-tooltip="Agregar al carrito"
-                                            >
-                                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                                </svg>
-                                            </button>
                                         </div>
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>
@@ -293,6 +288,41 @@ export const Products = () => {
                                             <p className="stock">Stock disponible: {producto.stock || 10}</p>
                                         </div>
                                     </Link>
+                                    <div className="product-actions">
+                                        <button
+                                            className="action-btn quick-view"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setQuickViewProduct(producto);
+                                            }}
+                                            data-tooltip="Vista rápida"
+                                        >
+                                            <FiEye size={18} />
+                                        </button>
+                                        <button
+                                            className={`action-btn wishlist ${isInWishlist(producto._id) ? 'is-wishlisted' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                toggleWishlist(producto._id);
+                                            }}
+                                            data-tooltip={isInWishlist(producto._id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                                        >
+                                            {isInWishlist(producto._id) ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+                                        </button>
+                                        <button
+                                            className="action-btn add-to-cart-custom"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                addToCart(producto);
+                                            }}
+                                            data-tooltip="Agregar al carrito"
+                                        >
+                                            <FiShoppingBag size={18} />
+                                        </button>
+                                    </div>
                                 </div>
                             )})}
                         </div>
@@ -304,6 +334,14 @@ export const Products = () => {
                 show={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={handleConfirmDelete}
+            />
+            <QuickViewModal
+                product={quickViewProduct}
+                onClose={() => setQuickViewProduct(null)}
+                onAddToCart={(product) => {
+                    addToCart(product);
+                    setQuickViewProduct(null);
+                }}
             />
         </div>
     );

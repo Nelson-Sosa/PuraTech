@@ -4,6 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { API_URL } from '../../config';
 import './home.css';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
+import QuickViewModal from '../../components/QuickViewModal/QuickViewModal';
+import { FiEye, FiShoppingBag } from 'react-icons/fi';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 // ── Hero Slides Data ──────────────────────────────────────────
 const HERO_SLIDES = [
@@ -189,7 +193,11 @@ const getTimeAgo = (dateString) => {
 };
 
 // ── Sub-component: Product Section ──────────────────────────
-const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart, loading, sectionType = "default" }) => (
+const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, addingToCart, setAddingToCart, loading, sectionType = "default" }) => {
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  return (
   <section className="product-section">
     <div className="product-section-header">
       <div className="title-with-pill">
@@ -291,37 +299,6 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       NUEVO
                     </span>
                   ) : null}
-                  <button
-                    className={`add-to-cart-fab ${addingToCart[productId] === 'added' ? 'added' : ''}`}
-                    disabled={addingToCart[productId] === 'adding'}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setAddingToCart(prev => ({...prev, [productId]: 'adding'}));
-                      addToCart(product);
-                      setAddingToCart(prev => ({...prev, [productId]: 'added'}));
-                      setTimeout(() => {
-                        setAddingToCart(prev => {
-                          const newState = {...prev};
-                          delete newState[productId];
-                          return newState;
-                        });
-                      }, 1500);
-                    }}
-                    data-tooltip="Agregar al carrito"
-                  >
-                    {addingToCart[productId] === 'added' ? (
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    ) : (
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                      </svg>
-                    )}
-                  </button>
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.marca || "Marca"}</p>
@@ -354,13 +331,73 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   )}
                 </div>
               </Link>
+              <div className="product-actions">
+                <button
+                  className="action-btn quick-view"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setQuickViewProduct(product);
+                  }}
+                  data-tooltip="Vista rápida"
+                >
+                  <FiEye size={18} />
+                </button>
+                <button
+                  className={`action-btn wishlist ${isInWishlist(productId) ? 'is-wishlisted' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleWishlist(productId);
+                  }}
+                  data-tooltip={isInWishlist(productId) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isInWishlist(productId) ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+                </button>
+                <button
+                  className="action-btn add-to-cart-custom"
+                  disabled={addingToCart[productId] === 'adding'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setAddingToCart(prev => ({...prev, [productId]: 'adding'}));
+                    addToCart(product);
+                    setAddingToCart(prev => ({...prev, [productId]: 'added'}));
+                    setTimeout(() => {
+                      setAddingToCart(prev => {
+                        const newState = {...prev};
+                        delete newState[productId];
+                        return newState;
+                      });
+                    }, 1500);
+                  }}
+                  data-tooltip="Agregar al carrito"
+                >
+                  {addingToCart[productId] === 'added' ? (
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  ) : (
+                    <FiShoppingBag size={18} />
+                  )}
+                </button>
+              </div>
             </div>
           );
         })}
       </div>
     )}
+    <QuickViewModal
+      product={quickViewProduct}
+      onClose={() => setQuickViewProduct(null)}
+      onAddToCart={(product) => {
+        addToCart(product);
+        setQuickViewProduct(null);
+      }}
+    />
   </section>
-);
+  );
+};
 
 const Home = () => {
   const [bestsellers, setBestsellers] = useState([]);

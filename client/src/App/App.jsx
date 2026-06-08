@@ -19,6 +19,7 @@ import Clients from '../pages/Clients/Clients';
 import Inventory from '../pages/Inventory/Inventory';
 import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
+import { WishlistProvider } from '../context/WishlistContext';
 import Navbar from '../components/Navbar/Navbar';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
   
   return (
     <CartProvider>
+    <WishlistProvider>
     <div>
       <Navbar />
       <Routes>
@@ -68,6 +70,7 @@ const App = () => {
         />
       </a>
     </div>
+    </WishlistProvider>
     </CartProvider>
   );
 };
