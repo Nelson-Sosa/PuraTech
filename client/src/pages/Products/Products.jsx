@@ -269,7 +269,7 @@ export const Products = () => {
                                                 />
                                             )}
                                             <span className="category-badge">{producto.category}</span>
-                                            {producto.porcentajeDescuento && <span className="offer-badge">-{producto.porcentajeDescuento}%</span>}
+                                            {producto.porcentajeDescuento ? <span className="offer-badge">-{producto.porcentajeDescuento}%</span> : null}
                                             {producto.isNew && (
                                                 <span className="new-badge">Nuevo</span>
                                             )}
@@ -283,9 +283,9 @@ export const Products = () => {
                                                         <span className="old-price">
                                                             {Number(producto.precioAnterior).toLocaleString("es-PY")} Gs.
                                                         </span>
-                                                        {producto.porcentajeDescuento && (
+                                                        {producto.porcentajeDescuento ? (
                                                             <span className="discount-badge">-{producto.porcentajeDescuento}%</span>
-                                                        )}
+                                                        ) : null}
                                                     </div>
                                                     <div className="product-price">
                                                         {Number(producto.precio).toLocaleString("es-PY")} Gs.

@@ -235,9 +235,9 @@ const ProductDetail = () => {
                   <span className="old-price-detail">
                     {Number(product.precioAnterior).toLocaleString("es-PY")} Gs.
                   </span>
-                  {product.porcentajeDescuento && (
+                  {product.porcentajeDescuento ? (
                     <span className="discount-badge-detail">-{product.porcentajeDescuento}%</span>
-                  )}
+                  ) : null}
                 </div>
                 <span className="product-price-detail">
                   {Number(product.precio).toLocaleString("es-PY")} Gs.
