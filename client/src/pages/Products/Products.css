@@ -763,11 +763,11 @@
 }
 
 .product-price {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #111827;
   font-family: 'Inter', sans-serif;
-  line-height: 1.2;
+  line-height: 1.3;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -779,6 +779,10 @@
   flex-direction: column;
   gap: 2px;
   margin-top: 6px;
+}
+
+.price-container .product-price {
+  color: #dc2626;
 }
 
 .price-row {
@@ -1145,7 +1149,7 @@
 
   .product-price,
   .price {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   .old-price {
@@ -1300,7 +1304,7 @@
 
   .product-price,
   .price {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .old-price {
