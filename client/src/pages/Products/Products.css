@@ -607,9 +607,21 @@
   animation: pulse-badge 2s ease-in-out infinite;
 }
 
-.badge.new {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
+.new-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+  background: #ECFDF5;
+  z-index: 5;
+  line-height: 1;
+  max-width: 20%;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 @keyframes pulse-badge {

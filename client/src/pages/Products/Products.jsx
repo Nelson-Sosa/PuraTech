@@ -271,12 +271,7 @@ export const Products = () => {
                                             <span className="category-badge">{producto.category}</span>
                                             {producto.isOffer && <span className="badge offer">OFERTA</span>}
                                             {producto.isNew && (
-                                                <span className="badge new">
-                                                    <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
-                                                        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" />
-                                                    </svg>
-                                                    NUEVO
-                                                </span>
+                                                <span className="new-badge">Nuevo</span>
                                             )}
                                         </div>
                                         <div className="product-info">

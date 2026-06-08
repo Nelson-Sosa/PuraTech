@@ -1557,7 +1557,7 @@
   font-size: 14px;
 }
 
-/* --- New Badges --- */
+/* --- Badges --- */
 .badge {
   position: absolute;
   top: 12px;
@@ -1574,9 +1574,21 @@
   gap: 4px;
 }
 
-.badge.new-time, .badge.new {
-  background: linear-gradient(to right, #3b82f6, #8b5cf6);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+.new-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+  background: #ECFDF5;
+  z-index: 5;
+  line-height: 1;
+  max-width: 20%;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .badge.offer {
