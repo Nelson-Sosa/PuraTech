@@ -2,24 +2,16 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "demo-api-key",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "demo.firebaseapp.com",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "demo",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "demo.appspot.com",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID || "000000000000",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:000000000000:web:0000000000000000"
 };
 
-const hasValidConfig = firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
-let app = null;
-let auth = null;
-let googleProvider = null;
-
-if (hasValidConfig) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  googleProvider = new GoogleAuthProvider();
-}
-
-export { auth, googleProvider, hasValidConfig };
+export { auth, googleProvider };

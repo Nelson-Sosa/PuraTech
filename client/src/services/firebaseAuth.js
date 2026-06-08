@@ -1,11 +1,7 @@
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider, hasValidConfig } from "../firebase/config";
+import { auth, googleProvider } from "../firebase/config";
 
 export const signInWithGoogle = async () => {
-  if (!hasValidConfig) {
-    throw new Error("FIREBASE_NOT_CONFIGURED");
-  }
-
   const result = await signInWithPopup(auth, googleProvider);
   const user = result.user;
   return {
