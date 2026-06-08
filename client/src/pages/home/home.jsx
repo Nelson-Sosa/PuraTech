@@ -387,14 +387,16 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
         })}
       </div>
     )}
-    <QuickViewModal
-      product={quickViewProduct}
-      onClose={() => setQuickViewProduct(null)}
-      onAddToCart={(product) => {
-        addToCart(product);
-        setQuickViewProduct(null);
-      }}
-    />
+    {quickViewProduct && (
+      <QuickViewModal
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+        onAddToCart={(product) => {
+          addToCart(product);
+          setQuickViewProduct(null);
+        }}
+      />
+    )}
   </section>
   );
 };

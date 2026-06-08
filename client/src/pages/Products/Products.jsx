@@ -335,14 +335,16 @@ export const Products = () => {
                 onClose={() => setShowModal(false)}
                 onConfirm={handleConfirmDelete}
             />
-            <QuickViewModal
-                product={quickViewProduct}
-                onClose={() => setQuickViewProduct(null)}
-                onAddToCart={(product) => {
-                    addToCart(product);
-                    setQuickViewProduct(null);
-                }}
-            />
+            {quickViewProduct && (
+                <QuickViewModal
+                    product={quickViewProduct}
+                    onClose={() => setQuickViewProduct(null)}
+                    onAddToCart={(product) => {
+                        addToCart(product);
+                        setQuickViewProduct(null);
+                    }}
+                />
+            )}
         </div>
     );
 };
