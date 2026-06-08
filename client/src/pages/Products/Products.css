@@ -1171,13 +1171,23 @@
   }
 
   .product-actions {
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 12px 14px;
-    gap: 8px;
+    gap: 6px;
   }
 
   .action-btn {
+    flex: none;
     height: 36px;
+    width: 36px;
+    padding: 0;
+  }
+
+  .action-btn.add-to-cart-custom {
+    width: auto;
+    padding: 0 12px;
+    gap: 4px;
   }
 
   .add-to-cart-btn {
@@ -1321,7 +1331,22 @@
   }
 
   .product-actions {
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 10px 12px;
+    gap: 6px;
+  }
+
+  .action-btn {
+    flex: none;
+    width: 36px;
+    padding: 0;
+  }
+
+  .action-btn.add-to-cart-custom {
+    width: auto;
+    padding: 0 12px;
+    gap: 4px;
   }
 
   .add-to-cart-btn {
