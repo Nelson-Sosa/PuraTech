@@ -264,10 +264,8 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       loading="lazy"
                     />
                   )}
-                  {sectionType === 'offers' ? (
-                    <span className="badge offer">-{product.porcentajeDescuento || 0}%</span>
-                  ) : product.isOffer ? (
-                    <span className="badge offer">OFERTA</span>
+                  {product.porcentajeDescuento ? (
+                    <span className="offer-badge">-{product.porcentajeDescuento}%</span>
                   ) : null}
                   {sectionType === 'new' && (
                     <span className="new-badge">Nuevo</span>

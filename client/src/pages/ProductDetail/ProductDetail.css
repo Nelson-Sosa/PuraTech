@@ -343,10 +343,21 @@
   text-transform: uppercase;
 }
 
-.badge-detail.offer {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #fff;
-  animation: pulse-badge 2.5s ease-in-out infinite;
+.offer-badge-detail {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: #CC0C39;
+  z-index: 2;
+  line-height: 1;
+  white-space: nowrap;
+  width: max-content;
+  pointer-events: none;
 }
 
 .badge-detail.new {

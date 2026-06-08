@@ -269,7 +269,7 @@ export const Products = () => {
                                                 />
                                             )}
                                             <span className="category-badge">{producto.category}</span>
-                                            {producto.isOffer && <span className="badge offer">OFERTA</span>}
+                                            {producto.porcentajeDescuento && <span className="offer-badge">-{producto.porcentajeDescuento}%</span>}
                                             {producto.isNew && (
                                                 <span className="new-badge">Nuevo</span>
                                             )}

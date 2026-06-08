@@ -1532,23 +1532,6 @@
   font-size: 14px;
 }
 
-/* --- Badges --- */
-.badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 800;
-  color: white;
-  z-index: 5;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .new-badge {
   position: absolute;
   top: 12px;
@@ -1566,9 +1549,21 @@
   pointer-events: none;
 }
 
-.badge.offer {
-  background: linear-gradient(to right, #ef4444, #f97316);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+.offer-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: #CC0C39;
+  z-index: 5;
+  line-height: 1;
+  white-space: nowrap;
+  width: max-content;
+  pointer-events: none;
 }
 
 .sales-count-badge {

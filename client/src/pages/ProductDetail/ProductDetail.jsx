@@ -193,7 +193,7 @@ const ProductDetail = () => {
             )}
 
             {/* Badges */}
-            {product.isOffer && <span className="badge-detail offer">OFERTA</span>}
+            {product.porcentajeDescuento && <span className="offer-badge-detail">-{product.porcentajeDescuento}%</span>}
             {product.isNew  && <span className="badge-detail new">NUEVO</span>}
           </div>
 
