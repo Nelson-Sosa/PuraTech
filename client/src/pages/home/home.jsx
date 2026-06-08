@@ -284,7 +284,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   ) : product.isOffer ? (
                     <span className="badge offer">OFERTA</span>
                   ) : null}
-                  {(sectionType === 'new' || product.isNew) && (
+                  {sectionType === 'new' && (
                     <span className="new-badge">Nuevo</span>
                   )}
                 </div>
