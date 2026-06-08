@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './formularioLogin.css';
 import jwtDecode from "jwt-decode";
 import { API_URL } from '../../config';
-import { signInWithGoogle, getGoogleRedirectResult } from "../../services/firebaseAuth";
+import { signInWithGoogle, onGoogleRedirectResult } from "../../services/firebaseAuth";
 
 const FormularioLogin = ({ setLogin }) => {
   const [correo, setCorreo] = useState("");
@@ -15,11 +15,9 @@ const FormularioLogin = ({ setLogin }) => {
   const navegacion = useNavigate();
 
   useEffect(() => {
-    const checkRedirectResult = async () => {
-      setGoogleLoading(true);
+    setGoogleLoading(true);
+    const unsubscribe = onGoogleRedirectResult(async (userData) => {
       try {
-        const userData = await getGoogleRedirectResult();
-        if (!userData) return;
         const res = await axios.post(`${API_URL}/api/auth/google`, userData);
         const datos = res.data;
         localStorage.setItem("token", datos.token);
@@ -31,17 +29,13 @@ const FormularioLogin = ({ setLogin }) => {
         setLogin(true);
         window.location.href = "/";
       } catch (err) {
-        console.error("Google redirect result error:", err);
-        if (err.code?.startsWith("auth/")) {
-          setError("Servicio de Google no disponible en este momento.");
-        } else {
-          setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
-        }
+        console.error("Google auth error:", err);
+        setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
       } finally {
         setGoogleLoading(false);
       }
-    };
-    checkRedirectResult();
+    });
+    return unsubscribe;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const procesaLogin = async (e) => {
