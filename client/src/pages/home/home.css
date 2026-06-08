@@ -1308,20 +1308,15 @@
 }
 
 .product-price {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--accent-blue);
-  font-family: 'Poppins', sans-serif;
-  margin-top: 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.2;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.product-price::before {
-  content: '₲';
-  font-size: 1rem;
-  opacity: 0.7;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .stock {
@@ -1499,21 +1494,44 @@
   border: 1px solid rgba(96, 165, 250, 0.4);
 }
 
-/* --- Offers Price Container --- */
+/* --- Price Container --- */
 .price-container {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin-top: 6px;
 }
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .old-price {
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: #9CA3AF;
   text-decoration: line-through;
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
 }
-.highlight-price {
-  color: #ef4444 !important;
-  margin-top: 0 !important;
+
+.discount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(22, 163, 74, 0.1);
+  color: #16A34A;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.product-price {
+  margin-top: 0;
 }
 
 /* --- Countdown Timer --- */
@@ -2241,8 +2259,16 @@
   }
 
   .product-price {
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .old-price {
+    font-size: 0.8rem;
+  }
+
+  .discount-badge {
+    font-size: 0.7rem;
+    padding: 1px 6px;
   }
 
   .stock {

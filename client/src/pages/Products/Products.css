@@ -753,19 +753,60 @@
 
 .price {
   font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--accent-blue);
-  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
   margin-top: auto;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.price::before {
-  content: '₲';
-  font-size: 1rem;
-  opacity: 0.7;
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.old-price {
+  font-size: 0.9rem;
+  color: #9CA3AF;
+  text-decoration: line-through;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+.discount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(22, 163, 74, 0.1);
+  color: #16A34A;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
 }
 
 .stock {
@@ -1104,11 +1145,16 @@
 
   .product-price,
   .price {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
-  .price::before {
-    font-size: 0.85rem;
+  .old-price {
+    font-size: 0.8rem;
+  }
+
+  .discount-badge {
+    font-size: 0.7rem;
+    padding: 1px 6px;
   }
 
   .stock {
@@ -1254,7 +1300,15 @@
 
   .product-price,
   .price {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+  }
+
+  .old-price {
+    font-size: 0.85rem;
+  }
+
+  .discount-badge {
+    font-size: 0.72rem;
   }
 
   .product-actions {

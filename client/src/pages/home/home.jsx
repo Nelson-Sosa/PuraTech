@@ -305,8 +305,13 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   <h3>{product.nombre || "Producto sin nombre"}</h3>
                   {sectionType === 'offers' && product.precioAnterior ? (
                     <div className="price-container">
-                      <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
-                      <div className="product-price highlight-price">
+                      <div className="price-row">
+                        <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
+                        {product.porcentajeDescuento && (
+                          <span className="discount-badge">-{product.porcentajeDescuento}%</span>
+                        )}
+                      </div>
+                      <div className="product-price">
                         {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
                       </div>
                     </div>

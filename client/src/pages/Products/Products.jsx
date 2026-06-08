@@ -282,9 +282,25 @@ export const Products = () => {
                                         <div className="product-info">
                                             <h3>{producto.nombre}</h3>
                                             <p className="product-brand">{producto.marca}</p>
-                                            <p className="product-price">
-                                                {Number(producto.precio).toLocaleString("es-PY")} Gs.
-                                            </p>
+                                            {producto.isOffer && producto.precioAnterior ? (
+                                                <div className="price-container">
+                                                    <div className="price-row">
+                                                        <span className="old-price">
+                                                            {Number(producto.precioAnterior).toLocaleString("es-PY")} Gs.
+                                                        </span>
+                                                        {producto.porcentajeDescuento && (
+                                                            <span className="discount-badge">-{producto.porcentajeDescuento}%</span>
+                                                        )}
+                                                    </div>
+                                                    <div className="product-price">
+                                                        {Number(producto.precio).toLocaleString("es-PY")} Gs.
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="product-price">
+                                                    {Number(producto.precio).toLocaleString("es-PY")} Gs.
+                                                </div>
+                                            )}
                                             <p className="stock">Stock disponible: {producto.stock || 10}</p>
                                         </div>
                                     </Link>
