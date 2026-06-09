@@ -20,8 +20,8 @@ const FormRegistro = () => {
   const navegar = useNavigate();
 
   useEffect(() => {
-    setGoogleLoading(true);
-    const unsubscribe = onGoogleRedirectResult(async (userData) => {
+    onGoogleRedirectResult(async (userData) => {
+      setGoogleLoading(true);
       try {
         const res = await axios.post(`${API_URL}/api/auth/google`, userData);
         const datos = res.data;
@@ -41,7 +41,6 @@ const FormRegistro = () => {
         setGoogleLoading(false);
       }
     });
-    return unsubscribe;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e) => {

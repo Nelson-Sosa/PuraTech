@@ -15,8 +15,8 @@ const FormularioLogin = ({ setLogin }) => {
   const navegacion = useNavigate();
 
   useEffect(() => {
-    setGoogleLoading(true);
-    const unsubscribe = onGoogleRedirectResult(async (userData) => {
+    onGoogleRedirectResult(async (userData) => {
+      setGoogleLoading(true);
       try {
         const res = await axios.post(`${API_URL}/api/auth/google`, userData);
         const datos = res.data;
@@ -35,7 +35,6 @@ const FormularioLogin = ({ setLogin }) => {
         setGoogleLoading(false);
       }
     });
-    return unsubscribe;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const procesaLogin = async (e) => {
