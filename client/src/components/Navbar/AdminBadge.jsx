@@ -8,6 +8,10 @@ const ShieldIcon = ({ className }) => (
   </svg>
 );
 
+const AdminDot = () => (
+  <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-indigo-500 rounded-full ring-2 ring-white" />
+);
+
 const AdminBadge = ({ onLogout }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
@@ -55,41 +59,37 @@ const AdminBadge = ({ onLogout }) => {
       {/* ── Trigger Button ── */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-indigo-50/80 md:bg-white border border-indigo-200/60 md:border-gray-200
-          ${open
-            ? "md:border-indigo-200 md:bg-indigo-50/60 shadow-sm border-indigo-300 bg-indigo-100/70"
-            : "hover:border-indigo-300 hover:bg-indigo-100/60 md:hover:border-indigo-200 md:hover:bg-indigo-50/40 hover:shadow-sm"
-          }
-          transition-all duration-200 ease-out
+        className="
+          flex items-center gap-2
+          md:px-3 md:py-1.5 md:rounded-full md:bg-white md:border md:border-gray-200
+          md:hover:border-gray-300 md:hover:shadow-sm
+          md:transition-all md:duration-200 md:ease-out
+          min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0
+          items-center justify-center md:justify-start
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2
-        `}
+          rounded-full
+        "
         aria-haspopup="true"
         aria-expanded={open}
         aria-label="Menú de administración"
       >
-        {/* Avatar / Shield */}
+        {/* Avatar */}
         <div className="relative flex-shrink-0">
           {photoURL ? (
             <div className="relative">
               <img
                 src={photoURL}
                 alt="Admin"
-                className="w-9 h-9 rounded-lg object-cover md:ring-2 md:ring-white shadow-sm"
+                className="w-10 h-10 rounded-full object-cover ring-1 ring-black/5 shadow-sm"
               />
-              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center md:ring-2 md:ring-white shadow-sm">
-                <ShieldIcon className="w-2.5 h-2.5 text-white" />
-              </div>
+              <AdminDot />
             </div>
           ) : (
             <div className="relative">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center shadow-sm">
-                <ShieldIcon className="w-5 h-5 text-white/90" />
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center ring-1 ring-black/5 shadow-sm">
+                <ShieldIcon className="w-5 h-5 text-gray-500" />
               </div>
-              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center md:ring-2 md:ring-white shadow-sm">
-                <ShieldIcon className="w-2.5 h-2.5 text-white" />
-              </div>
+              <AdminDot />
             </div>
           )}
         </div>
@@ -97,16 +97,15 @@ const AdminBadge = ({ onLogout }) => {
         {/* Admin label */}
         <span className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-indigo-700">
           Admin
-          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-100 text-indigo-600 leading-none">●</span>
         </span>
 
         {/* Chevron */}
         <svg
-          className={`
+          className="
             hidden md:block w-4 h-4 text-indigo-400 flex-shrink-0
             transition-transform duration-200 ease-out
-            ${open ? "rotate-180" : ""}
-          `}
+          "
+          style={{ transform: open ? "rotate(180deg)" : undefined }}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -125,7 +124,7 @@ const AdminBadge = ({ onLogout }) => {
           bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.1),0_8px_20px_rgba(0,0,0,0.06)]
           border border-gray-100
           overflow-hidden
-          transition-all duration-200 ease-out
+          transition-all duration-200 ease-out z-50
           ${open
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -139,19 +138,22 @@ const AdminBadge = ({ onLogout }) => {
           <div className="flex items-center gap-3">
             <div className="relative flex-shrink-0">
               {photoURL ? (
-                <img
-                  src={photoURL}
-                  alt="Admin"
-                  className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-md"
-                />
+                <div className="relative">
+                  <img
+                    src={photoURL}
+                    alt="Admin"
+                    className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-md"
+                  />
+                  <AdminDot />
+                </div>
               ) : (
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center shadow-md ring-2 ring-white">
-                  <ShieldIcon className="w-5 h-5 text-white" />
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center ring-2 ring-white shadow-md">
+                    <ShieldIcon className="w-5 h-5 text-gray-500" />
+                  </div>
+                  <AdminDot />
                 </div>
               )}
-              <div className="absolute -bottom-0.5 -right-0.5 w-[18px] h-[18px] bg-indigo-600 rounded-full flex items-center justify-center ring-2 ring-white shadow-sm">
-                <ShieldIcon className="w-2.5 h-2.5 text-white" />
-              </div>
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-900">Panel de Administración</p>

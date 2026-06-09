@@ -4,7 +4,7 @@ import { useWishlist } from "../../context/WishlistContext";
 import "./UserProfileButton.tailwind.css";
 
 const UserIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
@@ -98,16 +98,16 @@ const UserProfileButton = ({ onLogout }) => {
       {/* ── Trigger Button ── */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-blue-50/80 md:bg-white border border-blue-200/60 md:border-gray-200
-          ${open
-            ? "md:border-blue-200 md:bg-blue-50/60 shadow-sm border-blue-300 bg-blue-100/70"
-            : "hover:border-blue-300 hover:bg-blue-100/60 md:hover:border-gray-300 md:hover:bg-gray-50 hover:shadow-sm"
-          }
-          transition-all duration-200 ease-out
+        className="
+          flex items-center gap-2
+          md:px-3 md:py-1.5 md:rounded-full md:bg-white md:border md:border-gray-200
+          md:hover:border-gray-300 md:hover:shadow-sm
+          md:transition-all md:duration-200 md:ease-out
+          min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0
+          items-center justify-center md:justify-start
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
-        `}
+          rounded-full
+        "
         aria-haspopup="true"
         aria-expanded={open}
         aria-label={`Menú de usuario: ${fullName}`}
@@ -118,11 +118,11 @@ const UserProfileButton = ({ onLogout }) => {
             <img
               src={photoURL}
               alt={fullName}
-              className="w-9 h-9 rounded-lg object-cover md:ring-2 md:ring-white shadow-sm"
+              className="w-10 h-10 rounded-full object-cover ring-1 ring-black/5 shadow-sm"
             />
           ) : (
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-sm">
-              <span className="text-white font-semibold text-sm leading-none select-none">{initial}</span>
+            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center ring-1 ring-black/5 shadow-sm">
+              <UserIcon className="w-5 h-5 text-gray-500" />
             </div>
           )}
         </div>
@@ -134,11 +134,11 @@ const UserProfileButton = ({ onLogout }) => {
 
         {/* Chevron */}
         <svg
-          className={`
+          className="
             hidden md:block w-4 h-4 text-gray-400 flex-shrink-0
             transition-transform duration-200 ease-out
-            ${open ? "rotate-180" : ""}
-          `}
+          "
+          style={{ transform: open ? "rotate(180deg)" : undefined }}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -157,7 +157,7 @@ const UserProfileButton = ({ onLogout }) => {
           bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.1),0_8px_20px_rgba(0,0,0,0.06)]
           border border-gray-100
           overflow-hidden
-          transition-all duration-200 ease-out
+          transition-all duration-200 ease-out z-50
           ${open
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -173,11 +173,11 @@ const UserProfileButton = ({ onLogout }) => {
               <img
                 src={photoURL}
                 alt={fullName}
-                className="w-11 h-11 rounded-xl object-cover ring-2 ring-white shadow-md"
+                className="w-11 h-11 rounded-full object-cover ring-2 ring-white shadow-md"
               />
             ) : (
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-md ring-2 ring-white">
-                <span className="text-white font-bold text-base leading-none select-none">{initial}</span>
+              <div className="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center ring-2 ring-white shadow-md">
+                <span className="text-gray-600 font-semibold text-base leading-none select-none">{initial}</span>
               </div>
             )}
           </div>
@@ -217,7 +217,7 @@ const UserProfileButton = ({ onLogout }) => {
                 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg transition-colors duration-150
                 ${isActive(item.path)
                   ? "bg-blue-100 text-blue-600"
-                  : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+                  : "bg-gray-100 text-gray-500"
                 }
               `}>
                 {item.icon}
