@@ -100,10 +100,10 @@ const UserProfileButton = ({ onLogout }) => {
         onClick={() => setOpen((prev) => !prev)}
         className={`
           flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-gray-50 md:bg-white border border-gray-200
+          bg-gray-100 md:bg-white border border-gray-300 md:border-gray-200
           ${open
-            ? "md:border-blue-200 md:bg-blue-50/60 shadow-sm"
-            : "hover:border-gray-300 hover:bg-gray-100 md:hover:bg-gray-50 hover:shadow-sm"
+            ? "md:border-blue-200 md:bg-blue-50/60 shadow-sm border-blue-300 bg-blue-50/60"
+            : "hover:border-gray-400 hover:bg-gray-200 md:hover:border-gray-300 md:hover:bg-gray-50 hover:shadow-sm"
           }
           transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
@@ -118,10 +118,10 @@ const UserProfileButton = ({ onLogout }) => {
             <img
               src={photoURL}
               alt={fullName}
-              className="w-9 h-9 rounded-lg object-cover ring-2 ring-white shadow-sm"
+              className="w-9 h-9 rounded-lg object-cover md:ring-2 md:ring-white shadow-sm"
             />
           ) : (
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-sm ring-2 ring-white">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-sm">
               <span className="text-white font-semibold text-sm leading-none select-none">{initial}</span>
             </div>
           )}

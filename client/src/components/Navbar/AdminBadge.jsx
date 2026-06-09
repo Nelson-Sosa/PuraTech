@@ -57,10 +57,10 @@ const AdminBadge = ({ onLogout }) => {
         onClick={() => setOpen((prev) => !prev)}
         className={`
           flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-gray-50 md:bg-white border border-gray-200
+          bg-gray-100 md:bg-white border border-gray-300 md:border-gray-200
           ${open
-            ? "md:border-indigo-200 md:bg-indigo-50/60 shadow-sm"
-            : "hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
+            ? "md:border-indigo-200 md:bg-indigo-50/60 shadow-sm border-indigo-300 bg-indigo-50/60"
+            : "hover:border-gray-400 hover:bg-gray-200 md:hover:border-indigo-200 md:hover:bg-indigo-50/40 hover:shadow-sm"
           }
           transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2
@@ -76,18 +76,18 @@ const AdminBadge = ({ onLogout }) => {
               <img
                 src={photoURL}
                 alt="Admin"
-                className="w-9 h-9 rounded-lg object-cover ring-2 ring-white shadow-sm"
+                className="w-9 h-9 rounded-lg object-cover md:ring-2 md:ring-white shadow-sm"
               />
-              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center ring-2 ring-white">
+              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center md:ring-2 md:ring-white shadow-sm">
                 <ShieldIcon className="w-2.5 h-2.5 text-white" />
               </div>
             </div>
           ) : (
             <div className="relative">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center shadow-sm ring-2 ring-white">
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center shadow-sm">
                 <ShieldIcon className="w-5 h-5 text-white/90" />
               </div>
-              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center ring-2 ring-white">
+              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center md:ring-2 md:ring-white shadow-sm">
                 <ShieldIcon className="w-2.5 h-2.5 text-white" />
               </div>
             </div>
