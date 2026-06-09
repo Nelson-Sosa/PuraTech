@@ -46,7 +46,7 @@ module.exports.login =(req, res) =>{
                 if(error){
                     return res.status(400).json({mensaje: "Algo fallo al generar el token"})
                 }
-                return  res.status(200).json({token});
+                return  res.status(200).json({ token, usuario: infoEnToken });
             });
 
         })
@@ -61,6 +61,8 @@ module.exports.googleAuth = async (req, res) => {
   try {
     const { uid, nombre, apellido, email, photoURL, idToken } = req.body;
 
+    console.log("[googleAuth] Body recibido:", { uid, nombre, apellido, email, photoURL, idToken: idToken ? "✅ SÍ" : "❌ NO" });
+
     if (!email) {
       return res.status(400).json({ mensaje: "Correo electrónico requerido" });
     }
@@ -71,19 +73,32 @@ module.exports.googleAuth = async (req, res) => {
 
     // Verificar el Firebase ID token contra la REST API de Firebase
     const verifyUrl = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${FIREBASE_API_KEY}`;
-    const verifyRes = await axios.post(verifyUrl, { idToken });
-
-    if (!verifyRes.data?.users?.length) {
-      return res.status(401).json({ mensaje: "Token de Firebase inválido" });
+    console.log("[googleAuth] Verificando idToken con Firebase Identity Toolkit...");
+    
+    let firebaseUser;
+    try {
+      const verifyRes = await axios.post(verifyUrl, { idToken });
+      if (!verifyRes.data?.users?.length) {
+        console.log("[googleAuth] ❌ Firebase no retornó usuarios para el idToken");
+        return res.status(401).json({ mensaje: "Token de Firebase inválido" });
+      }
+      firebaseUser = verifyRes.data.users[0];
+      console.log("[googleAuth] ✅ Firebase verificó usuario:", firebaseUser.email);
+    } catch (firebaseErr) {
+      console.error("[googleAuth] ❌ Error verificando con Firebase:", firebaseErr.response?.data || firebaseErr.message);
+      return res.status(401).json({ 
+        mensaje: "Token de Firebase inválido o expirado",
+        detalle: firebaseErr.response?.data?.error?.message || firebaseErr.message
+      });
     }
 
-    const firebaseUser = verifyRes.data.users[0];
-
     if (firebaseUser.email !== email || firebaseUser.localId !== uid) {
+      console.log("[googleAuth] ❌ Datos del token no coinciden con los del body");
       return res.status(401).json({ mensaje: "Datos del token no coinciden" });
     }
 
     let usuarioExistente = await Usuario.findOne({ correo: email });
+    console.log("[googleAuth] Usuario en BD:", usuarioExistente ? "✅ Encontrado" : "⚠️ No existe, se creará");
 
     if (usuarioExistente) {
       const infoEnToken = {
@@ -95,8 +110,10 @@ module.exports.googleAuth = async (req, res) => {
 
       return jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
         if (error) {
+          console.error("[googleAuth] ❌ Error generando JWT:", error);
           return res.status(400).json({ mensaje: "Error al generar token" });
         }
+        console.log("[googleAuth] ✅ JWT generado para usuario existente:", email, "rol:", infoEnToken.rol);
         return res.status(200).json({ token, usuario: { ...infoEnToken, photoURL } });
       });
     }
@@ -109,6 +126,8 @@ module.exports.googleAuth = async (req, res) => {
       rol: "usuario"
     });
 
+    console.log("[googleAuth] ✅ Nuevo usuario creado:", newUser.correo);
+
     const infoEnToken = {
       nombre: newUser.nombre,
       apellido: newUser.apellido,
@@ -118,17 +137,19 @@ module.exports.googleAuth = async (req, res) => {
 
     jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
       if (error) {
+        console.error("[googleAuth] ❌ Error generando JWT para nuevo usuario:", error);
         return res.status(400).json({ mensaje: "Error al generar token" });
       }
+      console.log("[googleAuth] ✅ JWT generado para nuevo usuario:", email, "rol:", infoEnToken.rol);
       return res.status(201).json({ token, usuario: { ...infoEnToken, photoURL } });
     });
 
   } catch (err) {
-    console.error("Error en Google Auth:", err.message);
+    console.error("[googleAuth] ❌ Error no controlado:", err.message);
     if (err.response?.status === 400) {
       return res.status(401).json({ mensaje: "Token de Firebase inválido o expirado" });
     }
-    return res.status(500).json({ mensaje: "Error al autenticar con Google" });
+    return res.status(500).json({ mensaje: "Error al autenticar con Google", detalle: err.message });
   }
 };
 

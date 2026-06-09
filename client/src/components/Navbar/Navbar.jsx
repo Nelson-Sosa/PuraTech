@@ -256,13 +256,13 @@ const Navbar = () => {
         return;
       }
 
-      // Check localStorage first for immediate display
-      if (storedRole === 'admin') {
-        setUserRole('admin');
-        setIsAdmin(true);
+      // Set role from localStorage immediately for instant UI feedback
+      if (storedRole) {
+        setUserRole(storedRole);
+        setIsAdmin(storedRole === 'admin');
       }
 
-      // Then validate with server
+      // Then validate with server (non-blocking)
       try {
         const res = await axios.get(`${API_URL}/api/verify-token`, {
           headers: { token_usuario: token }
@@ -274,14 +274,17 @@ const Navbar = () => {
           localStorage.setItem('rol', serverRole);
         }
       } catch (err) {
-        // If server validation fails but localStorage says admin, keep admin
-        if (storedRole !== 'admin') {
+        // Only clear session if server explicitly says token is invalid (401)
+        // DO NOT clear on network errors or other issues — preserves Google login sessions
+        if (err.response?.status === 401) {
           localStorage.removeItem('token');
           localStorage.removeItem('rol');
           localStorage.removeItem('user');
+          localStorage.removeItem('photoURL');
           setUserRole(null);
           setIsAdmin(false);
         }
+        // On network errors, keep the stored role so user stays logged in
       }
     };
 

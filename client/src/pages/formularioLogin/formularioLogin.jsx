@@ -18,19 +18,26 @@ const FormularioLogin = ({ setLogin }) => {
     onGoogleRedirectResult(async (userData) => {
       setGoogleLoading(true);
       try {
+        console.log("[GoogleRedirect] Enviando idToken al backend...");
         const res = await axios.post(`${API_URL}/api/auth/google`, userData);
         const datos = res.data;
+        console.log("[GoogleRedirect] Respuesta del backend:", datos);
+        if (!datos.token) throw new Error("El backend no retornó un token");
         localStorage.setItem("token", datos.token);
         const decodificar = jwtDecode(datos.token);
         localStorage.setItem("rol", decodificar.rol);
+        if (datos.usuario) {
+          localStorage.setItem("user", JSON.stringify(datos.usuario));
+        }
         if (userData.photoURL) {
           localStorage.setItem("photoURL", userData.photoURL);
         }
+        console.log("[GoogleRedirect] ✅ Token guardado, redirigiendo a /");
         setLogin(true);
         window.location.href = "/";
       } catch (err) {
-        console.error("Google auth error:", err);
-        setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
+        console.error("[GoogleRedirect] ❌ Error:", err);
+        setError(err.response?.data?.mensaje || err.message || "Error al autenticar con Google.");
       } finally {
         setGoogleLoading(false);
       }
@@ -47,6 +54,9 @@ const FormularioLogin = ({ setLogin }) => {
       localStorage.setItem("token", datos.token);
       const decodificar = jwtDecode(datos.token);
       localStorage.setItem("rol", decodificar.rol);
+      if (datos.usuario) {
+        localStorage.setItem("user", JSON.stringify(datos.usuario));
+      }
       setLogin(true);
       window.location.href = "/";
     } catch (err) {
@@ -65,20 +75,44 @@ const FormularioLogin = ({ setLogin }) => {
     setError("");
     setGoogleLoading(true);
     try {
+      // PASO 1: Firebase signInWithPopup
+      console.log("[GoogleLogin] PASO 1: Iniciando signInWithPopup...");
       const userData = await signInWithGoogle();
-      if (!userData) return;
+      if (!userData) {
+        console.warn("[GoogleLogin] signInWithGoogle retornó null (popup bloqueado o redirect iniciado)");
+        return;
+      }
+      console.log("[GoogleLogin] PASO 2: Firebase OK. uid:", userData.uid, "email:", userData.email);
+      console.log("[GoogleLogin] PASO 3: idToken obtenido:", userData.idToken ? "✅ SÍ" : "❌ NO");
+
+      // PASO 4: Enviar al backend
+      console.log("[GoogleLogin] PASO 4: Enviando al backend /api/auth/google...");
       const res = await axios.post(`${API_URL}/api/auth/google`, userData);
       const datos = res.data;
+      console.log("[GoogleLogin] PASO 5: Respuesta del backend:", datos);
+
+      if (!datos.token) {
+        throw new Error("El backend no retornó un token JWT");
+      }
+
+      // PASO 6: Guardar en localStorage
       localStorage.setItem("token", datos.token);
       const decodificar = jwtDecode(datos.token);
       localStorage.setItem("rol", decodificar.rol);
+      if (datos.usuario) {
+        localStorage.setItem("user", JSON.stringify(datos.usuario));
+      }
       if (userData.photoURL) {
         localStorage.setItem("photoURL", userData.photoURL);
       }
+      console.log("[GoogleLogin] PASO 6: ✅ localStorage guardado. Token:", !!localStorage.getItem("token"), "Rol:", localStorage.getItem("rol"));
+
+      // PASO 7: Redirigir
       setLogin(true);
+      console.log("[GoogleLogin] PASO 7: Redirigiendo a /");
       window.location.href = "/";
     } catch (err) {
-      console.error("Google login error:", err);
+      console.error("[GoogleLogin] ❌ Error completo:", err);
       if (err.code === "auth/popup-closed-by-user") {
         setError("Ventana cerrada. Intenta de nuevo.");
       } else if (err.code === "auth/cancelled-popup-request") {
@@ -88,7 +122,7 @@ const FormularioLogin = ({ setLogin }) => {
       } else if (err.code?.startsWith("auth/") || err.message?.includes("Firebase")) {
         setError("Servicio de Google no disponible en este momento.");
       } else {
-        setError(err.response?.data?.mensaje || "Error al autenticar con Google.");
+        setError(err.response?.data?.mensaje || err.message || "Error al autenticar con Google.");
       }
     } finally {
       setGoogleLoading(false);
