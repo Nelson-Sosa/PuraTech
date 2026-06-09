@@ -5,6 +5,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import axios from "axios";
 import { API_URL } from '../../config';
 import UserProfileButton from './UserProfileButton';
+import AdminBadge from './AdminBadge';
 import './Navbar.css';
 
 // ── Category icons map ──────────────────────────────────────
@@ -419,28 +420,7 @@ const Navbar = () => {
           </Link>
 
           {isAdmin ? (
-            <div className="admin-dropdown" onClick={toggleMobileMenu}>
-              {localStorage.getItem("photoURL") ? (
-                <img src={localStorage.getItem("photoURL")} alt="Admin" className="user-avatar" />
-              ) : (
-                <span className="admin-badge">ADMIN</span>
-              )}
-              {salesMeta && salesMeta.achieved && (
-                <span className="meta-notification" title={`Meta: ${salesMeta.percentage.toFixed(1)}%`}>
-                  🎯 Meta 50% alcanzada!
-                </span>
-              )}
-              <div className="user-dropdown-menu">
-                <Link to="/agregar/product"> Agregar Producto</Link>
-                <Link to="/add/suppliers">Agregar Proveedor</Link>
-                <Link to="/add/category">Agregar Categoría</Link>
-                <Link to="/categories">Ver Categorías</Link>
-                <Link to="/orders" className="udp-admin-link">📋 Ver Pedidos</Link>
-                <Link to="/clients" className="udp-admin-link">👥 Ver Clientes</Link>
-                <Link to="/inventory" className="udp-admin-link">📦 Inventario</Link>
-                <button onClick={handleLogout} className="udp-admin-logout">Cerrar Sesión</button>
-              </div>
-            </div>
+            <AdminBadge onLogout={handleLogout} />
           ) : userRole ? (
             <UserProfileButton onLogout={handleLogout} />
           ) : (
@@ -493,49 +473,27 @@ const Navbar = () => {
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-handle"></div>
-            {(isAdmin || !userRole) && (
-              <h3 className="mobile-menu-title">
-                {isAdmin ? 'Panel de Administración' : 'Mi Cuenta'}
-              </h3>
-            )}
+            <h3 className="mobile-menu-title">Mi Cuenta</h3>
             
-            {isAdmin ? (
-              <div className="mobile-menu-links">
-                <Link to="/agregar/product" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">➕</span> Agregar Producto
-                </Link>
-                <Link to="/add/suppliers" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">🏢</span> Agregar Proveedor
-                </Link>
-                <Link to="/add/category" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">📂</span> Agregar Categoría
-                </Link>
-                <Link to="/categories" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">📋</span> Ver Categorías
-                </Link>
-                <Link to="/orders" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">📦</span> Ver Pedidos
-                </Link>
-                <Link to="/clients" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">👥</span> Ver Clientes
-                </Link>
-                <Link to="/inventory" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">📊</span> Inventario
-                </Link>
-                <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
-                  <span className="menu-icon">🚪</span> Cerrar Sesión
-                </button>
-              </div>
-            ) : (
-              <div className="mobile-menu-links">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mobile-login-btn">
-                  <span className="menu-icon">🔑</span> Iniciar Sesión
-                </Link>
-                <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="mobile-register-btn">
-                  <span className="menu-icon">📝</span> Crear Cuenta
-                </Link>
-              </div>
-            )}
+            <div className="mobile-menu-links">
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mobile-login-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                  <polyline points="10 17 15 12 10 7" />
+                  <line x1="15" y1="12" x2="3" y2="12" />
+                </svg>
+                Iniciar Sesión
+              </Link>
+              <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="mobile-register-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="8.5" cy="7" r="4" />
+                  <line x1="20" y1="8" x2="20" y2="14" />
+                  <line x1="23" y1="11" x2="17" y2="11" />
+                </svg>
+                Crear Cuenta
+              </Link>
+            </div>
           </div>
         </div>
       )}
