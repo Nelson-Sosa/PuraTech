@@ -1,18 +1,19 @@
 import { signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { auth, googleProvider } from "../firebase/config";
 
-const extractUserData = (user) => ({
+const extractUserData = async (user) => ({
   uid: user.uid,
   nombre: user.displayName?.split(" ")[0] || "Usuario",
   apellido: user.displayName?.split(" ").slice(1).join(" ") || "",
   email: user.email,
-  photoURL: user.photoURL || ""
+  photoURL: user.photoURL || "",
+  idToken: await user.getIdToken()
 });
 
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    return extractUserData(result.user);
+    return await extractUserData(result.user);
   } catch (error) {
     if (error.code === "auth/popup-blocked") {
       sessionStorage.setItem("google_oauth_pending", "true");
@@ -30,9 +31,9 @@ export const onGoogleRedirectResult = (callback) => {
   sessionStorage.removeItem("google_oauth_pending");
 
   getRedirectResult(auth)
-    .then((result) => {
+    .then(async (result) => {
       if (result) {
-        callback(extractUserData(result.user));
+        callback(await extractUserData(result.user));
       }
     })
     .catch((error) => {

@@ -4,8 +4,10 @@ const bcrypt = require("bcryptjs");
 const HASH_SALT = 10;
 const saltGenerado = bcrypt.genSaltSync(HASH_SALT);
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 const SECRETO = "secreto";
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "AIzaSyAOvpVqNx_Top_fQtCG_GMc1wFtFdtBYZM";
 
 module.exports.todosLosUsuarios = (req, res) => {       
     console.log(req.infoUsuario);
@@ -57,10 +59,28 @@ module.exports.login =(req, res) =>{
 
 module.exports.googleAuth = async (req, res) => {
   try {
-    const { uid, nombre, apellido, email, photoURL } = req.body;
+    const { uid, nombre, apellido, email, photoURL, idToken } = req.body;
 
     if (!email) {
       return res.status(400).json({ mensaje: "Correo electrónico requerido" });
+    }
+
+    if (!idToken) {
+      return res.status(400).json({ mensaje: "Token de Firebase requerido" });
+    }
+
+    // Verificar el Firebase ID token contra la REST API de Firebase
+    const verifyUrl = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${FIREBASE_API_KEY}`;
+    const verifyRes = await axios.post(verifyUrl, { idToken });
+
+    if (!verifyRes.data?.users?.length) {
+      return res.status(401).json({ mensaje: "Token de Firebase inválido" });
+    }
+
+    const firebaseUser = verifyRes.data.users[0];
+
+    if (firebaseUser.email !== email || firebaseUser.localId !== uid) {
+      return res.status(401).json({ mensaje: "Datos del token no coinciden" });
     }
 
     let usuarioExistente = await Usuario.findOne({ correo: email });
@@ -105,6 +125,9 @@ module.exports.googleAuth = async (req, res) => {
 
   } catch (err) {
     console.error("Error en Google Auth:", err.message);
+    if (err.response?.status === 400) {
+      return res.status(401).json({ mensaje: "Token de Firebase inválido o expirado" });
+    }
     return res.status(500).json({ mensaje: "Error al autenticar con Google" });
   }
 };
