@@ -29,6 +29,9 @@ const FormRegistro = () => {
         const jwtDecode = (await import("jwt-decode")).default;
         const decodificar = jwtDecode(datos.token);
         localStorage.setItem("rol", decodificar.rol);
+        if (datos.usuario) {
+          localStorage.setItem("user", JSON.stringify(datos.usuario));
+        }
         if (userData.photoURL) {
           localStorage.setItem("photoURL", userData.photoURL);
         }
@@ -84,6 +87,9 @@ const FormRegistro = () => {
       const jwtDecode = (await import("jwt-decode")).default;
       const decodificar = jwtDecode(datos.token);
       localStorage.setItem("rol", decodificar.rol);
+      if (datos.usuario) {
+        localStorage.setItem("user", JSON.stringify(datos.usuario));
+      }
       if (userData.photoURL) {
         localStorage.setItem("photoURL", userData.photoURL);
       }

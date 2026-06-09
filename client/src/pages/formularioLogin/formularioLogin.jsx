@@ -54,9 +54,8 @@ const FormularioLogin = ({ setLogin }) => {
       localStorage.setItem("token", datos.token);
       const decodificar = jwtDecode(datos.token);
       localStorage.setItem("rol", decodificar.rol);
-      if (datos.usuario) {
-        localStorage.setItem("user", JSON.stringify(datos.usuario));
-      }
+      const userData = datos.usuario || decodificar;
+      localStorage.setItem("user", JSON.stringify(userData));
       setLogin(true);
       window.location.href = "/";
     } catch (err) {
