@@ -1,5 +1,5 @@
 import '../pages/formularioLogin/formularioLogin';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
@@ -25,14 +25,35 @@ import Navbar from '../components/Navbar/Navbar';
 import DebugAuth from '../pages/CustomNavigate/DebugAuth';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import AuthModal from '../components/AuthModal/AuthModal';
+import AdminLayout from '../components/AdminSidebar/AdminLayout';
+
+const AdminRoute = ({ component: Component }) => (
+  <PrivateRoute
+    component={() => (
+      <AdminLayout>
+        <Component />
+      </AdminLayout>
+    )}
+  />
+);
+
+const adminPaths = [
+  "/agregar/product", "/actualizar/product", "/add/suppliers",
+  "/edit/supplier", "/add/category", "/categories",
+  "/orders", "/clients", "/inventory",
+];
+
+const isAdminPath = (pathname) =>
+  adminPaths.some((p) => pathname.startsWith(p));
 
 const AppContent = () => {
   const { authModalOpen, setAuthModalOpen } = useWishlist();
   const [login, setLogin] = useState(false);
+  const location = useLocation();
 
   return (
     <div>
-      <Navbar />
+      {!isAdminPath(location.pathname) && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
@@ -50,15 +71,15 @@ const AppContent = () => {
         <Route path="/suppliers" element={<PrivateRoute component={Suppliers} />} />
         
         {/* Rutas protegidas para admin */}
-        <Route path="/agregar/product" element={<PrivateRoute component={FormProduct} />} />
-        <Route path="/actualizar/product/:id" element={<PrivateRoute component={UpdateProduct} />} />
-        <Route path="/add/suppliers" element={<PrivateRoute component={SupplierForm} />} />
-        <Route path="/edit/supplier/:id" element={<UpdateSupplier />} />
-        <Route path="/add/category" element={<PrivateRoute component={CategoryForm} />} />
-        <Route path="/categories" element={<PrivateRoute component={Categories} />} />
-        <Route path="/orders" element={<PrivateRoute component={Orders} />} />
-        <Route path="/clients" element={<PrivateRoute component={Clients} />} />
-        <Route path="/inventory" element={<PrivateRoute component={Inventory} />} />
+        <Route path="/agregar/product" element={<AdminRoute component={FormProduct} />} />
+        <Route path="/actualizar/product/:id" element={<AdminRoute component={UpdateProduct} />} />
+        <Route path="/add/suppliers" element={<AdminRoute component={SupplierForm} />} />
+        <Route path="/edit/supplier/:id" element={<AdminRoute component={UpdateSupplier} />} />
+        <Route path="/add/category" element={<AdminRoute component={CategoryForm} />} />
+        <Route path="/categories" element={<AdminRoute component={Categories} />} />
+        <Route path="/orders" element={<AdminRoute component={Orders} />} />
+        <Route path="/clients" element={<AdminRoute component={Clients} />} />
+        <Route path="/inventory" element={<AdminRoute component={Inventory} />} />
       </Routes>
       
       {/* BOTÓN FLOTANTE DE WHATSAPP */}
