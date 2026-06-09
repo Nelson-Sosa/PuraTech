@@ -652,6 +652,13 @@
 /* ══════════════════════════════════════════════════════════════
    REDUCED MOTION PREFERENCE
    ══════════════════════════════════════════════════════════════ */
+/* ── Mobile: extra bottom padding to clear WhatsApp float ── */
+@media (max-width: 768px) {
+  .wishlist-page {
+    padding-bottom: 100px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
