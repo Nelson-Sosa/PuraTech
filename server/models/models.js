@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     edad:{
         type: Number,
-        require: [true, 'Age']
+        require: false
     },
     correo:{
         type: String,

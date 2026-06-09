@@ -21,6 +21,7 @@ import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
 import { WishlistProvider } from '../context/WishlistContext';
 import Navbar from '../components/Navbar/Navbar';
+import DebugAuth from '../pages/CustomNavigate/DebugAuth';
 
 const App = () => {
   const [login, setLogin] = useState(false);
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<FormularioLogin setLogin={setLogin} />} />
         <Route path="/register" element={<FormRegistro />} />
+        <Route path="/debug-auth" element={<DebugAuth />} />
         <Route path="/cart" element={<Cart />} />
         
         {/* Rutas públicas */}

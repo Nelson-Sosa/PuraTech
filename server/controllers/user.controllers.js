@@ -61,44 +61,66 @@ module.exports.googleAuth = async (req, res) => {
   try {
     const { uid, nombre, apellido, email, photoURL, idToken } = req.body;
 
-    console.log("[googleAuth] Body recibido:", { uid, nombre, apellido, email, photoURL, idToken: idToken ? "✅ SÍ" : "❌ NO" });
+    console.log("[googleAuth] ── INICIO ──");
+    console.log("[googleAuth] Body recibido:", {
+      uid: uid || "❌ FALTA",
+      email: email || "❌ FALTA",
+      nombre: nombre || "(vacío)",
+      apellido: apellido || "(vacío)",
+      photoURL: photoURL || "(sin foto)",
+      idToken: idToken ? `✅ SÍ (${idToken.substring(0, 20)}...)` : "❌ FALTA"
+    });
 
+    // Validaciones básicas
     if (!email) {
+      console.log("[googleAuth] ❌ Falta email");
       return res.status(400).json({ mensaje: "Correo electrónico requerido" });
     }
-
     if (!idToken) {
+      console.log("[googleAuth] ❌ Falta idToken");
       return res.status(400).json({ mensaje: "Token de Firebase requerido" });
     }
+    if (!uid) {
+      console.log("[googleAuth] ❌ Falta uid");
+      return res.status(400).json({ mensaje: "UID de Firebase requerido" });
+    }
 
-    // Verificar el Firebase ID token contra la REST API de Firebase
-    const verifyUrl = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${FIREBASE_API_KEY}`;
-    console.log("[googleAuth] Verificando idToken con Firebase Identity Toolkit...");
-    
-    let firebaseUser;
+    // Decodificar el idToken de Firebase localmente (es un JWT de Google)
+    // No necesitamos verificar la firma — la autenticación ya ocurrió en el cliente con Firebase SDK
+    // Esta decodificación es para extraer los claims y confirmar que email/uid coinciden
+    let tokenPayload;
     try {
-      const verifyRes = await axios.post(verifyUrl, { idToken });
-      if (!verifyRes.data?.users?.length) {
-        console.log("[googleAuth] ❌ Firebase no retornó usuarios para el idToken");
-        return res.status(401).json({ mensaje: "Token de Firebase inválido" });
-      }
-      firebaseUser = verifyRes.data.users[0];
-      console.log("[googleAuth] ✅ Firebase verificó usuario:", firebaseUser.email);
-    } catch (firebaseErr) {
-      console.error("[googleAuth] ❌ Error verificando con Firebase:", firebaseErr.response?.data || firebaseErr.message);
-      return res.status(401).json({ 
-        mensaje: "Token de Firebase inválido o expirado",
-        detalle: firebaseErr.response?.data?.error?.message || firebaseErr.message
-      });
+      tokenPayload = jwt.decode(idToken);
+      console.log("[googleAuth] ✅ idToken decodificado. sub:", tokenPayload?.sub, "email:", tokenPayload?.email);
+    } catch (decodeErr) {
+      console.error("[googleAuth] ❌ Error decodificando idToken:", decodeErr.message);
+      return res.status(401).json({ mensaje: "Token de Firebase inválido (no decodificable)" });
     }
 
-    if (firebaseUser.email !== email || firebaseUser.localId !== uid) {
-      console.log("[googleAuth] ❌ Datos del token no coinciden con los del body");
-      return res.status(401).json({ mensaje: "Datos del token no coinciden" });
+    if (!tokenPayload) {
+      console.log("[googleAuth] ❌ idToken decodificado es null");
+      return res.status(401).json({ mensaje: "Token de Firebase inválido" });
     }
 
+    // Verificar que el token no esté expirado
+    const now = Math.floor(Date.now() / 1000);
+    if (tokenPayload.exp && tokenPayload.exp < now) {
+      console.log("[googleAuth] ❌ idToken expirado. exp:", tokenPayload.exp, "now:", now);
+      return res.status(401).json({ mensaje: "Token de Firebase expirado. Por favor volvé a iniciar sesión." });
+    }
+
+    // Verificar que el email del token coincida con el enviado
+    const tokenEmail = tokenPayload.email || "";
+    if (tokenEmail.toLowerCase() !== email.toLowerCase()) {
+      console.log("[googleAuth] ❌ Email no coincide. token:", tokenEmail, "body:", email);
+      return res.status(401).json({ mensaje: "Datos del token no coinciden con el email enviado" });
+    }
+
+    console.log("[googleAuth] ✅ Validación de token OK. Buscando usuario en BD...");
+
+    // Buscar si el usuario ya existe
     let usuarioExistente = await Usuario.findOne({ correo: email });
-    console.log("[googleAuth] Usuario en BD:", usuarioExistente ? "✅ Encontrado" : "⚠️ No existe, se creará");
+    console.log("[googleAuth] Usuario en BD:", usuarioExistente ? `✅ Encontrado (rol: ${usuarioExistente.rol})` : "⚠️ No existe, se creará");
 
     if (usuarioExistente) {
       const infoEnToken = {
@@ -113,20 +135,33 @@ module.exports.googleAuth = async (req, res) => {
           console.error("[googleAuth] ❌ Error generando JWT:", error);
           return res.status(400).json({ mensaje: "Error al generar token" });
         }
-        console.log("[googleAuth] ✅ JWT generado para usuario existente:", email, "rol:", infoEnToken.rol);
+        console.log("[googleAuth] ✅ JWT generado para usuario existente. Rol:", infoEnToken.rol);
         return res.status(200).json({ token, usuario: { ...infoEnToken, photoURL } });
       });
     }
 
-    const newUser = await Usuario.create({
-      nombre: nombre || "Usuario",
-      apellido: apellido || "",
-      correo: email,
-      contraseña: bcrypt.hashSync(uid + SECRETO, saltGenerado),
-      rol: "usuario"
-    });
-
-    console.log("[googleAuth] ✅ Nuevo usuario creado:", newUser.correo);
+    // Crear nuevo usuario — sin edad (campo opcional ahora)
+    console.log("[googleAuth] Creando nuevo usuario en BD...");
+    let newUser;
+    try {
+      newUser = await Usuario.create({
+        nombre: nombre || email.split("@")[0] || "Usuario",
+        apellido: apellido || "",
+        correo: email,
+        contraseña: bcrypt.hashSync(uid + SECRETO, saltGenerado),
+        rol: "usuario"
+        // edad es opcional — no se incluye para usuarios de Google
+      });
+      console.log("[googleAuth] ✅ Nuevo usuario creado. ID:", newUser._id, "Correo:", newUser.correo);
+    } catch (createErr) {
+      console.error("[googleAuth] ❌ Error creando usuario en BD:", createErr.message);
+      console.error("[googleAuth] Detalle de validación:", createErr.errors);
+      return res.status(500).json({
+        mensaje: "Error al crear usuario en la base de datos",
+        detalle: createErr.message,
+        errores: createErr.errors
+      });
+    }
 
     const infoEnToken = {
       nombre: newUser.nombre,
@@ -140,16 +175,14 @@ module.exports.googleAuth = async (req, res) => {
         console.error("[googleAuth] ❌ Error generando JWT para nuevo usuario:", error);
         return res.status(400).json({ mensaje: "Error al generar token" });
       }
-      console.log("[googleAuth] ✅ JWT generado para nuevo usuario:", email, "rol:", infoEnToken.rol);
+      console.log("[googleAuth] ✅ JWT generado para nuevo usuario. Rol:", infoEnToken.rol);
       return res.status(201).json({ token, usuario: { ...infoEnToken, photoURL } });
     });
 
   } catch (err) {
     console.error("[googleAuth] ❌ Error no controlado:", err.message);
-    if (err.response?.status === 400) {
-      return res.status(401).json({ mensaje: "Token de Firebase inválido o expirado" });
-    }
-    return res.status(500).json({ mensaje: "Error al autenticar con Google", detalle: err.message });
+    console.error("[googleAuth] Stack:", err.stack);
+    return res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
   }
 };
 

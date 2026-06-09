@@ -12,9 +12,34 @@ const extractUserData = async (user) => ({
 
 export const signInWithGoogle = async () => {
   try {
+    console.log("[firebaseAuth] Llamando signInWithPopup...");
     const result = await signInWithPopup(auth, googleProvider);
-    return await extractUserData(result.user);
+    console.log("[firebaseAuth] signInWithPopup OK. result.user:", {
+      uid: result.user?.uid,
+      email: result.user?.email,
+      displayName: result.user?.displayName,
+      photoURL: result.user?.photoURL
+    });
+
+    console.log("[firebaseAuth] Obteniendo idToken...");
+    const idToken = await result.user.getIdToken();
+    console.log("[firebaseAuth] idToken obtenido:", idToken ? `✅ (${idToken.substring(0, 30)}...)` : "❌ NULL");
+
+    const userData = {
+      uid: result.user.uid,
+      nombre: result.user.displayName?.split(" ")[0] || "Usuario",
+      apellido: result.user.displayName?.split(" ").slice(1).join(" ") || "",
+      email: result.user.email,
+      photoURL: result.user.photoURL || "",
+      idToken
+    };
+    console.log("[firebaseAuth] userData a enviar al backend:", {
+      ...userData,
+      idToken: userData.idToken ? `✅ (${userData.idToken.substring(0, 20)}...)` : "❌"
+    });
+    return userData;
   } catch (error) {
+    console.error("[firebaseAuth] ❌ Error en signInWithPopup:", error.code, error.message);
     if (error.code === "auth/popup-blocked") {
       sessionStorage.setItem("google_oauth_pending", "true");
       await signInWithRedirect(auth, googleProvider);
