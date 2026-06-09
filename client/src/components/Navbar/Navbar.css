@@ -1030,8 +1030,8 @@
   }
 }
 
-/* ── Mobile Category Bar - Compact Horizontal Scroll ── */
-@media (max-width: 768px) {
+/* ── Category Bar — Tablet/Mobile: Smooth Horizontal Scroll ── */
+@media (max-width: 900px) {
   .cat-navbar {
     display: block;
     overflow-x: auto;
@@ -1041,6 +1041,8 @@
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
     padding: 0;
+    scroll-behavior: smooth;
+    -webkit-scroll-behavior: smooth;
   }
 
   .cat-navbar::-webkit-scrollbar {
@@ -1051,21 +1053,23 @@
     padding: 0 12px;
     gap: 6px;
     height: 48px;
-    min-width: max-content;
+    display: flex;
     align-items: center;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 12px;
   }
 
-  /* Compact pill-style items */
   .cat-nav-item {
     flex-shrink: 0;
+    scroll-snap-align: start;
   }
 
   .cat-nav-link {
-    padding: 6px 12px;
-    font-size: 0.72rem;
+    padding: 6px 14px;
+    font-size: 0.75rem;
     font-weight: 500;
     gap: 5px;
-    color: #475569;
+    color: #334155;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 20px;
@@ -1081,12 +1085,11 @@
   }
 
   .cat-nav-icon {
-    font-size: 0.85rem;
-    line-height: 1;
+    display: none;
   }
 
   .cat-nav-label {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 500;
   }
 
@@ -1094,7 +1097,7 @@
     display: none;
   }
 
-  /* Deshabilitar dropdowns de escritorio en móvil para evitar conflictos */
+  /* Deshabilitar dropdowns de escritorio en móvil/tablet */
   .cat-dropdown, .cat-sub-dropdown {
     display: none !important;
   }
@@ -1128,7 +1131,7 @@
 
   .cat-nav-link {
     padding: 5px 10px;
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     border-radius: 16px;
   }
 
@@ -1137,7 +1140,7 @@
   }
 
   .cat-nav-label {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
   }
 }
 
@@ -1462,113 +1465,66 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   MOBILE CATEGORY PANEL — Bottom Sheet + Full 3-Level Accordion
-══════════════════════════════════════════════════════════════ */
+   MOBILE CATEGORY PANEL — Drawer Lateral
+   ══════════════════════════════════════════════════════════════ */
 
 /* Overlay / backdrop */
 .mob-cat-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   z-index: 10010;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.25s ease;
 }
 
-/* Sheet */
-.mob-cat-sheet {
+/* Drawer — left side, full height */
+.mob-cat-drawer {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
-  right: 0;
+  bottom: 0;
+  width: min(88vw, 360px);
   background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  max-height: 82vh;
   display: flex;
   flex-direction: column;
   z-index: 10011;
-  animation: slideUpMobile 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.18);
+  animation: drawerSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 4px 0 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Drag handle */
-.mob-cat-handle {
-  width: 44px;
-  height: 5px;
-  background: #e2e8f0;
-  border-radius: 3px;
-  margin: 14px auto 0;
-  flex-shrink: 0;
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
-/* Header row */
-.mob-cat-header {
+/* Drawer header */
+.mob-cat-drawer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px 12px;
+  padding: 18px 16px 14px;
   border-bottom: 1px solid #f1f5f9;
   flex-shrink: 0;
+  min-height: 60px;
 }
 
-.mob-cat-title {
+.mob-cat-drawer-header .mob-cat-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.mob-cat-close-btn {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: #f1f5f9;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  flex-shrink: 0;
-}
-
-.mob-cat-close-btn svg {
-  width: 18px;
-  height: 18px;
-  color: #475569;
-}
-
-.mob-cat-close-btn:hover {
-  background: #e0e7ff;
-}
-
-.mob-cat-close-btn:hover svg {
-  color: #1e3a8a;
-}
-
-/* Scrollable list */
-.mob-cat-list {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 12px 16px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  text-align: center;
   flex: 1;
 }
 
-/* Header row with Back Button support */
-.mob-cat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px 12px;
-  border-bottom: 1px solid #f1f5f9;
-  flex-shrink: 0;
-}
-
-.mob-cat-back-btn {
+.mob-cat-drawer-header .mob-cat-back-btn {
   width: 36px;
   height: 36px;
   border: none;
@@ -1584,27 +1540,16 @@
   margin-left: -8px;
 }
 
-.mob-cat-back-btn svg {
+.mob-cat-drawer-header .mob-cat-back-btn svg {
   width: 22px;
   height: 22px;
 }
 
-.mob-cat-back-btn:active {
+.mob-cat-drawer-header .mob-cat-back-btn:active {
   background: #eff6ff;
 }
 
-.mob-cat-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-  letter-spacing: -0.01em;
-  text-align: center;
-  flex: 1;
-}
-
-.mob-cat-close-btn {
+.mob-cat-drawer-header .mob-cat-close-btn {
   width: 36px;
   height: 36px;
   border: none;
@@ -1619,25 +1564,21 @@
   margin-right: -8px;
 }
 
-.mob-cat-close-btn svg {
+.mob-cat-drawer-header .mob-cat-close-btn svg {
   width: 18px;
   height: 18px;
   color: #475569;
 }
 
-.mob-cat-close-btn:active {
+.mob-cat-drawer-header .mob-cat-close-btn:active {
   background: #e0e7ff;
 }
 
-.mob-cat-close-btn:active svg {
-  color: #1e3a8a;
-}
-
-/* Scrollable list */
-.mob-cat-list {
+/* Drawer scrollable body */
+.mob-cat-drawer-body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 16px 120px;
+  padding: 8px 12px 32px;
   display: flex;
   flex-direction: column;
   flex: 1;

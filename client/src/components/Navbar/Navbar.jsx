@@ -34,7 +34,7 @@ const ICONS = {
   )
 };
 
-// ── Full Mobile Categories Panel (Drill-down Bottom Sheet) ──
+// ── Full Mobile Categories Panel (Drill-down Drawer Lateral) ──
 const MobileCategoryMenu = ({ categories, onClose }) => {
   const [viewStack, setViewStack] = useState([{ title: 'Todas las Categorías', items: categories, parent: null }]);
   
@@ -54,10 +54,8 @@ const MobileCategoryMenu = ({ categories, onClose }) => {
 
   return (
     <div className="mob-cat-overlay" onClick={onClose}>
-      <div className="mob-cat-sheet drill-down-sheet" onClick={e => e.stopPropagation()}>
-        <div className="mob-cat-handle" />
-        
-        <div className="mob-cat-header">
+      <div className="mob-cat-drawer" onClick={e => e.stopPropagation()}>
+        <div className="mob-cat-drawer-header">
           {viewStack.length > 1 ? (
             <button className="mob-cat-back-btn" onClick={handleBack} aria-label="Volver">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -70,7 +68,7 @@ const MobileCategoryMenu = ({ categories, onClose }) => {
           
           <h3 className="mob-cat-title">{currentView.title}</h3>
           
-          <button className="mob-cat-close-btn" onClick={onClose} aria-label="Cerrar">
+          <button className="mob-cat-close-btn" onClick={onClose} aria-label="Cerrar menú de categorías">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -78,8 +76,7 @@ const MobileCategoryMenu = ({ categories, onClose }) => {
           </button>
         </div>
 
-        <div className="mob-cat-list drill-down-list">
-          {/* Opción para ver todo en la categoría actual si estamos en un subnivel */}
+        <div className="mob-cat-drawer-body">
           {viewStack.length > 1 && currentView.parent && (
             <Link 
               to={`/category/${encodeURIComponent(currentView.parent.slug || currentView.parent.name)}`}
