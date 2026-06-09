@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import axios from "axios";
 import { API_URL } from '../../config';
-import UserDropdown from './UserDropdown';
+import UserProfileButton from './UserProfileButton';
 import './Navbar.css';
 
 // ── Category icons map ──────────────────────────────────────
@@ -442,16 +442,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : userRole ? (
-            <div className="user-dropdown">
-              {localStorage.getItem("photoURL") ? (
-                <img src={localStorage.getItem("photoURL")} alt="User" className="user-avatar" />
-              ) : (
-                <span className="user-badge">{userRole}</span>
-              )}
-              <div className="user-dropdown-menu">
-                <UserDropdown variant="dropdown" wishlistCount={wishlistCount} onLogout={handleLogout} />
-              </div>
-            </div>
+            <UserProfileButton onLogout={handleLogout} />
           ) : (
             <div className="auth-actions-wrapper" onClick={toggleMobileMenu}>
               <div className="user-icon-circle">
@@ -534,10 +525,6 @@ const Navbar = () => {
                 <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
                   <span className="menu-icon">🚪</span> Cerrar Sesión
                 </button>
-              </div>
-            ) : userRole ? (
-              <div className="mobile-menu-user-sheet">
-                <UserDropdown variant="sheet" onItemClick={() => setMobileMenuOpen(false)} wishlistCount={wishlistCount} onLogout={handleLogout} />
               </div>
             ) : (
               <div className="mobile-menu-links">
