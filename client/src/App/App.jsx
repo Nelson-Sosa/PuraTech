@@ -19,16 +19,18 @@ import Clients from '../pages/Clients/Clients';
 import Inventory from '../pages/Inventory/Inventory';
 import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
-import { WishlistProvider } from '../context/WishlistContext';
+import { WishlistProvider, useWishlist } from '../context/WishlistContext';
+import { ToastProvider } from '../components/Toast/ToastContext';
 import Navbar from '../components/Navbar/Navbar';
 import DebugAuth from '../pages/CustomNavigate/DebugAuth';
+import Wishlist from '../pages/Wishlist/Wishlist';
+import AuthModal from '../components/AuthModal/AuthModal';
 
-const App = () => {
+const AppContent = () => {
+  const { authModalOpen, setAuthModalOpen } = useWishlist();
   const [login, setLogin] = useState(false);
-  
+
   return (
-    <CartProvider>
-    <WishlistProvider>
     <div>
       <Navbar />
       <Routes>
@@ -37,6 +39,7 @@ const App = () => {
         <Route path="/register" element={<FormRegistro />} />
         <Route path="/debug-auth" element={<DebugAuth />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         
         {/* Rutas públicas */}
         <Route path="/products" element={<Products />} />
@@ -71,9 +74,21 @@ const App = () => {
           alt="WhatsApp"
         />
       </a>
+
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
-    </WishlistProvider>
-    </CartProvider>
+  );
+};
+
+const App = () => {
+  return (
+    <ToastProvider>
+      <CartProvider>
+        <WishlistProvider>
+          <AppContent />
+        </WishlistProvider>
+      </CartProvider>
+    </ToastProvider>
   );
 };
 

@@ -5,6 +5,7 @@ const ProductController = require('../controllers/product.controller');
 const SuppliersController = require('../controllers/suppliers.controller');
 const OrderController = require('../controllers/order.controller');
 const InventoryController = require('../controllers/inventory.controller');
+const WishlistController = require('../controllers/wishlistController');
 const validarToken = require('../middlewares/validarToken');
 const verificarRol = require('../middlewares/verificarRol');
 const express = require('express');
@@ -171,6 +172,12 @@ module.exports = (app) => {
     app.put('/api/inventory/:id', validarToken, verificarRol('admin'), InventoryController.updateStock);
     app.get('/api/inventory/low-stock', validarToken, verificarRol('admin'), InventoryController.getLowStockProducts);
     app.post('/api/inventory/bulk-adjust', validarToken, verificarRol('admin'), InventoryController.bulkStockAdjustment);
+
+    // ===== WISHLIST / FAVORITOS (requiere autenticación) =====
+    app.post('/api/wishlist', validarToken, WishlistController.addToWishlist);
+    app.get('/api/wishlist', validarToken, WishlistController.getWishlist);
+    app.delete('/api/wishlist/:productId', validarToken, WishlistController.removeFromWishlist);
+    app.get('/api/wishlist/check/:productId', validarToken, WishlistController.checkWishlist);
 };
 
 // Updated: 05/05/2026 21:10:26

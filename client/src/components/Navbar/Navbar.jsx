@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import axios from "axios";
 import { API_URL } from '../../config';
 import './Navbar.css';
@@ -228,6 +229,7 @@ const Navbar = () => {
   const [mobileCatOpen, setMobileCatOpen] = useState(false);
   const toggleMobileMenu = () => { if (window.innerWidth <= 768) setMobileMenuOpen(prev => !prev); };
   const { getCount } = useCart();
+  const { count: wishlistCount } = useWishlist();
 
   // Fetch categories from API
   useEffect(() => {
@@ -396,6 +398,16 @@ const Navbar = () => {
             </div>
           )}
 
+          <Link to="/wishlist" className="cart-link wishlist-link">
+            <div className="cart-icon-wrapper">
+              <svg className="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+              {wishlistCount > 0 && <span className="cart-badge">{wishlistCount}</span>}
+            </div>
+            <span className="cart-text">Favoritos</span>
+          </Link>
+
           <Link to="/cart" className="cart-link">
             <div className="cart-icon-wrapper">
               <svg className="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -439,7 +451,10 @@ const Navbar = () => {
                 <span className="user-badge">{userRole}</span>
               )}
               <div className="dropdown-content">
-                <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
+                <Link to="/wishlist" className="dropdown-item-wishlist">
+                  <span className="wishlist-heart">❤️</span> Lista de Deseos {wishlistCount > 0 && <span className="dropdown-count">({wishlistCount})</span>}
+                </Link>
+                <button onClick={handleLogout} className="logout-btn">🚪 Cerrar Sesión</button>
               </div>
             </div>
           ) : (
@@ -525,6 +540,9 @@ const Navbar = () => {
               </div>
             ) : userRole ? (
               <div className="mobile-menu-links">
+                <Link to="/wishlist" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="menu-icon">❤️</span> Lista de Deseos {wishlistCount > 0 && `(${wishlistCount})`}
+                </Link>
                 <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
                   <span className="menu-icon">🚪</span> Cerrar Sesión
                 </button>
