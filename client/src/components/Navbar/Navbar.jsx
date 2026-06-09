@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import axios from "axios";
 import { API_URL } from '../../config';
+import UserDropdown from './UserDropdown';
 import './Navbar.css';
 
 // ── Category icons map ──────────────────────────────────────
@@ -144,7 +145,7 @@ const SubItem = ({ child }) => {
       >
         <span className="cat-dd-icon">{ICONS[child.nivel] || ICONS.default}</span>
         <span>{child.name}</span>
-        {hasSubChildren && <span className="cat-dd-arrow">›</span>}
+        {hasSubChildren && <span className="cat-dd-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="12" height="12"><polyline points="9 18 15 12 9 6" /></svg></span>}
       </Link>
 
       {hasSubChildren && subOpen && (
@@ -429,29 +430,26 @@ const Navbar = () => {
                   🎯 Meta 50% alcanzada!
                 </span>
               )}
-              <div className="dropdown-content">
+              <div className="user-dropdown-menu">
                 <Link to="/agregar/product"> Agregar Producto</Link>
                 <Link to="/add/suppliers">Agregar Proveedor</Link>
                 <Link to="/add/category">Agregar Categoría</Link>
                 <Link to="/categories">Ver Categorías</Link>
-                <Link to="/orders">📋 Ver Pedidos</Link>
-                <Link to="/clients">👥 Ver Clientes</Link>
-                <Link to="/inventory">📦 Inventario</Link>
-                <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
+                <Link to="/orders" className="udp-admin-link">📋 Ver Pedidos</Link>
+                <Link to="/clients" className="udp-admin-link">👥 Ver Clientes</Link>
+                <Link to="/inventory" className="udp-admin-link">📦 Inventario</Link>
+                <button onClick={handleLogout} className="udp-admin-logout">Cerrar Sesión</button>
               </div>
             </div>
           ) : userRole ? (
-            <div className="user-dropdown" onClick={toggleMobileMenu}>
+            <div className="user-dropdown">
               {localStorage.getItem("photoURL") ? (
                 <img src={localStorage.getItem("photoURL")} alt="User" className="user-avatar" />
               ) : (
                 <span className="user-badge">{userRole}</span>
               )}
-              <div className="dropdown-content">
-                <Link to="/wishlist" className="dropdown-item-wishlist">
-                  <span className="wishlist-heart">❤️</span> Lista de Deseos {wishlistCount > 0 && <span className="dropdown-count">({wishlistCount})</span>}
-                </Link>
-                <button onClick={handleLogout} className="logout-btn">🚪 Cerrar Sesión</button>
+              <div className="user-dropdown-menu">
+                <UserDropdown variant="dropdown" wishlistCount={wishlistCount} onLogout={handleLogout} />
               </div>
             </div>
           ) : (
@@ -504,9 +502,11 @@ const Navbar = () => {
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-handle"></div>
-            <h3 className="mobile-menu-title">
-              {isAdmin ? 'Panel de Administración' : userRole ? 'Mi Cuenta' : 'Mi Cuenta'}
-            </h3>
+            {(isAdmin || !userRole) && (
+              <h3 className="mobile-menu-title">
+                {isAdmin ? 'Panel de Administración' : 'Mi Cuenta'}
+              </h3>
+            )}
             
             {isAdmin ? (
               <div className="mobile-menu-links">
@@ -536,13 +536,8 @@ const Navbar = () => {
                 </button>
               </div>
             ) : userRole ? (
-              <div className="mobile-menu-links">
-                <Link to="/wishlist" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="menu-icon">❤️</span> Lista de Deseos {wishlistCount > 0 && `(${wishlistCount})`}
-                </Link>
-                <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="mobile-logout">
-                  <span className="menu-icon">🚪</span> Cerrar Sesión
-                </button>
+              <div className="mobile-menu-user-sheet">
+                <UserDropdown variant="sheet" onItemClick={() => setMobileMenuOpen(false)} wishlistCount={wishlistCount} onLogout={handleLogout} />
               </div>
             ) : (
               <div className="mobile-menu-links">

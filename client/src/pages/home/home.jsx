@@ -527,14 +527,14 @@ const Home = () => {
           onClick={() => goToSlide((currentSlide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Slide anterior"
         >
-          ‹
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28"><polyline points="15 18 9 12 15 6" /></svg>
         </button>
         <button
           className="hero-arrow hero-arrow--next"
           onClick={() => nextSlide()}
           aria-label="Siguiente slide"
         >
-          ›
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28"><polyline points="9 18 15 12 9 6" /></svg>
         </button>
       </section>
 

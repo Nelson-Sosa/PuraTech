@@ -182,8 +182,16 @@ const ProductDetail = () => {
             {/* Arrow navigation — appear on hover (CSS handles opacity) */}
             {images.length > 1 && (
               <>
-                <button className="gallery-btn prev-btn" onClick={prevImage} aria-label="Imagen anterior">‹</button>
-                <button className="gallery-btn next-btn" onClick={nextImage} aria-label="Imagen siguiente">›</button>
+                <button className="gallery-btn prev-btn" onClick={prevImage} aria-label="Imagen anterior">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+                    <polyline points="15 18 9 12 15 6" />
+                  </svg>
+                </button>
+                <button className="gallery-btn next-btn" onClick={nextImage} aria-label="Imagen siguiente">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
               </>
             )}
 
