@@ -100,10 +100,10 @@ const UserProfileButton = ({ onLogout }) => {
         onClick={() => setOpen((prev) => !prev)}
         className={`
           flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-white border
+          bg-gray-50 md:bg-white border border-gray-200
           ${open
-            ? "border-blue-200 bg-blue-50/60 shadow-sm"
-            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-sm"
+            ? "md:border-blue-200 md:bg-blue-50/60 shadow-sm"
+            : "hover:border-gray-300 hover:bg-gray-100 md:hover:bg-gray-50 hover:shadow-sm"
           }
           transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2

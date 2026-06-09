@@ -57,10 +57,10 @@ const AdminBadge = ({ onLogout }) => {
         onClick={() => setOpen((prev) => !prev)}
         className={`
           flex items-center gap-2 px-3 py-1.5 rounded-full
-          bg-white border
+          bg-gray-50 md:bg-white border border-gray-200
           ${open
-            ? "border-indigo-200 bg-indigo-50/60 shadow-sm"
-            : "border-gray-200 hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
+            ? "md:border-indigo-200 md:bg-indigo-50/60 shadow-sm"
+            : "hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
           }
           transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2
