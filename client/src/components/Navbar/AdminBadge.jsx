@@ -34,14 +34,20 @@ const AdminBadge = ({ onLogout }) => {
 
   const isActive = (path) => location.pathname === path;
 
+  const Svg = ({ children }) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]">
+      {children}
+    </svg>
+  );
+
   const items = [
-    { label: "Agregar Producto", path: "/agregar/product", icon: "M12 5v14m-7-7h14" },
-    { label: "Agregar Proveedor", path: "/add/suppliers", icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" },
-    { label: "Agregar Categoría", path: "/add/category", icon: "M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" },
-    { label: "Ver Categorías", path: "/categories", icon: "M4 6h16M4 10h16M4 14h16M4 18h16" },
-    { label: "Ver Pedidos", path: "/orders", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
-    { label: "Ver Clientes", path: "/clients", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" },
-    { label: "Inventario", path: "/inventory", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" },
+    { label: "Agregar Producto", path: "/agregar/product", icon: <Svg><path d="M12 5v14M5 12h14" /></Svg> },
+    { label: "Agregar Proveedor", path: "/add/suppliers", icon: <Svg><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></Svg> },
+    { label: "Agregar Categoría", path: "/add/category", icon: <Svg><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" /></Svg> },
+    { label: "Ver Categorías", path: "/categories", icon: <Svg><path d="M4 6h16M4 10h16M4 14h16M4 18h16" /></Svg> },
+    { label: "Ver Pedidos", path: "/orders", icon: <Svg><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></Svg> },
+    { label: "Ver Clientes", path: "/clients", icon: <Svg><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /></Svg> },
+    { label: "Inventario", path: "/inventory", icon: <Svg><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></Svg> },
   ];
 
   return (
@@ -180,9 +186,7 @@ const AdminBadge = ({ onLogout }) => {
                   : "bg-gray-100 text-gray-500"
                 }
               `}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]">
-                  <path d={item.icon} />
-                </svg>
+                {item.icon}
               </span>
               <span className="flex-1">{item.label}</span>
             </Link>
