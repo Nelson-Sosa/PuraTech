@@ -4,36 +4,48 @@ const Order = require('../models/order.model');
 module.exports.createOrder = async (req, res) => {
   try {
     const { 
+      userId,
       customerName, 
       customerPhone, 
       customerEmail, 
       deliveryAddress,
+      shippingAddress,
       products,
       subtotal,
       shippingCost,
-      total,
-      notes,
-      whatsappMessage
-    } = req.body;
-
-    const newOrder = new Order({
-      customerName,
-      customerPhone,
-      customerEmail,
-      deliveryAddress,
-      products,
-      subtotal,
-      shippingCost,
+      discount,
       total,
       notes,
       whatsappMessage,
-      paymentMethod: 'whatsapp',
+      paymentMethod
+    } = req.body;
+
+    const enrichedProducts = products.map(p => ({
+      ...p,
+      subtotal: p.subtotal || (p.precio * p.quantity)
+    }));
+
+    const newOrder = new Order({
+      userId: userId || '',
+      customerName,
+      customerPhone,
+      customerEmail: customerEmail || '',
+      deliveryAddress: deliveryAddress || '',
+      shippingAddress: shippingAddress || {},
+      products: enrichedProducts,
+      subtotal: subtotal || 0,
+      shippingCost: shippingCost || 0,
+      discount: discount || 0,
+      total: total || 0,
+      notes: notes || '',
+      whatsappMessage: whatsappMessage || '',
+      paymentMethod: paymentMethod || 'whatsapp',
       status: 'pending'
     });
 
     const savedOrder = await newOrder.save();
     
-    console.log("✅ [createOrder] Pedido creado:", savedOrder._id);
+    console.log("✅ [createOrder] Pedido creado:", savedOrder._id, "N°:", savedOrder.orderNumber);
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error("🔴 [createOrder] Error:", error);
@@ -194,5 +206,37 @@ module.exports.getOrdersByStatus = async (req, res) => {
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener pedidos por estado' });
+  }
+};
+
+// Obtener pedidos del usuario autenticado
+module.exports.getMyOrders = async (req, res) => {
+  try {
+    const userEmail = req.infoUsuario.correo;
+    const orders = await Order.find({
+      customerEmail: userEmail
+    }).sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    console.error("🔴 [getMyOrders] Error:", error);
+    res.status(500).json({ error: 'Error al obtener tus pedidos' });
+  }
+};
+
+// Obtener un pedido específico del usuario autenticado
+module.exports.getMyOrderById = async (req, res) => {
+  try {
+    const userEmail = req.infoUsuario.correo;
+    const order = await Order.findOne({
+      _id: req.params.id,
+      customerEmail: userEmail
+    });
+    if (!order) {
+      return res.status(404).json({ error: 'Pedido no encontrado' });
+    }
+    res.json(order);
+  } catch (error) {
+    console.error("🔴 [getMyOrderById] Error:", error);
+    res.status(500).json({ error: 'Error al obtener el pedido' });
   }
 };

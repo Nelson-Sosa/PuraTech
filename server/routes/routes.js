@@ -167,6 +167,10 @@ module.exports = (app) => {
     // Obtener pedidos por estado (admin)
     app.get('/api/orders/status/:status', validarToken, verificarRol('admin'), OrderController.getOrdersByStatus);
 
+    // ===== MIS PEDIDOS (usuario autenticado) =====
+    app.get('/api/my-orders', validarToken, OrderController.getMyOrders);
+    app.get('/api/my-orders/:id', validarToken, OrderController.getMyOrderById);
+
     // ===== INVENTARIO (solo admin) =====
     app.get('/api/inventory', validarToken, verificarRol('admin'), InventoryController.getInventory);
     app.put('/api/inventory/:id', validarToken, verificarRol('admin'), InventoryController.updateStock);

@@ -24,7 +24,7 @@ const Cart = () => {
       const orderData = {
         customerName: customerInfo.name || 'Cliente',
         customerPhone: customerInfo.phone || 'No especificado',
-        customerEmail: '',
+        customerEmail: (() => { try { return JSON.parse(localStorage.getItem('user') || '{}').correo || ''; } catch { return ''; } })(),
         deliveryAddress: customerInfo.address || '',
         products: cart.map(item => ({
           productId: item._id,
