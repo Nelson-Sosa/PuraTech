@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from '../../context/CartContext';
 import { useState } from 'react';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import './Cart.css';
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, getTotal, getCount } = useCart();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,8 +48,15 @@ const Cart = () => {
       const savedOrder = orderResponse.data;
       console.log("✅ [handleWhatsApp] Pedido guardado - Estado: Pendiente (stock no se descuenta aún)");
 
+      const orderNumber = savedOrder.orderNumber;
+      console.log("✅ [handleWhatsApp] Pedido guardado - N°:", orderNumber);
+
       // NOTA: El stock se reducirá SOLO cuando el admin confirme el pedido
       // Esto evita problemas si el cliente cancela o no paga
+
+      // Limpiar carrito INMEDIATAMENTE después de confirmar el pedido
+      clearCart();
+      console.log("✅ [handleWhatsApp] Carrito limpiado exitosamente");
 
       // Generar mensaje de WhatsApp
       const message = generateWhatsAppMessage(cart, customerInfo, savedOrder._id);
@@ -79,9 +87,9 @@ const Cart = () => {
         return;
       }
       
-      // Limpiar carrito
-      clearCart();
-      console.log("✅ [handleWhatsApp] Carrito limpiado - WhatsApp message updated!");
+      // Redirigir a la página de confirmación
+      navigate(`/order-confirmation/${orderNumber}`);
+      console.log("✅ [handleWhatsApp] Redirigiendo a confirmación - Pedido N°:", orderNumber);
       
     } catch (error) {
       console.error("🔴 [handleWhatsApp] Error:", error);
