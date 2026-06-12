@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         require: false
     },
+    telefono:{
+        type: String,
+        require: false
+    },
     correo:{
         type: String,
         require: [true, 'Email is required'], 
@@ -30,7 +34,7 @@ const userSchema = new mongoose.Schema({
         default: 'usuario' // Por defecto, el rol será "usuario"
     }
 
-})
+}, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 

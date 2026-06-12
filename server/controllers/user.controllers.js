@@ -244,3 +244,75 @@ module.exports.removerUsuario = (req, res) =>{
             return res.status(500).json({mensaje: "Error al eliminar usuario", error})  
         })
 }
+
+module.exports.actualizarPerfil = async (req, res) => {
+  try {
+    const { nombre, apellido, telefono } = req.body;
+    const correoUsuario = req.infoUsuario.correo;
+
+    const usuario = await Usuario.findOne({ correo: correoUsuario });
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    if (nombre) usuario.nombre = nombre;
+    if (apellido) usuario.apellido = apellido;
+    if (telefono !== undefined) usuario.telefono = telefono;
+
+    await usuario.save();
+
+    const infoEnToken = {
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      correo: usuario.correo,
+      rol: usuario.rol
+    };
+
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+      if (error) {
+        return res.status(400).json({ mensaje: "Error al generar nuevo token" });
+      }
+      return res.status(200).json({ 
+        mensaje: "Perfil actualizado correctamente", 
+        token, 
+        usuario: { ...infoEnToken, telefono: usuario.telefono, createdAt: usuario.createdAt }
+      });
+    });
+
+  } catch (err) {
+    console.error("Error al actualizar perfil:", err);
+    res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
+  }
+};
+
+module.exports.cambiarPassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const correoUsuario = req.infoUsuario.correo;
+
+    const usuario = await Usuario.findOne({ correo: correoUsuario });
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    if (!usuario.contraseña) {
+      return res.status(400).json({ mensaje: "El usuario fue registrado con Google y no tiene contraseña local." });
+    }
+
+    if (!bcrypt.compareSync(currentPassword, usuario.contraseña)) {
+      return res.status(400).json({ mensaje: "La contraseña actual es incorrecta." });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ mensaje: "La nueva contraseña debe tener al menos 6 caracteres." });
+    }
+
+    usuario.contraseña = bcrypt.hashSync(newPassword, saltGenerado);
+    await usuario.save();
+
+    res.status(200).json({ mensaje: "Contraseña actualizada correctamente" });
+  } catch (err) {
+    console.error("Error al cambiar contraseña:", err);
+    res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
+  }
+};

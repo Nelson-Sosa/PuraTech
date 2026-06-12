@@ -35,6 +35,8 @@ module.exports = (app) => {
         user: req.infoUsuario 
       });
     });
+    app.put("/api/usuarios/perfil", validarToken, UserController.actualizarPerfil);
+    app.put("/api/usuarios/password", validarToken, UserController.cambiarPassword);
 
     // ===== PRODUCTOS (públicos y admin) =====
     app.get('/api/product/:id', ProductController.getProduct); // Pública
