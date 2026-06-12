@@ -1066,14 +1066,18 @@
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+    width: 100%;
+    min-width: 0;
   }
 
   .status-filters {
+    display: flex;
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 6px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    width: 100%;
   }
 
   .status-filters::-webkit-scrollbar {
@@ -1246,15 +1250,19 @@
     align-items: stretch;
     gap: 10px;
     margin-bottom: 16px;
+    width: 100%;
+    min-width: 0;
   }
 
   .status-filters {
+    display: flex;
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 4px;
     gap: 6px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    width: 100%;
   }
 
   .status-filters::-webkit-scrollbar {
