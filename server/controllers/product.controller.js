@@ -117,6 +117,7 @@ module.exports.getPublicHome = async (req, res) => {
       isOffer: true,
       $or: [
         { fechaFinOferta: null },
+        { fechaFinOferta: { $exists: false } },
         { fechaFinOferta: { $gte: now } }
       ]
     }).limit(4);
