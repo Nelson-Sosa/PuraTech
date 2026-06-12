@@ -32,6 +32,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['usuario', 'admin'], // Solo dos roles permitidos
         default: 'usuario' // Por defecto, el rol será "usuario"
+    },
+    preferencias: {
+        idioma: { type: String, default: 'es' },
+        moneda: { type: String, default: 'PYG' },
+        tema: { type: String, default: 'system' }
+    },
+    notificaciones: {
+        promociones: { type: Boolean, default: true },
+        pedidos: { type: Boolean, default: true },
+        novedades: { type: Boolean, default: true }
     }
 
 }, { timestamps: true });

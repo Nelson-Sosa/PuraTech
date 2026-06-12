@@ -315,4 +315,77 @@ module.exports.cambiarPassword = async (req, res) => {
     console.error("Error al cambiar contraseña:", err);
     res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
   }
-};
+};
+
+module.exports.obtenerConfiguracion = async (req, res) => {
+  try {
+    const correoUsuario = req.infoUsuario.correo;
+    const usuario = await Usuario.findOne({ correo: correoUsuario });
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    res.status(200).json({
+      preferencias: usuario.preferencias || { idioma: 'es', moneda: 'PYG', tema: 'system' },
+      notificaciones: usuario.notificaciones || { promociones: true, pedidos: true, novedades: true }
+    });
+  } catch (err) {
+    console.error("Error al obtener configuracion:", err);
+    res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
+  }
+};
+
+module.exports.actualizarConfiguracion = async (req, res) => {
+  try {
+    const { preferencias, notificaciones } = req.body;
+    const correoUsuario = req.infoUsuario.correo;
+
+    const usuario = await Usuario.findOne({ correo: correoUsuario });
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    if (preferencias) usuario.preferencias = { ...usuario.preferencias, ...preferencias };
+    if (notificaciones) usuario.notificaciones = { ...usuario.notificaciones, ...notificaciones };
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Configuración actualizada correctamente",
+      preferencias: usuario.preferencias,
+      notificaciones: usuario.notificaciones
+    });
+  } catch (err) {
+    console.error("Error al actualizar configuracion:", err);
+    res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
+  }
+};
+
+module.exports.eliminarMiCuenta = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const correoUsuario = req.infoUsuario.correo;
+
+    const usuario = await Usuario.findOne({ correo: correoUsuario });
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    // Si tiene contraseña (usuario local), requerimos verificarla
+    if (usuario.contraseña) {
+      if (!password) {
+        return res.status(400).json({ mensaje: "Se requiere la contraseña para eliminar la cuenta" });
+      }
+      if (!bcrypt.compareSync(password, usuario.contraseña)) {
+        return res.status(400).json({ mensaje: "La contraseña es incorrecta." });
+      }
+    }
+
+    await Usuario.deleteOne({ correo: correoUsuario });
+    res.status(200).json({ mensaje: "Cuenta eliminada correctamente" });
+  } catch (err) {
+    console.error("Error al eliminar cuenta:", err);
+    res.status(500).json({ mensaje: "Error interno del servidor", detalle: err.message });
+  }
+};
+

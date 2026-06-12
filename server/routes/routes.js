@@ -37,6 +37,9 @@ module.exports = (app) => {
     });
     app.put("/api/usuarios/perfil", validarToken, UserController.actualizarPerfil);
     app.put("/api/usuarios/password", validarToken, UserController.cambiarPassword);
+    app.get("/api/usuarios/configuracion", validarToken, UserController.obtenerConfiguracion);
+    app.put("/api/usuarios/configuracion", validarToken, UserController.actualizarConfiguracion);
+    app.delete("/api/usuarios/cuenta", validarToken, UserController.eliminarMiCuenta);
 
     // ===== PRODUCTOS (públicos y admin) =====
     app.get('/api/product/:id', ProductController.getProduct); // Pública

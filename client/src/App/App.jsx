@@ -26,6 +26,7 @@ import DebugAuth from '../pages/CustomNavigate/DebugAuth';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import MisPedidos from '../pages/MisPedidos/MisPedidos';
 import MiPerfil from '../pages/MiPerfil/MiPerfil';
+import Configuracion from '../pages/Configuracion/Configuracion';
 import OrderConfirmation from '../pages/OrderConfirmation/OrderConfirmation';
 import AuthModal from '../components/AuthModal/AuthModal';
 import AdminLayout from '../components/AdminSidebar/AdminLayout';
@@ -66,6 +67,7 @@ const AppContent = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mis-pedidos" element={<PrivateRoute component={MisPedidos} />} />
         <Route path="/mi-cuenta/perfil" element={<PrivateRoute component={MiPerfil} />} />
+        <Route path="/mi-cuenta/configuracion" element={<PrivateRoute component={Configuracion} />} />
         <Route path="/order-confirmation/:orderNumber" element={<OrderConfirmation />} />
         
         {/* Rutas públicas */}

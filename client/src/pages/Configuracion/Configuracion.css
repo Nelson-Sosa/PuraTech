@@ -1,0 +1,409 @@
+/* =============================================
+   CONFIGURACIÓN — PuraTech
+   Diseño premium, responsive, tarjetas independientes
+   ============================================= */
+
+   .configuracion-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #111827;
+  }
+  
+  /* ── Page Header ── */
+  .config-page-header {
+    margin-bottom: 24px;
+  }
+  
+  .config-page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  
+  .config-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  /* ── Layout grid for desktop ── */
+  .config-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  /* ── Cards ── */
+  .config-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+  }
+  
+  .config-card-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .config-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .config-card-desc {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  /* ── Sections ── */
+  .config-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .config-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .config-item.border-top {
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+  }
+  
+  .config-item-info {
+    flex: 1;
+  }
+  
+  .config-item-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: #374151;
+  }
+  
+  .config-item-desc {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  /* ── Toggles / Switches ── */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: .3s;
+    border-radius: 24px;
+  }
+  
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .toggle-switch input:checked + .toggle-slider {
+    background-color: #2563eb;
+  }
+  
+  .toggle-switch input:focus + .toggle-slider {
+    box-shadow: 0 0 1px #2563eb;
+  }
+  
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+  }
+  
+  .toggle-switch input:disabled + .toggle-slider {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* ── Selects ── */
+  .config-select {
+    padding: 10px 36px 10px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    background-color: white;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    min-width: 160px;
+  }
+  
+  .config-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  
+  /* ── Badges ── */
+  .auth-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #374151;
+  }
+  
+  .auth-badge.google {
+    background: #fff1f2;
+    color: #e11d48;
+  }
+  
+  .auth-badge.local {
+    background: #eff6ff;
+    color: #2563eb;
+  }
+  
+  /* ── Buttons ── */
+  .btn-outline {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    background: white;
+    color: #374151;
+    border: 1.5px solid #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-outline:hover:not(:disabled) {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+  
+  .btn-destructive-outline {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    background: white;
+    color: #dc2626;
+    border: 1.5px solid #fca5a5;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-destructive-outline:hover:not(:disabled) {
+    background: #fef2f2;
+    border-color: #ef4444;
+  }
+  
+  .btn-destructive {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #dc2626;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-destructive:hover:not(:disabled) {
+    background: #b91c1c;
+  }
+
+  .btn-destructive:disabled, .btn-outline:disabled, .btn-destructive-outline:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* ── Alert Messages ── */
+  .config-alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeInDown 0.3s ease-out;
+  }
+  
+  .config-alert.success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+  }
+  
+  .config-alert.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* ── Modals ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .modal-container {
+    background: white;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalScale 0.25s ease-out;
+  }
+  
+  @keyframes modalScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: #111827;
+  }
+  
+  .modal-text {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+  
+  .modal-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  
+  .modal-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  
+  /* ── Responsive ── */
+  
+  /* Tablet */
+  @media (max-width: 768px) {
+    .configuracion-page {
+      padding: 24px 16px 48px;
+    }
+  
+    .config-card {
+      padding: 24px;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 640px) {
+    .configuracion-page {
+      padding: 16px 12px 80px;
+    }
+  
+    .config-card {
+      padding: 20px 16px;
+      border-radius: 16px;
+    }
+  
+    .config-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  
+    .config-item-action {
+      width: 100%;
+    }
+  
+    .config-item-action button,
+    .config-item-action select {
+      width: 100%;
+    }
+  
+    .modal-container {
+      padding: 24px 16px;
+    }
+    
+    .modal-actions {
+      flex-direction: column;
+    }
+  
+    .modal-actions button {
+      width: 100%;
+    }
+  }
