@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
 import './ProductDetail.css';
+import { isOfferActive } from '../../utils/offerUtils';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -201,7 +202,7 @@ const ProductDetail = () => {
             )}
 
             {/* Badges */}
-            {product.porcentajeDescuento && <span className="offer-badge-detail">-{product.porcentajeDescuento}%</span>}
+            {isOfferActive(product) && product.porcentajeDescuento && <span className="offer-badge-detail">-{product.porcentajeDescuento}%</span>}
             {product.isNew  && <span className="badge-detail new">NUEVO</span>}
           </div>
 
@@ -237,13 +238,13 @@ const ProductDetail = () => {
 
           {/* Price + Stock + Urgency */}
           <div className="price-section">
-            {product.isOffer && product.precioAnterior ? (
+            {isOfferActive(product) && product.precioAnterior ? (
               <div className="price-detail-container">
                 <div className="price-detail-row">
                   <span className="old-price-detail">
                     {Number(product.precioAnterior).toLocaleString("es-PY")} Gs.
                   </span>
-                  {product.porcentajeDescuento ? (
+                  {isOfferActive(product) && product.porcentajeDescuento ? (
                     <span className="discount-badge-detail">-{product.porcentajeDescuento}%</span>
                   ) : null}
                 </div>

@@ -9,6 +9,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import QuickViewModal from '../../components/QuickViewModal/QuickViewModal';
 import { FiEye, FiShoppingBag } from 'react-icons/fi';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { isOfferActive } from '../../utils/offerUtils';
 
 export const Products = () => {
     const { category } = useParams();
@@ -269,7 +270,7 @@ export const Products = () => {
                                                 />
                                             )}
                                             <span className="category-badge">{producto.category}</span>
-                                            {producto.porcentajeDescuento ? <span className="offer-badge">-{producto.porcentajeDescuento}%</span> : null}
+                                            {isOfferActive(producto) && producto.porcentajeDescuento ? <span className="offer-badge">-{producto.porcentajeDescuento}%</span> : null}
                                             {producto.isNew && (
                                                 <span className="new-badge">Nuevo</span>
                                             )}
@@ -283,7 +284,7 @@ export const Products = () => {
                                                         <span className="old-price">
                                                             {Number(producto.precioAnterior).toLocaleString("es-PY")} Gs.
                                                         </span>
-                                                        {producto.porcentajeDescuento ? (
+                                                        {isOfferActive(producto) && producto.porcentajeDescuento ? (
                                                             <span className="discount-badge">-{producto.porcentajeDescuento}%</span>
                                                         ) : null}
                                                     </div>

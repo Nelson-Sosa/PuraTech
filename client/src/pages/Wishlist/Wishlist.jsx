@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
 import './Wishlist.css';
+import { isOfferActive } from '../../utils/offerUtils';
 
 /* ── Helpers ── */
 const getProductImages = (product) => {
@@ -69,7 +70,7 @@ const WishlistCard = memo(({ item, onRemove, onAddToCart, addingId }) => {
           loading="lazy"
           decoding="async"
         />
-        {product.porcentajeDescuento > 0 && (
+        {isOfferActive(product) && product.porcentajeDescuento > 0 && (
           <span className="wishlist-card__badge" aria-label={`${product.porcentajeDescuento} por ciento de descuento`}>
             -{product.porcentajeDescuento}%
           </span>
@@ -92,7 +93,7 @@ const WishlistCard = memo(({ item, onRemove, onAddToCart, addingId }) => {
         <span className="wishlist-card__category">{product.category}</span>
 
         <div className="wishlist-card__pricing">
-          {product.isOffer && product.precioAnterior ? (
+          {isOfferActive(product) && product.precioAnterior ? (
             <>
               <span className="wishlist-card__old-price" aria-label="Precio anterior">
                 {Number(product.precioAnterior).toLocaleString('es-PY')} Gs.

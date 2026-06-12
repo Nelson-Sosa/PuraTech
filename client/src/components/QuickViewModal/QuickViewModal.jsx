@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiX, FiShoppingBag, FiHeart, FiChevronLeft, FiChevronRight, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useWishlist } from '../../context/WishlistContext';
 import './QuickViewModal.css';
+import { isOfferActive } from '../../utils/offerUtils';
 
 const QuickViewModal = ({ product, onClose, onAddToCart }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -115,7 +116,7 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
 
             <h2 className="qv-title">{product.nombre}</h2>
 
-            {product.isOffer && product.precioAnterior ? (
+            {isOfferActive(product) && product.precioAnterior ? (
               <div className="qv-price-block">
                 <div className="qv-price-row">
                   <span className="qv-old-price">

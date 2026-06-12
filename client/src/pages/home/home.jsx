@@ -8,6 +8,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import QuickViewModal from '../../components/QuickViewModal/QuickViewModal';
 import { FiEye, FiShoppingBag } from 'react-icons/fi';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { isOfferActive } from '../../utils/offerUtils';
 
 // ── Hero Slides Data ──────────────────────────────────────────
 const HERO_SLIDES = [
@@ -264,7 +265,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       loading="lazy"
                     />
                   )}
-                  {product.porcentajeDescuento ? (
+                  {isOfferActive(product) && product.porcentajeDescuento ? (
                     <span className="offer-badge">-{product.porcentajeDescuento}%</span>
                   ) : null}
                   {sectionType === 'new' && (
@@ -278,7 +279,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                     <div className="price-container">
                       <div className="price-row">
                         <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
-                        {product.porcentajeDescuento ? (
+                        {isOfferActive(product) && product.porcentajeDescuento ? (
                           <span className="discount-badge">-{product.porcentajeDescuento}%</span>
                         ) : null}
                       </div>
