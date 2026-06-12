@@ -1,5 +1,5 @@
 import '../pages/formularioLogin/formularioLogin';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
@@ -66,6 +66,7 @@ const AppContent = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mis-pedidos" element={<PrivateRoute component={MisPedidos} />} />
+        <Route path="/mi-cuenta" element={<Navigate to="/mi-cuenta/perfil" replace />} />
         <Route path="/mi-cuenta/perfil" element={<PrivateRoute component={MiPerfil} />} />
         <Route path="/mi-cuenta/configuracion" element={<PrivateRoute component={Configuracion} />} />
         <Route path="/order-confirmation/:orderNumber" element={<OrderConfirmation />} />

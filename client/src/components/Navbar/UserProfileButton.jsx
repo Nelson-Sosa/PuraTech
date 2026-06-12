@@ -51,8 +51,8 @@ const UserProfileButton = ({ onLogout }) => {
 
   const items = [
     {
-      label: "Mi Cuenta",
-      path: "/",
+      label: "Mi Perfil",
+      path: "/mi-cuenta/perfil",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -83,7 +83,7 @@ const UserProfileButton = ({ onLogout }) => {
     },
     {
       label: "Configuración",
-      path: "/",
+      path: "/mi-cuenta/configuracion",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]">
           <circle cx="12" cy="12" r="3" />
