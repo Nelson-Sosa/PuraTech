@@ -93,6 +93,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Android/iOS: background-attachment:fixed no está soportado y rompe
+   el compositing de backdrop-filter en elementos hijo. Se desactiva en mobile. */
+@media (max-width: 1024px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
