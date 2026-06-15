@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { useToast } from '../../Toast/ToastContext';
+import { useToast } from '../Toast/ToastContext';
 import './ProductReviews.css';
 
 // ── Componentes de UI internos ──
