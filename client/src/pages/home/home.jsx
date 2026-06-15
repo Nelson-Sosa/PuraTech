@@ -266,7 +266,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       loading="lazy"
                     />
                   )}
-                  {isOfferActive(product) && product.porcentajeDescuento ? (
+                  {isOfferActive(product) && product.porcentajeDescuento && sectionType !== 'bestsellers' && sectionType !== 'new' ? (
                     <span className="offer-badge">-{product.porcentajeDescuento}%</span>
                   ) : null}
                   {sectionType === 'new' && (
@@ -280,6 +280,9 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                     <div className="price-container">
                       <div className="price-row">
                         <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
+                        {isOfferActive(product) && product.porcentajeDescuento ? (
+                          <span className="discount-badge">-{product.porcentajeDescuento}%</span>
+                        ) : null}
                       </div>
                       <div className="product-price">
                         {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
