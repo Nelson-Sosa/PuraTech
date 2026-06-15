@@ -6,6 +6,7 @@ const SuppliersController = require('../controllers/suppliers.controller');
 const OrderController = require('../controllers/order.controller');
 const InventoryController = require('../controllers/inventory.controller');
 const WishlistController = require('../controllers/wishlistController');
+const ReviewController = require('../controllers/review.controller');
 const validarToken = require('../middlewares/validarToken');
 const verificarRol = require('../middlewares/verificarRol');
 const express = require('express');
@@ -187,6 +188,14 @@ module.exports = (app) => {
     app.get('/api/wishlist', validarToken, WishlistController.getWishlist);
     app.delete('/api/wishlist/:productId', validarToken, WishlistController.removeFromWishlist);
     app.get('/api/wishlist/check/:productId', validarToken, WishlistController.checkWishlist);
+
+    // ===== RESEÑAS =====
+    app.get('/api/reviews/product/:productId', ReviewController.getProductReviews);   // pública
+    app.get('/api/reviews/product/:productId/stats', ReviewController.getProductStats); // pública
+    app.post('/api/reviews', validarToken, ReviewController.createOrUpdateReview);
+    app.put('/api/reviews/:reviewId', validarToken, ReviewController.updateReview);
+    app.delete('/api/reviews/:reviewId', validarToken, ReviewController.deleteReview);
 };
 
 // Updated: 05/05/2026 21:10:26
+

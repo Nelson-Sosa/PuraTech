@@ -5,6 +5,7 @@ import { API_URL } from '../../config';
 import { useCart } from '../../context/CartContext';
 import './ProductDetail.css';
 import { isOfferActive } from '../../utils/offerUtils';
+import ProductReviews from '../../components/ProductReviews/ProductReviews';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -349,6 +350,9 @@ const ProductDetail = () => {
 
         </div>
       </div>
+
+      {/* ── SECCIÓN DE RESEÑAS ── */}
+      <ProductReviews productId={id} />
     </div>
   );
 };
