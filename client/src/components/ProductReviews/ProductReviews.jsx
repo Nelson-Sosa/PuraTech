@@ -64,12 +64,24 @@ const ProductReviews = ({ productId }) => {
   // Cargar info del usuario al montar
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedEmail = localStorage.getItem('correo'); // GameMasters suele guardar correo o user
+    let storedEmail = null;
+
+    try {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const userObj = JSON.parse(userStr);
+        storedEmail = userObj.correo || userObj.email;
+      }
+    } catch (e) {
+      console.error("Error parsing user from localStorage", e);
+    }
     
     if (storedToken) {
       setIsAuthenticated(true);
       setToken(storedToken);
-      setUserEmail(storedEmail);
+      if (storedEmail) {
+        setUserEmail(storedEmail);
+      }
     }
   }, []);
 
