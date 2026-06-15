@@ -56,9 +56,8 @@ exports.createOrUpdateReview = async (req, res) => {
         new: true,     // devuelve el documento actualizado
         upsert: true,  // crea si no existe
         runValidators: true,
-        setDefaultsOnInsert: true,
       }
-    ).populate('user', 'nombre apellido');
+    ).populate('user', 'nombre apellido correo');
 
     return res.status(200).json({
       message: 'Reseña guardada correctamente',
@@ -80,7 +79,7 @@ exports.getProductReviews = async (req, res) => {
     const { productId } = req.params;
 
     const reviews = await Review.find({ product: productId })
-      .populate('user', 'nombre apellido') // solo expone nombre y apellido — nunca contraseña
+      .populate('user', 'nombre apellido correo') // poblamos correo para validar autor en frontend
       .sort({ createdAt: -1 });
 
     return res.status(200).json(reviews);
@@ -167,7 +166,7 @@ exports.updateReview = async (req, res) => {
     if (comment !== undefined) review.comment = comment.trim();
 
     await review.save();
-    await review.populate('user', 'nombre apellido');
+    await review.populate('user', 'nombre apellido correo');
 
     return res.status(200).json({ message: 'Reseña actualizada correctamente', review });
   } catch (error) {
