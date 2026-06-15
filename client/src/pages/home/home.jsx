@@ -9,6 +9,7 @@ import QuickViewModal from '../../components/QuickViewModal/QuickViewModal';
 import { FiEye, FiShoppingBag } from 'react-icons/fi';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { isOfferActive } from '../../utils/offerUtils';
+import LatestTestimonials from '../../components/LatestTestimonials/LatestTestimonials';
 
 // ── Hero Slides Data ──────────────────────────────────────────
 const HERO_SLIDES = [
@@ -680,26 +681,7 @@ const Home = () => {
       </section>
 
       {/* TESTIMONIOS */}
-      <section className="testimonials-section">
-        <h2>Lo que dicen nuestros clientes</h2>
-        <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <div className="stars">★★★★★</div>
-            <p>"Excelente atención y productos de calidad"</p>
-            <span>— Juan P.</span>
-          </div>
-          <div className="testimonial-card">
-            <div className="stars">★★★★★</div>
-            <p>"Llegó súper rápido a mi casa"</p>
-            <span>— María G.</span>
-          </div>
-          <div className="testimonial-card">
-            <div className="stars">★★★★★</div>
-            <p>"Precios increíbles, volveré a comprar"</p>
-            <span>— Carlos M.</span>
-          </div>
-        </div>
-      </section>
+      <LatestTestimonials />
 
       {/* FOOTER */}
       <footer className="home-footer">
