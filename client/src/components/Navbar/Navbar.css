@@ -674,11 +674,22 @@
 
 /* ── Mobile: below 768px ── */
 @media (max-width: 768px) {
+  /* ── MOBILE FIX: backdrop-filter en navbar sticky rompe el compositing
+     de todo el contenido debajo en Android. Usar fondo sólido. ── */
   .navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #ffffff;
     padding: 0 12px;
     gap: 12px;
     height: 56px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .cat-navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #ffffff;
   }
 
   /* Logo - Compact */
@@ -706,6 +717,8 @@
     border-radius: 10px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .cart-text {
