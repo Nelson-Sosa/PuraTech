@@ -195,6 +195,8 @@ module.exports = (app) => {
     app.post('/api/reviews', validarToken, ReviewController.createOrUpdateReview);
     app.put('/api/reviews/:reviewId', validarToken, ReviewController.updateReview);
     app.delete('/api/reviews/:reviewId', validarToken, ReviewController.deleteReview);
+    // Nuevo endpoint para reseñas destacadas
+    app.get('/api/reviews/latest', ReviewController.getLatestReviews);
 };
 
 // Updated: 05/05/2026 21:10:26

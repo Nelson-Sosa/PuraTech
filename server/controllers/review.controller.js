@@ -188,6 +188,26 @@ exports.deleteReview = async (req, res) => {
 
     if (error) return res.status(status).json({ message: error });
 
+/**
+ * GET /api/reviews/latest
+ * Returns the latest up to 6 reviews with rating >= 4.
+ * Populates user (nombre, apellido) and product (nombre).
+ */
+exports.getLatestReviews = async (req, res) => {
+  try {
+    const limit = 6;
+    const reviews = await Review.find({ rating: { $gte: 4 } })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate('user', 'nombre apellido')
+      .populate('product', 'nombre');
+    return res.status(200).json(reviews);
+  } catch (error) {
+    console.error('[getLatestReviews] Error:', error.message);
+    return res.status(500).json({ message: 'Error al obtener reseñas destacadas', error: error.message });
+  }
+};
+
     await Review.findByIdAndDelete(reviewId);
 
     return res.status(200).json({ message: 'Reseña eliminada correctamente' });
