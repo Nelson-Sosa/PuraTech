@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { useToast } from '../Toast/ToastContext';
 import './LatestTestimonials.css';
 
 const starIcons = (rating) => {
-  const full = '★'.repeat(rating);
-  const empty = '☆'.repeat(5 - rating);
+  const full = '★'.repeat(Math.min(5, Math.max(0, rating)));
+  const empty = '☆'.repeat(5 - Math.min(5, Math.max(0, rating)));
   return full + empty;
 };
 
 const LatestTestimonials = () => {
   const [reviews, setReviews] = useState([]);
-  const { addToast } = useToast();
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const { data } = await axios.get(`${API_URL}/api/reviews/latest`);
-        setReviews(data);
-      } catch (err) {
-        console.error('Error fetching latest reviews', err);
-        addToast({ message: 'No se pudieron cargar las reseñas destacadas', type: 'error' });
-      }
-    };
-    fetchReviews();
+    axios
+      .get(`${API_URL}/api/reviews/latest`)
+      .then(({ data }) => setReviews(data))
+      .catch((err) => console.error('[LatestTestimonials] Error:', err));
   }, []);
 
   if (!reviews || reviews.length === 0) {
-    // Elegante fallback: no mostrar nada
-    return null;
+    return null; // Mientras no haya reseñas, no mostrar nada
   }
 
   return (
@@ -39,8 +30,10 @@ const LatestTestimonials = () => {
         {reviews.map((rev) => (
           <div key={rev._id} className="testimonial-card">
             <div className="stars">{starIcons(rev.rating)}</div>
-            <p className="comment">\"{rev.comment}\"</p>
-            <span className="author">— {rev.user?.nombre || 'Cliente'} {rev.user?.apellido || ''}</span>
+            <p>"{rev.comment}"</p>
+            <span>
+              — {rev.user?.nombre || 'Cliente'}{rev.user?.apellido ? ` ${rev.user.apellido.charAt(0)}.` : ''}
+            </span>
           </div>
         ))}
       </div>
