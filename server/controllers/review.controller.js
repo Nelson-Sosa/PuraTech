@@ -188,10 +188,19 @@ exports.deleteReview = async (req, res) => {
 
     if (error) return res.status(status).json({ message: error });
 
+    await Review.findByIdAndDelete(reviewId);
+
+    return res.status(200).json({ message: 'Reseña eliminada correctamente' });
+  } catch (error) {
+    console.error('[deleteReview] Error:', error.message);
+    return res.status(500).json({ message: 'Error al eliminar la reseña', error: error.message });
+  }
+};
+
 /**
  * GET /api/reviews/latest
- * Returns the latest up to 6 reviews with rating >= 4.
- * Populates user (nombre, apellido) and product (nombre).
+ * Devuelve las últimas 6 reseñas con rating >= 4, con datos del usuario y del producto.
+ * Ruta pública — no requiere autenticación.
  */
 exports.getLatestReviews = async (req, res) => {
   try {
@@ -205,14 +214,5 @@ exports.getLatestReviews = async (req, res) => {
   } catch (error) {
     console.error('[getLatestReviews] Error:', error.message);
     return res.status(500).json({ message: 'Error al obtener reseñas destacadas', error: error.message });
-  }
-};
-
-    await Review.findByIdAndDelete(reviewId);
-
-    return res.status(200).json({ message: 'Reseña eliminada correctamente' });
-  } catch (error) {
-    console.error('[deleteReview] Error:', error.message);
-    return res.status(500).json({ message: 'Error al eliminar la reseña', error: error.message });
   }
 };
