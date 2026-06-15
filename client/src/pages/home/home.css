@@ -1605,22 +1605,6 @@
   pointer-events: none;
 }
 
-.offer-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #FFFFFF;
-  background: #CC0C39;
-  z-index: 5;
-  line-height: 1;
-  white-space: nowrap;
-  width: max-content;
-  pointer-events: none;
-}
 
 .sales-count-badge {
   display: inline-flex;

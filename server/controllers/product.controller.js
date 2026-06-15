@@ -122,10 +122,9 @@ module.exports.getPublicHome = async (req, res) => {
       ]
     }).limit(4);
     
-    // Nuevos (creados en los últimos 30 días)
-    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    // Nuevos (marcados explícitamente con isNew: true)
     const newProducts = await Product.find({ 
-      createdAt: { $gte: thirtyDaysAgo } 
+      isNew: true
     }).sort({ createdAt: -1 }).limit(4);
     
     // Helper to check if URL is valid
