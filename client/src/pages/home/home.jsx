@@ -276,13 +276,10 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                 <div className="product-info">
                   <p className="product-brand">{product.marca || "Marca"}</p>
                   <h3>{product.nombre || "Producto sin nombre"}</h3>
-                  {sectionType === 'offers' && product.precioAnterior ? (
+                  {isOfferActive(product) && product.precioAnterior ? (
                     <div className="price-container">
                       <div className="price-row">
                         <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
-                        {isOfferActive(product) && product.porcentajeDescuento ? (
-                          <span className="discount-badge">-{product.porcentajeDescuento}%</span>
-                        ) : null}
                       </div>
                       <div className="product-price">
                         {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
@@ -304,7 +301,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   ) : (
                     <p className="stock">✓ Stock: {product.stock || 0} unidades</p>
                   )}
-                  {sectionType === 'offers' && product.fechaFinOferta && (
+                  {isOfferActive(product) && product.fechaFinOferta && (
                     <CountdownTimer endDate={product.fechaFinOferta} />
                   )}
                 </div>
