@@ -42,7 +42,7 @@ module.exports.login =(req, res) =>{
                 rol: usuarioEncontrado.rol
             }
 
-            jwt.sign(infoEnToken,  SECRETO, {expiresIn: "24h"}, (error, token) =>{
+            jwt.sign(infoEnToken,  SECRETO, {expiresIn: "12h"}, (error, token) =>{
                 if(error){
                     return res.status(400).json({mensaje: "Algo fallo al generar el token"})
                 }
@@ -130,7 +130,7 @@ module.exports.googleAuth = async (req, res) => {
         rol: usuarioExistente.rol
       };
 
-      return jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+      return jwt.sign(infoEnToken, SECRETO, { expiresIn: "12h" }, (error, token) => {
         if (error) {
           console.error("[googleAuth] ❌ Error generando JWT:", error);
           return res.status(400).json({ mensaje: "Error al generar token" });
@@ -170,7 +170,7 @@ module.exports.googleAuth = async (req, res) => {
       rol: newUser.rol
     };
 
-    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "12h" }, (error, token) => {
       if (error) {
         console.error("[googleAuth] ❌ Error generando JWT para nuevo usuario:", error);
         return res.status(400).json({ mensaje: "Error al generar token" });
@@ -214,7 +214,7 @@ module.exports.agregarUsuario = async (req, res) => {
       rol: newUser.rol
     };
 
-    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "12h" }, (error, token) => {
       if (error) {
         return res.status(400).json({ mensaje: "Algo falló al generar el token" });
       }
@@ -268,7 +268,7 @@ module.exports.actualizarPerfil = async (req, res) => {
       rol: usuario.rol
     };
 
-    jwt.sign(infoEnToken, SECRETO, { expiresIn: "24h" }, (error, token) => {
+    jwt.sign(infoEnToken, SECRETO, { expiresIn: "12h" }, (error, token) => {
       if (error) {
         return res.status(400).json({ mensaje: "Error al generar nuevo token" });
       }

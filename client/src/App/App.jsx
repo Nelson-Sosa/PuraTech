@@ -1,10 +1,11 @@
 import '../pages/formularioLogin/formularioLogin';
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import FormularioLogin from '../pages/formularioLogin/formularioLogin';
 import Home from '../pages/home/home';
 import { Products } from '../pages/Products/Products';
 import ProductDetail from '../pages/ProductDetail/ProductDetail';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FormProduct from '../components/formProduct/formProduct';
 import FormRegistro from '../pages/formRegistro/formRegistro';
 import UpdateProduct from '../components/UpdateProduct/UpdateProduct';
@@ -54,6 +55,37 @@ const AppContent = () => {
   const { authModalOpen, setAuthModalOpen } = useWishlist();
   const [login, setLogin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          const currentTime = Date.now() / 1000;
+          if (decoded.exp < currentTime) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('rol');
+            localStorage.removeItem('user');
+            localStorage.removeItem('usuario');
+            localStorage.removeItem('photoURL');
+            navigate('/login');
+          }
+        } catch (error) {
+          console.error("Token inválido:", error);
+          localStorage.removeItem('token');
+          navigate('/login');
+        }
+      }
+    };
+
+    // Verificar expiración inmediatamente y cada minuto
+    checkTokenExpiration();
+    const interval = setInterval(checkTokenExpiration, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [navigate]);
 
   return (
     <div>
