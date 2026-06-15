@@ -566,8 +566,8 @@
 
 .category-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  bottom: 12px;
+  left: 12px;
   padding: 4px 10px;
   background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(8px);
@@ -586,7 +586,7 @@
 .offer-badge {
   position: absolute;
   top: 12px;
-  left: 12px;
+  right: 12px;
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
