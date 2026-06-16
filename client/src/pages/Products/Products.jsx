@@ -279,7 +279,7 @@ export const Products = () => {
                                             </div>
                                             <div className="product-info">
                                                 <h3>{producto.nombre}</h3>
-                                                <p className="product-brand">{producto.marca}</p>
+                                                <p className="brand">{producto.marca}</p>
                                                 {producto.isOffer && producto.precioAnterior ? (
                                                     <div className="price-container">
                                                         <div className="price-row">
