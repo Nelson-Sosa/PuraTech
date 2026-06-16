@@ -281,7 +281,9 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                   {isOfferActive(product) && product.precioAnterior ? (
                     <div className="price-container">
                       <div className="price-row">
-                        <span className="old-price">{Number(product.precioAnterior).toLocaleString("es-PY")} Gs.</span>
+                        <span className="old-price">
+                          {Number(product.precioAnterior).toLocaleString("es-PY")} Gs.
+                        </span>
                       </div>
                       <div className="product-price">
                         {Number(product.precio || 0).toLocaleString("es-PY")} Gs.
