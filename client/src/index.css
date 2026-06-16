@@ -93,11 +93,17 @@ body {
   overflow-x: hidden;
 }
 
-/* Android/iOS: background-attachment:fixed no está soportado y rompe
-   el compositing de backdrop-filter en elementos hijo. Se desactiva en mobile. */
 @media (max-width: 1024px) {
   body {
-    background-attachment: scroll;
+    background-attachment: scroll !important;
+    background: linear-gradient(135deg, #bfdbfe 0%, #c7d2fe 25%, #ddd6fe 55%, #a7f3d0 100%) !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body {
+    background-attachment: scroll !important;
+    background: linear-gradient(135deg, #bfdbfe 0%, #c7d2fe 25%, #ddd6fe 55%, #a7f3d0 100%) !important;
   }
 }
 
