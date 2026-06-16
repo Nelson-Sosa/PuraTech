@@ -1112,7 +1112,7 @@
   object-fit: contain;
   display: block;
   transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
   z-index: 1;
 }
 
@@ -1126,7 +1126,7 @@
 
 .product-card:hover .product-image.primary {
   transform: scale(1.1) translateY(-10px);
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.08));
 }
 
 .product-card.has-multiple-images:hover .product-image.primary {
@@ -1136,7 +1136,7 @@
 .product-card:hover .product-image.secondary {
   opacity: 1;
   transform: scale(1.1) translateY(-10px);
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.08));
 }
 
 /* Quick view button */
@@ -1915,6 +1915,7 @@
 
   .product-image {
     height: 200px;
+    filter: none !important;
   }
 
   .section-header {
@@ -2045,6 +2046,7 @@
 
   .product-image {
     height: 160px;
+    filter: none !important;
   }
 
   /* Benefits */
@@ -2269,6 +2271,7 @@
   .product-image {
     height: 130px;
     object-fit: cover;
+    filter: none !important;
   }
 
   .product-info h3 {
@@ -2483,6 +2486,7 @@
 
   .product-image {
     height: 150px;
+    filter: none !important;
   }
 
   .benefit-item {

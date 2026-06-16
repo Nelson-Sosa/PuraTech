@@ -260,6 +260,7 @@ export const Products = () => {
                                                 alt={producto.nombre}
                                                 className="product-image primary"
                                                 loading="lazy"
+                                                decoding="async"
                                             />
                                             {hasMultipleImages && (
                                                 <img 
@@ -267,6 +268,7 @@ export const Products = () => {
                                                     alt={`${producto.nombre} vista alterna`}
                                                     className="product-image secondary"
                                                     loading="lazy"
+                                                    decoding="async"
                                                 />
                                             )}
                                             <span className="category-badge">{producto.category}</span>
