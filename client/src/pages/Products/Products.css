@@ -352,6 +352,7 @@
 .price-input::-webkit-outer-spin-button,
 .price-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
@@ -747,6 +748,7 @@
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color 0.3s ease;
@@ -1160,6 +1162,7 @@
   .product-info h3 {
     font-size: 0.9rem;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .product-brand {
