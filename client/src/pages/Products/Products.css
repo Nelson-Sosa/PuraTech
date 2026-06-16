@@ -100,9 +100,8 @@
 
 .skeleton-card {
   height: 400px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92);
+  /* backdrop-filter eliminado globalmente — causa artefacto GPU en Android */
   border-radius: var(--radius-lg);
   padding: 20px;
   border: 1.5px solid rgba(255, 255, 255, 0.6);
@@ -783,19 +782,27 @@
 .price-container {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   margin-top: 6px;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .price-container .product-price {
   color: #dc2626;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .price-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .old-price {
@@ -1098,7 +1105,7 @@
 
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
     margin-top: 8px;
   }
 
@@ -1106,31 +1113,39 @@
   .product-card {
     isolation: auto !important;
     will-change: auto !important;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.97);
+    /* Prevenir overflow que causa artefacto GPU */
+    overflow: hidden;
+    contain: layout style;
   }
 
   .product-image-container {
     isolation: auto !important;
     will-change: auto !important;
     transform: none !important;
-    height: 180px;
-    padding: 16px;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    height: 160px;
+    padding: 12px;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     background: #f8fafc;
+    /* Sin border-radius en el contenedor para evitar stacking context */
+    border-radius: 0;
+    overflow: hidden;
   }
 
   .product-image {
     filter: none !important;
     transform: none !important;
+    will-change: auto !important;
   }
 
   .product-card:hover {
-    transform: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    transform: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
 
   .product-card:hover .product-image {
@@ -1139,10 +1154,14 @@
   }
 
   .category-badge {
-    top: 8px;
-    right: 8px;
-    padding: 3px 8px;
+    top: 6px;
+    right: 6px;
+    padding: 2px 6px;
     font-size: 9px;
+    /* backdrop-filter en badge también puede causar glitch */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(15, 23, 42, 0.85);
   }
 
   .badge {
@@ -1155,41 +1174,59 @@
 
 
   .product-info {
-    padding: 14px;
-    gap: 4px;
+    padding: 10px;
+    gap: 3px;
   }
 
   .product-info h4,
   .product-info h3 {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+    margin: 3px 0 4px;
   }
 
   .product-brand {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .product-info .brand {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .product-price,
   .price {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .price-container {
+    gap: 2px;
+  }
+
+  .price-row {
+    flex-wrap: nowrap;
+    gap: 4px;
   }
 
   .old-price {
-    font-size: 0.8rem;
+    font-size: 0.72rem;
+    white-space: nowrap;
   }
 
   .discount-badge {
-    font-size: 0.7rem;
-    padding: 1px 6px;
+    font-size: 0.65rem;
+    padding: 1px 4px;
+    flex-shrink: 0;
   }
 
   .stock {
-    font-size: 11px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .product-actions {
@@ -1321,50 +1358,58 @@
     gap: 12px;
   }
 
-  /* ── MOBILE FIX: backdrop-filter + overflow:hidden rompe Android ── */
+  /* ── MOBILE FIX ≤480px: 1 columna, sin backdrop-filter ── */
   .product-card {
     isolation: auto !important;
     will-change: auto !important;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.97);
+    contain: layout style;
   }
 
   .product-image-container {
     isolation: auto !important;
     will-change: auto !important;
-    height: 220px;
-    padding: 20px;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    height: 200px;
+    padding: 16px;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     background: #f8fafc;
+    border-radius: 0;
   }
 
   .product-image {
     filter: none !important;
     transform: none !important;
+    will-change: auto !important;
   }
 
   .product-info {
-    padding: 12px;
+    padding: 14px 16px;
   }
 
   .product-info h4,
   .product-info h3 {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .product-price,
   .price {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .old-price {
     font-size: 0.85rem;
+    white-space: nowrap;
   }
 
   .discount-badge {
     font-size: 0.72rem;
+    flex-shrink: 0;
   }
 
   .product-actions {
@@ -1458,6 +1503,10 @@
     will-change: auto !important;
     filter: none !important;
     transform: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* Sin border-radius para evitar nuevo stacking context */
+    border-radius: 0 !important;
   }
 
   .product-image-container::before,
@@ -1477,11 +1526,27 @@
 
   .skeleton-card {
     backdrop-filter: none !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.97) !important;
   }
 
   .filters-sidebar {
     backdrop-filter: none !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+  }
+
+  /* Quitar cualquier stacking context que cause artefacto de renderizado */
+  .product-card,
+  .product-card:hover,
+  .product-card:active {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+
+  /* Prevenir overflow horizontal global */
+  .products-grid {
+    overflow: hidden;
   }
 }
