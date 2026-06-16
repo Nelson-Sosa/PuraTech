@@ -517,6 +517,8 @@
   .qv-overlay {
     padding: 16px;
     align-items: center;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .qv-modal {
@@ -540,6 +542,7 @@
 
   .qv-main-image {
     max-height: 280px;
+    filter: none !important;
   }
 
   .qv-thumb {

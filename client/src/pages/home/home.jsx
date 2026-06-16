@@ -257,6 +257,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                     alt={product.nombre || "Producto"}
                     className="product-image primary"
                     loading="lazy"
+                    decoding="async"
                   />
                   {hasMultipleImages && (
                     <img 
@@ -264,6 +265,7 @@ const ProductSection = ({ title, subtitle, products = [], iconColor, addToCart, 
                       alt={`${product.nombre} vista alterna`}
                       className="product-image secondary"
                       loading="lazy"
+                      decoding="async"
                     />
                   )}
                   {isOfferActive(product) && product.porcentajeDescuento ? (
