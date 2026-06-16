@@ -2493,3 +2493,39 @@
     font-size: 0.8rem;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   TOUCH DEVICES: Desactivar hover swap de imágenes
+   ══════════════════════════════════════════════════════════════ */
+@media (hover: none) and (pointer: coarse) {
+  .product-image.secondary {
+    display: none !important;
+  }
+
+  .product-card.has-multiple-images .product-image.primary {
+    opacity: 1 !important;
+  }
+
+  .product-card.has-multiple-images:hover .product-image.primary {
+    opacity: 1 !important;
+  }
+
+  .product-card:hover .product-image.primary {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .product-card:hover .product-image {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .product-card:hover {
+    transform: none !important;
+  }
+
+  .product-image-container::before,
+  .product-image-container::after {
+    display: none !important;
+  }
+}
