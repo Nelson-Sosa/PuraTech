@@ -1435,4 +1435,9 @@
   .product-image-container::after {
     display: none !important;
   }
+
+  .category-badge {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
