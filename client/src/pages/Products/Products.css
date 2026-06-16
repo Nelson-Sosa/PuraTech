@@ -1115,10 +1115,9 @@
     will-change: auto !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(255, 255, 255, 0.97);
-    /* Prevenir overflow que causa artefacto GPU */
+    background: #ffffff;
+    /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
     overflow: hidden;
-    contain: layout style;
   }
 
   .product-image-container {
@@ -1130,7 +1129,7 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: #f8fafc;
-    /* Sin border-radius en el contenedor para evitar stacking context */
+    /* Sin border-radius para evitar stacking context */
     border-radius: 0;
     overflow: hidden;
   }
@@ -1364,8 +1363,8 @@
     will-change: auto !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(255, 255, 255, 0.97);
-    contain: layout style;
+    background: #ffffff;
+    /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
   }
 
   .product-image-container {
@@ -1479,6 +1478,7 @@
     isolation: auto !important;
     will-change: auto !important;
     filter: none !important;
+    background: #ffffff !important;
   }
 
   .product-card:hover .product-image.primary {
@@ -1507,6 +1507,8 @@
     -webkit-backdrop-filter: none !important;
     /* Sin border-radius para evitar nuevo stacking context */
     border-radius: 0 !important;
+    /* Fondo completamente opaco — evita que el gradiente del body se filtre */
+    background: #f8fafc !important;
   }
 
   .product-image-container::before,
