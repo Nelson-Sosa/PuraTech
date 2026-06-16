@@ -2527,5 +2527,15 @@
   .product-image-container::before,
   .product-image-container::after {
     display: none !important;
+    content: none !important;
+  }
+
+  .product-image-container {
+    background: #f8fafc !important;
+  }
+
+  .product-card {
+    transform: none !important;
+    will-change: auto !important;
   }
 }
