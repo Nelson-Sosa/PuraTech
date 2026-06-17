@@ -255,7 +255,7 @@
   }
   
   .btn-destructive:hover:not(:disabled) {
-    background: #b91c1c;
+    background: var(--accent-red);
   }
 
   .btn-destructive:disabled, .btn-outline:disabled, .btn-destructive-outline:disabled {

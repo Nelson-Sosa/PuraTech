@@ -553,9 +553,9 @@ const UpdateProduct = () => {
                         </div>
 
                         {isOffer && (
-                            <div className="offer-fields" style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed #cbd5e1' }}>
-                                <div style={{ backgroundColor: '#e0f2fe', padding: '12px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #bae6fd' }}>
-                                    <p style={{ margin: 0, fontSize: '13px', color: '#0369a1' }}>
+                            <div className="offer-fields" style={{ background: 'var(--bg-secondary)', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed var(--border-color)' }}>
+                                <div style={{ backgroundColor: 'rgba(59,130,246,0.08)', padding: '12px', borderRadius: '6px', marginBottom: '16px', border: '1px solid rgba(59,130,246,0.15)' }}>
+                                    <p style={{ margin: 0, fontSize: '13px', color: 'var(--accent-blue)' }}>
                                         <strong>💡 Nota:</strong> El campo <strong>"Precio (Gs.)"</strong> de arriba será el precio final con descuento. Aquí abajo ingresa el precio original sin rebaja.
                                     </p>
                                 </div>
@@ -639,14 +639,14 @@ const UpdateProduct = () => {
                                     </h4>
                                     {isProcessingAI && (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '8px', marginBottom: '12px' }}>
-                                            <div style={{ width: '20px', height: '20px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                                            <div style={{ width: '20px', height: '20px', border: '3px solid var(--border-color)', borderTop: '3px solid var(--accent-violet)', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                                             <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{progressText}</span>
                                         </div>
                                     )}
                                     {/* Preview de imagen procesada */}
                                     {processedPreviewUrl && !isProcessingAI && (
-                                        <div style={{ marginBottom: '12px', padding: '12px', background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 16px 16px', borderRadius: '8px', border: '2px dashed #10b981' }}>
-                                            <p style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold', marginBottom: '8px', background: 'rgba(255,255,255,0.85)', display: 'inline-block', padding: '2px 8px', borderRadius: '4px' }}>✅ Fondo eliminado</p>
+                                        <div style={{ marginBottom: '12px', padding: '12px', background: 'repeating-conic-gradient(var(--border-color) 0% 25%, var(--bg-secondary) 0% 50%) 50% / 16px 16px', borderRadius: '8px', border: '2px dashed var(--accent-green)' }}>
+                                            <p style={{ fontSize: '12px', color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '8px', background: 'rgba(255,255,255,0.85)', display: 'inline-block', padding: '2px 8px', borderRadius: '4px' }}>✅ Fondo eliminado</p>
                                             <img src={processedPreviewUrl} alt="Preview sin fondo" style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain', display: 'block' }} />
                                         </div>
                                     )}
@@ -739,10 +739,10 @@ const UpdateProduct = () => {
                             {/* AI Processing Status - shown for both files and URLs */}
                             {isProcessingNewImages && (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '16px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '12px', marginTop: '16px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
-                                    <div style={{ width: '24px', height: '24px', border: '3px solid #e2e8f0', borderTop: '3px solid #8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite', flexShrink: 0 }} />
+                                    <div style={{ width: '24px', height: '24px', border: '3px solid var(--border-color)', borderTop: '3px solid var(--accent-violet)', borderRadius: '50%', animation: 'spin 1s linear infinite', flexShrink: 0 }} />
                                     <div>
-                                        <span style={{ color: '#8b5cf6', fontSize: '0.9rem', fontWeight: 'bold', display: 'block' }}>{newImagesProgress}</span>
-                                        <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>La primera vez puede tardar unos segundos</span>
+                                        <span style={{ color: 'var(--accent-violet)', fontSize: '0.9rem', fontWeight: 'bold', display: 'block' }}>{newImagesProgress}</span>
+                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>La primera vez puede tardar unos segundos</span>
                                     </div>
                                 </div>
                             )}
@@ -750,7 +750,7 @@ const UpdateProduct = () => {
                             {/* Processed Images Preview */}
                             {newAdditionalImages.length > 0 && !isProcessingNewImages && (
                                 <div style={{ marginTop: '16px' }}>
-                                    <p style={{ fontSize: '0.85rem', color: '#10b981', fontWeight: 'bold', marginBottom: '8px' }}>
+                                    <p style={{ fontSize: '0.85rem', color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '8px' }}>
                                         ✅ {newAdditionalImages.length} imagen(es) procesada(s) sin fondo
                                     </p>
                                 </div>
@@ -758,7 +758,7 @@ const UpdateProduct = () => {
                             {newImagesPreviews.length > 0 && !isProcessingNewImages && (
                                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
                                     {newImagesPreviews.map((prev, idx) => (
-                                        <div key={idx} style={{ background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 12px 12px', borderRadius: '8px', border: '2px dashed #10b981', padding: '4px' }}>
+                                        <div key={idx} style={{ background: 'repeating-conic-gradient(var(--border-color) 0% 25%, var(--bg-secondary) 0% 50%) 50% / 12px 12px', borderRadius: '8px', border: '2px dashed var(--accent-green)', padding: '4px' }}>
                                             <img src={prev} alt={`Preview ${idx + 1}`} style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
                                         </div>
                                     ))}

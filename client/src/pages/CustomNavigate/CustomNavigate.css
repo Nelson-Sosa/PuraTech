@@ -11,8 +11,8 @@
 .cont-nav a {
   padding: 10px 20px;
   border-radius: 8px;
-  background-color: #4a4a4a;
-  color: #fff;
+  background-color: var(--bg-secondary);
+  color: var(--text-bright);
   text-decoration: none;
   font-weight: bold;
   transition: transform 0.3s, background-color 0.3s;
@@ -20,23 +20,22 @@
 
 .cont-nav a:hover {
   transform: scale(1.05);
-  background-color: #6c6c6c;
+  background-color: var(--bg-card-hover);
 }
 
-/* ===================== NAV CELULAR RESPONSIVE ===================== */
 @media (max-width: 600px) {
     .cont-nav {
-        flex-direction: column;   /* Links apilados verticalmente */
+        flex-direction: column;
         align-items: center;
-        gap: 12px;                /* Espacio entre botones */
+        gap: 12px;
         margin-top: 15px;
     }
 
     .cont-nav a {
-        flex: none;               /* Quita flex de ancho automático */
-        width: 55%;               /* Ocupa casi todo el ancho del móvil */
-        padding: 12px 0;          /* Más cómodo para tocar */
+        flex: none;
+        width: 55%;
+        padding: 12px 0;
         text-align: center;
-        font-size: 0.95rem;       /* Tamaño ligeramente más pequeño */
+        font-size: 0.95rem;
     }
 }

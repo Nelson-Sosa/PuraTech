@@ -121,7 +121,7 @@
   object-fit: contain;
   border-radius: var(--radius-md);
   flex-shrink: 0;
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 12px;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
   border: 1px solid var(--border-color);
@@ -181,7 +181,7 @@
   flex-shrink: 0;
   padding: 10px 16px;
   background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  color: var(--accent-red);
   border: 1.5px solid rgba(239, 68, 68, 0.25);
   border-radius: var(--radius-md);
   font-size: 0.85rem;
@@ -195,9 +195,9 @@
 }
 
 .remove-btn:hover {
-  background: #ef4444;
-  color: #fff;
-  border-color: #ef4444;
+  background: var(--accent-red);
+  color: var(--text-bright);
+  border-color: var(--accent-red);
   box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
 
@@ -268,7 +268,7 @@
   width: 100%;
   padding: 16px 24px;
   background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-  color: #fff;
+  color: var(--text-bright);
   border: none;
   border-radius: var(--radius-lg);
   font-size: 1.05rem;
@@ -299,7 +299,7 @@
   padding: 12px 24px;
   background: transparent;
   border: 1.5px solid rgba(239, 68, 68, 0.35);
-  color: #ef4444;
+  color: var(--accent-red);
   border-radius: var(--radius-lg);
   font-size: 0.95rem;
   font-weight: 600;
@@ -311,7 +311,7 @@
 
 .clear-btn:hover {
   background: rgba(239, 68, 68, 0.08);
-  border-color: #ef4444;
+  border-color: var(--accent-red);
   box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
 }
 

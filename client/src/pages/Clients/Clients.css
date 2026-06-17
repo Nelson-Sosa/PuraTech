@@ -27,7 +27,7 @@
 
 .clients-stats .stat {
   padding: 8px 16px;
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   border-radius: 20px;
   font-size: 14px;
   color: var(--text-secondary);
@@ -41,7 +41,7 @@
   width: 100%;
   max-width: 400px;
   padding: 12px 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 14px;
   transition: border-color 0.3s;
@@ -49,11 +49,11 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--accent-blue);
 }
 
 .clients-table {
-  background: white;
+  background: var(--bg-card);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -65,7 +65,7 @@
 }
 
 .clients-table thead {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
 }
 
 .clients-table th {
@@ -74,22 +74,22 @@
   font-weight: 600;
   color: var(--text-primary);
   font-size: 14px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .clients-table td {
   padding: 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   color: var(--text-primary);
 }
 
 .clients-table tbody tr:hover {
-  background: #fafafa;
+  background: var(--bg-card-hover);
 }
 
 .clients-table .no-data {
   text-align: center;
-  color: #999;
+  color: var(--text-muted);
   padding: 40px;
 }
 
@@ -102,13 +102,13 @@
 }
 
 .role-badge.role-admin {
-  background: #e3f2fd;
-  color: #1976d2;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--accent-blue);
 }
 
 .role-badge.role-client {
-  background: #e8f5e9;
-  color: #388e3c;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
 }
 
 .btn-delete-client {
@@ -130,14 +130,14 @@
   align-items: center;
   justify-content: center;
   padding: 60px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #2563eb;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 15px;
@@ -149,8 +149,8 @@
 }
 
 .error-message {
-  background: #ffebee;
-  color: #c62828;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent-red);
   padding: 12px 20px;
   border-radius: 8px;
   margin-bottom: 20px;

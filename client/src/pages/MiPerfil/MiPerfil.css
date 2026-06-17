@@ -10,7 +10,7 @@
   padding: 32px 20px 64px;
   min-height: 60vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 /* ── Page Header ── */
@@ -26,20 +26,20 @@
 
 .perfil-subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 /* ── Profile Top Card ── */
 .perfil-top-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   margin-bottom: 24px;
 }
 
@@ -48,7 +48,7 @@
   height: 90px;
   border-radius: 50%;
   overflow: hidden;
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  background: var(--gradient-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,7 +65,7 @@
 .perfil-initials {
   font-size: 32px;
   font-weight: 700;
-  color: white;
+  color: var(--text-bright);
 }
 
 .perfil-info {
@@ -82,23 +82,23 @@
 
 .perfil-email {
   font-size: 14px;
-  color: #4b5563;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .perfil-member-since {
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--text-muted);
   margin: 4px 0 0;
 }
 
 /* ── Profile Form Card ── */
 .perfil-form-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 32px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
 }
 
 .perfil-form-title {
@@ -106,7 +106,7 @@
   font-weight: 600;
   margin: 0 0 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .perfil-form {
@@ -130,31 +130,31 @@
 .form-group label {
   font-size: 13px;
   font-weight: 600;
-  color: #374151;
+  color: var(--text-primary);
 }
 
 .form-group input {
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1.5px solid #d1d5db;
+  border: 1.5px solid var(--border-hover);
   font-size: 15px;
-  color: #111827;
+  color: var(--text-primary);
   transition: all 0.2s ease;
-  background: white;
+  background: var(--bg-card);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--accent-blue);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .form-group input:disabled,
 .form-group input[readonly] {
-  background: #f9fafb;
-  color: #6b7280;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
   cursor: not-allowed;
-  border-color: #e5e7eb;
+  border-color: var(--border-color);
 }
 
 /* ── Action Buttons ── */
@@ -164,7 +164,7 @@
   gap: 16px;
   margin-top: 12px;
   padding-top: 24px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--border-color);
 }
 
 .btn-primary {
@@ -172,20 +172,20 @@
   border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
-  background: #2563eb;
-  color: white;
+  background: var(--accent-blue);
+  color: var(--text-bright);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-  background: #9ca3af;
+  background: var(--text-muted);
   cursor: not-allowed;
   transform: none;
 }
@@ -195,16 +195,16 @@
   border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
-  background: white;
-  color: #374151;
-  border: 1.5px solid #d1d5db;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-hover);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
+  background: var(--bg-secondary);
+  border-color: var(--text-muted);
 }
 
 .btn-danger {
@@ -212,17 +212,17 @@
   border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
-  background: white;
-  color: #dc2626;
-  border: 1.5px solid #fca5a5;
+  background: var(--bg-card);
+  color: var(--accent-red);
+  border: 1.5px solid rgba(239,68,68,0.3);
   cursor: pointer;
   transition: all 0.2s ease;
   margin-right: auto;
 }
 
 .btn-danger:hover {
-  background: #fef2f2;
-  border-color: #ef4444;
+  background: rgba(239,68,68,0.1);
+  border-color: var(--accent-red);
 }
 
 /* ── Alert Messages ── */
@@ -238,15 +238,15 @@
 }
 
 .alert-message.success {
-  background: #d1fae5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+  background: rgba(16,185,129,0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(16,185,129,0.3);
 }
 
 .alert-message.error {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  background: rgba(239,68,68,0.15);
+  color: var(--accent-red);
+  border: 1px solid rgba(239,68,68,0.2);
 }
 
 /* ── Change Password Modal ── */
@@ -263,7 +263,7 @@
 }
 
 .pwd-modal-container {
-  background: white;
+  background: var(--bg-card);
   width: 100%;
   max-width: 480px;
   border-radius: 20px;
@@ -286,18 +286,18 @@
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: #f3f4f6;
+  background: var(--bg-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
+  color: var(--text-secondary);
   transition: all 0.2s;
 }
 
 .pwd-modal-close:hover {
-  background: #e5e7eb;
-  color: #111827;
+  background: var(--border-color);
+  color: var(--text-primary);
 }
 
 .pwd-modal-title {

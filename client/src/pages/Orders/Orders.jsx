@@ -63,14 +63,14 @@ const Orders = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      pending: '#ff9800',
-      confirmed: '#2196f3',
-      preparing: '#9c27b0',
-      shipped: '#00bcd4',
-      delivered: '#4caf50',
-      cancelled: '#f44336'
+      pending: 'var(--accent-yellow)',
+      confirmed: 'var(--accent-blue)',
+      preparing: 'var(--accent-violet)',
+      shipped: 'var(--accent-cyan)',
+      delivered: 'var(--accent-green)',
+      cancelled: 'var(--accent-red)'
     };
-    return colors[status] || '#666';
+    return colors[status] || 'var(--text-muted)';
   };
 
   const getStatusLabel = (status) => {

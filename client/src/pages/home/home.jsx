@@ -106,12 +106,12 @@ const getCatConfig = (name) => {
   const lower = name.toLowerCase();
   if (lower.includes('electronica')) return { svg: SVG_ICONS.electronica, gradient: 'var(--gradient-accent)' };
   if (lower.includes('computacion') || lower.includes('comput')) return { svg: SVG_ICONS.computacion, gradient: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)' };
-  if (lower.includes('gaming') || lower.includes('juego') || lower.includes('consola')) return { svg: SVG_ICONS.gaming, gradient: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)' };
-  if (lower.includes('audio') || lower.includes('sonido')) return { svg: SVG_ICONS.audio, gradient: 'linear-gradient(135deg, #0891b2 0%, #22d3ee 100%)' };
-  if (lower.includes('periferic')) return { svg: SVG_ICONS.perifericos, gradient: 'linear-gradient(135deg, #059669 0%, #10b981 100%)' };
+  if (lower.includes('gaming') || lower.includes('juego') || lower.includes('consola')) return { svg: SVG_ICONS.gaming, gradient: 'linear-gradient(135deg, var(--accent-violet) 0%, #a855f7 100%)' };
+  if (lower.includes('audio') || lower.includes('sonido')) return { svg: SVG_ICONS.audio, gradient: 'linear-gradient(135deg, var(--accent-cyan) 0%, #22d3ee 100%)' };
+  if (lower.includes('periferic')) return { svg: SVG_ICONS.perifericos, gradient: 'linear-gradient(135deg, var(--accent-green) 0%, #10b981 100%)' };
   if (lower.includes('smart') || lower.includes('phone') || lower.includes('celul')) return { svg: SVG_ICONS.smartphones, gradient: 'linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)' };
-  if (lower.includes('accesori') || lower.includes('cable') || lower.includes('cargad')) return { svg: SVG_ICONS.accesorios, gradient: 'linear-gradient(135deg, #d97706 0%, #fbbf24 100%)' };
-  return { svg: SVG_ICONS.default, gradient: 'linear-gradient(135deg, #475569 0%, #64748b 100%)' };
+  if (lower.includes('accesori') || lower.includes('cable') || lower.includes('cargad')) return { svg: SVG_ICONS.accesorios, gradient: 'linear-gradient(135deg, var(--accent-yellow) 0%, #fbbf24 100%)' };
+  return { svg: SVG_ICONS.default, gradient: 'linear-gradient(135deg, var(--text-secondary) 0%, #64748b 100%)' };
 };
 
 const CategoryCard = ({ cat }) => {

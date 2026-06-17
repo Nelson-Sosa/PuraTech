@@ -80,12 +80,12 @@
 
 /* ── SKELETON ANIMATIONS ── */
 .skeleton {
-  background: #e2e8f0;
+  background: var(--bg-secondary);
   background: linear-gradient(
     90deg,
-    #e2e8f0 25%,
-    #f1f5f9 50%,
-    #e2e8f0 75%
+    var(--bg-secondary) 25%,
+    var(--border-color) 50%,
+    var(--bg-secondary) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
@@ -162,7 +162,7 @@
 .sub-cat-pill.active {
   background: var(--gradient-accent);
   border-color: transparent;
-  color: #fff;
+  color: var(--text-bright);
   box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
@@ -332,7 +332,7 @@
 
 .price-input:focus {
   border-color: var(--accent-blue);
-  background: #fff;
+  background: var(--bg-card);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
@@ -613,8 +613,8 @@
   border-radius: 4px;
   font-size: 12px;
   font-weight: 700;
-  color: #FFFFFF;
-  background: #CC0C39;
+  color: var(--text-bright);
+  background: var(--accent-red);
   z-index: 5;
   line-height: 1;
   white-space: nowrap;
@@ -630,8 +630,8 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-  color: #059669;
-  background: #ECFDF5;
+  color: var(--accent-green);
+  background: rgba(16,185,129,0.1);
   z-index: 5;
   line-height: 1;
   /* FIX: max-width:20% cortaba el texto y dejaba visible el category-badge debajo */
@@ -653,7 +653,7 @@
   display: flex;
   gap: 8px;
   padding: 12px 20px 20px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--border-color);
   margin-top: auto;
 }
 
@@ -663,8 +663,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border: 1.5px solid #e2e8f0;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
   border-radius: 10px;
   cursor: pointer;
   /* FIX #2: transition específico — evita rastrear todas las propiedades en cada frame */
@@ -673,7 +673,7 @@
               color 0.3s ease,
               background 0.3s ease,
               border-color 0.3s ease;
-  color: #64748b;
+  color: var(--text-secondary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   position: relative;
 }
@@ -692,20 +692,20 @@
 }
 
 .action-btn.quick-view:hover {
-  color: #2563eb;
-  border-color: #2563eb;
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
   background: rgba(37, 99, 235, 0.05);
 }
 
 .action-btn.wishlist:hover {
-  color: #ef4444;
-  border-color: #ef4444;
+  color: var(--accent-red);
+  border-color: var(--accent-red);
   background: rgba(239, 68, 68, 0.05);
 }
 
 .action-btn.wishlist.is-wishlisted {
-  color: #ef4444;
-  border-color: #ef4444;
+  color: var(--accent-red);
+  border-color: var(--accent-red);
   background: rgba(239, 68, 68, 0.08);
   animation: heartPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -717,8 +717,8 @@
 }
 
 .action-btn.add-to-cart-custom:hover {
-  color: #fff;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  color: var(--text-bright);
+  background: var(--gradient-accent);
   border-color: transparent;
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
 }
@@ -730,7 +730,7 @@
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   background: rgba(15, 23, 42, 0.95);
-  color: #fff;
+  color: var(--text-bright);
   padding: 4px 10px;
   font-size: 10px;
   font-family: 'Inter', sans-serif;
@@ -794,7 +794,7 @@
 .price {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   margin-top: auto;
   display: flex;
@@ -805,7 +805,7 @@
 .product-price {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   line-height: 1.3;
   overflow-wrap: break-word;
@@ -822,7 +822,7 @@
 }
 
 .price-container .product-price {
-  color: #dc2626;
+  color: var(--accent-red);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -840,7 +840,7 @@
 
 .old-price {
   font-size: 0.9rem;
-  color: #9CA3AF;
+  color: var(--text-muted);
   text-decoration: line-through;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
@@ -850,8 +850,8 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  background: rgba(22, 163, 74, 0.1);
-  color: #16A34A;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
   font-size: 0.75rem;
   font-weight: 700;
   border-radius: 4px;
@@ -922,7 +922,7 @@
 }
 
 .add-to-cart-fab.added {
-  background: #10b981;
+  background: var(--accent-green);
   border-color: transparent;
   color: white;
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
@@ -940,7 +940,7 @@
   transform: translateY(6px);
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(8px);
-  color: #fff;
+  color: var(--text-bright);
   padding: 5px 10px;
   font-size: 10px;
   font-family: 'Inter', sans-serif;
@@ -996,25 +996,25 @@
 
 .btn_delete {
   background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
+  color: var(--accent-red);
   border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 .btn_delete:hover {
-  background: #ef4444;
-  color: #fff;
+  background: var(--accent-red);
+  color: var(--text-bright);
   box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
 .btn-update {
   background: rgba(245, 158, 11, 0.12);
-  color: #f59e0b;
+  color: var(--accent-yellow);
   border: 1px solid rgba(245, 158, 11, 0.25);
 }
 
 .btn-update:hover {
-  background: #f59e0b;
-  color: #fff;
+  background: var(--accent-yellow);
+  color: var(--text-bright);
   box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
 
@@ -1026,7 +1026,7 @@
 
 .btn-buy:hover {
   background: var(--accent-green);
-  color: #fff;
+  color: var(--text-bright);
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
@@ -1145,7 +1145,7 @@
   /* ── MOBILE FIX: sin backdrop-filter, sin border-radius+overflow (causa corrupción GPU Android) ── */
   .product-card {
     isolation: auto;
-    background: #ffffff;
+    background: var(--bg-card);
     /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
     overflow: visible;
     border-radius: 0;
@@ -1159,7 +1159,7 @@
     padding: 12px;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: #f8fafc;
+    background: var(--bg-secondary);
     /* Sin border-radius para evitar stacking context */
     border-radius: 0;
     overflow: hidden;
@@ -1385,7 +1385,7 @@
   /* ── MOBILE FIX ≤480px: 1 columna ── */
   .product-card {
     isolation: auto;
-    background: #ffffff;
+    background: var(--bg-card);
     /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
     overflow: visible;
     border-radius: 0;
@@ -1398,7 +1398,7 @@
     padding: 16px;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: #f8fafc;
+    background: var(--bg-secondary);
     border-radius: 0;
   }
 
@@ -1502,7 +1502,7 @@
     isolation: auto !important;
     will-change: auto !important;
     filter: none !important;
-    background: #ffffff !important;
+    background: var(--bg-card) !important;
     overflow: visible !important;
     border-radius: 0 !important;
   }
@@ -1536,7 +1536,7 @@
     /* FIX: overflow:hidden explícito — necesario cuando border-radius:0 sobreescribe el estilo anterior */
     overflow: hidden !important;
     /* Fondo completamente opaco — evita que el gradiente del body se filtre */
-    background: #f8fafc !important;
+    background: var(--bg-secondary) !important;
   }
 
   .product-image-container::before,

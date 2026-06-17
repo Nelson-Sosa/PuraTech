@@ -192,7 +192,7 @@ const Configuracion = () => {
   if (loading) {
     return (
       <div className="configuracion-page">
-        <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>Cargando preferencias...</div>
+        <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>Cargando preferencias...</div>
       </div>
     );
   }
@@ -381,9 +381,9 @@ const Configuracion = () => {
         </div>
 
         {/* SECCIÓN 5: PRIVACIDAD (Zona de Peligro) */}
-        <div className="config-card" style={{ borderColor: '#fca5a5' }}>
-          <div className="config-card-header" style={{ borderBottomColor: '#fee2e2' }}>
-            <h2 className="config-card-title" style={{ color: '#dc2626' }}>
+        <div className="config-card" style={{ borderColor: 'var(--accent-red)' }}>
+          <div className="config-card-header" style={{ borderBottomColor: 'rgba(220,38,38,0.2)' }}>
+            <h2 className="config-card-title" style={{ color: 'var(--accent-red)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
@@ -406,7 +406,7 @@ const Configuracion = () => {
 
             <div className="config-item border-top">
               <div className="config-item-info">
-                <h3 className="config-item-title" style={{ color: '#dc2626' }}>Eliminar mi cuenta</h3>
+                <h3 className="config-item-title" style={{ color: 'var(--accent-red)' }}>Eliminar mi cuenta</h3>
                 <p className="config-item-desc">
                   Eliminará permanentemente tu cuenta, historial de pedidos y preferencias. Esta acción no se puede deshacer.
                 </p>
@@ -426,7 +426,7 @@ const Configuracion = () => {
       {isDeleteModalOpen && (
         <div className="modal-overlay" onClick={() => !deleteLoading && setIsDeleteModalOpen(false)}>
           <div className="modal-container" onClick={e => e.stopPropagation()}>
-            <h2 className="modal-title" style={{ color: '#dc2626' }}>¿Eliminar cuenta permanentemente?</h2>
+            <h2 className="modal-title" style={{ color: 'var(--accent-red)' }}>¿Eliminar cuenta permanentemente?</h2>
             <p className="modal-text">
               Estás a punto de eliminar tu cuenta de PuraTech. Perderás el acceso a tus pedidos, favoritos y configuración. <strong>Esta acción es irreversible.</strong>
             </p>

@@ -146,39 +146,39 @@ const DebugAuth = () => {
   };
 
   const colorMap = {
-    info: "#a0c4ff",
-    ok: "#b7f5a0",
-    warn: "#ffe599",
-    error: "#ff9999",
+    info: "var(--accent-blue)",
+    ok: "var(--accent-green)",
+    warn: "var(--accent-yellow)",
+    error: "var(--accent-red)",
   };
 
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#0f0f1a",
-      color: "#e0e0e0",
+      background: "var(--bg-primary)",
+      color: "var(--text-primary)",
       fontFamily: "monospace",
       padding: "24px",
       boxSizing: "border-box"
     }}>
-      <h1 style={{ color: "#7c3aed", marginBottom: "4px" }}>🔐 Debug Auth Panel</h1>
-      <p style={{ color: "#666", marginBottom: "24px", fontSize: "13px" }}>
+      <h1 style={{ color: "var(--accent-violet)", marginBottom: "4px" }}>🔐 Debug Auth Panel</h1>
+      <p style={{ color: "var(--text-muted)", marginBottom: "24px", fontSize: "13px" }}>
         Esta página solo existe para diagnóstico. Eliminala en producción.
       </p>
 
       {/* Estado de localStorage */}
-      <div style={{ background: "#1a1a2e", padding: "16px", borderRadius: "8px", marginBottom: "16px", border: "1px solid #333" }}>
-        <h3 style={{ color: "#60a5fa", margin: "0 0 12px 0" }}>📦 Estado actual de localStorage</h3>
+      <div style={{ background: "var(--bg-secondary)", padding: "16px", borderRadius: "8px", marginBottom: "16px", border: "1px solid var(--border-color)" }}>
+        <h3 style={{ color: "var(--accent-blue)", margin: "0 0 12px 0" }}>📦 Estado actual de localStorage</h3>
         {Object.entries(lsState).map(([k, v]) => (
           <div key={k} style={{ marginBottom: "6px" }}>
-            <span style={{ color: "#94a3b8" }}>{k}: </span>
-            <span style={{ color: v.startsWith("❌") ? "#f87171" : "#4ade80", wordBreak: "break-all" }}>
+            <span style={{ color: "var(--text-muted)" }}>{k}: </span>
+            <span style={{ color: v.startsWith("❌") ? "var(--accent-red)" : "var(--accent-green)", wordBreak: "break-all" }}>
               {k === "token" && v !== "❌ NO EXISTE" ? `${v.substring(0, 50)}...` : v}
             </span>
           </div>
         ))}
-        <button onClick={refreshLS} style={btnStyle("#334155")}>🔄 Refrescar</button>
-        <button onClick={clearLS} style={{ ...btnStyle("#7f1d1d"), marginLeft: "8px" }}>🗑️ Limpiar localStorage</button>
+        <button onClick={refreshLS} style={btnStyle("var(--text-muted)")}>🔄 Refrescar</button>
+        <button onClick={clearLS} style={{ ...btnStyle("var(--accent-red)"), marginLeft: "8px" }}>🗑️ Limpiar localStorage</button>
       </div>
 
       {/* Acciones */}
@@ -186,51 +186,51 @@ const DebugAuth = () => {
         <button
           onClick={testBackend}
           disabled={loading}
-          style={btnStyle("#1d4ed8")}
-        >
-          📡 Test conexión backend
-        </button>
-        <button
-          onClick={testGoogleLogin}
-          disabled={loading}
-          style={btnStyle("#15803d")}
-        >
-          🚀 Test Google Login completo
-        </button>
-        <button
-          onClick={() => setLogs([])}
-          style={btnStyle("#334155")}
-        >
-          🗑️ Limpiar logs
-        </button>
-        <a href="/" style={{ ...btnStyle("#7c3aed"), textDecoration: "none" }}>
+          style={btnStyle("var(--accent-blue)")}
+          >
+            📡 Test conexión backend
+          </button>
+          <button
+            onClick={testGoogleLogin}
+            disabled={loading}
+            style={btnStyle("var(--accent-green)")}
+          >
+            🚀 Test Google Login completo
+          </button>
+          <button
+            onClick={() => setLogs([])}
+            style={btnStyle("var(--text-muted)")}
+          >
+            🗑️ Limpiar logs
+          </button>
+          <a href="/" style={{ ...btnStyle("var(--accent-violet)"), textDecoration: "none" }}>
           🏠 Ir a Home
         </a>
       </div>
 
       {/* Logs */}
       <div style={{
-        background: "#0a0a14",
-        border: "1px solid #222",
+        background: "var(--bg-primary)",
+        border: "1px solid var(--border-color)",
         borderRadius: "8px",
         padding: "16px",
         minHeight: "200px",
         maxHeight: "500px",
         overflowY: "auto"
       }}>
-        <h3 style={{ color: "#60a5fa", margin: "0 0 12px 0" }}>📋 Logs en tiempo real</h3>
+        <h3 style={{ color: "var(--accent-blue)", margin: "0 0 12px 0" }}>📋 Logs en tiempo real</h3>
         {logs.length === 0 && (
-          <p style={{ color: "#555" }}>Presioná alguna acción para ver los logs aquí...</p>
+          <p style={{ color: "var(--text-muted)" }}>Presioná alguna acción para ver los logs aquí...</p>
         )}
         {logs.map((log, i) => (
           <div key={i} style={{ marginBottom: "4px", fontSize: "13px" }}>
-            <span style={{ color: "#555" }}>[{log.ts}] </span>
-            <span style={{ color: colorMap[log.type] || "#e0e0e0" }}>{log.msg}</span>
+            <span style={{ color: "var(--text-muted)" }}>[{log.ts}] </span>
+            <span style={{ color: colorMap[log.type] || "var(--text-primary)" }}>{log.msg}</span>
           </div>
         ))}
       </div>
 
-      <p style={{ marginTop: "16px", color: "#555", fontSize: "12px" }}>
+      <p style={{ marginTop: "16px", color: "var(--text-muted)", fontSize: "12px" }}>
         URL: {API_URL}/api/auth/google
       </p>
     </div>

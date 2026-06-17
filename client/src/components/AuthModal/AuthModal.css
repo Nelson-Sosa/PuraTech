@@ -13,7 +13,7 @@
 }
 
 .auth-modal {
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 24px;
   padding: 40px 36px 28px;
   max-width: 420px;
@@ -32,18 +32,18 @@
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: #f1f5f9;
+  background: var(--bg-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .auth-modal__close:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .auth-modal__close svg {
@@ -60,7 +60,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ef4444;
+  color: var(--accent-red);
 }
 
 .auth-modal__icon svg {
@@ -72,14 +72,14 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   margin-bottom: 10px;
   line-height: 1.3;
 }
 
 .auth-modal__text {
   font-size: 0.92rem;
-  color: #64748b;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 28px;
   font-weight: 400;
@@ -107,8 +107,8 @@
 }
 
 .auth-modal__btn--primary {
-  background: var(--gradient-accent, linear-gradient(135deg, #2563eb, #7c3aed));
-  color: #ffffff;
+  background: var(--gradient-accent, linear-gradient(135deg, var(--accent-blue), var(--accent-violet)));
+  color: var(--text-bright);
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
 }
 
@@ -119,13 +119,13 @@
 }
 
 .auth-modal__btn--secondary {
-  background: #f1f5f9;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
 .auth-modal__btn--secondary:hover {
-  background: #e2e8f0;
+  background: var(--bg-secondary);
   transform: translateY(-1px);
 }
 
@@ -133,7 +133,7 @@
   margin-top: 18px;
   background: none;
   border: none;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
@@ -143,7 +143,7 @@
 }
 
 .auth-modal__continue:hover {
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 @keyframes fadeIn {

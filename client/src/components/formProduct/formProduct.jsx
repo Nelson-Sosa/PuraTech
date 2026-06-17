@@ -414,9 +414,9 @@ const FormProduct = () => {
           </div>
 
           {isOffer && (
-            <div className="offer-fields" style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed #cbd5e1' }}>
-              <div style={{ backgroundColor: '#e0f2fe', padding: '12px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #bae6fd' }}>
-                <p style={{ margin: 0, fontSize: '13px', color: '#0369a1' }}>
+            <div className="offer-fields" style={{ background: 'var(--bg-secondary)', padding: '16px', borderRadius: '8px', marginBottom: '20px', border: '1px dashed var(--border-color)' }}>
+              <div style={{ backgroundColor: 'rgba(59,130,246,0.08)', padding: '12px', borderRadius: '6px', marginBottom: '16px', border: '1px solid rgba(59,130,246,0.15)' }}>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--accent-blue)' }}>
                   <strong>💡 Nota:</strong> El campo <strong>"Precio (Gs.)"</strong> de arriba será el precio final con descuento. Aquí abajo ingresa el precio original sin rebaja.
                 </p>
               </div>
@@ -533,7 +533,7 @@ const FormProduct = () => {
                   accept="image/*" 
                   className="form-file-input" 
                 />
-                <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
+<div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
                 <input 
                   type="text" 
                   name="imageUrlText" 
@@ -546,7 +546,7 @@ const FormProduct = () => {
                 {/* Preview for URL */}
                 {previewUrl && !isProcessingAI && (
                   <div className="image-preview-box">
-                    <p style={{ fontSize: '12px', color: previewLoading ? '#f59e0b' : '#10b981', marginBottom: '8px' }}>
+                    <p style={{ fontSize: '12px', color: previewLoading ? 'var(--accent-yellow)' : 'var(--accent-green)', marginBottom: '8px' }}>
                       {previewLoading ? '⏳ Cargando vista previa original...' : '✓ Vista previa original:'}
                     </p>
                     <div className="preview-container">
@@ -559,7 +559,7 @@ const FormProduct = () => {
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: '2px solid #10b981',
+                          border: '2px solid var(--accent-green)',
                           display: previewLoading ? 'none' : 'block'
                         }}
                       />
@@ -569,20 +569,20 @@ const FormProduct = () => {
 
                 {/* AI Processing Status */}
                 {isProcessingAI && (
-                  <div className="image-preview-box" style={{ background: 'rgba(139, 92, 246, 0.05)', borderColor: '#8b5cf6' }}>
+                  <div className="image-preview-box" style={{ background: 'rgba(139, 92, 246, 0.05)', borderColor: 'var(--accent-violet)' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '20px' }}>
                       <div style={{ 
                         width: '32px', 
                         height: '32px', 
-                        border: '3px solid #e2e8f0',
-                        borderTop: '3px solid #8b5cf6',
+                        border: '3px solid var(--border-color)',
+                        borderTop: '3px solid var(--accent-violet)',
                         borderRadius: '50%',
                         animation: 'spin 1s linear infinite'
                       }} />
-                      <p style={{ fontSize: '14px', color: '#8b5cf6', fontWeight: 'bold' }}>
+                      <p style={{ fontSize: '14px', color: 'var(--accent-violet)', fontWeight: 'bold' }}>
                         {progressText}
                       </p>
-                      <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center' }}>
+                      <p style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center' }}>
                         La primera vez puede tardar unos segundos mientras descarga el modelo. Las siguientes serán instantáneas.
                       </p>
                     </div>
@@ -593,7 +593,7 @@ const FormProduct = () => {
                 {filePreview && !isProcessingAI && (
                   <div className="image-preview-box" style={{ background: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\'><rect width=\'10\' height=\'10\' fill=\'%23e2e8f0\'/><rect x=\'10\' y=\'10\' width=\'10\' height=\'10\' fill=\'%23e2e8f0\'/><rect x=\'10\' width=\'10\' height=\'10\' fill=\'%23f8fafc\'/><rect y=\'10\' width=\'10\' height=\'10\' fill=\'%23f8fafc\'/></svg>")' }}>
                     <div style={{ background: 'rgba(255,255,255,0.8)', padding: '4px', marginBottom: '8px', display: 'inline-block', borderRadius: '4px' }}>
-                      <p style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold', margin: 0 }}>
+                      <p style={{ fontSize: '12px', color: 'var(--accent-green)', fontWeight: 'bold', margin: 0 }}>
                         ✓ Fondo eliminado mágicamente
                       </p>
                     </div>
@@ -606,7 +606,7 @@ const FormProduct = () => {
                           maxHeight: '200px', 
                           objectFit: 'contain',
                           borderRadius: '8px',
-                          border: '2px dashed #10b981'
+                          border: '2px dashed var(--accent-green)'
                         }}
                       />
                     </div>
@@ -634,7 +634,7 @@ const FormProduct = () => {
                 )}
               </div>
 
-              <div style={{ textAlign: 'center', color: '#888', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
+              <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px', fontWeight: 'bold', margin: '8px 0' }}>O</div>
 
               <div className="image-option">
                 <label className="image-option-label">Pegar URLs de imágenes (separadas por coma)</label>

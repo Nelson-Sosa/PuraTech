@@ -3,7 +3,7 @@
   
   padding: 40px 20px;
 
-  background: linear-gradient(145deg, #1e1e2f, #2a2a40);
+  background: var(--bg-primary);
 
   display: flex;
   justify-content: center;
@@ -21,13 +21,13 @@
 .payment-container .loading {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #a0a0a0;
+  color: var(--text-muted);
   animation: pulse 1.5s infinite;
 }
 
 .payment-container .error {
-  background: #ff4d4f;  /* Fondo rojo para errores */
-  color: #fff;
+  background: var(--accent-red);
+  color: var(--text-bright);
   padding: 12px 20px;
   border-radius: 12px;
   font-weight: bold;

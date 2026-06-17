@@ -204,7 +204,7 @@
 .form-file-input::file-selector-button {
   padding: 8px 16px;
   background: var(--gradient-accent);
-  color: white;
+  color: var(--text-bright);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: 600;
@@ -324,7 +324,7 @@
 
 .image-action-btn.replace {
   background: rgba(59, 130, 246, 0.9);
-  color: white;
+  color: var(--text-bright);
 }
 
 .image-action-btn.replace:hover {
@@ -334,11 +334,11 @@
 
 .image-action-btn.delete {
   background: rgba(239, 68, 68, 0.9);
-  color: white;
+  color: var(--text-bright);
 }
 
 .image-action-btn.delete:hover {
-  background: #ef4444;
+  background: var(--accent-red);
   transform: scale(1.1);
 }
 

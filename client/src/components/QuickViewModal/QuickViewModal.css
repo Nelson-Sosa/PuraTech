@@ -25,7 +25,7 @@
 
 /* ── Modal ── */
 .qv-modal {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 24px;
   max-width: 1200px;
   width: 100%;
@@ -37,7 +37,7 @@
 }
 
 .qv-modal::-webkit-scrollbar { width: 6px; }
-.qv-modal::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.qv-modal::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
 
 /* ── Close ── */
 .qv-close {
@@ -53,14 +53,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #6b7280;
+  color: var(--text-secondary);
   transition: all 0.25s ease;
   z-index: 20;
 }
 
 .qv-close:hover {
-  background: #ef4444;
-  color: #fff;
+  background: var(--accent-red);
+  color: var(--text-bright);
   transform: rotate(90deg) scale(1.05);
 }
 
@@ -78,7 +78,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px 32px 32px;
-  background: #f9fafb;
+  background: var(--bg-secondary);
   border-radius: 24px 0 0 24px;
   gap: 20px;
   min-height: 480px;
@@ -112,12 +112,12 @@
   height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #374151;
+  color: var(--text-primary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   z-index: 5;
@@ -129,10 +129,10 @@
 }
 
 .qv-gallery-arrow:hover {
-  background: #fff;
+  background: var(--bg-card);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   transform: translateY(-50%) scale(1.08);
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .qv-gallery-prev { left: 8px; }
@@ -150,25 +150,25 @@
 .qv-thumb {
   width: 80px;
   height: 80px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   padding: 0;
-  background: #fff;
+  background: var(--bg-card);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .qv-thumb:hover {
-  border-color: #9ca3af;
+  border-color: var(--text-muted);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .qv-thumb.active {
-  border-color: #111827;
-  box-shadow: 0 0 0 1px #111827, 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 1px var(--text-primary), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .qv-thumb img {
@@ -192,8 +192,8 @@
   display: inline-flex;
   align-items: center;
   padding: 6px 14px;
-  background: #f3f4f6;
-  color: #374151;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -206,7 +206,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.75rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   line-height: 1.25;
   margin: 0;
   display: -webkit-box;
@@ -221,8 +221,8 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px 0;
-  border-top: 1px solid #f3f4f6;
-  border-bottom: 1px solid #f3f4f6;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .qv-price-row {
@@ -236,17 +236,17 @@
   font-family: 'Inter', sans-serif;
   font-size: 2rem;
   font-weight: 800;
-  color: #111827;
+  color: var(--text-primary);
   line-height: 1.1;
 }
 
 .qv-price.offer {
-  color: #dc2626;
+  color: var(--accent-red);
 }
 
 .qv-old-price {
   font-size: 1rem;
-  color: #9ca3af;
+  color: var(--text-muted);
   text-decoration: line-through;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
@@ -256,8 +256,8 @@
   display: inline-flex;
   align-items: center;
   padding: 3px 10px;
-  background: rgba(22, 163, 74, 0.1);
-  color: #16a34a;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
   font-size: 0.8rem;
   font-weight: 700;
   border-radius: 6px;
@@ -282,8 +282,8 @@
 }
 
 .qv-stock-badge.in {
-  background: rgba(22, 163, 74, 0.08);
-  color: #16a34a;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
 }
 
 .qv-stock-badge.in::before {
@@ -291,14 +291,14 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
+  background: var(--accent-green);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
   flex-shrink: 0;
 }
 
 .qv-stock-badge.low {
   background: rgba(245, 158, 11, 0.08);
-  color: #d97706;
+  color: var(--accent-yellow);
 }
 
 .qv-stock-badge.low::before {
@@ -306,14 +306,14 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #f59e0b;
+  background: var(--accent-yellow);
   box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
   flex-shrink: 0;
 }
 
 .qv-stock-badge.out {
   background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
+  color: var(--accent-red);
 }
 
 .qv-stock-badge.out::before {
@@ -321,7 +321,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #ef4444;
+  background: var(--accent-red);
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
   flex-shrink: 0;
 }
@@ -355,7 +355,7 @@
   left: 0;
   right: 0;
   height: 48px;
-  background: linear-gradient(to top, #fff, transparent);
+  background: linear-gradient(to top, var(--bg-card), transparent);
   pointer-events: none;
 }
 
@@ -364,20 +364,20 @@
   align-items: flex-start;
   gap: 8px;
   font-size: 0.88rem;
-  color: #374151;
+  color: var(--text-primary);
   line-height: 1.5;
   font-weight: 400;
 }
 
 .qv-feature-text {
   font-size: 0.88rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   line-height: 1.6;
   padding: 4px 0;
 }
 
 .qv-bullet-icon {
-  color: #16a34a;
+  color: var(--accent-green);
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 2px;
@@ -390,7 +390,7 @@
   gap: 6px;
   background: none;
   border: none;
-  color: #2563eb;
+  color: var(--accent-blue);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -401,7 +401,7 @@
 }
 
 .qv-expand-btn:hover {
-  color: #1d4ed8;
+  color: var(--primary-hover);
 }
 
 /* ── Actions ── */
@@ -421,8 +421,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  color: #fff;
+  background: var(--gradient-accent);
+  color: var(--text-bright);
   border: none;
   border-radius: 12px;
   font-size: 1rem;
@@ -443,8 +443,8 @@
 }
 
 .qv-btn-cart:disabled {
-  background: #e5e7eb;
-  color: #9ca3af;
+  background: var(--border-color);
+  color: var(--text-muted);
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -455,26 +455,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border: 1.5px solid #e5e7eb;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
   border-radius: 12px;
   cursor: pointer;
-  color: #6b7280;
+  color: var(--text-secondary);
   transition: all 0.25s ease;
   flex-shrink: 0;
 }
 
 .qv-btn-wishlist:hover {
-  border-color: #ef4444;
-  color: #ef4444;
+  border-color: var(--accent-red);
+  color: var(--accent-red);
   background: rgba(239, 68, 68, 0.04);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
 }
 
 .qv-btn-wishlist.active {
-  border-color: #ef4444;
-  color: #ef4444;
+  border-color: var(--accent-red);
+  color: var(--accent-red);
   background: rgba(239, 68, 68, 0.06);
 }
 
@@ -488,10 +488,10 @@
   align-items: center;
   justify-content: center;
   padding: 0 20px;
-  background: #f3f4f6;
+  background: var(--bg-secondary);
   border: 1.5px solid transparent;
   border-radius: 12px;
-  color: #374151;
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
@@ -501,7 +501,7 @@
 }
 
 .qv-btn-detail:hover {
-  background: #e5e7eb;
+  background: var(--border-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

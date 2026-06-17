@@ -71,15 +71,15 @@
   font-weight: 700;
   font-family: 'Inter', sans-serif;
   background: rgba(239,68,68,0.15);
-  color: #ef4444;
+  color: var(--accent-red);
   border: 1px solid rgba(239,68,68,0.3);
   transition: var(--transition);
 }
 
 .btn-confi:hover {
-  background: #ef4444;
-  color: #fff;
-  border-color: #ef4444;
+  background: var(--accent-red);
+  color: var(--text-bright);
+  border-color: var(--accent-red);
 }
 
 .btn-canc {
