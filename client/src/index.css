@@ -81,16 +81,16 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  max-width: 100vw;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--text-primary);
   line-height: 1.6;
+}
+
+.layout-wrapper {
   overflow-x: hidden;
-  max-width: 100vw;
 }
 
 /* FIX: Fixed backgrounds on body cause massive repaints on mobile scroll. Using a fixed pseudo-element is GPU accelerated and prevents scrolling freezes. */

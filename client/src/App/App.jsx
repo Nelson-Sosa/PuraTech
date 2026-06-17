@@ -88,7 +88,7 @@ const AppContent = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <div className="layout-wrapper">
       {!isAdminPath(location.pathname) && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
