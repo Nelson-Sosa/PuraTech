@@ -24,8 +24,8 @@ const uploadToCloudinary = async (source, options = {}) => {
     const uploadOptions = {
       folder: 'gamemasters/products',
       transformation: [
-        { width: 1200, height: 1200, crop: 'limit' },
-        { quality: "auto:good", fetch_format: "auto" }
+        { width: 2000, height: 2000, crop: 'limit' },
+        { quality: "auto:best", fetch_format: "auto" }
       ],
       ...options
     };
@@ -59,8 +59,8 @@ const uploadToCloudinary = async (source, options = {}) => {
         const retryOptions = {
           folder: 'gamemasters/products',
           transformation: [
-            { width: 1200, height: 1200, crop: 'limit' },
-            { quality: "auto:good", fetch_format: "auto" }
+            { width: 2000, height: 2000, crop: 'limit' },
+            { quality: "auto:best", fetch_format: "auto" }
           ],
           ...options
         };
@@ -227,9 +227,8 @@ module.exports.agregarProducto = async (req, res) => {
           if (file && file.buffer) {
             const uploadResult = await uploadToCloudinary(file.buffer, {
               transformation: [
-                { width: 1200, height: 1200, crop: 'limit' },
-                { quality: "auto", fetch_format: "auto" },
-                { flags: "lossy" }
+                { width: 2000, height: 2000, crop: 'limit' },
+                { quality: "auto:best", fetch_format: "auto" }
               ]
             });
             if (uploadResult) {
@@ -394,8 +393,8 @@ module.exports.updateProduct = async (req, res) => {
           console.log("🔍 [updateProduct] Processing additional image");
           const uploadResult = await uploadToCloudinary(file.buffer, {
             transformation: [
-              { width: 1200, height: 1200, crop: 'limit' },
-              { quality: "auto:good", fetch_format: "auto" }
+              { width: 2000, height: 2000, crop: 'limit' },
+              { quality: "auto:best", fetch_format: "auto" }
             ]
           });
           if (uploadResult) {

@@ -103,31 +103,6 @@ const UpdateProduct = () => {
         fetchCategories();
     }, []);
 
-    // Helper: decodifica un File en un Canvas limpio y devuelve un Blob PNG fresco.
-    // Esto fuerza al navegador a crear un bitmap nuevo, evitando que la IA
-    // reutilice texturas GPU degradadas al procesar múltiples archivos seguidos.
-    const fileToFreshBlob = (file) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                canvas.toBlob((blob) => {
-                    if (blob) resolve(blob);
-                    else reject(new Error('Canvas toBlob failed'));
-                }, 'image/png');
-                // Limpiar recursos del canvas
-                canvas.width = 0;
-                canvas.height = 0;
-            };
-            img.onerror = reject;
-            img.src = URL.createObjectURL(file);
-        });
-    };
-
     const handleNewImageChange = async (e) => {
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
@@ -144,19 +119,16 @@ const UpdateProduct = () => {
             try {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
                 
-                // 1. Pre-decodificar el archivo en un Canvas limpio → Blob PNG fresco
-                const freshBlob = await fileToFreshBlob(files[i]);
-                const freshUrl = URL.createObjectURL(freshBlob);
-                
-                // 2. Pasar el bitmap fresco a la IA
-                const resultBlob = await imglyRemoveBackground(freshUrl, {
+                // Pasar el archivo directamente a la IA (evita re-codificación Canvas)
+                const resultBlob = await imglyRemoveBackground(files[i], {
+                    model: "large",
+                    output: { format: "image/png", quality: 1.0 },
                     progress: (key, current, total) => {
                         if (key.includes("compute")) {
                             setNewImagesProgress(`🤖 Eliminando fondo ${i + 1}/${files.length}...`);
                         }
                     }
                 });
-                URL.revokeObjectURL(freshUrl);
                 
                 // 3. Esperar a que la GPU libere recursos antes de la siguiente imagen
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -264,14 +236,10 @@ const UpdateProduct = () => {
         setProcessedImageFile(null);
         try {
             const isFile = typeof source !== 'string';
-            let imageSource;
-            if (isFile) {
-                const freshBlob = await fileToFreshBlob(source);
-                imageSource = URL.createObjectURL(freshBlob);
-            } else {
-                imageSource = `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
-            }
+            const imageSource = isFile ? source : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
             const blob = await imglyRemoveBackground(imageSource, {
+                model: "large",
+                output: { format: "image/png", quality: 1.0 },
                 progress: (key, current, total) => {
                     console.log(`AI Progress - ${key}: ${current}/${total}`);
                     if (key.includes("fetch")) {
@@ -281,7 +249,6 @@ const UpdateProduct = () => {
                     }
                 }
             });
-            if (isFile) URL.revokeObjectURL(imageSource);
             console.log("AI Success: background removed, blob size:", blob.size);
 
             const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";

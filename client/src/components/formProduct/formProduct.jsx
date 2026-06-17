@@ -83,43 +83,16 @@ const FormProduct = () => {
     fetchCategories();
   }, []);
 
-  // Helper: decodifica un File en un Canvas limpio y devuelve un Blob PNG fresco
-  const fileToFreshBlob = (file) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob((blob) => {
-          if (blob) resolve(blob);
-          else reject(new Error('Canvas toBlob failed'));
-        }, 'image/png');
-        canvas.width = 0;
-        canvas.height = 0;
-      };
-      img.onerror = reject;
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
   const processImageAI = async (source) => {
     setPreviewLoading(true);
     setIsProcessingAI(true);
     setProgressText("Preparando IA...");
     try {
       const isFile = typeof source !== 'string';
-      let imageSource;
-      if (isFile) {
-        // Pre-decodificar archivo en Canvas limpio para evitar degradación de calidad
-        const freshBlob = await fileToFreshBlob(source);
-        imageSource = URL.createObjectURL(freshBlob);
-      } else {
-        imageSource = `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
-      }
+      const imageSource = isFile ? source : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
       const blob = await imglyRemoveBackground(imageSource, {
+        model: "large",
+        output: { format: "image/png", quality: 1.0 },
         progress: (key, current, total) => {
           if (key.includes("fetch")) {
             setProgressText(`Descargando IA: ${Math.round((current / total) * 100)}%`);
@@ -128,7 +101,6 @@ const FormProduct = () => {
           }
         }
       });
-      if (isFile) URL.revokeObjectURL(imageSource);
       
       const fileName = isFile ? source.name.replace(/\.[^/.]+$/, "") + "_transparent.png" : "transparent_image.png";
       const file = new File([blob], fileName, { type: "image/png" });
