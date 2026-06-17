@@ -135,15 +135,15 @@ const ProductDetail = () => {
     );
   }
 
-  /* ── Urgency helper (based on stock) ── */
-  const getUrgencyText = () => {
+  /* ── Stock badge based on availability ── */
+  const getStockBadge = () => {
     const stock = product.stock || 10;
-    if (stock <= 3) return `⚡ ¡Solo ${stock} en stock!`;
-    if (stock <= 8) return `🔥 Pocas unidades`;
-    if ((product.ventas || 0) >= 10) return `🏆 Muy popular`;
-    return null;
+    if (stock <= 0) return null;
+    if (stock <= 3) return { text: 'Últimas unidades disponibles', type: 'critical' };
+    if (stock <= 10) return { text: 'Stock limitado', type: 'warning' };
+    return { text: 'En stock', type: 'available' };
   };
-  const urgencyText = getUrgencyText();
+  const stockBadge = getStockBadge();
 
   return (
     <div className="detail-container">
@@ -258,11 +258,11 @@ const ProductDetail = () => {
                 {Number(product.precio).toLocaleString("es-PY")} Gs.
               </span>
             )}
-            <span className="stock-detail">
-              Stock: {product.stock || 10} unidades
+            <span className={`stock-detail ${stockBadge ? `stock-detail--${stockBadge.type}` : ''}`}>
+              {product.stock || 10} unidades
             </span>
-            {urgencyText && (
-              <span className="urgency-hint">{urgencyText}</span>
+            {stockBadge && (
+              <span className={`stock-badge stock-badge--${stockBadge.type}`}>{stockBadge.text}</span>
             )}
           </div>
 
@@ -282,7 +282,7 @@ const ProductDetail = () => {
 
           {/* Add to Cart — Premium */}
           <div className="actions-section">
-            {product.stock <= 0 && <div className="out-of-stock-notice">⚠️ Temporalmente sin stock</div>}
+            {product.stock <= 0 && <div className="out-of-stock-notice">Agotado</div>}
             <div className="cart-btn-wrapper">
               <button
                 className={`add-to-cart-detail-btn ${addingToCart ? 'added' : ''} ${product.stock <= 0 ? 'out-of-stock' : ''}`}

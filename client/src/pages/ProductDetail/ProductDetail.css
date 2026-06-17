@@ -38,6 +38,11 @@
   50%       { opacity: 0.6; box-shadow: 0 0 14px rgba(16, 185, 129, 0.5); }
 }
 
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(239, 68, 68, 0.8); }
+  50%       { opacity: 0.5; box-shadow: 0 0 14px rgba(239, 68, 68, 0.5); }
+}
+
 /* ── Container ── */
 .detail-container {
   min-height: 100vh;
@@ -541,7 +546,6 @@
 
 .stock-detail {
   font-size: 0.82rem;
-  color: var(--accent-green);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -553,27 +557,69 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--accent-green);
   display: inline-block;
-  animation: glow-dot 2s ease-in-out infinite;
   flex-shrink: 0;
 }
 
-/* Urgency hint */
-.urgency-hint {
-  display: flex;
+.stock-detail--available::before,
+.stock-detail:not([class*="stock-detail--"])::before {
+  background: var(--accent-green);
+  animation: glow-dot 2s ease-in-out infinite;
+}
+
+.stock-detail--warning::before {
+  background: var(--accent-yellow);
+  animation: glow-dot 2s ease-in-out infinite;
+}
+
+.stock-detail--critical::before {
+  background: var(--accent-red);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.stock-detail--available {
+  color: var(--accent-green);
+}
+
+.stock-detail--warning {
+  color: var(--accent-yellow);
+}
+
+.stock-detail--critical {
+  color: var(--accent-red);
+}
+
+/* Stock badge */
+.stock-badge {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.82rem;
-  color: #f97316;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 6px 12px;
-  background: rgba(249, 115, 22, 0.08);
-  border: 1px solid rgba(249, 115, 22, 0.2);
+  padding: 5px 14px;
   border-radius: 999px;
   margin-left: auto;
   white-space: nowrap;
+  letter-spacing: 0.01em;
   animation: fadeIn 0.5s ease 0.5s both;
+}
+
+.stock-badge--available {
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.stock-badge--warning {
+  color: var(--accent-yellow);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.stock-badge--critical {
+  color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 /* Description Section */
@@ -740,13 +786,16 @@
 .out-of-stock-notice {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #f87171;
+  color: var(--accent-red);
   padding: 10px 16px;
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.01em;
   gap: 8px;
   margin-bottom: 5px;
   animation: shake 0.5s ease;
@@ -956,7 +1005,7 @@
     -webkit-backdrop-filter: none;
   }
 
-  .urgency-hint {
+  .stock-badge {
     margin-left: 0;
     width: 100%;
     justify-content: center;
