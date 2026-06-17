@@ -250,6 +250,8 @@ export const Products = () => {
                                 const hasMultipleImages = allImages.length > 1;
                                 const primaryImg = allImages.length > 0 ? allImages[0] : "/img/placeholder.png";
                                 const secondaryImg = hasMultipleImages ? allImages[1] : null;
+                                // FIX #5: calcular 1 sola vez por card en vez de 3
+                                const inWishlist = isInWishlist(producto._id);
 
                                 return (
                                     <div key={producto._id} className={`product-card ${hasMultipleImages ? 'has-multiple-images' : ''}`}>
@@ -315,15 +317,15 @@ export const Products = () => {
                                                 <FiEye size={18} />
                                             </button>
                                             <button
-                                                className={`action-btn wishlist ${isInWishlist(producto._id) ? 'is-wishlisted' : ''}`}
+                                                className={`action-btn wishlist ${inWishlist ? 'is-wishlisted' : ''}`}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
                                                     toggleWishlist(producto._id);
                                                 }}
-                                                data-tooltip={isInWishlist(producto._id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                                                data-tooltip={inWishlist ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                                             >
-                                                {isInWishlist(producto._id) ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+                                                {inWishlist ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
                                             </button>
                                             <button
                                                 className="action-btn add-to-cart-custom"

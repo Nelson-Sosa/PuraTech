@@ -448,21 +448,36 @@
   margin-top: 12px;
 }
 
+
 /* ── PRODUCT CARD ── */
 .product-card {
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  /* backdrop-filter movido a desktop-only — causa saturación GPU en móviles */
   border: 1.5px solid rgba(255, 255, 255, 0.75);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: var(--transition);
+  /* FIX: transition específico en vez de 'all' — evita layout thrashing */
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   position: relative;
   /* FIX: min-width:0 previene desbordamiento del grid en mobile */
   min-width: 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  /* FIX: content-visibility permite al browser saltear paint fuera del viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* FIX #1: backdrop-filter solo en desktop — evita saturación GPU móvil */
+@media (min-width: 769px) {
+  .product-card {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
 }
 
 .product-card:hover {
@@ -505,10 +520,18 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+  /* FIX #2: transition específico — 'all' causa layout thrashing */
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  /* FIX #3: filter movido a desktop-only — drop-shadow crea capa GPU extra por imagen */
   z-index: 1;
   image-rendering: auto;
+}
+
+/* FIX #3: drop-shadow solo en desktop */
+@media (min-width: 769px) {
+  .product-image {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+  }
 }
 
 .product-image.secondary {
@@ -648,7 +671,12 @@
   border: 1.5px solid #e2e8f0;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* FIX #2: transition específico — evita rastrear todas las propiedades en cada frame */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s ease,
+              background 0.3s ease,
+              border-color 0.3s ease;
   color: #64748b;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   position: relative;
@@ -1118,12 +1146,9 @@
     margin-top: 8px;
   }
 
-  /* ── MOBILE FIX: backdrop-filter + overflow:hidden rompe Android ── */
+  /* ── MOBILE FIX: sin backdrop-filter (ya no está en base), sin will-change forzado ── */
   .product-card {
-    isolation: auto !important;
-    will-change: auto !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    isolation: auto;
     background: #ffffff;
     /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
     overflow: hidden;
@@ -1360,12 +1385,9 @@
     gap: 12px;
   }
 
-  /* ── MOBILE FIX ≤480px: 1 columna, sin backdrop-filter ── */
+  /* ── MOBILE FIX ≤480px: 1 columna ── */
   .product-card {
-    isolation: auto !important;
-    will-change: auto !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    isolation: auto;
     background: #ffffff;
     /* NO usar contain:style — crea stacking context que oscurece imagen en Android */
   }
@@ -1555,5 +1577,15 @@
   /* Prevenir overflow horizontal global */
   .products-grid {
     overflow: hidden;
+  }
+
+  /* FIX #6: touch-action + overscroll-behavior para scroll más fluido */
+  .products-grid {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+
+  .product-card {
+    touch-action: manipulation; /* elimina delay de 300ms en clicks */
   }
 }
