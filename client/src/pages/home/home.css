@@ -377,44 +377,6 @@
   }
 }
 
-/* Mobile ≤ 768px */
-@media (max-width: 768px) {
-  .hero-slider {
-    height: 65vh;
-    min-height: 480px;
-  }
-
-  .hero-bg {
-    background-position: center 40%;
-    background-size: cover;
-  }
-
-  .hero-content {
-    padding: 0 24px 100px;
-    max-width: 100%;
-  }
-
-  .hero-title {
-    font-size: clamp(2rem, 8vw, 3rem);
-  }
-
-  .hero-btn-primary, .hero-btn-secondary {
-    padding: 14px 24px;
-    font-size: 0.9rem;
-  }
-
-  .hero-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-
-  .hero-arrow--prev { left: 12px; }
-  .hero-arrow--next { right: 12px; }
-
-  .hero-nav { left: 24px; bottom: 28px; }
-}
-
 @media (max-width: 480px) {
   .hero-bg {
     background-position: center 45%;
@@ -1884,10 +1846,6 @@
 }
 
 @media (max-width: 768px) {
-  .hero-slider {
-    min-height: 500px;
-  }
-
   .slide-content {
     padding: 40px 20px;
   }
@@ -2073,7 +2031,8 @@
   }
 
   .hero-bg {
-    background-position: center right 30%;
+    background-position: center 40%;
+    background-size: cover;
   }
 
   .hero-overlay {
@@ -2081,10 +2040,9 @@
   }
 
   .hero-content {
-    padding: 0 20px 60px;
+    padding: 40px 20px;
     max-width: 100%;
-    justify-content: flex-end;
-    padding-top: 60px;
+    justify-content: center;
   }
 
   .hero-badge {
