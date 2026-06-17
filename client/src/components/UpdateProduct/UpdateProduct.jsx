@@ -119,8 +119,9 @@ const UpdateProduct = () => {
             try {
                 console.log(`🤖 [AI] Procesando archivo ${i + 1}: ${files[i].name}`);
                 
-                // Pasar el archivo directamente a la IA (evita re-codificación Canvas)
-                const resultBlob = await imglyRemoveBackground(files[i], {
+                // Usar blob URL directamente (evita re-codificación Canvas)
+                const imageUrl = URL.createObjectURL(files[i]);
+                const resultBlob = await imglyRemoveBackground(imageUrl, {
                     model: "large",
                     output: { format: "image/png", quality: 1.0 },
                     progress: (key, current, total) => {
@@ -129,6 +130,7 @@ const UpdateProduct = () => {
                         }
                     }
                 });
+                URL.revokeObjectURL(imageUrl);
                 
                 // 3. Esperar a que la GPU libere recursos antes de la siguiente imagen
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -236,7 +238,7 @@ const UpdateProduct = () => {
         setProcessedImageFile(null);
         try {
             const isFile = typeof source !== 'string';
-            const imageSource = isFile ? source : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
+            const imageSource = isFile ? URL.createObjectURL(source) : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
             const blob = await imglyRemoveBackground(imageSource, {
                 model: "large",
                 output: { format: "image/png", quality: 1.0 },
@@ -249,6 +251,7 @@ const UpdateProduct = () => {
                     }
                 }
             });
+            if (isFile) URL.revokeObjectURL(imageSource);
             console.log("AI Success: background removed, blob size:", blob.size);
 
             const fileName = typeof source === 'string' ? "transparent_image.png" : source.name.replace(/\.[^/.]+$/, "") + "_transparent.png";

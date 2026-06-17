@@ -89,7 +89,7 @@ const FormProduct = () => {
     setProgressText("Preparando IA...");
     try {
       const isFile = typeof source !== 'string';
-      const imageSource = isFile ? source : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
+      const imageSource = isFile ? URL.createObjectURL(source) : `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
       const blob = await imglyRemoveBackground(imageSource, {
         model: "large",
         output: { format: "image/png", quality: 1.0 },
@@ -101,6 +101,7 @@ const FormProduct = () => {
           }
         }
       });
+      if (isFile) URL.revokeObjectURL(imageSource);
       
       const fileName = isFile ? source.name.replace(/\.[^/.]+$/, "") + "_transparent.png" : "transparent_image.png";
       const file = new File([blob], fileName, { type: "image/png" });
