@@ -109,7 +109,7 @@ module.exports.getPublicHome = async (req, res) => {
     const allProducts = await Product.find({});
     
     // Best sellers (ordenar por ventas reales y luego por fecha de creación para evitar cambios aleatorios al actualizar)
-    const bestsellers = await Product.find({}).sort({ ventas: -1, createdAt: -1 }).limit(4);
+    const bestsellers = await Product.find({ ventas: { $gt: 0 } }).sort({ ventas: -1, createdAt: -1 }).limit(4);
     
     // Ofertas activas por fecha
     const now = new Date();
