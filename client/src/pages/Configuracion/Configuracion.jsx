@@ -5,9 +5,11 @@ import "./Configuracion.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/config";
 import { deleteUser } from "firebase/auth";
+import { useTheme } from "../../context/ThemeContext";
 
 const Configuracion = () => {
   const navigate = useNavigate();
+  const { setTheme } = useTheme();
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -105,6 +107,14 @@ const Configuracion = () => {
     const newPrefs = { ...preferencias, [name]: value };
     setPreferencias(newPrefs);
     saveConfig(newPrefs, notificaciones);
+    if (name === 'tema') {
+      if (value === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark ? 'dark' : 'light');
+      } else {
+        setTheme(value);
+      }
+    }
   };
 
   const handleNotifChange = (e) => {

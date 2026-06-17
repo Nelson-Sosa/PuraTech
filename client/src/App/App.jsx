@@ -22,6 +22,7 @@ import Cart from '../pages/Cart/Cart';
 import { CartProvider } from '../context/CartContext';
 import { WishlistProvider, useWishlist } from '../context/WishlistContext';
 import { ToastProvider } from '../components/Toast/ToastContext';
+import { ThemeProvider } from '../context/ThemeContext';
 import Navbar from '../components/Navbar/Navbar';
 import DebugAuth from '../pages/CustomNavigate/DebugAuth';
 import Wishlist from '../pages/Wishlist/Wishlist';
@@ -144,13 +145,15 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ToastProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <AppContent />
-        </WishlistProvider>
-      </CartProvider>
-    </ToastProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <AppContent />
+          </WishlistProvider>
+        </CartProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 };
 

@@ -616,7 +616,7 @@ const Home = () => {
         <>
           <ProductSection 
             title="Más vendidos" 
-            subtitle="Los favoritos de nuestra comunidad gamer" 
+            subtitle="Descubre los productos más elegidos por nuestros clientes" 
             products={bestsellers} 
             iconColor="hot"
             addToCart={addToCart}
