@@ -393,19 +393,21 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
   const progressRef = useRef(null);
+  const progressBarRefs = useRef([]);
 
   const goToSlide = useCallback((index) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setProgress(0);
+    if (progressBarRefs.current[currentSlide]) {
+        progressBarRefs.current[currentSlide].style.transform = 'scaleX(0)';
+    }
     setTimeout(() => {
       setCurrentSlide(index);
       setIsTransitioning(false);
     }, 600);
-  }, [isTransitioning]);
+  }, [isTransitioning, currentSlide]);
 
   const nextSlide = useCallback(() => {
     goToSlide((currentSlide + 1) % HERO_SLIDES.length);
@@ -421,11 +423,16 @@ const Home = () => {
   // ── Progress bar ──
   useEffect(() => {
     if (isPaused) return;
-    setProgress(0);
+    if (progressBarRefs.current[currentSlide]) {
+        progressBarRefs.current[currentSlide].style.transform = 'scaleX(0)';
+    }
     const start = performance.now();
     const tick = (now) => {
       const elapsed = now - start;
-      setProgress(Math.min((elapsed / SLIDE_DURATION) * 100, 100));
+      const progressValue = Math.min((elapsed / SLIDE_DURATION), 1);
+      if (progressBarRefs.current[currentSlide]) {
+        progressBarRefs.current[currentSlide].style.transform = `scaleX(${progressValue})`;
+      }
       if (elapsed < SLIDE_DURATION) {
         progressRef.current = requestAnimationFrame(tick);
       }
@@ -517,7 +524,8 @@ const Home = () => {
               {index === currentSlide && (
                 <span
                   className="hero-dot-progress"
-                  style={{ transform: `scaleX(${progress / 100})` }}
+                  ref={el => progressBarRefs.current[index] = el}
+                  style={{ transform: `scaleX(0)` }}
                 />
               )}
             </button>
