@@ -89,7 +89,7 @@
 
 .filter-btn.active {
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: white;
   border-color: transparent;
   box-shadow: var(--shadow-glow-violet);
 }
@@ -255,7 +255,7 @@
 
 .btn-quick-edit {
   background: var(--accent-blue);
-  color: var(--text-bright);
+  color: white;
 }
 
 .btn-quick-edit:hover {
@@ -264,8 +264,8 @@
 }
 
 .btn-edit-full {
-  background: var(--text-secondary);
-  color: var(--text-bright);
+  background: #6c757d;
+  color: white;
 }
 
 .btn-edit-full:hover {
@@ -274,8 +274,8 @@
 }
 
 .btn-view {
-  background: var(--accent-cyan);
-  color: var(--text-bright);
+  background: #17a2b8;
+  color: white;
 }
 
 .btn-view:hover {
@@ -285,7 +285,7 @@
 
 .btn-delete-inventory {
   background: var(--accent-red);
-  color: var(--text-bright);
+  color: white;
 }
 
 .btn-delete-inventory:hover {
@@ -301,7 +301,7 @@
 .btn-save {
   padding: 6px 12px;
   background: var(--accent-green);
-  color: var(--text-bright);
+  color: white;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -311,7 +311,7 @@
 .btn-cancel {
   padding: 6px 12px;
   background: var(--accent-red);
-  color: var(--text-bright);
+  color: white;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;

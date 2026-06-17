@@ -53,7 +53,7 @@
   padding: 12px 24px;
   background: transparent;
   border: 2px solid var(--border-color);
-  color: var(--text-secondary);
+  color: #64748b;
   border-radius: var(--radius-full);
   font-size: 0.95rem;
   font-weight: 600;
@@ -132,7 +132,7 @@
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: var(--text-muted);
+  color: #94a3b8;
 }
 
 .form-textarea {
@@ -152,7 +152,7 @@
 
 .form-select option {
   background: var(--bg-secondary);
-  color: var(--text-primary);
+  color: #0f172a;
   padding: 8px;
 }
 
@@ -160,13 +160,13 @@
   display: block;
   font-size: 0.75rem;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: #64748b;
   margin-top: 4px;
 }
 
 .category-select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"),
-                    linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+                    linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   background-repeat: no-repeat;
   background-position: right 12px center, center;
   padding-right: 44px;
@@ -174,8 +174,8 @@
 
 .category-select optgroup {
   font-weight: 700;
-  color: var(--text-primary);
-  background: var(--bg-secondary);
+  color: #1e293b;
+  background: #f1f5f9;
   padding: 10px 12px;
   border-radius: 6px;
   margin: 4px 0;
@@ -184,18 +184,18 @@
 .category-select option {
   padding: 12px 14px;
   font-size: 0.9rem;
-  border-bottom: 1px solid var(--bg-secondary);
+  border-bottom: 1px solid #f1f5f9;
   transition: all 0.15s ease;
 }
 
 .category-select option:hover {
-  background: var(--bg-secondary);
+  background: #f8fafc;
 }
 
 .option-level-1 {
   font-weight: 600;
-  color: var(--accent-blue);
-  background: rgba(37,99,235,0.1);
+  color: #1e3a8a;
+  background: #eff6ff;
   padding-left: 12px !important;
 }
 
@@ -205,9 +205,9 @@
 
 .option-level-2 {
   font-weight: 500;
-  color: var(--text-primary);
+  color: #475569;
   padding-left: 24px !important;
-  background: var(--bg-card);
+  background: #fefefe;
 }
 
 .option-level-2::before {
@@ -216,10 +216,10 @@
 
 .option-level-3 {
   font-weight: 400;
-  color: var(--text-secondary);
+  color: #64748b;
   padding-left: 36px !important;
   font-size: 0.85rem !important;
-  background: var(--bg-card);
+  background: #fefefe;
 }
 
 .option-level-3::before {
@@ -265,7 +265,7 @@
 
 .image-option-label {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: #64748b;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -284,7 +284,7 @@
   background: var(--bg-input);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: #0f172a;
   font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
@@ -313,7 +313,7 @@
 
 .divider {
   text-align: center;
-  color: var(--text-muted);
+  color: #94a3b8;
   font-size: 0.85rem;
   font-weight: 600;
   position: relative;
@@ -359,7 +359,7 @@
 
 /* ── Error Messages ── */
 .error-message {
-  color: var(--accent-red);
+  color: #ef4444;
   font-size: 0.85rem;
   font-weight: 500;
   display: flex;
@@ -381,7 +381,7 @@
   width: 100%;
   padding: 16px 32px;
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: #ffffff;
   border: none;
   border-radius: var(--radius-lg);
   font-size: 1.05rem;
@@ -504,7 +504,7 @@
   display: inline-block;
   margin-top: 8px;
   padding: 6px 12px;
-  background: var(--text-secondary);
+  background: #6c757d;
   color: white;
   border: none;
   border-radius: 4px;
@@ -514,7 +514,7 @@
 }
 
 .btn-convert-bullets:hover {
-  background: var(--text-muted);
+  background: #5a6268;
 }
 
 /* ── Comprehensive Responsive ── */
@@ -605,7 +605,7 @@
 
   .label-hint {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: #64748b;
     font-weight: 400;
   }
 

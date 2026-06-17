@@ -23,7 +23,7 @@
     padding: 14px 32px;
     margin-bottom: 32px;
     background: var(--gradient-accent);
-    color: var(--text-bright);
+    color: #ffffff;
     text-decoration: none;
     border-radius: var(--radius-md);
     font-weight: 700;
@@ -56,7 +56,7 @@
 }
 
 .cont-supplier thead {
-    background: var(--bg-secondary);
+    background: #f8fafc;
     border-bottom: 2px solid rgba(0, 0, 0, 0.04);
 }
 
@@ -109,28 +109,28 @@
 
 /* Botón eliminar */
 .btn-delete {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: var(--accent-red);
-    border-color: rgba(239, 68, 68, 0.2);
+    background-color: #fee2e2;
+    color: #ef4444;
+    border-color: #fecaca;
 }
 
 .btn-delete:hover {
-    background-color: var(--accent-red);
-    color: var(--text-bright);
-    border-color: var(--accent-red);
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
 }
 
 /* Botón editar */
 .btn-edit {
-    background-color: rgba(37, 99, 235, 0.1);
-    color: var(--accent-blue);
-    border-color: rgba(37, 99, 235, 0.2);
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border-color: #bae6fd;
 }
 
 .btn-edit:hover {
-    background-color: var(--accent-blue);
-    color: var(--text-bright);
-    border-color: var(--accent-blue);
+    background-color: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
 }
 
 /* ================= MOBILE ================= */

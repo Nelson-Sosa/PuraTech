@@ -148,7 +148,7 @@
 
 .star-select {
   font-size: 1.5rem;
-  color: var(--text-muted);
+  color: #d1d5db;
   cursor: pointer;
   transition: color 0.2s, transform 0.1s;
 }
@@ -158,7 +158,7 @@
 }
 
 .star-select.active {
-  color: var(--accent-yellow);
+  color: #fbbf24;
 }
 
 .review-textarea {
@@ -178,7 +178,7 @@
 .review-textarea:focus {
   outline: none;
   border-color: var(--accent-violet);
-  background: var(--bg-card);
+  background: #fff;
 }
 
 .form-actions {
@@ -190,7 +190,7 @@
   flex: 1;
   padding: 12px;
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: white;
   border: none;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -269,7 +269,7 @@
   width: 40px;
   height: 40px;
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -328,12 +328,12 @@
 }
 
 .star-rating .star {
-  color: var(--border-color);
+  color: #e5e7eb;
   font-size: 1.1rem;
 }
 
 .star-rating .star.filled {
-  color: var(--accent-yellow);
+  color: #fbbf24;
 }
 
 /* ── EMPTY / SKELETON ── */
@@ -400,7 +400,7 @@
 }
 
 .modal-content.delete-modal {
-  background: var(--bg-card);
+  background: white;
   padding: 30px;
   border-radius: var(--radius-lg);
   width: 90%;
@@ -433,17 +433,17 @@
 }
 
 .btn-cancel {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  background: #f1f5f9;
+  color: #475569;
 }
 
 .btn-confirm-delete {
-  background: var(--accent-red);
-  color: var(--text-bright);
+  background: #ef4444;
+  color: white;
 }
 
-.btn-cancel:hover { background: var(--bg-secondary); }
-.btn-confirm-delete:hover { background: var(--accent-red); }
+.btn-cancel:hover { background: #e2e8f0; }
+.btn-confirm-delete:hover { background: #dc2626; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {

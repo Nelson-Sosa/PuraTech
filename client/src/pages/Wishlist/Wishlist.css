@@ -16,7 +16,7 @@
 /* ── Page Container (Mobile First) ── */
 .wishlist-page {
   min-height: 60vh;
-  background: var(--bg-primary, rgba(37,99,235,0.1));
+  background: var(--bg-primary, #dbeafe);
   padding: var(--wish-space-md) var(--wish-space-sm) var(--wish-space-xl);
 }
 
@@ -42,7 +42,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #0f172a;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -53,13 +53,13 @@
 .wishlist-header__title svg {
   width: 24px;
   height: 24px;
-  color: var(--accent-red);
-  fill: var(--accent-red);
+  color: #ef4444;
+  fill: #ef4444;
   flex-shrink: 0;
 }
 
 .wishlist-header__subtitle {
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 0.875rem;
   font-weight: 400;
   margin: 0;
@@ -77,7 +77,7 @@
 .wishlist-card {
   display: flex;
   flex-direction: column;
-  background: var(--bg-card);
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -104,7 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-secondary);
+  background: #f8fafc;
   overflow: hidden;
   text-decoration: none;
 }
@@ -124,8 +124,8 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  background: linear-gradient(135deg, var(--accent-red), #dc2626);
-  color: var(--text-bright);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
   padding: 5px 12px;
   border-radius: 10px;
   font-size: 0.75rem;
@@ -147,7 +147,7 @@
 .wishlist-card__brand {
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: #2563eb;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -156,7 +156,7 @@
 .wishlist-card__name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #0f172a;
   text-decoration: none;
   line-height: 1.35;
   display: -webkit-box;
@@ -168,12 +168,12 @@
 }
 
 .wishlist-card__name:hover {
-  color: var(--accent-blue);
+  color: #2563eb;
 }
 
 .wishlist-card__category {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: #94a3b8;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
 }
@@ -188,7 +188,7 @@
 
 .wishlist-card__old-price {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: #94a3b8;
   text-decoration: line-through;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
@@ -197,13 +197,13 @@
 .wishlist-card__price {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #111827;
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.01em;
 }
 
 .wishlist-card__price--offer {
-  color: var(--accent-red);
+  color: #dc2626;
 }
 
 /* ── Stock Badge ── */
@@ -221,7 +221,7 @@
 
 .wishlist-card__stock--in {
   background: rgba(16, 185, 129, 0.1);
-  color: var(--accent-green);
+  color: #059669;
 }
 
 .wishlist-card__stock--in::before {
@@ -229,13 +229,13 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent-green);
+  background: #10b981;
   flex-shrink: 0;
 }
 
 .wishlist-card__stock--low {
   background: rgba(245, 158, 11, 0.1);
-  color: var(--accent-yellow);
+  color: #d97706;
 }
 
 .wishlist-card__stock--low::before {
@@ -243,13 +243,13 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent-yellow);
+  background: #f59e0b;
   flex-shrink: 0;
 }
 
 .wishlist-card__stock--out {
   background: rgba(239, 68, 68, 0.08);
-  color: var(--accent-red);
+  color: #dc2626;
 }
 
 .wishlist-card__stock--out::before {
@@ -257,7 +257,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent-red);
+  background: #ef4444;
   flex-shrink: 0;
 }
 
@@ -295,8 +295,8 @@
 
 .wishlist-card__btn--cart {
   flex: 1;
-  background: var(--gradient-accent);
-  color: var(--text-bright);
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 
@@ -317,7 +317,7 @@
 }
 
 .wishlist-card__btn--cart.adding {
-  background: var(--gradient-green);
+  background: linear-gradient(135deg, #10b981, #059669);
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
@@ -332,16 +332,16 @@
 }
 
 .wishlist-card__btn--view {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
   padding: 0 16px;
 }
 
 .wishlist-card__btn--view:hover {
-  background: var(--bg-secondary);
+  background: #e2e8f0;
   transform: translateY(-2px);
-  border-color: var(--border-hover);
+  border-color: #cbd5e1;
 }
 
 .wishlist-card__btn--view:active {
@@ -352,9 +352,9 @@
   width: 48px;
   height: 48px;
   padding: 0;
-  background: rgba(239,68,68,0.1);
-  color: var(--accent-red);
-  border: 1px solid rgba(239,68,68,0.2);
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
   border-radius: 12px;
   flex-shrink: 0;
   display: flex;
@@ -363,8 +363,8 @@
 }
 
 .wishlist-card__btn--remove:hover {
-  background: rgba(239,68,68,0.1);
-  border-color: rgba(239,68,68,0.3);
+  background: #fee2e2;
+  border-color: #fca5a5;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
 }
@@ -402,7 +402,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-red);
+  color: #ef4444;
   margin-bottom: var(--wish-space-xs);
 }
 
@@ -415,13 +415,13 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #0f172a;
   margin: 0;
 }
 
 .wishlist-empty__text {
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #64748b;
   max-width: 400px;
   line-height: 1.6;
   margin: 0;
@@ -433,8 +433,8 @@
   gap: 10px;
   height: 48px;
   padding: 0 28px;
-  background: var(--gradient-accent);
-  color: var(--text-bright);
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -468,10 +468,10 @@
 }
 
 .wishlist-skeleton-card {
-  background: var(--bg-card);
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  border: 1px solid #e2e8f0;
 }
 
 .wishlist-skeleton-img {
@@ -492,7 +492,7 @@
 }
 
 .skeleton-pulse {
-  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-color) 50%, var(--bg-secondary) 75%);
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
 }

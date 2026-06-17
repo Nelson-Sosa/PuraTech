@@ -103,7 +103,7 @@
 }
 
 .input-group label .required {
-  color: var(--accent-red);
+  color: #ef4444;
 }
 
 .input-group label .help-text {
@@ -171,7 +171,7 @@
 .submit-button {
   padding: 14px 24px;
   background: var(--gradient-accent);
-  color: var(--text-bright);
+  color: #fff;
   border: none;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -231,7 +231,7 @@
   margin: 0 32px;
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: var(--accent-red);
+  color: #dc2626;
   padding: 12px 16px;
   border-radius: var(--radius-md);
   font-size: 14px;
@@ -245,7 +245,7 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: var(--accent-red);
+  color: #dc2626;
 }
 
 /* ✅ SUCCESS CONTAINER */
@@ -253,7 +253,7 @@
   margin: 0 32px;
   background: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.2);
-  color: var(--accent-green);
+  color: #059669;
   padding: 12px 16px;
   border-radius: var(--radius-md);
   font-size: 14px;
@@ -267,7 +267,7 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: var(--accent-green);
+  color: #059669;
 }
 
 @keyframes shake {

@@ -343,7 +343,7 @@ const Inventory = () => {
       >
         <h3>Confirmar eliminación</h3>
         <p>¿Estás seguro de eliminar el producto?</p>
-        <p style={{ color: 'var(--accent-red)', fontSize: '14px' }}>Esta acción no se puede deshacer.</p>
+        <p style={{ color: '#dc3545', fontSize: '14px' }}>Esta acción no se puede deshacer.</p>
       </Modal>
     </div>
   );

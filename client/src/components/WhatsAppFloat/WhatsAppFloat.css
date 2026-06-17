@@ -1,13 +1,13 @@
 .whatsapp-float {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  left: auto;
+  bottom: 25px;     /* separación del fondo */
+  right: 25px;      /* 👈 clave: lado derecho */
+  left: auto;       /* 👈 evita que se vaya a la izquierda */
   left: auto !important;
   top: auto !important;
-  z-index: 99999;
+  z-index: 99999; /* 🔥 CLAVE */
   background: #25D366;
-  color: var(--text-bright);
+  color: white;
   border: none;
   border-radius: 50%;
   width: 65px;
