@@ -6,6 +6,9 @@
 .home-container {
   min-height: 100vh;
   background: #ffffff;
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
 }
 
 /* ── SKELETON ANIMATIONS ── */
