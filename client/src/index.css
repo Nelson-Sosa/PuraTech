@@ -87,8 +87,6 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--text-primary);
   line-height: 1.6;
-  /* FIX: overflow-x: hidden on body destroys mobile scroll performance. Using clip instead. */
-  overflow-x: clip;
 }
 
 /* FIX: Fixed backgrounds on body cause massive repaints on mobile scroll. Using a fixed pseudo-element is GPU accelerated and prevents scrolling freezes. */

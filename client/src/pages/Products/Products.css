@@ -76,7 +76,6 @@
   gap: 16px;
   overflow-x: auto;
   padding: 4px 4px 16px;
-  scroll-behavior: smooth;
 }
 
 /* ── SKELETON ANIMATIONS ── */
@@ -467,8 +466,7 @@
   /* FIX: min-width:0 previene desbordamiento del grid en mobile */
   min-width: 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  /* FIX: content-visibility permite al browser saltear paint fuera del viewport */
-  content-visibility: auto;
+  /* FIX: content-visibility removido porque causa layout thrashing e infinite scroll loops en móviles sin contain-intrinsic-size */
   contain-intrinsic-size: 0 400px;
 }
 

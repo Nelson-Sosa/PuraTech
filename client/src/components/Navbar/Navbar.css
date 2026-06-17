@@ -839,8 +839,6 @@
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
     padding: 0;
-    scroll-behavior: smooth;
-    -webkit-scroll-behavior: smooth;
   }
 
   .cat-navbar::-webkit-scrollbar {
