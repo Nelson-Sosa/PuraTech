@@ -1572,18 +1572,5 @@
     filter: none !important;
   }
 
-  /* Prevenir overflow horizontal global */
-  .products-grid {
-    overflow: hidden;
-  }
 
-  /* FIX #6: touch-action + overscroll-behavior para scroll más fluido */
-  .products-grid {
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-  }
-
-  .product-card {
-    touch-action: manipulation; /* elimina delay de 300ms en clicks */
-  }
 }
