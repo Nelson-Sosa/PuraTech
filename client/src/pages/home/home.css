@@ -6,7 +6,8 @@
 .home-container {
   min-height: 100vh;
   background: #ffffff;
-  overflow-x: hidden;
+  /* FIX: overflow-x: clip es más seguro para el rendimiento de scroll en móviles que hidden */
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
